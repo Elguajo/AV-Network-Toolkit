@@ -1,6 +1,6 @@
 # Traceable task backlog
 
-**State:** Phase 02 authorized (ADR-008), format approved (ADR-009). Preparation 01-T06–01-T08 verified. Historical Phase 01 inventory acceptance remains pending; no runtime certification implied. IDs are stable.
+**State:** Phase 02 implemented and verified; AWAITING_REVIEW, not marked phase complete. 02-T02–02-T06 have EVIDENCE_RECORDED with exact commits/tests in docs/testing/PHASE02_REVIEW.md; acceptance checkboxes remain open pending owner review. 01-T06–01-T08 verified, 02-T01 approved. Owner refinements ADR-010/011 require existing design and English-only UI. Historical Phase 01 review items remain open. Stable IDs unchanged.
 
 ## Phase 01: Baseline audit (P0)
 

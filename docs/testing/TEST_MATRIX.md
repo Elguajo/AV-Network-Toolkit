@@ -151,3 +151,15 @@ For commands below, PowerShell `$sdk = "$env:LOCALAPPDATA/AVNetworkToolkit.Build
 Test boundary source review: all test files inspected; no tests invoke valid OS mutation commands. NetworkService tests exercise early validation/no-op only; worker tests contain rejected/empty commands before process launch. Scanner tests replace the complete host probe and bypass local-subnet enumeration, exercise actual scan ordering/progress/cancellation. MainViewModel tests inject a fixture adapter provider; the default production constructors retain real behavior. Clipboard writes use delegates; persistence tests use temp AppPaths fixtures (AppPaths default-path tests may create the data directory, but do not alter its contents). Language/theme tests do not launch an application. No test cases excluded from this isolated unit run.
 
 NOT RUN: original real-probe scanner behavior, real-NIC enumeration acceptance, WPF UI, live ping/scans, browser, UAC, actual apply/revert, publish/clean-machine and isolated Windows integration. Unit success does not certify these. No CI execution or push in this checkpoint. Original archive MANIFEST.sha256 preserved untracked, not an integrity contract.
+
+## Phase 02 final local evidence — 2026-10-31
+
+Final implementation commit: `0bf1070216255c9e1411a4a96445372b6e6a45d1`. Complete [review packet](PHASE02_REVIEW.md) records exact commands, artifacts, failures/corrections, limitations and specialist review decisions. Phase 02 AWAITING_REVIEW; not a release approval.
+
+- `& $sdk build NetworkProfileManager.sln --configuration Release --no-restore`: PASS, 0 warnings/errors.
+- `& $sdk test NetworkProfileManager.Tests/NetworkProfileManager.Tests.csproj --configuration Release --no-build --logger 'console;verbosity=minimal' --logger 'trx;LogFileName=phase02-english.trx'`: PASS 286/0 failed/0 skipped.
+- `& $sdk run --project scripts/ProjectUiSmoke/ProjectUiSmoke.csproj --configuration Release -- TestResults/ProjectUiSmoke`: PASS 4 English component renders, bindings/control state and draft guards; no NIC/OS-network calls in corrected harness.
+- `& $py -B scripts/validate_plan.py` and `& $py -B scripts/test_validate_plan.py`: PASS full draft-2020-12+format/example/planning validation and 10 tooling regression tests.
+- Exact SDK/Python variable paths are in the preparation section and review packet. Current CI/publish/native-dialog/full-app/live-network certification NOT RUN.
+
+Earlier 278-test/En+Tr results precede owner ADR-011; final UI is English-only. Legacy `tr` and System settings are interpreted as English without altering saved bytes on initialization. The early failed harness reached real startup/migration before resources failed; `.migrated_v1` was observed afterward (prior existence UNVERIFIED), preserved; no network mutation/probe was reached. See review packet for full incident and corrected proof boundary.

@@ -2,7 +2,7 @@
 
 - **Priority:** P0
 - **Dependencies:** ADR-008 explicitly authorizes continuation with historical audit evidence; preparation checkpoint 01-T06 through 01-T08 verified
-- **Current status:** IN_PROGRESS — ADR-008/009; preparation verified
+- **Current status:** AWAITING_REVIEW — implementation/test evidence recorded; phase not complete
 - **Scope:** Implement portable versioned project JSON without changing existing per-adapter AppData profile files. Design and review schema before editing code.
 - **Read first:** docs/spec/PROJECT_JSON_SPEC.md; schemas/project.avnet.schema.json; examples/project.avnet.json
 
@@ -40,3 +40,9 @@
 ## 2026-10-31 execution update
 
 ADR-008 authorizes preparation and Phase 02; ADR-009 approves the format proposal. Historical authorization statements above describe their original scope. Preparation: SDK 8.0.427, Release build PASS, isolated xUnit 189 PASS/0 skipped, planning validator and 10 regression tests PASS. Exact commands and limits: docs/testing/TEST_MATRIX.md. No live network or elevation tests.
+
+## Implementation review packet — 2026-10-31
+
+02-T02–02-T06: EVIDENCE_RECORDED, acceptance review pending. Implementation commit `eeb589cf81d8871f4243218d2e1a668829b79a2e`; owner English-only refinement `0bf1070216255c9e1411a4a96445372b6e6a45d1`. [Exact commands, results, risks and deviations](../docs/testing/PHASE02_REVIEW.md). Final local evidence: Release build 0 warnings/errors; 286 isolated tests PASS/0 skipped; four English Light/Dark component renders PASS; full schema+format/planning validation and 10 validator tests PASS. Native file dialogs/full app/live-network integration NOT RUN. Early failed harness startup/marker uncertainty is explicitly recorded in the review packet.
+
+Owner refinements: ADR-010 applies existing UI design to every new element, with DESIGN.md as the contract; ADR-011 retires Turkish support with read-compatible English fallback. Existing network/profile/legacy functionality otherwise preserved. No Phase 03 work or publication authorized. Proposed next phase after owner acceptance: Device Web Interfaces.

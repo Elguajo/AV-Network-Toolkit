@@ -1,20 +1,28 @@
-# Current implementation status — PHASE_02_IN_PROGRESS
+# Current implementation status — PHASE_02_AWAITING_REVIEW
 
 - **Fork URL:** https://github.com/Elguajo/AV-Network-Toolkit
 - **Upstream:** https://github.com/rmzncakir/network-profile-changer
-- **Working branch:** codex/phase-02-project-json
-- **Current commit SHA / starting anchor:** 5e6231f731a532fd0947903e4dbaf47115f0d2e3; resolve latest containing status commit with `git log -1 --format=%H -- STATUS.md` and inspect HEAD independently.
+- **Working branch:** codex/phase-02-project-json (local; no push/PR/merge)
+- **Current implementation commit SHA:** 0bf1070216255c9e1411a4a96445372b6e6a45d1
+- **Project feature commit:** eeb589cf81d8871f4243218d2e1a668829b79a2e
+- **Preparation commit:** 11a6e5cc12f0d752dcbda9160b55369233bb6c98
 - **Code baseline:** 603cf24fa0ba1819c0ec10b6a57ef5cf57c3852e
-- **Active phase:** 02, authorized by ADR-008; schema package approved by ADR-009.
-- **Completed tasks:** 01-T06/01-T07/01-T08 preparation verified; 02-T01 format review approved. Historical Phase 01 evidence/review tasks remain open.
-- **In progress:** Phase 02 implementation 02-T02–02-T06.
-- **Blockers:** none for implementation; manual UI/live-NIC certification not performed.
-- **Next action:** implement approved independent schema/models/store and localized project UI, then focused negative/round-trip/failure tests and regression review.
-- **Tests last executed:** SDK 8.0.427; restore PASS; Release build PASS (0 warnings/errors); isolated xUnit 189 PASS, 0 failed/skipped; planning/schema-format validator PASS; 10 validator tests PASS. Exact commands/limits in docs/testing/TEST_MATRIX.md.
-- **Live network/UAC/Windows UI tests:** NOT RUN / no live-test authorization. No OS network settings changed. SDK first-run generated a development certificate without trusting it; SDK path is process-local, no admin install.
+- **Status/handoff commit:** resolve `git log -1 --format=%H -- STATUS.md`; this documentation-only record cannot embed its own resulting SHA. Re-read actual HEAD before resuming.
+- **Active phase:** 02 — AWAITING_REVIEW; not marked complete. Phase 03 NOT STARTED / NOT AUTHORIZED.
+- **Authorization:** ADR-008 preparation/Phase 02; ADR-009 approved format; ADR-010 existing design for all new UI; ADR-011 English-only UI with legacy tr fallback. No live tests or publication authorization.
+- **Completed tasks:** preparation 01-T06/01-T07/01-T08 verified, 02-T01 owner-approved. Historical Phase 01 acceptance not fabricated.
+- **In progress / evidence recorded:** 02-T02–02-T06 implemented/reviewed with evidence; checkboxes remain open pending owner acceptance. No implementation blocker known.
+- **Next action:** owner reviews Phase 02 diff/window and packet; decide acceptance before Phase 03. No automatic push/merge/phase advancement.
+- **Tests last executed:** SDK 8.0.427; Release build PASS (0 warnings/errors); 286 isolated xUnit PASS, 0 failed/skipped; 4 English Light/Dark WPF component renders PASS, 0 binding errors; full draft-2020-12+formats/planning validator PASS and 10 validator regression tests PASS. Exact commands/commit evidence in docs/testing/PHASE02_REVIEW.md.
+- **Live/network/UAC/native-dialog/full-app/deployment tests:** NOT RUN. No OS network configuration changes, scans or elevation performed.
+- **Limits/side effects:** first failed component harness inadvertently reached real App startup/migration before failing on resources; marker existence/attribution uncertainty recorded below and in review packet. Final harness is isolated. No marker/customer data deleted. Earlier SDK first-run generated an untrusted development certificate; no trust command or admin install.
+- **Risks:** manual native-dialog/keyboard/AT/high-contrast/full-app acceptance, hardware/filesystem failure guarantees, conservative/incomplete URL secret detection, backup growth; baseline legacy persistence/history/apply limitations unchanged. UNC/network shares and reparse paths unsupported.
+- **Design/localization:** DESIGN.md is the standing UI contract. Turkish resource/menu retired at owner's request; old tr preference loads English without startup settings rewrite. All other preservation requirements retained.
 - **Last verification date:** 2026-10-31 (Asia/Tashkent).
 
-Earlier entries below are immutable historical evidence, superseded where explicit by ADR-008/009.
+Review packet: [Phase 02 outcome, changed paths, exact checks, risks/deviations and proposed next phase](docs/testing/PHASE02_REVIEW.md). Plan mirror: [machine plan](machine/plan.json).
+
+Earlier entries below are historical evidence; current authorization/status above supersedes pending-start/format/localization statements where explicit under ADR-008–011.
 
 ## Verified evidence log (append, do not invent)
 
@@ -89,3 +97,19 @@ Exact evidence and reproducible adoption check: [test matrix](docs/testing/TEST_
 - Remaining active tasks: 02-T02–02-T06 implementation/review.
 - Next smallest safe action: implement approved independent project format/store and test it.
 - Can next session proceed without clarification: yes within ADR-008/009; no merge/push or Phase 03/live tests.
+
+## Session handoff — 2026-10-31, Phase 02 implementation review
+
+- Date and environment: 2026-10-31, Asia/Tashkent; Windows 10.0.26300 x64; local SDK 8.0.427/runtime 8.0.33 and Python jsonschema 4.26.0 venv.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / codex/phase-02-project-json / implementation `0bf1070216255c9e1411a4a96445372b6e6a45d1`; final status-only commit resolvable as above.
+- Current phase and task IDs: 02 AWAITING_REVIEW. 01-T06–01-T08 verified; 02-T01 approved; 02-T02–02-T06 EVIDENCE_RECORDED pending acceptance.
+- Actually completed: independent JSON schema/models/structural+semantic validation, safe local IO/backups/conflicts, stable project profile editing, New/Open/Choose Folder/Save As, legacy persistence review only, existing-design contract, owner-requested English-only UI with read-compatible settings. Feature `eeb589c`, localization `0bf1070`, preparation `11a6e5c`.
+- Files changed: project model/services/viewmodel/window, localized main entry and tray-exit draft guard, shared existing navigation style, resources/language settings, tests/harness, schema/example/spec/security/legal/design/planning docs. Legacy repositories/netsh/UAC/history/LICENSE/workflow unchanged.
+- Tests and results: Release build PASS 0 warnings/errors; 286 xUnit PASS/0 skipped; 4 isolated English WPF renders PASS/0 binding errors; full schema+formats/planning and 10 tooling tests PASS. Exact commands/artifacts and initial failures: docs/testing/PHASE02_REVIEW.md.
+- Live-network tests: NOT RUN / not authorized. No real apply, scan, DHCP server, UAC or browser launch. Native dialogs/full app/tray/AT/publish/CI NOT RUN.
+- Known risks/workarounds: early harness migration-marker attribution uncertain, preserved; final harness plain Application isolated. Backup growth/URL detection/filesystem limits and legacy findings documented; use explicit backup Open + Save As to recover, never auto-reset.
+- Decisions requiring user approval: Phase 02 acceptance and later Phase 03 start; no further format/design/language clarification needed under ADR-009–011.
+- Remaining active-phase work: owner review/manual acceptance as desired; no known failing automated check or incomplete authorized implementation task.
+- Next smallest safe action: review diff and Project window; after acceptance separately authorize Phase 03. Do not merge/push or start live tests automatically.
+- Can next session proceed without clarification: inspection/review and fixes within Phase 02 scope yes; advancing phases/publishing/live tests requires owner decision.
+- Original untracked MANIFEST.sha256 preserved; no other untracked deliverable or generated artifact is intended for commit.
