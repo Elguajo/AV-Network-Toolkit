@@ -1,5 +1,12 @@
 # Current implementation status — PHASE_06_AWAITING_REVIEW
 
+## Current publication — ADR-033, 2026-11-01
+
+- Fork / branch / preflight: https://github.com/Elguajo/AV-Network-Toolkit / main / clean HEAD `6ef8fe7230d96ce4c7a53a1b5a7677aae3d644f6`. Fresh origin/main `103b50d34c6f63d69271a03e8caf4a15494e3e43`, 0 remote-only / 7 local-only. Owner explicitly authorized commit/push; prior no-push statements below are historical for this scope.
+- Completed / in progress: implementation/evidence commits already exist, including current workspace, compact toolbar and observed Selected state. Publication handoff and ordinary push/remote verification are in progress; outcome recorded after execution. Phase 06 still AWAITING_REVIEW, no phase accepted.
+- Tests / blockers: latest runtime evidence remains 576 PASS/0 failed/0 skipped and 140 WPF captures/0 binding errors. Runtime tests not repeated for this metadata-only step. OPEN UX-R01/P05-R01 remains unresolved/release-blocking; native/live/support/credentials limits unchanged. Plan/whitespace checks run before commit.
+- Next action: ordinary push main:main and verify remote SHA, then owner UI/native review and separately scoped JSON investigation. No release, new phase or live test implied.
+
 ## Latest bounded follow-up — reference buttons/current rows (ADR-031/032), 2026-11-01
 
 - Fork / branch / exact base: https://github.com/Elguajo/AV-Network-Toolkit / main / `f7346833c7f8b21af4a73741a257852287679cdf`, clean bootstrap. Implementation/evidence `a2879f5c5c90ac35160c03c663e345acb9db51aa`; metadata pin follows. Local scoped commits only, no branch/worktree/push.
@@ -572,3 +579,18 @@ Implementation committed locally as **d054a61ccd2f27ebd03cc73b9acb5e03e6ecd52d**
 - Remaining tasks in active phase: Phase 06 owner/native review, IDEA-04 full task acceptance; separate JSON investigation and IDEA-02/03. No phase complete.
 - Next smallest safe action: owner compares real button/current-row renders; separately scope deterministic JSON investigation and native evidence. No automatic live action or next phase.
 - Can next session proceed without clarification? Yes for read-only review/safe UI corrections within this scope; keep all data/phase/live/publication gates.
+
+## Session handoff — 2026-11-01, publish current workspace changes
+
+- Date and environment: 2026-11-01 Asia/Tashkent, Windows/PowerShell, existing Git/Python; metadata/publication only.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / preflight `6ef8fe7230d96ce4c7a53a1b5a7677aae3d644f6`; freshly fetched origin/main `103b50d34c6f63d69271a03e8caf4a15494e3e43`, 0 remote-only/7 local-only.
+- Current phase and task IDs: Phase 06 AWAITING_REVIEW, IDEA-01/04 local evidence under ADR-028–032; publication ADR-033. No task/phase acceptance.
+- What was actually completed: read-only branch/history/remote/scope preflight; owner permission recorded for current seven local commits and metadata handoff. Actual push outcome follows execution.
+- Files changed: decisions/DECISION_LOG.md and STATUS.md only; implementation unchanged.
+- Test commands and results: offline plan/schema/links and whitespace before commit; prior 576 unit PASS and 140 WPF captures remain the runtime evidence, NOT RUN again for metadata. CI outcome not preclaimed.
+- Live-network tests: NOT RUN / not authorized. Git publication is authorized; no NIC/settings/UAC/browser/DHCP operation.
+- Known bugs, risk and workarounds: OPEN UX-R01/P05-R01 and native/manual/DHCP-DNS/credentials limitations retained; no release readiness claim.
+- Decisions requiring user approval: phase/full-flow/native acceptance, separately scoped remaining features/live tests/release. Current commit/push already authorized; no repeated question.
+- Remaining tasks in active phase: owner/native review; no phase completed by publication.
+- Next smallest safe action: ordinary git push origin main:main, independently verify remote SHA, then record outcome and return to owner review.
+- Can next session proceed without clarification? Yes for this authorized publication and read-only review; no implicit phase advancement/live test/release.
