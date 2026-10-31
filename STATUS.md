@@ -1,30 +1,20 @@
-# Current implementation status — AUDIT_RECORDED_AWAITING_REVIEW
-
-> Verify git independently before resuming. Evidence recorded is not task acceptance. Application implementation remains unstarted.
+# Current implementation status — PHASE_02_IN_PROGRESS
 
 - **Fork URL:** https://github.com/Elguajo/AV-Network-Toolkit
 - **Upstream:** https://github.com/rmzncakir/network-profile-changer
-- **Working branch:** main (authorized integration target; handoff prepared on codex/phase-01-baseline-audit)
-- **Baseline commit SHA:** 603cf24fa0ba1819c0ec10b6a57ef5cf57c3852e
-- **Current commit SHA (verified anchor before integration handoff commit):** abb1430e4cf1fb02a0c201073ded3d81728476bf
-- **Documentation commit:** abb1430e4cf1fb02a0c201073ded3d81728476bf (created successfully with user-supplied command-scoped identity).
-- **Integration handoff commit:** resolve `git log -1 --format=%H -- STATUS.md`; this file cannot embed its own resulting commit SHA. Merge/push result and exact final SHA are verified and reported in the chat after execution. Re-read actual HEAD and remote ref on resume.
-- **Current phase:** 01 — audit recorded, phase acceptance pending; preparation checkpoint NOT STARTED
-- **Completed tasks:** none marked accepted/completed; documentation adoption recorded under ADR-006
-- **In progress:** phase review; 01-T01/01-T02/01-T04/01-T05 EVIDENCE_RECORDED; 01-T03 AWAITING_REVIEW
-- **Blockers:** .NET SDK absent; no certified isolated test set; validator incompatible with adopted status and GitHub-relative links; phase acceptance and next execution scope pending
-- **Authorization:** ADR-006 documentation adoption, plus explicit subsequent user authorization to merge the documentation into main and push to origin (ADR-007); no SDK install, source/test/tool changes, live tests or Phase 02 implementation
-- **Implementation changes:** none; original application/test/workflow/license files unchanged
-- **Build:** attempted baseline build, exit 1 before compilation (SDK unavailable)
-- **Unit tests:** NOT RUN; README test count/coverage UNVERIFIED
-- **Windows integration tests:** NOT RUN
-- **Production-network tests:** NOT AUTHORIZED / NOT RUN
-- **Last verification date:** 2026-10-31 (Asia/Tashkent)
-- **Tests last executed:** adoption stdin consistency check PASS (9 phases, 49 tasks/49 links, 172 resource keys, JSON/XML); imported planning validator FAIL on line 13 (`NOT_STARTED` assertion); full schema/unit/integration NOT RUN
+- **Working branch:** codex/phase-02-project-json
+- **Current commit SHA / starting anchor:** 5e6231f731a532fd0947903e4dbaf47115f0d2e3; resolve latest containing status commit with `git log -1 --format=%H -- STATUS.md` and inspect HEAD independently.
+- **Code baseline:** 603cf24fa0ba1819c0ec10b6a57ef5cf57c3852e
+- **Active phase:** 02, authorized by ADR-008; schema package approved by ADR-009.
+- **Completed tasks:** 01-T06/01-T07/01-T08 preparation verified; 02-T01 format review approved. Historical Phase 01 evidence/review tasks remain open.
+- **In progress:** Phase 02 implementation 02-T02–02-T06.
+- **Blockers:** none for implementation; manual UI/live-NIC certification not performed.
+- **Next action:** implement approved independent schema/models/store and localized project UI, then focused negative/round-trip/failure tests and regression review.
+- **Tests last executed:** SDK 8.0.427; restore PASS; Release build PASS (0 warnings/errors); isolated xUnit 189 PASS, 0 failed/skipped; planning/schema-format validator PASS; 10 validator tests PASS. Exact commands/limits in docs/testing/TEST_MATRIX.md.
+- **Live network/UAC/Windows UI tests:** NOT RUN / no live-test authorization. No OS network settings changed. SDK first-run generated a development certificate without trusting it; SDK path is process-local, no admin install.
+- **Last verification date:** 2026-10-31 (Asia/Tashkent).
 
-## Next action
-
-Review the documentation commit and decide the separately scoped preparation checkpoint 01-T06 through 01-T08. No implementation is authorized by this handoff. Before Phase 02 implementation: establish SDK/build evidence, isolate tests and fix the validator, then obtain phase acceptance and explicit Phase 02 authorization. Do not run the existing unfiltered suite or live tools merely to clear blockers.
+Earlier entries below are immutable historical evidence, superseded where explicit by ADR-008/009.
 
 ## Verified evidence log (append, do not invent)
 
@@ -84,3 +74,18 @@ Exact evidence and reproducible adoption check: [test matrix](docs/testing/TEST_
 - Remaining tasks in active phase: same acceptance review and preparation checkpoint; no task closed by integration.
 - Next smallest safe action: verify local main equals origin/main after push, then review/authorize the bounded preparation checkpoint.
 - Can next session proceed without clarification: read-only verification yes; merging/pushing this documentation change is authorized; implementation/live tests/phase advancement require their own scope.
+
+## Session handoff — 2026-10-31, preparation checkpoint
+
+- Date and environment: Asia/Tashkent; Windows 10.0.26300 x64; local SDK 8.0.427.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / codex/phase-02-project-json / pre-commit anchor 5e6231f731a532fd0947903e4dbaf47115f0d2e3; resolve containing preparation commit as recorded in test matrix.
+- Current phase/task IDs: Phase 02; 01-T06–01-T08 verified and 02-T01 owner-approved (ADR-009).
+- Actually completed: SDK/restore/build, OS/probe test seams and isolated 189-test baseline, validator with 10 regression tests, current authorization/format decisions recorded.
+- Files changed: test boundaries, scanner/VM tests, scripts validator/tests/requirements, canonical plan/status and format review.
+- Tests: exact commands/results in TEST_MATRIX.md. PASS build, 189 xUnit, validator and 10 tooling tests; original initial failures retained there.
+- Live-network tests: NOT RUN / not authorized; no settings change, probes, elevation or app launch.
+- Risks: legacy persistence/history unchanged; live behavior UNVERIFIED.
+- Decisions requiring user approval: Phase 02 final review later; format package already approved.
+- Remaining active tasks: 02-T02–02-T06 implementation/review.
+- Next smallest safe action: implement approved independent project format/store and test it.
+- Can next session proceed without clarification: yes within ADR-008/009; no merge/push or Phase 03/live tests.

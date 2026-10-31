@@ -3,7 +3,7 @@
   "project": "AV Network Manager fork development",
   "baseRepository": "https://github.com/rmzncakir/network-profile-changer",
   "featureReference": "https://github.com/mefranklin6/AV-Network-Toolbag",
-  "status": "AUDIT_RECORDED_AWAITING_REVIEW",
+  "status": "PHASE_02_IN_PROGRESS",
   "licenseNote": "Base MIT; AV Toolbag license not declared at inspection; no source reuse",
   "phases": [
     {
@@ -40,7 +40,7 @@
         },
         {
           "id": "01-T05",
-          "title": "Review risk surface and propose implementation boundaries for Phases 02–09",
+          "title": "Review risk surface and propose implementation boundaries for Phases 02\u201309",
           "acceptance": "Audited phase plan, security assumptions and open decisions documented",
           "status": "EVIDENCE_RECORDED"
         },
@@ -48,19 +48,19 @@
           "id": "01-T06",
           "title": "Prepare the SDK/build environment in a separately authorized checkpoint",
           "acceptance": "Record SDK 8 version, approved install/restore scope and baseline build command/result; no application launch, elevation or network probes",
-          "status": "NOT_STARTED"
+          "status": "COMPLETED"
         },
         {
           "id": "01-T07",
           "title": "Isolate automated tests from network probes and real adapter enumeration",
           "acceptance": "Review exact safe test set; fake OS/probe boundaries or segregate integration cases; run the isolated baseline and report every exclusion as NOT RUN",
-          "status": "NOT_STARTED"
+          "status": "COMPLETED"
         },
         {
           "id": "01-T08",
           "title": "Repair and verify the planning validator in a separate tooling task",
           "acceptance": "Support current plan states and task inventory; distinguish GitHub-relative links from filesystem links; retain meaningful checks and demonstrate expected valid/invalid cases",
-          "status": "NOT_STARTED"
+          "status": "COMPLETED"
         }
       ]
     },
@@ -72,13 +72,13 @@
         "01"
       ],
       "file": "phases/02-project-json.md",
-      "status": "NOT_STARTED",
+      "status": "IN_PROGRESS",
       "tasks": [
         {
           "id": "02-T01",
           "title": "Approve independent versioned project schema and round-trip semantics",
           "acceptance": "Schema reviewed; includes project, profiles, adapter hints, device refs; no secrets",
-          "status": "NOT_STARTED"
+          "status": "COMPLETED"
         },
         {
           "id": "02-T02",
@@ -111,7 +111,7 @@
           "status": "NOT_STARTED"
         }
       ],
-      "entryGate": "Phase 01 acceptance and completed preparation checkpoint; explicit Phase 02 authorization"
+      "entryGate": "ADR-008 authorizes Phase 02 and preparation; checkpoint verified before feature implementation; format reviewed under ADR-009"
     },
     {
       "id": "03",
@@ -421,8 +421,8 @@
   ],
   "forkRepository": "https://github.com/Elguajo/AV-Network-Toolkit",
   "baselineCommit": "603cf24fa0ba1819c0ec10b6a57ef5cf57c3852e",
-  "activePhase": "01",
-  "phase02Authorized": false,
+  "activePhase": "02",
+  "phase02Authorized": true,
   "authorization": "ADR-006: documentation adoption and local commit only; preparation execution not authorized",
   "preparationCheckpoint": [
     "01-T06",

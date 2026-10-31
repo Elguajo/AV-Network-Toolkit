@@ -55,6 +55,8 @@ Staged-scope verification: `git diff --cached --check` PASS; a separate read-onl
 
 ## Safe execution checkpoint — required before Phase 02 implementation
 
+Current update (ADR-008/009): preparation is authorized and verified; earlier pending-authorization statements below are historical. Use the maintained `scripts/validate_plan.py` with `scripts/requirements-validation.txt`, rather than the historical adoption-only snippet after plan state changes.
+
 - 01-T06: separately authorize SDK/dependency preparation; record SDK 8 version, restore/build commands and results. This documentation adoption installs nothing.
 - 01-T07: audit/fake probe and adapter boundaries before selecting an isolated test command. Existing `IpScannerServiceTests` emits actual probes to `192.0.2.x`; documentation ranges do not prevent traffic. `MainViewModelTests` constructs a VM that enumerates real NICs. Enumeration is read-only but environment-dependent; distinguish it from active probing and mutation.
 - Separate integration tests from unit tests, retain their cases, and list every excluded case and reason as NOT RUN. Do not silently disable tests or claim the full suite passed from a filtered run. Record the exact filter only after source review; no currently certified safe filter is supplied here.
@@ -127,3 +129,25 @@ for path in ['NetworkProfileManager/NetworkProfileManager.csproj', 'NetworkProfi
     ET.parse(root/path)
 print(f'PASS: 9 phases, {len(all_ids)} stable tasks, machine/backlog/phase agreement; {links} local links; JSON parse/example references; {len(keys[0])} matching language keys; project XML parse')
 ```
+
+## Preparation checkpoint execution — 2026-10-31 (01-T06–01-T08)
+
+Branch `codex/phase-02-project-json`, starting HEAD `5e6231f731a532fd0947903e4dbaf47115f0d2e3`. Resolve preparation commit with `git log --format=%H --grep="isolate baseline tests" -1`.
+Windows 10.0.26300 x64; local SDK 8.0.427 / runtime 8.0.33. Installed without elevation using Microsoft's `dotnet-install.ps1 -Channel 8.0 -InstallDir "$env:LOCALAPPDATA/AVNetworkToolkit.BuildTools/dotnet" -NoPath`. SDK first-run generated an untrusted development certificate; no trust command executed. No persistent PATH/global git configuration changed.
+
+For commands below, PowerShell `$sdk = "$env:LOCALAPPDATA/AVNetworkToolkit.BuildTools/dotnet/dotnet.exe"` and `$py = "$env:LOCALAPPDATA/AVNetworkToolkit.BuildTools/python/Scripts/python.exe"`.
+
+| Exact command | Outcome |
+|---|---|
+| `dotnet --info` before install | Runtime 10.0.9 only; no SDK |
+| `& $sdk --info` | SDK 8.0.427, runtime/Desktop 8.0.33 |
+| `& $sdk restore NetworkProfileManager.sln` | PASS, both projects restored |
+| `& $sdk build NetworkProfileManager.sln --configuration Release --no-restore` | Initial preparation attempt FAIL: new scanner assertion selected obsolete async xUnit overload. Corrected to assert synchronous validation. Repeat PASS, 0 warnings/errors |
+| `& $sdk test NetworkProfileManager.Tests/NetworkProfileManager.Tests.csproj --configuration Release --no-build --filter 'FullyQualifiedName~IpScannerServiceTests|FullyQualifiedName~MainViewModelTests' --logger 'console;verbosity=minimal'` | PASS: 5 tests, 0 failed/skipped |
+| `& $sdk test NetworkProfileManager.Tests/NetworkProfileManager.Tests.csproj --configuration Release --no-build --logger 'console;verbosity=minimal' --logger 'trx;LogFileName=preparation.trx'` | PASS: 189 tests, 0 failed/skipped, 2 s. Local ignored artifact `NetworkProfileManager.Tests/TestResults/preparation.trx` |
+| `python -m venv "$env:LOCALAPPDATA/AVNetworkToolkit.BuildTools/python"`; `& $py -m pip install 'jsonschema[format]==4.26.0'` | PASS; tooling dependency local to venv |
+| `& $py -B scripts/validate_plan.py`; `& $py -B scripts/test_validate_plan.py` | PASS: 9 phases, 49 IDs, full draft-2020-12 schema/example with FormatChecker; 10 regression tests. Initial link failures exposed Releases/Discussions/security-advisory GitHub routes; handled only for exact known source+route pairs. Ordinary broken links still fail |
+
+Test boundary source review: all test files inspected; no tests invoke valid OS mutation commands. NetworkService tests exercise early validation/no-op only; worker tests contain rejected/empty commands before process launch. Scanner tests replace the complete host probe and bypass local-subnet enumeration, exercise actual scan ordering/progress/cancellation. MainViewModel tests inject a fixture adapter provider; the default production constructors retain real behavior. Clipboard writes use delegates; persistence tests use temp AppPaths fixtures (AppPaths default-path tests may create the data directory, but do not alter its contents). Language/theme tests do not launch an application. No test cases excluded from this isolated unit run.
+
+NOT RUN: original real-probe scanner behavior, real-NIC enumeration acceptance, WPF UI, live ping/scans, browser, UAC, actual apply/revert, publish/clean-machine and isolated Windows integration. Unit success does not certify these. No CI execution or push in this checkpoint. Original archive MANIFEST.sha256 preserved untracked, not an integrity contract.

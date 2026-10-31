@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 using NetworkProfileManager.Models;
@@ -8,39 +9,52 @@ namespace NetworkProfileManager.Tests;
 
 public class IpScannerServiceTests
 {
+    private sealed class InlineProgress(Action<ScanProgress> report) : IProgress<ScanProgress>
+    {
+        public void Report(ScanProgress value) => report(value);
+    }
+
     [Fact]
     public async Task ScanRangeAsync_RaisesProgress_ForEachAddress()
     {
-        var svc = new IpScannerService();
-        int progressCount = 0;
-        int? lastTotal = null;
-
-        var progress = new Progress<ScanProgress>(p =>
+        var probed = new ConcurrentBag<string>();
+        var progress = new ConcurrentBag<ScanProgress>();
+        var svc = new IpScannerService((ip, _, _) =>
         {
-            Interlocked.Increment(ref progressCount);
-            lastTotal = p.Total;
+            probed.Add(ip);
+            return new ScanResult { IpAddress = ip, IsOnline = true };
         });
+        var results = await svc.ScanRangeAsync("192.0.2.1", "192.0.2.3",
+            100, 8, new InlineProgress(progress.Add), CancellationToken.None);
 
-        // 192.0.2.0/24 is TEST-NET-1 (RFC 5737) — guaranteed unrouted
-        await svc.ScanRangeAsync("192.0.2.1", "192.0.2.3",
-            timeoutMs: 100, maxParallel: 8, progress, CancellationToken.None);
-
-        Assert.True(progressCount > 0, "no progress callbacks fired");
-        Assert.Equal(3, lastTotal);
+        Assert.Equal(3, probed.Count);
+        Assert.Equal(3, progress.Count);
+        Assert.All(progress, p => Assert.Equal(3, p.Total));
+        Assert.Equal(new[] { "192.0.2.1", "192.0.2.2", "192.0.2.3" },
+            results.ConvertAll(r => r.IpAddress));
+        Assert.All(results, r => Assert.True(r.IsOnline));
     }
 
     [Fact]
     public async Task ScanRangeAsync_RespectsCancellation()
     {
-        var svc = new IpScannerService();
-        var cts = new CancellationTokenSource();
-        cts.CancelAfter(50);
+        using var cts = new CancellationTokenSource();
+        int calls = 0;
+        var svc = new IpScannerService((ip, _, _) =>
+        {
+            Interlocked.Increment(ref calls);
+            cts.Cancel();
+            return new ScanResult { IpAddress = ip };
+        });
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() =>
+            svc.ScanRangeAsync("192.0.2.1", "192.0.2.100", 100, 1, null, cts.Token));
+        Assert.Equal(1, calls);
+    }
 
-        var task = svc.ScanRangeAsync("192.0.2.1", "192.0.2.100",
-            timeoutMs: 2000, maxParallel: 4,
-            new Progress<ScanProgress>(_ => { }), cts.Token);
-
-        var completed = await Task.WhenAny(task, Task.Delay(10_000));
-        Assert.Same(task, completed);
+    [Fact]
+    public void ScanRangeAsync_RejectsReversedRangeBeforeProbing()
+    {
+        var svc = new IpScannerService((_, _, _) => throw new Exception("Unexpected probe"));
+        Assert.Throws<ArgumentException>(() => { _ = svc.ScanRangeAsync("192.0.2.3", "192.0.2.1"); });
     }
 }

@@ -63,6 +63,14 @@ namespace NetworkProfileManager.Services
             (8080,  "Web (8080)"),
         };
 
+        // A test probe replaces the complete OS boundary, including subnet enumeration.
+        private readonly Func<string, ScanOptions, CancellationToken, ScanResult>? _probe;
+
+        public IpScannerService() { }
+
+        internal IpScannerService(Func<string, ScanOptions, CancellationToken, ScanResult> probe)
+            => _probe = probe ?? throw new ArgumentNullException(nameof(probe));
+
         // ── Public API ─────────────────────────────────────────────────────────
 
         public Task<List<ScanResult>> ScanRangeAsync(
@@ -110,7 +118,7 @@ namespace NetworkProfileManager.Services
         /// blocking call, and dozens of blocked pool threads would trip the pool's slow
         /// thread-injection heuristic and serialize the scan.
         /// </summary>
-        private static List<ScanResult> RunScan(
+        private List<ScanResult> RunScan(
             uint start, uint count, ScanOptions opt,
             IProgress<ScanProgress>? progress, CancellationToken ct)
         {
@@ -118,7 +126,7 @@ namespace NetworkProfileManager.Services
             var queue   = new ConcurrentQueue<uint>();
             for (uint i = 0; i < count; i++) queue.Enqueue(start + i);
 
-            var localSubnets = GetLocalSubnets();
+            var localSubnets = _probe == null ? GetLocalSubnets() : new List<(uint Network, uint Mask)>();
             var results = new ConcurrentBag<ScanResult>();
             int done = 0;
 
@@ -131,7 +139,9 @@ namespace NetworkProfileManager.Services
                 {
                     while (!ct.IsCancellationRequested && queue.TryDequeue(out uint ipVal))
                     {
-                        var r = ProbeHost(ipVal, opt, localSubnets, ct);
+                        var r = _probe != null
+                            ? _probe(ToIpString(ipVal), opt, ct)
+                            : ProbeHost(ipVal, opt, localSubnets, ct);
                         results.Add(r);
                         int c = Interlocked.Increment(ref done);
                         progress?.Report(new ScanProgress { Current = c, Total = total, Result = r });

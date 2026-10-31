@@ -58,3 +58,7 @@ Internal addresses shown in earlier browser screenshots are **user data**, not t
 Fork `Elguajo/AV-Network-Toolkit` at `603cf24fa0ba1819c0ec10b6a57ef5cf57c3852e` was inspected read-only. See docs/architecture/BASELINE_AND_SOURCE_MAP.md for source evidence and dispositions. Existing history does not snapshot DNS/routes/additional IPv4; empty static primary DNS leaves DNS untouched; apply lacks requested-versus-observed verification. These limits must not be advertised as complete rollback or apply guarantees.
 
 The user authorized documentation adoption only (ADR-006). Phase 01 acceptance and Phase 02 execution remain pending. The nine-phase order, application behavior, MIT notice and production-network prohibition are unchanged. Environment preparation and safe baseline tests precede Phase 02 implementation; unresolved data-format/support choices remain proposals.
+
+## Current authorization — 2026-10-31
+
+ADR-008 supersedes the earlier pending-start snapshot: the owner explicitly authorized Phase 02 and its prerequisite preparation in a new chat. ADR-009 approves the concrete format package in docs/spec/PHASE02_FORMAT_REVIEW.md. 01-T06–01-T08 have verified preparation evidence; historical Phase 01 acceptance is not fabricated. No authorization for live tests, future phases, merge or push.

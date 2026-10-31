@@ -1,6 +1,6 @@
 # Traceable task backlog
 
-**State:** Phase 01 audit evidence recorded; acceptance pending. Phase 02 is NOT AUTHORIZED. All checkboxes remain open until verified acceptance. See `STATUS.md` for evidence and ADR-006 for documentation-only authorization. IDs are stable.
+**State:** Phase 02 authorized (ADR-008), format approved (ADR-009). Preparation 01-T06–01-T08 verified. Historical Phase 01 inventory acceptance remains pending; no runtime certification implied. IDs are stable.
 
 ## Phase 01: Baseline audit (P0)
 
@@ -10,13 +10,13 @@
 - [ ] **01-T04** — Run non-invasive baseline build/test/static checks where supported. **AC:** Exact commands/results/limitations; no device configuration.
 - [ ] **01-T05** — Review risk surface and propose implementation boundaries for Phases 02–09. **AC:** Audited phase plan, security assumptions and open decisions documented.
 
-- [ ] **01-T06** — Prepare the SDK/build environment in a separately authorized checkpoint. **AC:** Record SDK 8 version, approved install/restore scope and baseline build command/result; no application launch, elevation or network probes.
-- [ ] **01-T07** — Isolate automated tests from network probes and real adapter enumeration. **AC:** Review exact safe test set; fake OS/probe boundaries or segregate integration cases; run the isolated baseline and report every exclusion as NOT RUN.
-- [ ] **01-T08** — Repair and verify the planning validator in a separate tooling task. **AC:** Support current plan states and task inventory; distinguish GitHub-relative links from filesystem links; retain meaningful checks and demonstrate expected valid/invalid cases.
+- [x] **01-T06** — Prepare the SDK/build environment in a separately authorized checkpoint. **AC:** Record SDK 8 version, approved install/restore scope and baseline build command/result; no application launch, elevation or network probes.
+- [x] **01-T07** — Isolate automated tests from network probes and real adapter enumeration. **AC:** Review exact safe test set; fake OS/probe boundaries or segregate integration cases; run the isolated baseline and report every exclusion as NOT RUN.
+- [x] **01-T08** — Repair and verify the planning validator in a separate tooling task. **AC:** Support current plan states and task inventory; distinguish GitHub-relative links from filesystem links; retain meaningful checks and demonstrate expected valid/invalid cases.
 
 ## Phase 02: Project-scoped JSON profiles (P0)
 
-- [ ] **02-T01** — Approve independent versioned project schema and round-trip semantics. **AC:** Schema reviewed; includes project, profiles, adapter hints, device refs; no secrets.
+- [x] **02-T01** — Approve independent versioned project schema and round-trip semantics. **AC:** Schema reviewed; includes project, profiles, adapter hints, device refs; no secrets.
 - [ ] **02-T02** — Implement Open Project / Choose Folder / Save As with explicit path. **AC:** Open/save project JSON from arbitrary user-approved folders; never overwrite silently.
 - [ ] **02-T03** — Import/export static + DHCP settings including gateway and DNS. **AC:** Round-trip preserves all specified fields and legacy profile compatibility.
 - [ ] **02-T04** — Handle schema versions, corrupt files, atomic writes and backups. **AC:** Clear errors, original file preserved, missing/unknown fields handled per spec.

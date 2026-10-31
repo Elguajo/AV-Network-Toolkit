@@ -26,7 +26,7 @@ public class MainViewModelTests : System.IDisposable
     [Fact]
     public void SelectingTheSameAdapterAgain_DoesNotNotify()
     {
-        var vm = new MainViewModel();
+        var vm = new MainViewModel(() => new List<AdapterInfo>());
         var a = Adapter("a");
         vm.SelectedAdapter = a;
 

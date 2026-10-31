@@ -1,14 +1,14 @@
 # Phase 02 — Project-scoped JSON profiles
 
 - **Priority:** P0
-- **Dependencies:** Phase 01 acceptance + preparation checkpoint 01-T06 through 01-T08
-- **Current status:** NOT STARTED
+- **Dependencies:** ADR-008 explicitly authorizes continuation with historical audit evidence; preparation checkpoint 01-T06 through 01-T08 verified
+- **Current status:** IN_PROGRESS — ADR-008/009; preparation verified
 - **Scope:** Implement portable versioned project JSON without changing existing per-adapter AppData profile files. Design and review schema before editing code.
 - **Read first:** docs/spec/PROJECT_JSON_SPEC.md; schemas/project.avnet.schema.json; examples/project.avnet.json
 
 ## Tasks and acceptance criteria
 
-- [ ] **02-T01** — Approve independent versioned project schema and round-trip semantics.
+- [x] **02-T01** — Approve independent versioned project schema and round-trip semantics.
   - **Acceptance:** Schema reviewed; includes project, profiles, adapter hints, device refs; no secrets.
 - [ ] **02-T02** — Implement Open Project / Choose Folder / Save As with explicit path.
   - **Acceptance:** Open/save project JSON from arbitrary user-approved folders; never overwrite silently.
@@ -36,3 +36,7 @@
 - 02-T04: original survives failed temp write, backup, flush or replace; define restore behavior, locks and permissions. Do not copy the legacy backup-and-delete behavior into the project store.
 - 02-T05: full draft-2020-12 schema validation (format enforcement explicit) plus semantic/round-trip tests; parsing JSON alone is not validation. Include stable IDs, orphan refs, DNS modes, gateway semantics and failed-write recovery.
 - 02-T06 is a scoped remediation review, not authorization to migrate or repair legacy files in this feature.
+
+## 2026-10-31 execution update
+
+ADR-008 authorizes preparation and Phase 02; ADR-009 approves the format proposal. Historical authorization statements above describe their original scope. Preparation: SDK 8.0.427, Release build PASS, isolated xUnit 189 PASS/0 skipped, planning validator and 10 regression tests PASS. Exact commands and limits: docs/testing/TEST_MATRIX.md. No live network or elevation tests.

@@ -18,6 +18,7 @@ namespace NetworkProfileManager.ViewModels
         private readonly NetworkService _networkSvc = new NetworkService();
         private readonly ProfileRepository _profileRepo = new ProfileRepository();
         private readonly HistoryRepository _historyRepo = new HistoryRepository();
+        private readonly Func<List<AdapterInfo>> _getAdapters;
 
         private AdapterViewModel? _selectedAdapter;
         private bool _isLoading;
@@ -66,8 +67,11 @@ namespace NetworkProfileManager.ViewModels
         /// <summary>Vendor subnet shortcuts shown in the edit bar's preset menu.</summary>
         public IReadOnlyList<VendorPreset> VendorPresets => VendorPreset.All;
 
-        public MainViewModel()
+        public MainViewModel() : this(null) { }
+
+        internal MainViewModel(Func<List<AdapterInfo>>? getAdapters)
         {
+            _getAdapters = getAdapters ?? _networkSvc.GetAdapters;
             RefreshCommand = new RelayCommand(_ => Refresh());
             ApplyCommand = new RelayCommand(
                 async _ => await ApplyAsync(),
@@ -104,7 +108,7 @@ namespace NetworkProfileManager.ViewModels
         public void Refresh()
         {
             var selectedName = _selectedAdapter?.Name;
-            var adapters = _networkSvc.GetAdapters();
+            var adapters = _getAdapters();
 
             foreach (var info in adapters)
             {

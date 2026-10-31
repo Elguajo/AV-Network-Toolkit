@@ -30,3 +30,7 @@ Phase order and priorities remain unchanged. Audit evidence is recorded, not pha
 Before Phase 02 implementation: close 01-T06 (SDK/build evidence), 01-T07 (isolated test boundary and safe baseline run), and 01-T08 (planning validator compatibility) through separately authorized work. These preparation tasks may change tests/tooling only in their own reviewed scope, never during read-only audit. Excluded integration cases must be listed as NOT RUN; unit green does not replace isolated Windows acceptance.
 
 Phase 02 must settle 02-T01 decisions before changing the draft schema. Phase 04 must establish snapshot/identity/verification/recovery guarantees before enabling Apply & Open. Legacy persistence and history fixes remain separately scoped reviews (02-T06, 04-T07), not silent feature-phase repairs. Findings and dispositions live in docs/architecture/BASELINE_AND_SOURCE_MAP.md; runtime evidence lives in docs/testing/TEST_MATRIX.md.
+
+## Current authorization — 2026-10-31
+
+ADR-008 supersedes the earlier pending-start snapshot: the owner explicitly authorized Phase 02 and its prerequisite preparation in a new chat. ADR-009 approves the concrete format package in docs/spec/PHASE02_FORMAT_REVIEW.md. 01-T06–01-T08 have verified preparation evidence; historical Phase 01 acceptance is not fabricated. No authorization for live tests, future phases, merge or push.
