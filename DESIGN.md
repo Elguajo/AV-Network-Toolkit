@@ -29,7 +29,7 @@ Provenance: generated in this chat using built-in imagegen from the owner's Netw
 
 ## Reuse rules
 
-Local implementation of the selected workspace now has [review evidence](docs/testing/MAIN_WORKSPACE_REVIEW.md) and an [actual WPF render](docs/design/main-window-implemented-workspace.png). Network profiles exposes On this computer / Project profiles scopes: the first explains its selected-adapter association and five-slot limit, the latter is project-wide and applies to the selected NIC without copying stores. Add/Edit is modal, the device tab reuses the existing directory, and manual/Ping/history are expandable. This implements the chosen hierarchy within existing controls; no pixel-identity, credentials or native acceptance claim. On 2026-11-01 the owner confirmed that these two levels of tabs are convenient; preserve them. Broader task acceptance remains pending.
+Local implementation of the selected workspace has [initial review evidence](docs/testing/MAIN_WORKSPACE_REVIEW.md). The owner's newer compact-block correction, ADR-030, is the current placement target: [reference crop and actual renders](docs/testing/COMPACT_WORKSPACE_REVIEW.md). Use a one-row project identity/file + Open/Save bar, with Save as/Manage in its named overflow menu. Keep one Network profiles / Device interfaces tab row with an accent underline; show the saved-profile heading and right-aligned Add, plus local Import/Export. A compact source selector retains This computer / Project profiles: selected-adapter/five-slot local storage versus portable project-wide profiles, without copying stores. This replaces only the second visible tab row despite earlier positive feedback about tabs. Add/Edit stays modal; manual/Ping/history stay expandable. No pixel-identity, credentials, full-flow or native acceptance claim.
 
 | Element | Existing contract |
 |---|---|
@@ -47,6 +47,8 @@ Local implementation of the selected workspace now has [review evidence](docs/te
 ## Project window application
 
 Project is a localized addition: existing title-bar tool style, a separate FluentWindow, existing navigation-list selection, the existing profile-form idiom and fixed `FooterBar`. New/Open/Choose Folder and Save as are subtle commands; Save project file is the main file action (first save asks for a path, subsequent saves retain it and existing overwrite/revision protection). Modal Keep retains a profile in memory; it does not write the file or apply settings. No new primitive or visual identity is introduced. Legacy adapter/profile operations retain their established behavior.
+
+The main workspace's compact bar uses subtle Open/Save commands and moves Save as/Manage to “…”; Add Profile is the primary action in the list toolbar. Project manager keeps its separate file toolbar. Main tab underline/hover/focus reuses existing semantic brushes and focus style; it must style only the header, not make the selected tab's entire content bold. Basename/unsaved marker may trim at minimum width, with the full path retained in the tooltip.
 
 ## Verification for UI changes
 

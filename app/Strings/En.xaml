@@ -438,4 +438,13 @@
     <sys:String x:Key="Ux.TargetReady">Target: {0}. Choose Review settings to see the current and requested configuration. Nothing has been applied.</sys:String>
     <sys:String x:Key="Ux.NoRecovery">No saved recovery snapshots were found. Nothing has been restored. Recovery requires a saved snapshot for the intended adapter.</sys:String>
     <sys:String x:Key="Ux.Reading">Reading adapter settings. Wait for the result before reviewing or confirming changes.</sys:String>
+    <sys:String x:Key="Workspace.OpenProject">Open project</sys:String>
+    <sys:String x:Key="Workspace.SaveProject">Save project</sys:String>
+    <sys:String x:Key="Workspace.MoreProject">More project actions</sys:String>
+    <sys:String x:Key="Workspace.DeviceTab">Device interfaces ({0})</sys:String>
+    <sys:String x:Key="Workspace.SavedFor">Saved profiles for {0}</sys:String>
+    <sys:String x:Key="Workspace.LocalProfileHint">Choose a preset to change this computer's settings. Saved on this computer for the selected adapter (up to 5).</sys:String>
+    <sys:String x:Key="Workspace.Import">Import</sys:String>
+    <sys:String x:Key="Workspace.Export">Export</sys:String>
+    <sys:String x:Key="Workspace.LocalSource">This computer</sys:String>
 </ResourceDictionary>

@@ -44,11 +44,44 @@ internal static partial class Program
             var window = new MainWindow(main, project, (_, device, adapter) => { requested++; target = adapter; requestedDevice = device; })
             { Width = width, Height = height };
             window.Show(); Pump();
+            var scopes = (TabControl)window.FindName("ProfileScopes");
+            var localPanel = Descendants(window).OfType<ProfilePanel>().Single();
+            if (scopes.SelectedIndex != 0 || !localPanel.IsVisible || !Descendants(localPanel).OfType<ItemsControl>().Any(c => ReferenceEquals(c.ItemsSource, main.SelectedAdapter!.Profiles)))
+                throw new Exception("Compact source host did not initially display saved adapter profiles.");
+            var projectBar = (FrameworkElement)window.FindName("ProjectBar");
+            if (projectBar.ActualHeight > 52) throw new Exception("Compact project bar expanded beyond one row.");
             Capture(window, Path.Combine(output, $"workspace-adapter-{theme}-{width}.png"));
-            var scopes = (TabControl)window.FindName("ProfileScopes"); scopes.SelectedIndex = 1; Pump();
+            var source = Descendants(localPanel).OfType<ComboBox>().Single(); source.Focus(); Pump();
+            if (!source.IsKeyboardFocusWithin) throw new Exception("Profile source cannot receive keyboard focus.");
+            var addLocal = Descendants(localPanel).OfType<Wpf.Ui.Controls.Button>().Single(b => b.Content?.ToString() == Loc.Get("Profiles.AddButton"));
+            for (var step = 0; step < 3; step++)
+            {
+                ((UIElement)System.Windows.Input.Keyboard.FocusedElement).MoveFocus(new(System.Windows.Input.FocusNavigationDirection.Next)); Pump();
+            }
+            if (!addLocal.IsKeyboardFocusWithin) throw new Exception("Source → Import → Export → Add keyboard order was lost.");
+            source.SelectedIndex = 1; Pump();
+            if (scopes.SelectedIndex != 1 || project.Profiles.Count != 4 || main.SelectedAdapter!.Profiles.Count != 4)
+                throw new Exception("Source selector failed or moved profiles between stores.");
+            var projectSource = Descendants(window).OfType<ProjectProfilesPanel>().Single();
+            var sourceBack = Descendants(projectSource).OfType<ComboBox>().Single(); sourceBack.SelectedIndex = 0; Pump();
+            if (scopes.SelectedIndex != 0 || !localPanel.IsVisible) throw new Exception("Source selector could not return to adapter profiles.");
+            source.SelectedIndex = 1; Pump();
             if (width < 1000) Descendants(window).OfType<ProjectProfilesPanel>().Single().BringIntoView();
             Pump();
             Capture(window, Path.Combine(output, $"workspace-project-{theme}-{width}.png"));
+            // File operations remain available through the actual overflow menu.
+            projectBar.BringIntoView(); Pump();
+            var more = (Wpf.Ui.Controls.Button)window.FindName("ProjectMore");
+            AssertWorkspaceBounds(window, more);
+            more.Focus(); more.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent)); Pump();
+            var menu = more.ContextMenu!;
+            if (!menu.IsOpen || !ReferenceEquals(menu.DataContext, project) || menu.Items.Count != 2
+                || !ReferenceEquals(((MenuItem)menu.Items[0]).Command, project.SaveAsCommand))
+                throw new Exception("Compact project menu lost its commands or project context.");
+            ((MenuItem)menu.Items[1]).RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent)); Pump();
+            var manager = window.OwnedWindows.OfType<ProjectWindow>().Single(w => w.IsVisible);
+            if (!ReferenceEquals(manager.DataContext, project)) throw new Exception("Manage project opened another document.");
+            manager.Close(); menu.IsOpen = false; Pump();
             var apply = Descendants(window).OfType<Wpf.Ui.Controls.Button>().First(b => b.Tag is ProjectProfile && b.Content?.ToString() == "Apply to Ethernet");
             apply.BringIntoView(); Pump();
             AssertWorkspaceBounds(window, apply);

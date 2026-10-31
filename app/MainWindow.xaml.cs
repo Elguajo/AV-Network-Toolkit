@@ -88,6 +88,15 @@ namespace NetworkProfileManager
             else _projectWindow.Activate();
         }
 
+        private void ProjectMore_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not FrameworkElement button || button.ContextMenu == null) return;
+            button.ContextMenu.DataContext = Project;
+            button.ContextMenu.PlacementTarget = button;
+            button.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+            button.ContextMenu.IsOpen = true;
+        }
+
         public MainWindow() : this(new MainViewModel(), null) { }
 
         // Component harness supplies fake NIC enumeration and isolated project IO.

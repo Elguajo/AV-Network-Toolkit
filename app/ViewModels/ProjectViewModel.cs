@@ -93,6 +93,7 @@ public sealed partial class ProjectViewModel : INotifyPropertyChanged
     }
     public ProjectProfileEditor Editor => _editor;
     public string FilePath => _snapshot?.Path ?? Loc.Get("Project.Unsaved", "Not saved");
+    public string FileName => _snapshot == null ? Loc.Get("Project.Unsaved", "Not saved") : Path.GetFileName(_snapshot.Path);
     public string Folder => _folder ?? "";
     public string BackupPath => _snapshot?.BackupPath ?? "";
     public string Error { get => _error; private set { _error = value; Changed(); Changed(nameof(HasFeedback)); } }
@@ -181,7 +182,7 @@ public sealed partial class ProjectViewModel : INotifyPropertyChanged
         _project = data;
         _documentDirty = false;
         _folder = Path.GetDirectoryName(saved.Path);
-        Changed(nameof(FilePath)); Changed(nameof(Folder)); Changed(nameof(BackupPath)); Changed(nameof(HasUnsavedChanges));
+        Changed(nameof(FilePath)); Changed(nameof(FileName)); Changed(nameof(Folder)); Changed(nameof(BackupPath)); Changed(nameof(HasUnsavedChanges));
         FileFeedback = Loc.Get("Ux.Saved");
     }
     private NetworkProject Current() => _project with { Profiles = Profiles.ToList(), Devices = Devices.ToList() };

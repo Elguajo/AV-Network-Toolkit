@@ -5,10 +5,17 @@
  xmlns:converters="clr-namespace:NetworkProfileManager.Converters">
  <UserControl.Resources><converters:ProjectProfileSummaryConverter x:Key="ProfileSummary"/></UserControl.Resources>
  <StackPanel>
-  <WrapPanel Margin="0,12,0,8">
-   <TextBlock Text="{DynamicResource Workspace.ProjectProfiles}" Style="{StaticResource SectionHeaderText}" Margin="0,0,16,8"/>
-   <ui:Button Content="{DynamicResource Profiles.AddButton}" Icon="{ui:SymbolIcon Add20}" Click="Add_Click" Margin="0,0,0,8"/>
-  </WrapPanel>
+  <DockPanel Margin="0,12,0,4" KeyboardNavigation.TabNavigation="Local">
+   <ui:Button DockPanel.Dock="Right" Content="{DynamicResource Profiles.AddButton}" Icon="{ui:SymbolIcon Add20}" Appearance="Primary" Click="Add_Click" Margin="8,0,0,4" KeyboardNavigation.TabIndex="1"/>
+   <WrapPanel VerticalAlignment="Center">
+    <TextBlock Text="{Binding TargetName, ElementName=PanelRoot, StringFormat={StaticResource Workspace.SavedFor}}" Style="{StaticResource SectionHeaderText}" TextWrapping="Wrap" Margin="0,0,12,4"/>
+    <ComboBox SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource AncestorType=TabControl}, Mode=TwoWay}" MaxWidth="154" Margin="0,0,0,4" KeyboardNavigation.TabIndex="0"
+              AutomationProperties.Name="{DynamicResource Workspace.ProfileSource}">
+     <ComboBoxItem Content="{DynamicResource Workspace.LocalSource}"/>
+     <ComboBoxItem Content="{DynamicResource Workspace.ProjectProfiles}"/>
+    </ComboBox>
+   </WrapPanel>
+  </DockPanel>
   <TextBlock Text="{DynamicResource Workspace.ProjectScopeHint}" Style="{StaticResource CaptionText}" TextWrapping="Wrap" Margin="0,0,0,12"/>
   <ItemsControl ItemsSource="{Binding Profiles}">
    <ItemsControl.ItemTemplate>

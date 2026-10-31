@@ -32,7 +32,7 @@ internal static partial class Program
             Capture(window, Path.Combine(output, "main-project.png"));
             if (!before)
             {
-                var save = Descendants(window).OfType<Wpf.Ui.Controls.Button>().Single(x => x.Content?.ToString() == Loc.Get("Ux.SaveProject"));
+                var save = Descendants(window).OfType<Wpf.Ui.Controls.Button>().Single(x => ReferenceEquals(x.Command, project.SaveCommand));
                 InvokeUxButton(save);
                 if (dialogs.SavePickers != 1 || project.HasUnsavedChanges || !File.Exists(dialogs.Save)) throw new Exception("First Save project did not create the explicit fixture file.");
                 var manager = new ProjectWindow(project) { Owner = window }; manager.Show(); Pump();

@@ -12,6 +12,9 @@ public partial class ProjectProfilesPanel : UserControl
     public static readonly DependencyProperty TargetLabelProperty = DependencyProperty.Register(
         nameof(TargetLabel), typeof(string), typeof(ProjectProfilesPanel), new PropertyMetadata("Apply"));
     public string TargetLabel { get => (string)GetValue(TargetLabelProperty); set => SetValue(TargetLabelProperty, value); }
+    public static readonly DependencyProperty TargetNameProperty = DependencyProperty.Register(
+        nameof(TargetName), typeof(string), typeof(ProjectProfilesPanel), new PropertyMetadata(""));
+    public string TargetName { get => (string)GetValue(TargetNameProperty); set => SetValue(TargetNameProperty, value); }
     public event Action<ProjectProfile>? ApplyRequested;
     private void Add_Click(object sender, RoutedEventArgs e) => Edit(null);
     private void Edit_Click(object sender, RoutedEventArgs e) => Edit((sender as FrameworkElement)?.Tag as ProjectProfile);

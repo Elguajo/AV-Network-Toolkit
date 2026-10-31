@@ -11,7 +11,24 @@
         WindowStartupLocation="CenterScreen"
         ExtendsContentIntoTitleBar="True"
         WindowBackdropType="Mica">
-
+  <ui:FluentWindow.Resources>
+   <Style x:Key="WorkspaceTabItem" TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
+    <Setter Property="Padding" Value="8,10"/>
+    <Setter Property="FocusVisualStyle" Value="{DynamicResource DefaultControlFocusVisualStyle}"/>
+    <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="TabItem">
+     <Grid>
+      <Border x:Name="Hover" Background="Transparent" CornerRadius="{DynamicResource ControlCornerRadius}"/>
+      <ContentPresenter x:Name="HeaderPresenter" ContentSource="Header" RecognizesAccessKey="True" Margin="{TemplateBinding Padding}" VerticalAlignment="Center"/>
+      <Border x:Name="SelectedLine" Height="2" VerticalAlignment="Bottom" Background="{DynamicResource AccentFillColorDefaultBrush}" Visibility="Collapsed"/>
+     </Grid>
+     <ControlTemplate.Triggers>
+      <Trigger Property="IsSelected" Value="True"><Setter TargetName="SelectedLine" Property="Visibility" Value="Visible"/><Setter TargetName="HeaderPresenter" Property="TextElement.FontWeight" Value="SemiBold"/></Trigger>
+      <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Hover" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/></Trigger>
+      <Trigger Property="IsEnabled" Value="False"><Setter Property="Foreground" Value="{DynamicResource TextFillColorDisabledBrush}"/></Trigger>
+     </ControlTemplate.Triggers>
+    </ControlTemplate></Setter.Value></Setter>
+   </Style>
+  </ui:FluentWindow.Resources>
 
   <Grid>
     <Grid.RowDefinitions>
@@ -152,27 +169,42 @@
                 </StackPanel>
               </WrapPanel>
 
-              <TextBlock Text="{DynamicResource Workspace.CurrentHint}" Style="{StaticResource CaptionText}" TextWrapping="Wrap"/>
-              <Border Style="{StaticResource Card}" Margin="0,16,0,12" DataContext="{Binding Project, ElementName=MainRoot}">
-               <StackPanel>
-                <WrapPanel>
-                 <TextBlock Text="{Binding ProjectName}" Style="{StaticResource SectionHeaderText}" Margin="0,0,16,8"/>
-                 <ui:Button Content="{DynamicResource Project.Open}" Command="{Binding OpenCommand}" Click="ProjectOpened_Click" Style="{StaticResource SubtleButton}" Padding="10,6"/>
-                 <ui:Button Content="{DynamicResource Ux.SaveProject}" Command="{Binding SaveCommand}" Appearance="Primary" Margin="0,0,8,0"/>
-                 <ui:Button Content="{DynamicResource Project.SaveAs}" Command="{Binding SaveAsCommand}" Style="{StaticResource SubtleButton}" Padding="10,6"/>
-                 <ui:Button Content="{DynamicResource Workspace.ManageProject}" Click="OpenProjectClick" Style="{StaticResource SubtleButton}" Padding="10,6"/>
-                </WrapPanel>
-                <TextBlock Text="{Binding FilePath}" Style="{StaticResource CaptionText}" TextWrapping="Wrap" ToolTip="{Binding FilePath}"/>
-                <TextBlock Text="{DynamicResource Project.UnsavedChanges}" Visibility="{Binding HasUnsavedChanges, Converter={StaticResource BoolToVis}}"/>
-               </StackPanel>
+              <Border x:Name="ProjectBar" Style="{StaticResource Card}" Padding="12,4" Margin="0,4,0,12" DataContext="{Binding Project, ElementName=MainRoot}">
+               <Grid>
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                <Grid Margin="0,0,12,0" VerticalAlignment="Center">
+                 <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                 <ui:SymbolIcon Symbol="Folder20" Margin="0,0,12,0" FontSize="20"/>
+                 <TextBlock Grid.Column="1" TextTrimming="CharacterEllipsis" ToolTip="{Binding FilePath}" VerticalAlignment="Center">
+                  <Run Text="{Binding ProjectName, Mode=OneWay}" FontWeight="SemiBold"/><Run Text="  ·  "/><Run Text="{Binding FileName, Mode=OneWay}"/>
+                  <InlineUIContainer><TextBlock Text=" *" ToolTip="{DynamicResource Project.UnsavedChanges}" AutomationProperties.Name="{DynamicResource Project.UnsavedChanges}"
+                    Visibility="{Binding HasUnsavedChanges, Converter={StaticResource BoolToVis}}"/></InlineUIContainer>
+                 </TextBlock>
+                </Grid>
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                 <ui:Button Content="{DynamicResource Workspace.OpenProject}" Icon="{ui:SymbolIcon FolderOpen20}" Command="{Binding OpenCommand}" Click="ProjectOpened_Click" Style="{StaticResource SubtleButton}" Padding="10,6"/>
+                 <ui:Button x:Name="SaveProject" Content="{DynamicResource Workspace.SaveProject}" Icon="{ui:SymbolIcon Save20}" Command="{Binding SaveCommand}" Style="{StaticResource SubtleButton}" Padding="10,6"/>
+                 <ui:Button x:Name="ProjectMore" Icon="{ui:SymbolIcon MoreHorizontal20}" Style="{StaticResource SubtleButton}" Padding="6" Click="ProjectMore_Click"
+                   ToolTip="{DynamicResource Workspace.MoreProject}" AutomationProperties.Name="{DynamicResource Workspace.MoreProject}">
+                  <ui:Button.ContextMenu><ContextMenu>
+                   <MenuItem Header="{DynamicResource Project.SaveAs}" Command="{Binding SaveAsCommand}"/>
+                   <MenuItem Header="{DynamicResource Workspace.ManageProject}" Click="OpenProjectClick"/>
+                  </ContextMenu></ui:Button.ContextMenu>
+                 </ui:Button>
+                </StackPanel>
+               </Grid>
               </Border>
-              <TabControl x:Name="WorkspaceTabs" AutomationProperties.Name="{DynamicResource Project.Sections}">
+              <TabControl x:Name="WorkspaceTabs" ItemContainerStyle="{StaticResource WorkspaceTabItem}" AutomationProperties.Name="{DynamicResource Project.Sections}">
                <TabItem Header="{DynamicResource Workspace.NetworkProfiles}">
                 <StackPanel>
-                 <TabControl x:Name="ProfileScopes" Margin="0,12,0,0" AutomationProperties.Name="{DynamicResource Workspace.ProfileSource}">
+                 <TabControl x:Name="ProfileScopes" SelectedIndex="0" AutomationProperties.Name="{DynamicResource Workspace.ProfileSource}">
+                  <TabControl.Template><ControlTemplate TargetType="TabControl">
+                   <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent"/>
+                  </ControlTemplate></TabControl.Template>
                   <TabItem Header="{DynamicResource Workspace.AdapterProfiles}"><views:ProfilePanel/></TabItem>
                   <TabItem Header="{DynamicResource Workspace.ProjectProfiles}">
                    <views:ProjectProfilesPanel x:Name="ProjectProfiles" DataContext="{Binding Project, ElementName=MainRoot}"
+                     TargetName="{Binding DataContext.SelectedAdapter.Name, ElementName=MainRoot}"
                      TargetLabel="{Binding DataContext.ApplyTargetLabel, ElementName=MainRoot}"/>
                   </TabItem>
                  </TabControl>
@@ -331,7 +363,8 @@
                  </Expander>
                 </StackPanel>
                </TabItem>
-               <TabItem Header="{DynamicResource Device.Header}">
+               <TabItem>
+                <TabItem.Header><TextBlock Text="{Binding Project.Devices.Count, ElementName=MainRoot, StringFormat={StaticResource Workspace.DeviceTab}}"/></TabItem.Header>
                 <Grid x:Name="DeviceWorkspace" DataContext="{Binding Project, ElementName=MainRoot}" Height="560"
                       MaxHeight="{Binding ViewportHeight, ElementName=RightPanel}" Margin="0,12,0,0">
                  <Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
