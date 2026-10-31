@@ -4,29 +4,33 @@
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
 
   <StackPanel>
-    <DockPanel Margin="0,12,0,4" KeyboardNavigation.TabNavigation="Local">
-      <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-        <ui:Button Style="{StaticResource SubtleButton}" Padding="6"
-                   Icon="{ui:SymbolIcon ArrowImport20}"
+    <Grid Margin="0,12,0,4" KeyboardNavigation.TabNavigation="Local">
+      <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+      <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+      <StackPanel x:Name="ProfileActions" Style="{StaticResource ProfileToolbarActions}">
+        <ui:Button Style="{StaticResource ProfileToolbarLink}"
                    Content="{DynamicResource Workspace.Import}"
                    KeyboardNavigation.TabIndex="1"
                    Command="{Binding ImportProfilesCommand}"
                    ToolTip="{DynamicResource Profiles.ImportTooltip}"
-                   AutomationProperties.Name="{DynamicResource Profiles.ImportTooltip}"/>
-        <ui:Button Style="{StaticResource SubtleButton}" Padding="6" Margin="2,0,8,0"
-                   Icon="{ui:SymbolIcon ArrowExportLtr20}"
+                   AutomationProperties.Name="{DynamicResource Profiles.ImportTooltip}">
+          <ui:Button.Icon><ui:SymbolIcon Symbol="ShareIos20" FontSize="24"/></ui:Button.Icon>
+        </ui:Button>
+        <Border x:Name="ProfileActionsDivider" Width="1" Height="20" Margin="8,0,12,0" VerticalAlignment="Center" Background="{DynamicResource ProfileToolbarDividerBrush}"/>
+        <ui:Button Style="{StaticResource ProfileToolbarLink}" Margin="0,0,14,0"
                    Content="{DynamicResource Workspace.Export}"
                    KeyboardNavigation.TabIndex="2"
                    Command="{Binding ExportProfilesCommand}"
                    ToolTip="{DynamicResource Profiles.ExportTooltip}"
-                   AutomationProperties.Name="{DynamicResource Profiles.ExportTooltip}"/>
-        <ui:Button Icon="{ui:SymbolIcon Add20}"
-                   Appearance="Primary"
+                   AutomationProperties.Name="{DynamicResource Profiles.ExportTooltip}">
+          <ui:Button.Icon><ui:SymbolIcon Symbol="ShareIos20" FontSize="24"/></ui:Button.Icon>
+        </ui:Button>
+        <ui:Button
                    KeyboardNavigation.TabIndex="3"
                    Content="{DynamicResource Profiles.AddButton}"
                    Click="AddProfile_Click">
           <ui:Button.Style>
-            <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+            <Style TargetType="ui:Button" BasedOn="{StaticResource ProfileToolbarAdd}">
               <Style.Triggers>
                 <DataTrigger Binding="{Binding SelectedAdapter.Profiles.Count}" Value="5">
                   <Setter Property="IsEnabled" Value="False"/>
@@ -37,9 +41,10 @@
               </Style.Triggers>
             </Style>
           </ui:Button.Style>
+          <ui:Button.Icon><ui:SymbolIcon Symbol="Add24" FontSize="24"/></ui:Button.Icon>
         </ui:Button>
       </StackPanel>
-      <WrapPanel VerticalAlignment="Center" Margin="0,0,12,0">
+      <WrapPanel Style="{StaticResource ProfileToolbarHeading}" Margin="0,0,12,0">
        <TextBlock Text="{Binding SelectedAdapter.Name, StringFormat={StaticResource Workspace.SavedFor}}" Style="{StaticResource SectionHeaderText}" TextWrapping="Wrap" Margin="0,0,12,4"/>
        <ComboBox SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource AncestorType=TabControl}, Mode=TwoWay}" MaxWidth="154" Margin="0,0,0,4" KeyboardNavigation.TabIndex="0"
                  ToolTip="{DynamicResource Ux.LocalScopeHint}" AutomationProperties.Name="{DynamicResource Workspace.ProfileSource}">
@@ -47,7 +52,7 @@
         <ComboBoxItem Content="{DynamicResource Workspace.ProjectProfiles}"/>
        </ComboBox>
       </WrapPanel>
-    </DockPanel>
+    </Grid>
     <TextBlock Text="{DynamicResource Workspace.LocalProfileHint}" Style="{StaticResource CaptionText}" TextWrapping="Wrap" Margin="0,0,0,12"/>
 
     <!-- Empty state -->
@@ -69,7 +74,10 @@
     <ItemsControl ItemsSource="{Binding SelectedAdapter.Profiles}">
       <ItemsControl.ItemTemplate>
         <DataTemplate>
-          <Border Style="{StaticResource Card}" Margin="0,0,0,4" Padding="16,10">
+          <Border Style="{StaticResource ProfileRow}" Margin="0,0,0,4">
+            <Border.Tag><MultiBinding Converter="{StaticResource ProfileCurrent}">
+              <Binding Path="Model"/><Binding Path="DataContext.SelectedAdapter.Info" RelativeSource="{RelativeSource AncestorType=Window}"/>
+            </MultiBinding></Border.Tag>
             <Grid>
               <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -79,44 +87,38 @@
                 <ColumnDefinition Width="Auto"/>
               </Grid.ColumnDefinitions>
 
-              <!-- Active profile: a check before the name, as in the tray menu.
-                   Hidden (not collapsed) on the others so names stay aligned.
-                   Apply stays available: the adapter may differ in ways the check can't see. -->
-              <Border Grid.Column="0" VerticalAlignment="Center" Margin="0,0,12,0"
-                      Background="Transparent"
-                      ToolTip="{DynamicResource Profiles.Active}"
-                      AutomationProperties.Name="{DynamicResource Profiles.Active}">
-                <Border.Style>
-                  <Style TargetType="Border">
-                    <Setter Property="Visibility" Value="Hidden"/>
-                    <Style.Triggers>
-                      <DataTrigger Binding="{Binding IsActive}" Value="True">
-                        <Setter Property="Visibility" Value="Visible"/>
-                      </DataTrigger>
-                    </Style.Triggers>
-                  </Style>
-                </Border.Style>
-                <ui:SymbolIcon Symbol="CheckmarkCircle20" Filled="True" FontSize="18"
-                               Foreground="{DynamicResource AccentFillColorDefaultBrush}"/>
+              <Border Grid.Column="0" Style="{StaticResource ProfileCurrentMark}" ToolTip="{DynamicResource Profiles.CurrentHint}" AutomationProperties.Name="{DynamicResource Profiles.Current}">
+                <ui:SymbolIcon Symbol="CheckmarkCircle20" Filled="True" FontSize="26"
+                               Foreground="{DynamicResource ProfileCurrentTickBrush}"/>
               </Border>
 
               <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="0,0,12,0">
-                <TextBlock Text="{Binding Name}" FontSize="14" TextTrimming="CharacterEllipsis"/>
-                <TextBlock Text="{Binding Summary}" Style="{StaticResource CaptionText}" Margin="0,2,0,0"/>
+                <TextBlock Text="{Binding Name}" Style="{StaticResource ProfileRowTitle}" ToolTip="{Binding Name}"/>
+                <TextBlock Text="{Binding Summary}" Style="{StaticResource ProfileRowCaption}" Margin="0,2,0,0"/>
               </StackPanel>
 
-              <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="0,0,12,0"
+              <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+               <TextBlock Text="{DynamicResource Profiles.Current}" Style="{StaticResource ProfileCurrentLabel}"/>
+               <Border Width="1" Height="40" Background="{DynamicResource ProfileCurrentRowBorderBrush}" Margin="0,0,16,0">
+                <Border.Style><Style TargetType="Border"><Setter Property="Visibility" Value="Collapsed"/>
+                 <Style.Triggers><DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType=Border}}" Value="True"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers>
+                </Style></Border.Style>
+               </Border>
+               <TextBlock VerticalAlignment="Center" Margin="0,0,12,0"
                          Style="{StaticResource CaptionText}"
                          Foreground="{DynamicResource TextFillColorTertiaryBrush}"
                          Text="{Binding ShortcutLabel}"/>
+              </StackPanel>
 
               <ui:Button Grid.Column="3" HorizontalAlignment="Stretch"
                          MaxWidth="200"
-                         Content="{Binding DataContext.ApplyTargetLabel, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                          Command="{Binding DataContext.ApplyProfileCommand,
                                    RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                          CommandParameter="{Binding}">
-                <ui:Button.ContentTemplate><DataTemplate><TextBlock Text="{Binding}" TextWrapping="Wrap" MaxWidth="176"/></DataTemplate></ui:Button.ContentTemplate>
+                <ui:Button.Style><Style TargetType="ui:Button" BasedOn="{StaticResource ProfileApply}">
+                  <Setter Property="Content" Value="{Binding DataContext.ApplyTargetLabel, RelativeSource={RelativeSource AncestorType=ItemsControl}}"/>
+                </Style></ui:Button.Style>
+                <ui:Button.ContentTemplate><DataTemplate><TextBlock Text="{Binding}" FontSize="16" TextWrapping="Wrap" MaxWidth="170"/></DataTemplate></ui:Button.ContentTemplate>
               </ui:Button>
 
               <ui:Button Grid.Column="4" Style="{StaticResource SubtleButton}" Padding="6" Margin="4,0,0,0"
@@ -126,6 +128,7 @@
                          Click="More_Click">
                 <ui:Button.ContextMenu>
                   <ContextMenu>
+                    <MenuItem Header="{DynamicResource Profiles.ApplyAgain}" Tag="{Binding}" Click="ApplyAgain_Click"/>
                     <MenuItem Header="{DynamicResource Common.Edit}" Tag="{Binding}" Click="EditProfile_Click">
                       <MenuItem.Icon>
                         <ui:SymbolIcon Symbol="Edit20"/>

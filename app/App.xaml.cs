@@ -181,6 +181,7 @@ namespace NetworkProfileManager
             // WPF-UI re-tints the main window and the windows it owns. Windows
             // opened from the tray have no owner, so refresh their Mica here.
             var theme = ApplicationThemeManager.GetAppTheme();
+            ProfileToolbarAppearance.Apply(theme);
             foreach (Window w in Current.Windows)
             {
                 if (w is FluentWindow fw && w != Current.MainWindow && w.Owner == null)

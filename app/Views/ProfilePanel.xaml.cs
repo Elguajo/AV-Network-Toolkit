@@ -46,6 +46,12 @@ namespace NetworkProfileManager.Views
                 vm.UpdateProfile(pvm, dialog.Result);
         }
 
+        private void ApplyAgain_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is FrameworkElement { Tag: ProfileViewModel profile } && DataContext is MainViewModel vm
+                && vm.ApplyProfileCommand.CanExecute(profile)) vm.ApplyProfileCommand.Execute(profile);
+        }
+
         private void DeleteProfile_Click(object sender, RoutedEventArgs e)
         {
             if (!(sender is FrameworkElement fe && fe.Tag is ProfileViewModel pvm)) return;

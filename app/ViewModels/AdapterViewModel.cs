@@ -44,6 +44,7 @@ namespace NetworkProfileManager.ViewModels
         public void UpdateInfo(AdapterInfo info)
         {
             _info = info;
+            OnPropertyChanged(nameof(Info));
             OnPropertyChanged(nameof(Name));
             OnPropertyChanged(nameof(Description));
             OnPropertyChanged(nameof(IsConnected));

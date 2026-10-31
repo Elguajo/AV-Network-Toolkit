@@ -38,6 +38,7 @@ internal static partial class Program
         { Source = new Uri("pack://application:,,,/NetworkProfileManager;component/Strings/En.xaml") });
         app.Resources.Add("BoolToVis", new NetworkProfileManager.Converters.BoolToVisibilityConverter());
         app.Resources.Add("AdapterTypeToSymbol", new NetworkProfileManager.Converters.AdapterTypeToSymbolConverter());
+        NetworkProfileManager.Helpers.ProfileToolbarAppearance.Apply(Wpf.Ui.Appearance.ApplicationTheme.Dark);
         try
         {
             if (args.Contains("--ux-before") || args.Contains("--ux-after"))
@@ -55,6 +56,7 @@ internal static partial class Program
                 var dictionaries = app.Resources.MergedDictionaries;
                 dictionaries[0] = new Wpf.Ui.Markup.ThemesDictionary
                 { Theme = theme == "Dark" ? Wpf.Ui.Appearance.ApplicationTheme.Dark : Wpf.Ui.Appearance.ApplicationTheme.Light };
+                NetworkProfileManager.Helpers.ProfileToolbarAppearance.Apply(theme == "Dark" ? Wpf.Ui.Appearance.ApplicationTheme.Dark : Wpf.Ui.Appearance.ApplicationTheme.Light);
                 dictionaries[dictionaries.Count - 1] = new ResourceDictionary
                 { Source = new Uri($"pack://application:,,,/NetworkProfileManager;component/Strings/{language}.xaml") };
                 var dialogs = new FakeDialogs();

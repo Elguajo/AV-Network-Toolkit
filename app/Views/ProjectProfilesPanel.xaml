@@ -5,9 +5,15 @@
  xmlns:converters="clr-namespace:NetworkProfileManager.Converters">
  <UserControl.Resources><converters:ProjectProfileSummaryConverter x:Key="ProfileSummary"/></UserControl.Resources>
  <StackPanel>
-  <DockPanel Margin="0,12,0,4" KeyboardNavigation.TabNavigation="Local">
-   <ui:Button DockPanel.Dock="Right" Content="{DynamicResource Profiles.AddButton}" Icon="{ui:SymbolIcon Add20}" Appearance="Primary" Click="Add_Click" Margin="8,0,0,4" KeyboardNavigation.TabIndex="1"/>
-   <WrapPanel VerticalAlignment="Center">
+  <Grid Margin="0,12,0,4" KeyboardNavigation.TabNavigation="Local">
+   <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+   <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+   <StackPanel Style="{StaticResource ProfileToolbarActions}">
+    <ui:Button Content="{DynamicResource Profiles.AddButton}" Style="{StaticResource ProfileToolbarAdd}" Click="Add_Click" KeyboardNavigation.TabIndex="1">
+     <ui:Button.Icon><ui:SymbolIcon Symbol="Add24" FontSize="24"/></ui:Button.Icon>
+    </ui:Button>
+   </StackPanel>
+   <WrapPanel Style="{StaticResource ProfileToolbarHeading}">
     <TextBlock Text="{Binding TargetName, ElementName=PanelRoot, StringFormat={StaticResource Workspace.SavedFor}}" Style="{StaticResource SectionHeaderText}" TextWrapping="Wrap" Margin="0,0,12,4"/>
     <ComboBox SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource AncestorType=TabControl}, Mode=TwoWay}" MaxWidth="154" Margin="0,0,0,4" KeyboardNavigation.TabIndex="0"
               AutomationProperties.Name="{DynamicResource Workspace.ProfileSource}">
@@ -15,26 +21,37 @@
      <ComboBoxItem Content="{DynamicResource Workspace.ProjectProfiles}"/>
     </ComboBox>
    </WrapPanel>
-  </DockPanel>
+  </Grid>
   <TextBlock Text="{DynamicResource Workspace.ProjectScopeHint}" Style="{StaticResource CaptionText}" TextWrapping="Wrap" Margin="0,0,0,12"/>
   <ItemsControl ItemsSource="{Binding Profiles}">
    <ItemsControl.ItemTemplate>
     <DataTemplate>
-     <Border Style="{StaticResource Card}" Padding="16,10" Margin="0,0,0,4">
+     <Border Style="{StaticResource ProfileRow}" Margin="0,0,0,4">
+      <Border.Tag><MultiBinding Converter="{StaticResource ProfileCurrent}">
+       <Binding/><Binding Path="DataContext.SelectedAdapter.Info" RelativeSource="{RelativeSource AncestorType=Window}"/>
+      </MultiBinding></Border.Tag>
       <Grid>
-       <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-       <StackPanel Margin="0,0,12,0" VerticalAlignment="Center">
-        <TextBlock Text="{Binding Name}" TextWrapping="Wrap" ToolTip="{Binding Id}"/>
-        <TextBlock Text="{Binding Converter={StaticResource ProfileSummary}}" Style="{StaticResource CaptionText}" TextWrapping="Wrap"/>
+       <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+       <Border Style="{StaticResource ProfileCurrentMark}" ToolTip="{DynamicResource Profiles.CurrentHint}" AutomationProperties.Name="{DynamicResource Profiles.Current}">
+        <ui:SymbolIcon Symbol="CheckmarkCircle20" Filled="True" FontSize="26" Foreground="{DynamicResource ProfileCurrentTickBrush}"/>
+       </Border>
+       <StackPanel Grid.Column="1" Margin="0,0,12,0" VerticalAlignment="Center">
+        <TextBlock Text="{Binding Name}" Style="{StaticResource ProfileRowTitle}" TextWrapping="Wrap" ToolTip="{Binding Id}"/>
+        <TextBlock Text="{Binding Converter={StaticResource ProfileSummary}}" Style="{StaticResource ProfileRowCaption}" TextWrapping="Wrap"/>
        </StackPanel>
-       <WrapPanel Grid.Column="1" MaxWidth="260" VerticalAlignment="Center">
-        <ui:Button Content="{Binding TargetLabel, ElementName=PanelRoot}" Click="Apply_Click" Tag="{Binding}" Margin="0,0,4,4" MaxWidth="200">
-         <ui:Button.ContentTemplate><DataTemplate><TextBlock Text="{Binding}" TextWrapping="Wrap" MaxWidth="176"/></DataTemplate></ui:Button.ContentTemplate>
+       <WrapPanel Grid.Column="2" MaxWidth="260" VerticalAlignment="Center">
+        <ui:Button Click="Apply_Click" Tag="{Binding}" Margin="0,0,4,4" MaxWidth="200">
+         <ui:Button.Style><Style TargetType="ui:Button" BasedOn="{StaticResource ProfileApply}"><Setter Property="Content" Value="{Binding TargetLabel, ElementName=PanelRoot}"/></Style></ui:Button.Style>
+         <ui:Button.ContentTemplate><DataTemplate><TextBlock Text="{Binding}" FontSize="16" TextWrapping="Wrap" MaxWidth="170"/></DataTemplate></ui:Button.ContentTemplate>
         </ui:Button>
-        <ui:Button Icon="{ui:SymbolIcon Edit20}" Click="Edit_Click" Tag="{Binding}" Style="{StaticResource SubtleButton}" Padding="6"
-          ToolTip="{DynamicResource Common.Edit}" AutomationProperties.Name="{DynamicResource Common.Edit}"/>
-        <ui:Button Icon="{ui:SymbolIcon Delete20}" Click="Delete_Click" Tag="{Binding}" Style="{StaticResource SubtleButton}" Padding="6"
-          ToolTip="{DynamicResource Common.Delete}" AutomationProperties.Name="{DynamicResource Common.Delete}"/>
+        <ui:Button Icon="{ui:SymbolIcon MoreHorizontal20}" Click="More_Click" Tag="{Binding}" Style="{StaticResource SubtleButton}" Padding="6"
+          ToolTip="{DynamicResource Profiles.More}" AutomationProperties.Name="{DynamicResource Profiles.More}">
+         <ui:Button.ContextMenu><ContextMenu>
+          <MenuItem Header="{DynamicResource Profiles.ApplyAgain}" Tag="{Binding}" Click="Apply_Click"/>
+          <MenuItem Header="{DynamicResource Common.Edit}" Tag="{Binding}" Click="Edit_Click"/>
+          <MenuItem Header="{DynamicResource Common.Delete}" Tag="{Binding}" Click="Delete_Click"/>
+         </ContextMenu></ui:Button.ContextMenu>
+        </ui:Button>
        </WrapPanel>
       </Grid>
      </Border>

@@ -51,6 +51,32 @@ internal static partial class Program
             var projectBar = (FrameworkElement)window.FindName("ProjectBar");
             if (projectBar.ActualHeight > 52) throw new Exception("Compact project bar expanded beyond one row.");
             Capture(window, Path.Combine(output, $"workspace-adapter-{theme}-{width}.png"));
+            var selectedLocal = Descendants(localPanel).OfType<Wpf.Ui.Controls.Button>().Single(b => b.Content?.ToString() == Loc.Get("Profiles.Selected"));
+            if (selectedLocal.IsEnabled) throw new Exception("Selected is an executable Apply action.");
+            var selectedCard = Descendants(localPanel).OfType<Border>().Single(b => b.Tag is true);
+            selectedCard.BringIntoView(); Pump();
+            CaptureToolbar(selectedCard, window, Path.Combine(output, $"current-row-{theme}-{width}.png"));
+            var initialInfo = main.SelectedAdapter!.Info;
+            main.SelectedAdapter.UpdateInfo(new() { Id = initialInfo.Id, Name = initialInfo.Name, CurrentIp = initialInfo.CurrentIp,
+                CurrentSubnet = initialInfo.CurrentSubnet, CurrentGateway = "192.0.2.1", IsConnected = true }); Pump();
+            if (Descendants(localPanel).OfType<Wpf.Ui.Controls.Button>().Any(b => b.Content?.ToString() == Loc.Get("Profiles.Selected")))
+                throw new Exception("Observed mismatch retained Selected.");
+            main.SelectedAdapter.UpdateInfo(initialInfo); Pump();
+            if (!Descendants(localPanel).OfType<Wpf.Ui.Controls.Button>().Any(b => b.Content?.ToString() == Loc.Get("Profiles.Selected")))
+                throw new Exception("Observed restoration did not refresh Selected.");
+            var actions = (FrameworkElement)localPanel.FindName("ProfileActions");
+            actions.BringIntoView(); Pump(); AssertWorkspaceBounds(window, actions);
+            var import = Descendants(actions).OfType<Wpf.Ui.Controls.Button>().Single(b => ReferenceEquals(b.Command, main.ImportProfilesCommand));
+            var originalLink = ((System.Windows.Media.SolidColorBrush)import.Foreground).Color;
+            ProfileToolbarAppearance.Apply(theme == "Dark" ? Wpf.Ui.Appearance.ApplicationTheme.Light : Wpf.Ui.Appearance.ApplicationTheme.Dark); Pump();
+            if (((System.Windows.Media.SolidColorBrush)import.Foreground).Color == originalLink) throw new Exception("Toolbar did not update its link palette on the existing window.");
+            ProfileToolbarAppearance.Apply(Wpf.Ui.Appearance.ApplicationTheme.HighContrast); Pump();
+            if (!ReferenceEquals(import.Foreground, SystemColors.ControlTextBrush)) throw new Exception("High contrast toolbar did not use system text colors.");
+            ProfileToolbarAppearance.Apply(theme == "Dark" ? Wpf.Ui.Appearance.ApplicationTheme.Dark : Wpf.Ui.Appearance.ApplicationTheme.Light); Pump();
+            CaptureToolbar(actions, window, Path.Combine(output, $"toolbar-{theme}-{width}.png"));
+            var divider = (Border)localPanel.FindName("ProfileActionsDivider");
+            File.WriteAllText(Path.Combine(output, $"toolbar-metrics-{theme}-{width}.txt"),
+                $"Actions: {actions.ActualWidth}x{actions.ActualHeight}; divider {divider.ActualWidth}x{divider.ActualHeight} at {divider.TranslatePoint(new Point(), actions)}, brush {divider.Background}");
             var source = Descendants(localPanel).OfType<ComboBox>().Single(); source.Focus(); Pump();
             if (!source.IsKeyboardFocusWithin) throw new Exception("Profile source cannot receive keyboard focus.");
             var addLocal = Descendants(localPanel).OfType<Wpf.Ui.Controls.Button>().Single(b => b.Content?.ToString() == Loc.Get("Profiles.AddButton"));
@@ -59,10 +85,26 @@ internal static partial class Program
                 ((UIElement)System.Windows.Input.Keyboard.FocusedElement).MoveFocus(new(System.Windows.Input.FocusNavigationDirection.Next)); Pump();
             }
             if (!addLocal.IsKeyboardFocusWithin) throw new Exception("Source → Import → Export → Add keyboard order was lost.");
+            Capture(window, Path.Combine(output, $"toolbar-focus-{theme}-{width}.png"));
+            var limitProfile = new ProfileViewModel(new() { Name = "Fifth slot fixture", IpAddress = "192.0.2.101" });
+            main.SelectedAdapter!.Profiles.Add(limitProfile); Pump();
+            if (addLocal.IsEnabled) throw new Exception("Styled Add ignored the five-slot limit.");
+            CaptureToolbar(actions, window, Path.Combine(output, $"toolbar-disabled-{theme}-{width}.png"));
+            main.SelectedAdapter.Profiles.Remove(limitProfile); Pump();
+            if (!addLocal.IsEnabled) throw new Exception("Styled Add did not re-enable after removing the fifth fixture.");
             source.SelectedIndex = 1; Pump();
             if (scopes.SelectedIndex != 1 || project.Profiles.Count != 4 || main.SelectedAdapter!.Profiles.Count != 4)
                 throw new Exception("Source selector failed or moved profiles between stores.");
             var projectSource = Descendants(window).OfType<ProjectProfilesPanel>().Single();
+            var selectedProject = Descendants(projectSource).OfType<Wpf.Ui.Controls.Button>().Single(b => b.Content?.ToString() == Loc.Get("Profiles.Selected"));
+            if (selectedProject.IsEnabled) throw new Exception("Project Selected is an executable Apply action.");
+            project.SelectedProfile = project.Profiles[1]; Pump();
+            if (selectedProject.Content?.ToString() != Loc.Get("Profiles.Selected")) throw new Exception("Editing selection replaced observed state.");
+            var currentMenu = Descendants(projectSource).OfType<Wpf.Ui.Controls.Button>().Single(b => b.Tag is ProjectProfile p && p.Id == project.Profiles[0].Id && b.ContextMenu != null);
+            currentMenu.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent)); Pump();
+            ((MenuItem)currentMenu.ContextMenu!.Items[0]).RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent)); currentMenu.ContextMenu.IsOpen = false; Pump();
+            if (requested != 1 || target != id) throw new Exception("Current profile's explicit reapply was lost.");
+            requested = 0; target = null; requestedDevice = null;
             var sourceBack = Descendants(projectSource).OfType<ComboBox>().Single(); sourceBack.SelectedIndex = 0; Pump();
             if (scopes.SelectedIndex != 0 || !localPanel.IsVisible) throw new Exception("Source selector could not return to adapter profiles.");
             source.SelectedIndex = 1; Pump();
@@ -164,5 +206,21 @@ internal static partial class Program
         if (element.ActualWidth <= 0 || element.ActualHeight <= 0 || point.X < 0 || point.Y < 0
             || point.X + element.ActualWidth > window.ActualWidth + 1 || point.Y + element.ActualHeight > window.ActualHeight + 1)
             throw new Exception("Workspace action clipped at window size: " + element.GetType().Name);
+    }
+
+    private static void CaptureToolbar(FrameworkElement toolbar, Window window, string path)
+    {
+        var drawing = new System.Windows.Media.DrawingVisual();
+        using (var context = drawing.RenderOpen())
+        {
+            var bounds = new Rect(0, 0, toolbar.ActualWidth, toolbar.ActualHeight);
+            context.DrawRectangle((System.Windows.Media.Brush)window.FindResource("ApplicationBackgroundBrush"), null, bounds);
+            context.DrawRectangle(new System.Windows.Media.VisualBrush(toolbar), null, bounds);
+        }
+        var bitmap = new System.Windows.Media.Imaging.RenderTargetBitmap((int)toolbar.ActualWidth, (int)toolbar.ActualHeight, 96, 96, System.Windows.Media.PixelFormats.Pbgra32);
+        bitmap.Render(drawing);
+        var encoder = new System.Windows.Media.Imaging.PngBitmapEncoder();
+        encoder.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(bitmap));
+        using var stream = File.Create(path); encoder.Save(stream);
     }
 }

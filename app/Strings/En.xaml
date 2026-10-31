@@ -447,4 +447,8 @@
     <sys:String x:Key="Workspace.Import">Import</sys:String>
     <sys:String x:Key="Workspace.Export">Export</sys:String>
     <sys:String x:Key="Workspace.LocalSource">This computer</sys:String>
+    <sys:String x:Key="Profiles.Selected">Selected</sys:String>
+    <sys:String x:Key="Profiles.Current">Current configuration</sys:String>
+    <sys:String x:Key="Profiles.CurrentHint">Matches this adapter's reported static IPv4 settings. To apply again, use the profile menu.</sys:String>
+    <sys:String x:Key="Profiles.ApplyAgain">Apply profile again…</sys:String>
 </ResourceDictionary>
