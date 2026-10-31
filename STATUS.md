@@ -13,6 +13,14 @@
 - **Review packet:** [Phase 03 exact commands, artifacts, outcome and limitations](docs/testing/PHASE03_REVIEW.md).
 - **Last verification date:** 2026-10-31 (Asia/Tashkent).
 
+## Deferred Ping planning — 2026-10-31 (ADR-016)
+
+- **Fork / branch / HEAD:** https://github.com/Elguajo/AV-Network-Toolkit / codex/plan-adapter-ping / base e861c3a426f24e0103e9cc26b7e82b6e2f1e503f; resolve this planning commit with `git log -1 --format=%H -- phases/07-adapter-hyperv-diagnostics.md`.
+- **Active phase / completed / in progress:** Phase 03 AWAITING_REVIEW; no task or phase newly completed. Future 07-T02/07-T04 requirements recorded only, not started. Phase 03 implementation commit is e861c3a426f24e0103e9cc26b7e82b6e2f1e503f.
+- **Blocker / risk:** current Ping is destination-only and does not bind to the selected adapter. Screenshot showed Wi-Fi routing with an unreachable result; Ethernet mask/assignment and device reachability remain UNVERIFIED.
+- **Next action:** owner review of Phase 03 remains the active gate; implement deferred Ping work only when its phase is authorized.
+- **Checks for this planning change:** `& "$env:LOCALAPPDATA/AVNetworkToolkit.BuildTools/python/Scripts/python.exe" -B scripts/validate_plan.py` PASS (9 phases, 49 stable tasks, schema/formats/references and 107 links); `git diff --check` PASS. Application/live tests NOT RUN for this documentation-only change. Prior Phase 03 evidence above is unchanged.
+
 The following previous header snapshot is historical; ADR-015 and the current state above supersede its authorization/next-action fields.
 
 - **Fork URL:** https://github.com/Elguajo/AV-Network-Toolkit
@@ -197,3 +205,18 @@ Exact evidence and reproducible adoption check: [test matrix](docs/testing/TEST_
 ### Phase 03 commit verification
 
 Feature commit `e861c3a426f24e0103e9cc26b7e82b6e2f1e503f` contains the reviewed implementation and pre-commit evidence. Commit succeeded; working tree was clean immediately afterward. This follow-up only fills exact SHA/evidence pointers in STATUS, plan and review matrix/packet. Final containing documentation SHA is resolved with `git log -1 --format=%H -- STATUS.md`; it cannot embed itself. No new application/test change, merge, push or phase completion. Post-commit whitespace/planning/clean-state verification is performed after this documentation commit and reported in chat.
+
+## Session handoff — 2026-10-31, deferred Ping planning
+
+- Date and environment: 2026-10-31, Asia/Tashkent; Windows/PowerShell; documentation-only work.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / codex/plan-adapter-ping / base e861c3a426f24e0103e9cc26b7e82b6e2f1e503f; containing commit resolved through the phase-file log command above.
+- Current phase and task IDs: Phase 03 AWAITING_REVIEW; future requirements for 07-T02/07-T04, NOT_STARTED.
+- What was actually completed: owner-requested backlog adoption (ADR-016), synchronized Markdown/machine plan; no feature implementation or phase completion.
+- Files changed: TASKS.md, phases/07-adapter-hyperv-diagnostics.md, machine/plan.json, decisions/DECISION_LOG.md and STATUS.md.
+- Test commands and results: offline scripts/validate_plan.py PASS, 9 phases/49 stable tasks/107 links plus schema/formats/references; git diff --check PASS. Application tests NOT RUN; no application changes.
+- Live-network tests: NOT RUN / not authorized; no probes, scans, adapter/configuration changes or elevation.
+- Known bugs, risk and workarounds: destination-only Ping may use another interface; Wi-Fi screenshot does not establish Ethernet/device availability. Private addresses omitted; mask and adapter assignment UNVERIFIED.
+- Decisions requiring user approval: Phase 03 acceptance and later phase execution/publication gates unchanged. Planning adoption already requested.
+- Remaining tasks in active phase: owner review/manual acceptance per Phase 03 review packet; no checkbox changed here.
+- Next smallest safe action: review Phase 03; retain deferred Ping requirements for authorized Phase 07 execution.
+- Can next session proceed without clarification: inspect/review yes; deferred Ping implementation/live testing/phase advancement no without their authorization.

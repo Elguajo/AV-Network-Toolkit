@@ -311,6 +311,10 @@
           "id": "07-T02",
           "title": "Add diagnostics: IPv4/DHCP/DNS/gateway/route/link status",
           "acceptance": "Clearly distinguish interface-derived vs probe-derived status",
+          "plannedDetails": [
+            "ADR-016: Explicit adapter/source IPv4 selection for inline Ping and Ping window; no silent interface fallback or network configuration changes",
+            "Show adapter identity, source IPv4 and route/next hop; distinguish requested, OS-predicted and observed values"
+          ],
           "status": "NOT_STARTED"
         },
         {
@@ -323,6 +327,10 @@
           "id": "07-T04",
           "title": "Extend tests for enumeration/failures/performance",
           "acceptance": "Virtual and unplugged adapters included in fixtures; existing behavior preserved",
+          "plannedDetails": [
+            "ADR-016: Fake-probe/routing tests for Ethernet plus Wi-Fi, overlapping subnets, missing routes, multiple sources, adapter removal and selection changes during Ping; preserve result attribution",
+            "Real traffic validation remains separately authorized and isolated"
+          ],
           "status": "NOT_STARTED"
         }
       ]

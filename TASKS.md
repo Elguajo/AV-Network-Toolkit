@@ -65,8 +65,10 @@
 
 - [ ] **07-T01** — Map physical, USB, Wi-Fi, virtual and Hyper-V adapters without false binding. **AC:** Unambiguous selection and stable hints; never choose adapter silently.
 - [ ] **07-T02** — Add diagnostics: IPv4/DHCP/DNS/gateway/route/link status. **AC:** Clearly distinguish interface-derived vs probe-derived status.
+  - Future Ping work (ADR-016): explicit Ethernet/Wi-Fi adapter and source IPv4 selection; show adapter identity, source IPv4 and route/next hop, distinguishing requested settings from observed routing. Cover both the inline Ping and the separate Ping window. Never silently fall back to another adapter or change network configuration.
 - [ ] **07-T03** — Add opt-in Hyper-V uplink filtering and persistence. **AC:** Adapter hiding affects UI only, never silently disables interfaces.
 - [ ] **07-T04** — Extend tests for enumeration/failures/performance. **AC:** Virtual and unplugged adapters included in fixtures; existing behavior preserved.
+  - Future Ping coverage (ADR-016): simultaneous Ethernet and Wi-Fi, overlapping subnets, missing routes, multiple source addresses, adapter removal and selection changes during a request; fake all OS/probe boundaries. Live validation requires separate approval and an isolated environment.
 
 ## Phase 08: Temporary DHCP server (P2)
 
