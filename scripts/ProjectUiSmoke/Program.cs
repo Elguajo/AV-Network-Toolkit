@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Collections.Immutable;
 using System.IO;
 using System.Windows;
 using System.Windows.Automation;
@@ -190,15 +191,93 @@ internal static class Program
                 dialogs.Discard = true;
                 if (!window.ConfirmApplicationExit()) throw new Exception("Confirmed exit was rejected.");
                 window.Close();
+                RenderApply(output, theme, width == 900 ? 760 : 620, height == 780 ? 760 : 520);
             }
             if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
-            Console.WriteLine("PASS: 20 isolated project/device renders (Light/Dark, normal/minimum; empty/selected/error/details), 24 linked devices, bound edits/selection/search/group retention, fake launch/cancel, visible footer, named controls, forward focus traversal, close/exit device draft guards, 0 WPF binding errors; no browser/NIC/OS-network calls.");
+            Console.WriteLine("PASS: 40 isolated project/device/apply renders (Light/Dark, normal/minimum), explicit NIC selection and review/consent, apply failure/no browser, verified recovery/no browser, named controls, visible footer, existing directory/focus/draft guards, 0 WPF binding errors; all NIC/process/elevation/browser boundaries fake.");
             return 0;
         }
         catch (Exception ex) { Console.Error.WriteLine(ex); return 1; }
         finally { app.Shutdown(); }
     }
     private static void Pump() => Dispatcher.CurrentDispatcher.Invoke(() => { }, DispatcherPriority.ApplicationIdle);
+    private static void RenderApply(string output, string theme, int width, int height)
+    {
+        var fixture = new ApplyFixture();
+        var profile = new ProjectProfile { Name = "AV static network", Mode = "static", Ipv4 = new()
+        { Address = "192.0.2.20", PrefixLength = 24, Gateway = null, Dns = new() { Mode = "static", Servers = new() { "192.0.2.55", "192.0.2.56" } } } };
+        var vm = new ProjectApplyViewModel(profile, new ProjectDevice { Name = "Panel", ProfileId = profile.Id, WebUrl = "https://192.0.2.44:8443/panel?view=main#!/status" },
+            fixture, fixture, fixture, _ => Task.FromResult<IReadOnlyList<ApplyAdapterIdentity>>(new[] { fixture.Snapshot.Identity }),
+            () => Array.Empty<ProjectApplyRequest>(), fixture, verificationAttempts: 1);
+        var window = new ProjectApplyWindow(vm) { Width = width, Height = height }; window.Show(); Pump();
+        vm.RefreshAsync().GetAwaiter().GetResult(); Pump();
+        if (vm.SelectedAdapter != null || vm.ApplyCommand.CanExecute(null) || vm.ReviewCommand.CanExecute(null)) throw new Exception("Apply selected a NIC implicitly.");
+        Capture(window, Path.Combine(output, $"apply-empty-{theme}-{width}.png"));
+        vm.SelectedAdapter = vm.Adapters[0]; vm.ReviewAsync(false).GetAwaiter().GetResult(); Pump();
+        if (!vm.Review.Contains("192.0.2.10") || !vm.Review.Contains("192.0.2.20") || fixture.Executed != 0) throw new Exception("Apply review lacks old/new state.");
+        var confirm = Descendants(window).OfType<Wpf.Ui.Controls.Button>().Single(b => ReferenceEquals(b.Command, vm.ApplyCommand));
+        var bounds = confirm.TransformToAncestor(window).TransformBounds(new Rect(confirm.RenderSize));
+        if (!confirm.IsEnabled || bounds.Bottom > window.ActualHeight || bounds.Right > window.ActualWidth) throw new Exception("Apply footer clipped.");
+        foreach (var control in Descendants(window).OfType<ComboBox>())
+            if (string.IsNullOrWhiteSpace(AutomationProperties.GetName(control))) throw new Exception("Unnamed Apply selector.");
+        var adapterSelector = Descendants(window).OfType<ComboBox>().Single(c => ReferenceEquals(c.ItemsSource, vm.Adapters));
+        adapterSelector.Focus(); Pump(); bool reached = confirm.IsKeyboardFocusWithin;
+        for (var i = 0; i < 40 && !reached; i++)
+        {
+            if (System.Windows.Input.Keyboard.FocusedElement is not UIElement focused) break;
+            focused.MoveFocus(new System.Windows.Input.TraversalRequest(System.Windows.Input.FocusNavigationDirection.Next)); Pump(); reached = confirm.IsKeyboardFocusWithin;
+        }
+        if (!reached) throw new Exception("Apply confirmation unreachable by forward focus.");
+        Descendants(window).OfType<ScrollViewer>().First().ScrollToTop(); Pump();
+        Capture(window, Path.Combine(output, $"apply-review-{theme}-{width}.png"));
+        vm.ApplyAsync().GetAwaiter().GetResult(); if (fixture.Executed != 0) throw new Exception("Apply ignored declined confirmation.");
+        fixture.Consent = true; vm.ApplyAsync().GetAwaiter().GetResult(); Pump();
+        if (fixture.Executed != 1 || fixture.Opened != 0 || vm.Observed.Length == 0) throw new Exception("Apply failure opened browser or hid observation.");
+        Descendants(window).OfType<ScrollViewer>().First().ScrollToBottom(); Pump();
+        Capture(window, Path.Combine(output, $"apply-error-{theme}-{width}.png"));
+        fixture.Fail = false; vm.ReviewAsync(true).GetAwaiter().GetResult(); Pump();
+        Capture(window, Path.Combine(output, $"apply-recovery-{theme}-{width}.png"));
+        vm.ApplyAsync().GetAwaiter().GetResult(); Pump();
+        if (fixture.Executed != 2 || fixture.Opened != 0) throw new Exception("Recovery did not remain explicit and browser-free.");
+        Capture(window, Path.Combine(output, $"apply-recovered-{theme}-{width}.png"));
+        fixture.Hold = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        vm.ReviewAsync(false).GetAwaiter().GetResult();
+        var pending = vm.ApplyAsync();
+        if (!vm.IsBusy) throw new Exception("Pending apply did not freeze the surface.");
+        window.Close(); Pump();
+        if (!window.IsVisible || window.ConfirmApplicationExit()) throw new Exception("Busy Apply allowed window/application exit.");
+        fixture.Hold.SetResult();
+        var deadline = DateTime.UtcNow.AddSeconds(10);
+        while (!pending.IsCompleted && DateTime.UtcNow < deadline) Pump();
+        if (!pending.IsCompleted) throw new Exception("Cancelled fake apply did not finish observation.");
+        pending.GetAwaiter().GetResult();
+        if (vm.IsBusy || fixture.Opened != 0 || !window.ConfirmApplicationExit()) throw new Exception("Cancel/observe/exit ordering failed.");
+        window.Close();
+    }
+    private sealed class ApplyFixture : IProjectApplyBoundary, IProjectApplyJournal, IBrowserLauncher, IProjectApplyDialogs
+    {
+        internal ApplyAdapterSnapshot Snapshot = new(new(Guid.NewGuid(), 12, "Ethernet fixture", "02-00-00-00-00-01"), false,
+            ImmutableArray.Create(new ApplyAddress("192.0.2.10", 24, "manual", "preferred")), "static", ImmutableArray.Create("192.0.2.53", "192.0.2.54"),
+            ImmutableArray<ApplyRoute>.Empty, true, ImmutableArray.Create(new ApplyAddress("192.0.2.10", 24, "manual", "preferred")));
+        internal bool Consent, Fail = true;
+        internal int Executed, Opened;
+        internal TaskCompletionSource? Hold;
+        public Task<ApplyAdapterSnapshot> ReadAsync(ApplyAdapterIdentity identity, CancellationToken cancellation) => Task.FromResult(Snapshot);
+        public void ValidateSupported(ApplyAdapterSnapshot s, ApplyIntent d, bool recovery) { if (!s.ClassificationComplete) throw new InvalidOperationException(); }
+        public async Task<ApplyExecutionResult> ExecuteAsync(ProjectApplyRequest request, CancellationToken cancellation)
+        {
+            Executed++;
+            if (Hold != null) await Hold.Task;
+            if (Fail) return new ApplyExecutionResult(ApplyExecutionStatus.Failed, true, "DnsSecondary");
+            var d = request.Desired; var a = new ApplyAddress(d.Address!, d.PrefixLength, "manual", "preferred");
+            Snapshot = Snapshot with { Addresses = ImmutableArray.Create(a), PersistentAddresses = ImmutableArray.Create(a), DnsSource = d.DnsMode, DnsServers = d.DnsServers };
+            return new ApplyExecutionResult(ApplyExecutionStatus.Finished, true, "CommandsFinished");
+        }
+        public Task BeginAsync(ProjectApplyRequest request, CancellationToken cancellation) => Task.CompletedTask;
+        public Task FinishAsync(Guid id, ProjectApplyOutcome outcome) => Task.CompletedTask;
+        public void Open(string destination) => Opened++;
+        public bool Confirm(string review, bool recovery) => Consent;
+    }
     private static void Capture(Window window, string path)
     {
         var bitmap = new RenderTargetBitmap((int)window.ActualWidth, (int)window.ActualHeight, 96, 96, PixelFormats.Pbgra32);

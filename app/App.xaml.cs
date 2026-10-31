@@ -31,6 +31,13 @@ namespace NetworkProfileManager
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            if (e.Args.Length > 0 && e.Args[0] == ProjectApplyElevation.WorkerSwitch)
+            {
+                int code = e.Args.Length == 3
+                    ? System.Threading.Tasks.Task.Run(() => ProjectApplyElevation.RunWorkerAsync(e.Args[1], e.Args[2])).GetAwaiter().GetResult() : 1;
+                Environment.Exit(code);
+                return;
+            }
             // Elevated netsh worker mode (--run-netsh <request> <result>):
             // launched by ElevationHelper via UAC. No UI, no tray — run the
             // batch and exit with the worker's result code.
@@ -281,6 +288,8 @@ namespace NetworkProfileManager
                 {
                     // Application.Shutdown bypasses cancellable owned-window closing.
                     // Protect the new project draft before retaining the existing exit flow.
+                    foreach (var apply in Windows.OfType<ProjectApplyWindow>().ToArray())
+                        if (!apply.ConfirmApplicationExit()) return;
                     foreach (var project in Windows.OfType<ProjectWindow>().ToArray())
                         if (!project.ConfirmApplicationExit()) return;
                     IsExiting = true;

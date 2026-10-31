@@ -91,3 +91,9 @@ Commit this documentation/rule update directly on main, run schema/planning/tool
 ## ADR-018 — Match application display name to the fork, 2026-10-31
 
 Owner reported «Названия приложение не соотвествует названию нашего форк репо». This authorizes the bounded correction to **AV Network Toolkit** for the existing App.Title resource, tray tooltip and AssemblyTitle/Product metadata. Tray reads the existing localized title resource. Preserve internal assembly/executable/namespace names, startup registry identity, data paths, JSON, MIT attribution, layout and network behavior. This supersedes the earlier identity-preservation constraint for display/product wording only; no executable/data migration, later phase, live test, push or release authorization. Work directly on main under ADR-017 and commit the verified change locally.
+
+## ADR-019 — Phase 04 start and conservative support boundary, 2026-10-31
+
+Owner explicitly requested «Начинай фазу 4 на новом чате». This authorizes 04-T01–04-T07 directly on main, based on abdd1d1c61dd4f0d6b39adfc24ee69ff46367cbc, preserving the unpublished branding commit. Supersedes historical Phase 04 NOT AUTHORIZED snapshots only; no fabricated prior manual acceptance. No push, live network/UAC/browser tests, release or Phase 05 authorization.
+
+After reviewing the explicit preserve-or-block proposal, owner answered «Утверждаю: блокировать сложное/неподтверждённое». Support only fully classified ordinary IPv4, one address, at most one gateway and ordinary known DNS. Block extra addresses/gateways, custom routes, policy-managed/unknown state before mutation. Block static-IP/automatic-DNS and /31–/32 until semantics are proved. JSON v1 storage remains unchanged. See [concrete implementation/recovery contract](../docs/spec/PHASE04_IMPLEMENTATION_CONTRACT.md). Keep legacy behavior compatible; do not repurpose its incomplete history for new recovery.

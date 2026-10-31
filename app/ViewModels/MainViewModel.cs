@@ -155,6 +155,12 @@ namespace NetworkProfileManager.ViewModels
             Func<string> successMsg,
             string? errorKey = null)
         {
+            using var mutationLease = NetworkMutationLease.TryAcquire();
+            if (mutationLease == null)
+            {
+                NotificationService.Error(Helpers.Loc.Get("Apply.Busy"));
+                return;
+            }
             IsLoading = true;
             try
             {

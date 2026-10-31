@@ -1,4 +1,15 @@
-# Current implementation status — PHASE_03_AWAITING_REVIEW
+# Current implementation status — PHASE_04_AWAITING_REVIEW
+
+- **Fork / branch / starting HEAD:** https://github.com/Elguajo/AV-Network-Toolkit / main / abdd1d1c61dd4f0d6b39adfc24ee69ff46367cbc. Local branding commit preserved; no reset, branch/worktree or push.
+- **Implementation commit:** resolve `git log -1 --format=%H -- app/Services/ProjectApplyCoordinator.cs`; exact post-commit anchor is appended in the handoff. No phase is marked complete.
+- **Active phase / authorization:** 04 AWAITING_REVIEW, 04-T01–04-T07 EVIDENCE_RECORDED under ADR-019. Owner approved blocking complex/unknown state and unproved static automatic DNS and /31–/32 before mutation.
+- **Completed / in progress:** implementation, isolated tests, component verification and separate legacy review recorded. Owner acceptance and live/manual integration remain pending; no unfinished authorized implementation task or known failed automated check.
+- **Blockers / risks:** owner review gate. Real Windows observation/netsh/UAC/IPC/recovery semantics UNVERIFIED; bounded identity/filesystem/policy races, restrictive support and journal retention remain. Historical limitations preserved.
+- **Next action:** owner reviews [Phase 04 packet](docs/testing/PHASE04_REVIEW.md) and diff, then decides acceptance/isolated validation. Proposed Phase 05 requires explicit decision; no automatic start.
+- **Tests last executed:** Release build PASS 0 warnings/errors; 399 isolated xUnit PASS/0 failed/0 skipped; 40 Light/Dark normal/minimum WPF captures PASS/0 binding errors, explicit selection/consent and busy close/exit guards; embedded observer parse + 6 fake OS-query fixtures PASS; schema/planning/links and 10 validator regressions PASS; whitespace/protected-path checks PASS.
+- **Limits:** no live NIC mutation/probe/UAC/browser/DHCP, publication, release or Phase 05 authorized. Existing historical manual limitations remain.
+
+The following Phase 03 header is historical; ADR-019 supersedes its Phase 04 authorization and next-action fields.
 
 - **Fork URL:** https://github.com/Elguajo/AV-Network-Toolkit
 - **Current branch / integration anchor:** main / branding follow-up based on bb506194723fb8f5c60a7e845ef69b3bc853cb41. Resolve the containing branding commit with `git log -1 --format=%H -- app/Strings/En.xaml`. Future work directly on main (ADR-017); no separate branches.
@@ -265,3 +276,18 @@ foreach ($brandBinary in @('NetworkProfileManager.dll', 'NetworkProfileManager.e
     if ($brandInfo.ProductName -ne 'AV Network Toolkit' -or $brandInfo.FileDescription -ne 'AV Network Toolkit') { throw "Incorrect binary product metadata: $brandBinary" }
 }
 ```
+
+## Session handoff — 2026-10-31, Phase 04 implementation
+
+- Date and environment: 2026-10-31, Asia/Tashkent; Windows 10.0.26300.0 x64, local SDK 8.0.427 / .NET 8 WPF target; no dependency installation.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / starting anchor abdd1d1c61dd4f0d6b39adfc24ee69ff46367cbc. Resolve implementation using `git log -1 --format=%H -- app/Services/ProjectApplyCoordinator.cs`; append resulting SHA after commit. Branding commit and cached origin/main bb506194723fb8f5c60a7e845ef69b3bc853cb41 preserved; no fetch/push/branch/worktree.
+- Current phase and task IDs: 04 AWAITING_REVIEW, 04-T01–04-T07 EVIDENCE_RECORDED under ADR-019; acceptance checkboxes remain open.
+- What was actually completed: approved conservative support/recovery contract, typed coordinator/Windows observation/worker/pipe/journal, deliberate Apply & Open/recovery UI, cancellation/identity/post-state gates, isolated tests and separate legacy history review. No retroactive Phase 02/03 manual acceptance or Phase 04 completion.
+- Files changed: new ProjectApply model/services/VM/window and tests; localized Project/device entry, App dispatch/exit and MainViewModel mutation guard; WPF/observer harness, canonical context/plan/spec/security/review docs. Exact surface list in docs/testing/PHASE04_REVIEW.md. Schema/example/license/workflow/legacy NetworkService/ElevationHelper/repos/history remain unchanged.
+- Test commands and results: Release solution build PASS 0 warnings/errors; exact xUnit `--configuration Release --no-build --logger 'console;verbosity=minimal' --logger 'trx;LogFileName=phase04.trx'` PASS 399/0 failed/0 skipped. `scripts/ProjectUiSmoke` PASS 40 renders/0 binding errors plus busy close/exit guards. `scripts/validate_apply_observation.ps1` PASS parse + 6 fake-query fixtures; `scripts/validate_plan.py` PASS full schema/formats/planning/133 links and `scripts/test_validate_plan.py` PASS 10 regressions. Whitespace/protected-path checks PASS. Full exact commands/artifacts and initial corrected failure retained in review packet.
+- Live-network tests: NOT RUN / not authorized. No real NIC changes/probes/scan/DHCP/UAC/browser or actual App startup in tests. Native IPC/Windows observation integration, full App/tray/dialogs/manual AT/high-contrast/zoom, CI/publish/hardware tests NOT RUN.
+- Known bugs, risk and workarounds: narrow support intentionally blocks unknown/complex/unrestorable state, static automatic DNS, /31–/32 and no-lease/APIPA initial adapters. Manual recovery for unsupported partial states; no universal rollback. Native Windows/UAC/IPC behavior unverified; final NIC index race, external edits/local adversaries and journal retention bounded. Historical Phase 02/03 limits unchanged.
+- Decisions requiring user approval: owner review/phase acceptance, any live isolated validation, publication, release or Phase 05. Phase 04 start/support boundary already approved; do not ask again.
+- Remaining tasks in active phase: owner acceptance/manual integration evidence; no known failed automated check or unfinished authorized implementation task.
+- Next smallest safe action: review implementation diff and packet; if desired, separately authorize disposable isolated Windows/NIC integration using the recorded plan. Proposed Phase 05 only after an explicit decision.
+- Can next session proceed without clarification: read-only review/safe regression and scoped corrections within Phase 04 yes; no automatic live test, push/release or next phase.

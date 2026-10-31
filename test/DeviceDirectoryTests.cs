@@ -370,4 +370,36 @@ public sealed class DeviceDirectoryTests : IDisposable
         Assert.Throws<ProjectValidationException>(() => launcher.Open("file:///C:/bad"));
         Assert.Null(captured);
     }
+
+    [Fact]
+    public void ApplyAndOpenIsSeparateAndFreezesLinkedIntentWithoutKeepingDrafts()
+    {
+        var (vm, dialog, browser) = OpenSample();
+        int applyRequests = 0; ProjectProfile? requested = null; ProjectDevice? device = null;
+        vm.ApplyAndOpenRequested += (p, d) => { applyRequests++; requested = p; device = d; };
+        vm.SelectedDevice = vm.Devices[0];
+        Assert.Equal(0, applyRequests);
+        dialog.Confirm = true; vm.OpenDeviceCommand.Execute(null);
+        Assert.Equal(0, applyRequests); Assert.Single(browser.Opened);
+        vm.DeviceEditor.Name = "Pending device name";
+        vm.ApplyAndOpenCommand.Execute(null);
+        Assert.Empty(vm.Error); Assert.Equal(1, applyRequests);
+        Assert.Equal(vm.DeviceEditor.ProfileId, requested!.Id); Assert.Equal("Pending device name", device!.Name);
+        Assert.NotEqual(device.Name, vm.Devices[0].Name); Assert.True(vm.HasUnsavedChanges);
+        vm.DeviceEditor.ProfileId = ""; vm.ApplyAndOpenCommand.Execute(null);
+        Assert.NotEmpty(vm.Error); Assert.Equal(1, applyRequests);
+    }
+
+    [Fact]
+    public void PendingRelatedProfileEditMustBeKeptExplicitlyBeforeApply()
+    {
+        var (vm, _, _) = OpenSample(); int requests = 0;
+        vm.ApplyAndOpenRequested += (_, _) => requests++;
+        vm.SelectedDevice = vm.Devices[0];
+        vm.SelectedProfile = vm.Profiles.Single(p => p.Id == vm.DeviceEditor.ProfileId);
+        vm.Editor.Name = "Pending profile"; vm.ApplyAndOpenCommand.Execute(null);
+        Assert.NotEmpty(vm.Error); Assert.Equal(0, requests); Assert.Equal("Pending profile", vm.Editor.Name);
+        vm.KeepProfileCommand.Execute(null); vm.ApplyAndOpenCommand.Execute(null);
+        Assert.Empty(vm.Error); Assert.Equal(1, requests);
+    }
 }

@@ -1,5 +1,18 @@
 # Testing strategy and acceptance matrix
 
+## Phase 04 current local evidence — 2026-10-31
+
+Main, base abdd1d1c61dd4f0d6b39adfc24ee69ff46367cbc. Exact resulting implementation SHA is in STATUS.md / resolved with `git log -1 --format=%H -- app/Services/ProjectApplyCoordinator.cs`. Full [review packet](PHASE04_REVIEW.md) contains commands, supported contract, failures/corrections, risks and isolated manual plan. Phase 04 AWAITING_REVIEW under ADR-019, not completed.
+
+- `& $sdk build AVNetworkToolkit.sln --configuration Release --no-restore`: PASS 0 warnings/errors.
+- `& $sdk test test/NetworkProfileManager.Tests.csproj --configuration Release --no-build --logger 'console;verbosity=minimal' --logger 'trx;LogFileName=phase04.trx'`: PASS 399/0 failed/0 skipped.
+- `& $sdk run --project scripts/ProjectUiSmoke/ProjectUiSmoke.csproj --configuration Release -- TestResults/Phase04UiSmoke`: PASS 40 Light/Dark normal/minimum component captures, 0 bindings, manual NIC/consent and cancel/observe/exit guards; all network/elevation/process/browser boundaries fake.
+- `& ./scripts/validate_apply_observation.ps1`: PASS parse/allowlist + 6 shadowed query fixtures, no real OS queries.
+- `& $py -B scripts/validate_plan.py`, `& $py -B scripts/test_validate_plan.py`: PASS schema/formats/example/planning/links and 10 tooling regressions. `$sdk`/`$py` local paths recorded below and in review packet.
+- `git diff --check`, staged whitespace and protected-path check against abdd1d1: PASS.
+
+NOT RUN: actual adapter/netsh/UAC/IPC/browser/TLS integration, live traffic/apply/recovery, full app/tray/native dialogs/manual AT/high contrast/zoom, CI, publish/clean-machine and hardware/adversarial filesystem tests. No unit exclusions. Historical Phase 02/03 limitations remain; owner review, live-test, publication and Phase 05 gates are separate.
+
 Automated tests must use fakes/mocks for OS network changes, DHCP packet output, UAC and default-browser launch. Real NIC/network operations are **manual isolated Windows tests only**.
 
 | ID | Feature | Test cases | Evidence required |

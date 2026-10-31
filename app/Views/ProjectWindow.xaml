@@ -16,6 +16,7 @@
       <ui:Button Style="{StaticResource SubtleButton}" Padding="10,6" Content="{DynamicResource Project.Open}" Command="{Binding OpenCommand}" Margin="0,0,8,8"/>
       <ui:Button Style="{StaticResource SubtleButton}" Padding="10,6" Content="{DynamicResource Project.ChooseFolder}" Command="{Binding ChooseFolderCommand}" Margin="0,0,8,8"/>
       <ui:Button Content="{DynamicResource Project.SaveAs}" Command="{Binding SaveAsCommand}" Appearance="Primary" MinWidth="96" Margin="0,0,0,8"/>
+      <ui:Button Content="{DynamicResource Apply.Recovery}" Click="Recovery_Click" Style="{StaticResource SubtleButton}" Padding="10,6" Margin="8,0,0,8"/>
     </WrapPanel>
     <StackPanel Grid.Row="2" Margin="20,0,20,12">
       <TextBlock Text="{Binding FilePath}" TextWrapping="Wrap" AutomationProperties.Name="{DynamicResource Project.Path}"/>

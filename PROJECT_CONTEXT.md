@@ -90,3 +90,7 @@ On 2026-10-31 the owner explicitly requested Phase 03 in a new chat. 03-T01–03
 ## Current integration and branch rule — ADR-017
 
 Owner authorized merging/committing/pushing the current Phase 03 work to main on 2026-10-31. Approved deferred Ping planning (ADR-016) is preserved. Future work in this repository runs directly on main without creating separate branches, as now required by AGENTS.md. Earlier focused-branch/no-publication snapshots are superseded for this integration. Phase/manual/live-test and release gates remain unchanged; no Phase 04 start implied.
+
+## Phase 04 execution and support boundary — ADR-019
+
+Owner explicitly requested Phase 04 in a new chat and approved blocking complex/unknown adapter state before mutation. This supersedes stale Phase 04 pending-start statements only. Apply & Open now has local implementation/review evidence in docs/testing/PHASE04_REVIEW.md; AWAITING_REVIEW, not phase acceptance. Direct work on main, existing branding/internal identities/JSON/legacy behavior preserved. No new push/live-test/release or Phase 05 permission. Static automatic DNS and /31–/32 remain storable but blocked for OS apply; full recovery is never inferred from old history.

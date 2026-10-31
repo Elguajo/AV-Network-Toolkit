@@ -88,6 +88,8 @@ public sealed partial class ProjectViewModel
     public ICommand DeleteDeviceCommand { get; private set; } = null!;
     public ICommand OpenDeviceCommand { get; private set; } = null!;
     public ICommand UnlinkDeviceCommand { get; private set; } = null!;
+    public ICommand ApplyAndOpenCommand { get; private set; } = null!;
+    public event Action<ProjectProfile, ProjectDevice>? ApplyAndOpenRequested;
 
     private void InitializeDevices(IBrowserLauncher browser)
     {
@@ -106,6 +108,18 @@ public sealed partial class ProjectViewModel
         DeleteDeviceCommand = new RelayCommand(_ => Run(DeleteDevice), _ => _selectedDevice != null);
         OpenDeviceCommand = new RelayCommand(_ => Run(OpenDevice), _ => _selectedDevice != null);
         UnlinkDeviceCommand = new RelayCommand(_ => _deviceEditor.ProfileId = "");
+        ApplyAndOpenCommand = new RelayCommand(_ => Run(() =>
+        {
+            if (_selectedDevice == null) return;
+            var device = _deviceEditor.Build();
+            _ = WithDevice(device);
+            var profile = Profiles.SingleOrDefault(p => p.Id == device.ProfileId)
+                ?? throw new ProjectValidationException("Reference");
+            if (_editorDirty && _editor.Id == profile.Id) throw new ProjectValidationException("ApplyDraft");
+            // Freeze project intent before opening a modal; never retain/discard drafts here.
+            var frozen = ProjectJson.Parse(ProjectJson.Serialize(WithDevice(device)));
+            ApplyAndOpenRequested?.Invoke(frozen.Profiles.Single(p => p.Id == profile.Id), frozen.Devices.Single(d => d.Id == device.Id));
+        }), _ => _selectedDevice != null);
         RefreshDeviceDirectory();
     }
     private NetworkProject WithDevice(ProjectDevice device)

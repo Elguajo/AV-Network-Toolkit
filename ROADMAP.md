@@ -50,3 +50,7 @@ On 2026-10-31 the owner explicitly requested Phase 03 in a new chat. 03-T01–03
 ## Current integration and branch rule — ADR-017
 
 Owner authorized merging/committing/pushing the current Phase 03 work to main on 2026-10-31. Approved deferred Ping planning (ADR-016) is preserved. Future work in this repository runs directly on main without creating separate branches, as now required by AGENTS.md. Phase order, manual/live-test/release gates and Phase 04 start authorization remain unchanged.
+
+## Phase 04 authorization and review — ADR-019
+
+Owner explicitly started Phase 04 and approved conservative blocking of complex/unknown/unrestorable state before mutation. 04-T01–04-T07 have implementation evidence in [Phase 04 review](docs/testing/PHASE04_REVIEW.md), awaiting owner acceptance. Prior manual limitations remain historical. Phase order is unchanged; proposed Phase 05 needs a new owner decision. No new publication, release or live tests authorized.

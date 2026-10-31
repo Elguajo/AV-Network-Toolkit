@@ -164,49 +164,49 @@
         "03"
       ],
       "file": "phases/04-apply-and-open.md",
-      "status": "NOT_STARTED",
+      "status": "AWAITING_REVIEW",
       "tasks": [
         {
           "id": "04-T01",
           "title": "Define explicit state machine and adapter-selection gate",
           "acceptance": "No implicit apply; user sees target adapter, requested old/new config",
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         },
         {
           "id": "04-T02",
           "title": "Snapshot pre-change config, apply with UAC, verify actual post-state",
           "acceptance": "Settings re-read; failure clearly reported; best-effort recovery design",
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         },
         {
           "id": "04-T03",
           "title": "Launch browser only after supported network-state verification",
           "acceptance": "Not tied to ping success; no browser launch on failed apply",
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         },
         {
           "id": "04-T04",
           "title": "Add cancellation, error messaging, retry and manual recovery route",
           "acceptance": "All branches documented incl. UAC denied, adapter removed, partial netsh failure",
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         },
         {
           "id": "04-T05",
           "title": "Unit tests for state machine and isolated Windows integration plan",
           "acceptance": "No real NIC changes in CI; manual NIC tests reported separately",
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         },
         {
           "id": "04-T06",
           "title": "Review and harden the elevated request boundary for the new apply flow",
           "acceptance": "Bind typed validated request to stable NIC identity, recheck after UAC, review request/result paths and tampering, and cover rejection paths without elevation",
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         },
         {
           "id": "04-T07",
           "title": "Review legacy history and revert limitations separately",
           "acceptance": "Define backward-compatible handling of missing DNS/policy/routes/additional-address snapshots; scope any legacy repair separately and never invent recoverable state",
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         }
       ]
     },
@@ -429,16 +429,17 @@
   ],
   "forkRepository": "https://github.com/Elguajo/AV-Network-Toolkit",
   "baselineCommit": "603cf24fa0ba1819c0ec10b6a57ef5cf57c3852e",
-  "activePhase": "03",
+  "activePhase": "04",
   "phase02Authorized": true,
-  "authorization": "ADR-017: current Phase 03/deferred Ping planning integration, commit and push authorized; all future work directly on main without separate branches. No Phase 04/live-test/release authorization",
+  "authorization": "ADR-019: Phase 04 execution and conservative support boundary approved; directly on main under ADR-017. No new push/live-test/release/Phase 05 authorization",
   "preparationCheckpoint": [
     "01-T06",
     "01-T07",
     "01-T08"
   ],
-  "implementationCommit": "e861c3a426f24e0103e9cc26b7e82b6e2f1e503f",
-  "reviewPacket": "docs/testing/PHASE03_REVIEW.md",
+  "implementationCommit": null,
+  "implementationBaseCommit": "abdd1d1c61dd4f0d6b39adfc24ee69ff46367cbc",
+  "reviewPacket": "docs/testing/PHASE04_REVIEW.md",
   "scopeRefinements": [
     "ADR-010: all new UI reuses existing design (DESIGN.md)",
     "ADR-011: retire Turkish UI, English fallback without startup settings rewrite",
@@ -446,6 +447,8 @@
   ],
   "repositoryLayoutCommit": "b119a84ffb7a8202a1fefeb24ea58cc0a882fde4",
   "phase03Authorized": true,
+  "phase04Authorized": true,
+  "phase03ImplementationCommit": "e861c3a426f24e0103e9cc26b7e82b6e2f1e503f",
   "phase02ImplementationCommit": "0bf1070216255c9e1411a4a96445372b6e6a45d1",
   "workingBranch": "main",
   "branchPolicy": "Direct work on main; no separate branches unless owner explicitly changes instruction (ADR-017)"

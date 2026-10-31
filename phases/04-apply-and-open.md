@@ -2,9 +2,11 @@
 
 - **Priority:** P0
 - **Dependencies:** Phase 02, Phase 03
-- **Current status:** NOT STARTED
+- **Current status:** AWAITING_REVIEW — 04-T01–04-T07 EVIDENCE_RECORDED; owner acceptance pending
 - **Scope:** Provide explicit Apply & Open with selected NIC, UAC, post-apply verification and recovery paths.
 - **Read first:** docs/spec/APPLY_OPEN_AND_ROLLBACK.md; docs/security/THREAT_MODEL.md
+- **Implementation contract:** [support, typed boundary, recovery and verification](../docs/spec/PHASE04_IMPLEMENTATION_CONTRACT.md).
+- **Review evidence:** [exact commands, results, risks and isolated integration plan](../docs/testing/PHASE04_REVIEW.md). No live tests or next-phase authorization implied.
 
 ## Tasks and acceptance criteria
 

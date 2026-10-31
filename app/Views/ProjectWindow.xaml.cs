@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using Microsoft.Win32;
 using NetworkProfileManager.Helpers;
@@ -12,19 +13,31 @@ public partial class ProjectWindow : Wpf.Ui.Controls.FluentWindow
     public ProjectWindow()
     {
         InitializeComponent();
-        DataContext = new ProjectViewModel(new ProjectDialogs(this));
+        var vm = new ProjectViewModel(new ProjectDialogs(this));
+        vm.ApplyAndOpenRequested += (profile, device) =>
+        {
+            try { var window = ProjectApplyWindow.Create(profile, device, vm.ProjectName); window.Owner = this; window.ShowDialog(); }
+            catch { System.Windows.MessageBox.Show(this, Loc.Get("Apply.Unsupported"), Loc.Get("Apply.Title")); }
+        };
+        DataContext = vm;
     }
     protected override void OnClosing(CancelEventArgs e)
     {
+        if (OwnedWindows.OfType<ProjectApplyWindow>().Any(w => !w.ConfirmApplicationExit())) e.Cancel = true;
         if (!_exitApproved && DataContext is ProjectViewModel vm && !vm.CanDiscard()) e.Cancel = true;
         base.OnClosing(e);
     }
 
     public bool ConfirmApplicationExit()
     {
+        if (OwnedWindows.OfType<ProjectApplyWindow>().Any(w => !w.ConfirmApplicationExit())) return false;
         if (DataContext is ProjectViewModel vm && !vm.CanDiscard()) return false;
         _exitApproved = true;
         return true;
+    }
+    private void Recovery_Click(object sender, RoutedEventArgs e)
+    {
+        var window = ProjectApplyWindow.Create(null, null); window.Owner = this; window.ShowDialog();
     }
 }
 
