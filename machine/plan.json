@@ -262,31 +262,31 @@
         "03"
       ],
       "file": "phases/06-mdns-discovery.md",
-      "status": "NOT_STARTED",
+      "status": "AWAITING_REVIEW",
       "tasks": [
         {
           "id": "06-T01",
           "title": "Define service-discovery scope, interface binding and listener lifecycle",
           "acceptance": "Explicit start/stop; does not leak onto unintended interface",
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         },
         {
           "id": "06-T02",
           "title": "Implement mDNS listener/discovery without copying AV Toolbag source",
           "acceptance": "Source provenance clean; bounded CPU/memory and packet parsing",
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         },
         {
           "id": "06-T03",
           "title": "Display service type, hostname, IP, port, TTL; optional add-to-device",
           "acceptance": "Entries may be incomplete; no automatic config or trust of unverified hostnames",
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         },
         {
           "id": "06-T04",
           "title": "Add safe export/filter, timeouts and negative tests",
           "acceptance": "CSV injection mitigated, invalid packets handled; tests via fixtures",
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         }
       ]
     },
@@ -429,7 +429,7 @@
   ],
   "forkRepository": "https://github.com/Elguajo/AV-Network-Toolkit",
   "baselineCommit": "603cf24fa0ba1819c0ec10b6a57ef5cf57c3852e",
-  "activePhase": "05",
+  "activePhase": "06",
   "phase02Authorized": true,
   "authorization": "ADR-023: publish current Phase 05/main and start 06-T01\u201306-T04 in a new local project chat, directly on main. Existing manual acceptance/P05-R01 remain; no live tests/release/later phases or automatic future Phase06 publication.",
   "preparationCheckpoint": [
@@ -437,7 +437,7 @@
     "01-T07",
     "01-T08"
   ],
-  "implementationBaseCommit": "48913b21b7a4ddf62a9f58663fbfcde79d630a29",
+  "implementationBaseCommit": "f160ac0986af59c7cc4357021b8ca7fe942b63e0",
   "scopeRefinements": [
     "ADR-010: all new UI reuses existing design (DESIGN.md)",
     "ADR-011: retire Turkish UI, English fallback without startup settings rewrite",
@@ -452,15 +452,16 @@
   "branchPolicy": "Direct work on main; no separate branches unless owner explicitly changes instruction (ADR-017)",
   "phase05Authorized": true,
   "phase04ImplementationCommit": "3e7a0ae3f0f3ef87729fa94e2873d53e23750991",
-  "implementationContract": "docs/spec/PHASE05_IMPLEMENTATION_CONTRACT.md",
-  "reviewPacket": "docs/testing/PHASE05_REVIEW.md",
+  "implementationContract": "docs/spec/PHASE06_IMPLEMENTATION_CONTRACT.md",
+  "reviewPacket": "docs/testing/PHASE06_REVIEW.md",
   "risks": [
-    "P05-R01 OPEN: intermittent existing empty-static-DNS JSON rejection failure; cause/baseline attribution UNVERIFIED, separate scope. Final 463 PASS does not resolve.",
-    "Native DAD/netsh/UAC/recovery/isolated adapter execution NOT RUN; no release/push/Phase06."
+    "P05-R01 OPEN: intermittent existing empty-static-DNS JSON rejection failure; cause/baseline attribution UNVERIFIED, separate scope. Final 542 PASS does not resolve.",
+    "Native mDNS IFLIST/membership/packet metadata/shared-port/driver isolation and synchronous OS enumeration stalls UNVERIFIED; no live tests/push/release/Phase07.",
+    "Prior phase native/manual/legacy/migration-marker limits and separate ADR-024 / IDEA-01-03 follow-ups remain."
   ],
-  "lastTests": "Release build 0 warnings/errors; final full 463 PASS, earlier 462 PASS/1 FAIL P05-R01; diagnostic existing 399 PASS, JSON 53 PASS; 64 WPF captures/0 binding errors; 11 fake observer fixtures; full schema/plan/10 validator regressions PASS.",
-  "implementationCommit": "d054a61ccd2f27ebd03cc73b9acb5e03e6ecd52d",
+  "lastTests": "Release isolated-output build 0 warnings/errors; full 542 PASS/0 failed/0 skipped (79 mDNS cases); 84 WPF captures/0 binding errors; 11 fake observer fixtures; schema/plan and 10 validator regressions PASS. P05-R01 remains OPEN.",
   "phase06Authorized": true,
-  "nextPhase": "06",
-  "handoffState": "Phase05 publication/new Phase06 chat authorized; execution results verified after commit/push. Phase06 not implemented in publishing chat."
+  "nextPhase": "07",
+  "handoffState": "Phase06 local implementation EVIDENCE_RECORDED/AWAITING_REVIEW; resolve implementation SHA through MdnsDiscoverySession.cs history and STATUS.md handoff. No automatic publication, live acceptance or next phase.",
+  "phase05ImplementationCommit": "d054a61ccd2f27ebd03cc73b9acb5e03e6ecd52d"
 }

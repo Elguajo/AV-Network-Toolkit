@@ -17,6 +17,16 @@ namespace NetworkProfileManager
         private readonly ContentDialogService   _dialogService   = new();
         private ProjectWindow? _projectWindow;
         private ProjectApplyWindow? _linkLocalWindow;
+        private MdnsDiscoveryWindow? _mdnsWindow;
+
+        private void OpenMdnsClick(object sender, RoutedEventArgs e)
+        {
+            if (_mdnsWindow != null) { _mdnsWindow.Activate(); return; }
+            _mdnsWindow = MdnsDiscoveryWindow.Create();
+            _mdnsWindow.Owner = this;
+            _mdnsWindow.Closed += (_, _) => _mdnsWindow = null;
+            _mdnsWindow.Show();
+        }
 
         private void OpenLinkLocalClick(object sender, RoutedEventArgs e)
         {

@@ -107,3 +107,7 @@ Owner explicitly started Phase 05 in a new chat on 2026-10-31 and approved expli
 ## Publication and Phase 06 handoff — ADR-023
 
 Owner explicitly requested commit/push and the next phase in a new session. Authorizes current Phase 05 publication and a new local project chat executing 06-T01–06-T04 directly on main. Prior manual acceptance and OPEN P05-R01 remain; no live multicast/NIC/UAC tests, release, later phases or automatic publication of future Phase 06 changes. This supersedes earlier no-push/no-Phase-06-start snapshots only; no repeated start permission is needed.
+
+## Phase 06 implementation evidence — awaiting owner review
+
+Selected-interface passive IPv4 mDNS is implemented locally with A/AAAA service presentation, explicit Start/Stop, bounded untrusted packet/cache processing and filtered safe CSV. No queries, optional device draft integration, project-format changes or network mutation. [Support contract](docs/spec/PHASE06_IMPLEMENTATION_CONTRACT.md) and [review/evidence](docs/testing/PHASE06_REVIEW.md) define limits. 542 isolated tests and 84 component captures passed; native sockets/multicast remain UNVERIFIED. P05-R01 remains OPEN; ADR-024 password permission and IDEA-01–03 remain separate follow-ups. Phase 06 is not marked complete; no automatic Phase 07 or publication.

@@ -16,7 +16,7 @@ using Wpf.Ui.Controls;
 
 // Isolated component render. Never calls App.Run/OnStartup, MainWindow, NIC APIs,
 // tray/monitor, OS network commands or native file dialogs.
-internal static class Program
+internal static partial class Program
 {
     [STAThread]
     private static int Main(string[] args)
@@ -27,6 +27,8 @@ internal static class Program
         PresentationTraceSources.DataBindingSource.Listeners.Add(new TextWriterTraceListener(errors));
         PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Error;
         var app = new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
+        // Match a real WPF event's continuation owner without running App startup.
+        System.Threading.SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(Dispatcher.CurrentDispatcher));
         app.Resources.MergedDictionaries.Add(new Wpf.Ui.Markup.ThemesDictionary { Theme = Wpf.Ui.Appearance.ApplicationTheme.Dark });
         app.Resources.MergedDictionaries.Add(new Wpf.Ui.Markup.ControlsDictionary());
         app.Resources.MergedDictionaries.Add(new ResourceDictionary
@@ -194,9 +196,10 @@ internal static class Program
                 window.Close();
                 RenderApply(output, theme, width == 900 ? 760 : 620, height == 780 ? 760 : 520);
                 RenderLinkLocal(output, theme, width == 900 ? 760 : 620, height == 780 ? 760 : 520);
+                RenderMdns(output, theme, width == 900 ? 820 : 620, height == 780 ? 760 : 540);
             }
             if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
-            Console.WriteLine("PASS: 64 isolated project/device/apply/link-local/adapter renders (Light/Dark, normal/minimum), explicit NIC selection/review/consent, DNS replacement, DAD conflict/recovery/DHCP, visible disconnected link-local addresses, named controls, visible footer, focus/busy-close/exit guards, 0 WPF binding errors; all NIC/DAD/process/elevation/browser boundaries fake.");
+            Console.WriteLine("PASS: 84 isolated project/device/apply/link-local/adapter/mDNS renders (Light/Dark, normal/minimum), explicit NIC selection/review/consent, DNS replacement, DAD conflict/recovery/DHCP, visible disconnected link-local addresses, mDNS explicit Start/Stop/filter/export/stale/failure/close, named controls, visible footer, focus/busy-close/exit guards, 0 WPF binding errors; all NIC/socket/clock/DAD/process/elevation/browser boundaries fake.");
             return 0;
         }
         catch (Exception ex) { Console.Error.WriteLine(ex); return 1; }

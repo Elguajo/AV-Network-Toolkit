@@ -68,3 +68,7 @@ Owner explicitly authorized 05-T01–05-T05 in a new chat and approved explicit 
 ## Publication and next phase authorized — ADR-023
 
 Owner requested current commit/push and next-phase execution in a new chat. Publish Phase 05 ordinarily and start Phase 06 mDNS (06-T01–06-T04) in a new local project chat, directly on main. No fabricated Phase 05/manual completion, no live tests/release/Phase 07/08 or automatic push of new Phase 06 work. P05-R01 remains OPEN and release-blocking; phase order unchanged.
+
+## Phase 06 evidence — review gate
+
+06-T01–06-T04 now have [local implementation evidence](docs/testing/PHASE06_REVIEW.md), AWAITING_REVIEW. Passive IPv4 only; IPv6 advertisements displayed when received over IPv4, optional Add-to-device omitted. No schema, password or legacy mutation changes. Native isolated acceptance and owner review remain pending. Proposed next phase is 07 (including ADR-016 Ping), requiring a new owner decision; IDEA-01–03 scheduling remains separate and the fixed order is unchanged.

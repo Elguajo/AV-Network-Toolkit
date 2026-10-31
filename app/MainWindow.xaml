@@ -38,6 +38,10 @@
                      ToolTip="{DynamicResource MainWindow.IpScannerTooltip}"
                      Click="OpenScannerClick"/>
           <ui:Button Style="{StaticResource SubtleButton}" Padding="8,6"
+                     Icon="{ui:SymbolIcon Globe20}"
+                     ToolTip="{DynamicResource Mdns.Title}" AutomationProperties.Name="{DynamicResource Mdns.Title}"
+                     Click="OpenMdnsClick"/>
+          <ui:Button Style="{StaticResource SubtleButton}" Padding="8,6"
                      Icon="{ui:SymbolIcon Settings20}"
                      ToolTip="{DynamicResource MainWindow.SettingsTooltip}"
                      AutomationProperties.Name="{DynamicResource MainWindow.SettingsTooltip}"

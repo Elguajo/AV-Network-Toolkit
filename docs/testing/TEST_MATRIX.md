@@ -222,3 +222,18 @@ Branch `codex/phase-03-device-web-interfaces`, starting HEAD `17c7014ba585fe8568
 Ignored local artifacts: `test/TestResults/phase03.trx`, `TestResults/Phase03UiSmoke/*.png`. Existing DESIGN.md styling verified from representative empty/selected/error/lower-form renders in both themes and sizes. All 20 captures generated; actual native Mica/backdrop not certified. Programmatic traversal is not manual keyboard or screen-reader acceptance.
 
 NOT RUN: actual browser handler/navigation/endpoint/TLS, network apply/revert/scan/DHCP/UAC, real adapter enumeration acceptance, native dialogs/full app/tray, manual keyboard/AT/high contrast/zoom, publish/clean machine/hardware failure and CI. No unit exclusions or live network settings/probes. Existing Phase 02/manual and baseline risks remain; no new release/support guarantee.
+
+## Phase 06 mDNS — 2026-10-31
+
+Main, clean starting `f160ac0986af59c7cc4357021b8ca7fe942b63e0`; implementation SHA resolved through `app/Services/MdnsDiscoverySession.cs` history and pinned in STATUS handoff. [Full review packet](PHASE06_REVIEW.md) records exact commands, changed paths, 79 added negative/lifecycle/native-boundary/cache/export fixtures, initial failures/corrections and remaining limits. AWAITING_REVIEW; no phase acceptance.
+
+| Exact command/check | Result |
+|---|---|
+| `& $sdk build AVNetworkToolkit.sln --configuration Release --no-restore -p:OutputPath=bin/Phase06/` | PASS, 0 warnings/errors; separate output avoids an existing running EXE lock |
+| `& $sdk test test/NetworkProfileManager.Tests.csproj --configuration Release --no-build -p:OutputPath=bin/Phase06/ --logger 'console;verbosity=minimal' --logger 'trx;LogFileName=phase06-final-reviewed.trx'` | PASS 542/0 failed/0 skipped; 79 new mDNS cases, fake network/NIC/socket/clock |
+| `& $sdk build scripts/ProjectUiSmoke/ProjectUiSmoke.csproj --configuration Release --no-restore -p:OutputPath=bin/Phase06/` then `& $sdk scripts/ProjectUiSmoke/bin/Phase06/ProjectUiSmoke.dll TestResults/Phase06UiSmokeReviewed` | PASS, 0 warnings/errors; 84 Light/Dark normal/minimum captures/0 binding errors, 20 mDNS states, fake boundaries and actual WPF bindings/focus/footer/close |
+| `& ./scripts/validate_apply_observation.ps1` | PASS 11 fake OS-query fixtures + parse/allowlist, no real OS calls |
+| `& $py -B scripts/validate_plan.py`; `& $py -B scripts/test_validate_plan.py` | PASS full schema/formats/planning/local links and 10 tooling regressions |
+| `git diff --check`; protected-source comparison against f160ac0 | PASS; JSON/schema/example/apply/legacy/license/workflow unchanged |
+
+**P05-R01 remains OPEN**, root cause/baseline attribution UNVERIFIED; subsequent 542 PASS does not repair or close earlier empty-static-DNS rejection failure. Native IFLIST/membership/metadata/shared-port/IGMP and isolated network acceptance NOT RUN. No actual socket, probes, NIC mutation, UAC, browser, DHCP or full App/tray launch. Native dialogs/manual AT/high contrast/zoom/clean-machine/deployment/CI NOT RUN; no push. New ADR-024/IDEA-01–03 documentation is separate concurrent work, not mDNS functionality.

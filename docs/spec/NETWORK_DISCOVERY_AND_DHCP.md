@@ -16,6 +16,8 @@ Phase 05 implementation: [exact support/DNS/DAD/recovery contract](PHASE05_IMPLE
 - Bound memory/packet processing; handle malformed packets and service expiry; sanitize export fields to avoid spreadsheet formula injection.
 - 'Add discovered device' should create a **draft** requiring user confirmation, not automatically open/route/apply.
 
+Phase 06 implements a passive IPv4-only listener; A/AAAA are shown from that explicitly selected transport scope. No query sender, automatic binding fallback or optional Add-to-device action. [Exact support/lifecycle/resource contract](PHASE06_IMPLEMENTATION_CONTRACT.md), [review packet](../testing/PHASE06_REVIEW.md). Native socket/IGMP/isolated interface acceptance NOT RUN; fake metadata tests do not certify the Windows driver. Project JSON v1, legacy scanner/Ping and all apply/recovery paths are unchanged.
+
 ## Diagnostics
 
 - Distinguish physical Ethernet vs Wi-Fi/USB/virtual/Hyper-V adapters and expose friendly name plus stable OS identity.
