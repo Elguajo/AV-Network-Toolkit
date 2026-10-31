@@ -110,4 +110,6 @@ Owner explicitly requested commit/push and the next phase in a new session. Auth
 
 ## Phase 06 implementation evidence — awaiting owner review
 
+Owner subsequently authorized the selected main-window follow-up with «Да делаем» (ADR-028). IDEA-01/04 have [local implementation/evidence](docs/testing/MAIN_WORKSPACE_REVIEW.md): explicit legacy/project scopes on main, detached project editor, device tab and standalone typed project apply targeting the selected GUID. No store/schema migration, Phase 06 acceptance or Phase 07 start. IDEA-02 support expansion and IDEA-03 passwords remain separate; no new live-test/publication/release authorization.
+
 Selected-interface passive IPv4 mDNS is implemented locally with A/AAAA service presentation, explicit Start/Stop, bounded untrusted packet/cache processing and filtered safe CSV. No queries, optional device draft integration, project-format changes or network mutation. [Support contract](docs/spec/PHASE06_IMPLEMENTATION_CONTRACT.md) and [review/evidence](docs/testing/PHASE06_REVIEW.md) define limits. 542 isolated tests and 84 component captures passed; native sockets/multicast remain UNVERIFIED. P05-R01 remains OPEN; ADR-024 password permission and IDEA-01–03 remain separate follow-ups. Phase 06 is not marked complete; no automatic Phase 07 or publication.

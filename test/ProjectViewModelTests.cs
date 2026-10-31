@@ -181,4 +181,48 @@ public class ProjectViewModelTests : IDisposable
             DnsMode = "static", Dns2 = "192.0.2.53" };
         Assert.Throws<ProjectValidationException>(() => editor.Build());
     }
+
+    [Fact]
+    public void DetachedDraftIsIsolatedUntilValidatedCommitAndRetainsReferences()
+    {
+        var (vm, _) = OpenSample();
+        var original = vm.Profiles[0];
+        var draft = new ProjectProfileEditor(original) { Name = "Detached", Address = "invalid" };
+        Assert.Same(original, vm.Profiles[0]); Assert.False(vm.HasUnsavedChanges);
+        Assert.False(vm.TryStoreProfile(draft));
+        Assert.Same(original, vm.Profiles[0]); Assert.False(vm.HasUnsavedChanges);
+        draft.Address = "192.0.2.25";
+        Assert.True(vm.TryStoreProfile(draft));
+        Assert.Equal(original.Id, vm.Profiles[0].Id);
+        Assert.Equal(original.Id, vm.Devices[0].ProfileId);
+        Assert.True(vm.HasUnsavedChanges);
+        Assert.Equal("192.0.2.10", new ProjectStore().Open(FilePath).Data.Profiles[0].Ipv4!.Address);
+        Assert.Equal("192.0.2.25", vm.Profiles[0].Ipv4!.Address);
+    }
+
+    [Fact]
+    public void DetachedCommitCannotOverwriteUnfinishedSharedEditor()
+    {
+        var (vm, _) = OpenSample(); vm.SelectedProfile = vm.Profiles[0];
+        vm.Editor.Name = "Pending";
+        Assert.False(vm.TryStoreProfile(new ProjectProfileEditor(vm.Profiles[1]) { Name = "Other" }));
+        Assert.Equal("Pending", vm.Editor.Name); Assert.Equal("DHCP", vm.Profiles[1].Name);
+    }
+
+    [Fact]
+    public void StandaloneApplyFreezesRetainedIntentWithoutSavingDraftOrTouchingLegacy()
+    {
+        var (vm, _) = OpenSample();
+        var files = Directory.GetFiles(_legacy.Root);
+        var profile = vm.ProfileForApply(vm.Profiles[0].Id);
+        Assert.NotNull(profile); Assert.NotSame(profile, vm.Profiles[0]);
+        profile.Ipv4!.Dns.Servers.Clear();
+        Assert.Equal(2, vm.Profiles[0].Ipv4!.Dns.Servers.Count);
+        Assert.False(vm.HasUnsavedChanges); Assert.Equal(files, Directory.GetFiles(_legacy.Root));
+        vm.SelectedProfile = vm.Profiles[0]; vm.Editor.Name = "Pending";
+        Assert.Null(vm.ProfileForApply(vm.Profiles[0].Id));
+        Assert.Equal("Pending", vm.Editor.Name);
+        Assert.NotNull(vm.ProfileForApply(vm.Profiles[1].Id));
+        Assert.Null(vm.ProfileForApply("missing"));
+    }
 }

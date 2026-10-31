@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="NetworkProfileManager.Tests" />
+    <InternalsVisibleTo Include="ProjectUiSmoke" />
     <EmbeddedResource Include="..\schemas\project.avnet.schema.json" LogicalName="ProjectSchema.json" />
     <None Include="..\docs\legal\THIRD_PARTY_NOTICES.md" Link="THIRD_PARTY_NOTICES.md"
           CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />

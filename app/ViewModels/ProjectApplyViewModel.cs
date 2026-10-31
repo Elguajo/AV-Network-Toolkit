@@ -24,6 +24,7 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
     private readonly IProjectApplyDialogs _dialogs;
     private readonly ApplyIntent? _intent;
     private readonly ProjectDevice? _device;
+    private readonly Guid? _targetAdapterId;
     private ProjectApplyPlan? _plan;
     private ApplyAdapterSnapshot? _recoveryTarget;
     private CancellationTokenSource? _cancellation;
@@ -37,10 +38,11 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
         IProjectApplyBoundary boundary, IProjectApplyJournal journal, IBrowserLauncher browser,
         Func<CancellationToken, Task<IReadOnlyList<ApplyAdapterIdentity>>> enumerate,
         Func<IReadOnlyList<ProjectApplyRequest>> readJournals, IProjectApplyDialogs dialogs,
-        int verificationAttempts = 10, string projectName = "", bool linkLocalTool = false)
+        int verificationAttempts = 10, string projectName = "", bool linkLocalTool = false, Guid? targetAdapterId = null)
     {
         _intent = profile == null ? null : ProjectApplyPolicy.FromProfile(profile);
         _device = device;
+        _targetAdapterId = targetAdapterId;
         _enumerate = enumerate; _readJournals = readJournals; _dialogs = dialogs;
         _coordinator = new(boundary, journal, browser, verificationAttempts: verificationAttempts);
         ProfileName = profile?.Name ?? "";
@@ -59,7 +61,7 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
     public string ProfileName { get; }
     public bool IsLinkLocalTool { get; }
     public bool IsProjectAction => !IsLinkLocalTool;
-    public string WindowTitle => Loc.Get(IsLinkLocalTool ? "LinkLocal.Title" : "Apply.Title");
+    public string WindowTitle => Loc.Get(IsLinkLocalTool ? "LinkLocal.Title" : _device == null && _intent != null ? "Workspace.ApplyProfile" : "Apply.Title");
     public string LinkLocalAddress
     {
         get => _linkLocalAddress;
@@ -83,7 +85,7 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
     public ApplyAdapterIdentity? SelectedAdapter
     {
         get => _adapter;
-        set { if (IsBusy) return; DiscardPlan(); _adapter = value; Changed(); }
+        set { if (IsBusy || _targetAdapterId.HasValue && value?.Id != _targetAdapterId) return; DiscardPlan(); _adapter = value; Changed(); }
     }
     public ProjectApplyRequest? SelectedSnapshot
     {
@@ -91,8 +93,9 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
         set { if (IsBusy) return; DiscardPlan(); _saved = value; _recoveryTarget = null;
             Observed = value == null ? "" : Loc.Get("Apply.SavedSnapshot") + "\n" + FormatSnapshot(value.Before); Changed(); }
     }
-    public bool IsBusy { get => _busy; private set { _busy = value; Changed(); Changed(nameof(CanSelect)); } }
+    public bool IsBusy { get => _busy; private set { _busy = value; Changed(); Changed(nameof(CanSelect)); Changed(nameof(CanSelectAdapter)); } }
     public bool CanSelect => !IsBusy;
+    public bool CanSelectAdapter => !IsBusy && !_targetAdapterId.HasValue;
     public string Review { get => _review; private set { _review = value; Changed(); } }
     public string Status { get => _status; private set { _status = value; Changed(); } }
     public string Observed { get => _observed; private set { _observed = value; Changed(); } }
@@ -113,7 +116,12 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
             _adapter = null; Changed(nameof(SelectedAdapter));
             Adapters.Clear();
             foreach (var adapter in await _enumerate(token)) Adapters.Add(adapter);
-            Status = Loc.Get("Apply.SelectAdapter");
+            if (_targetAdapterId.HasValue)
+            {
+                _adapter = Adapters.SingleOrDefault(a => a.Id == _targetAdapterId);
+                Changed(nameof(SelectedAdapter));
+            }
+            Status = Loc.Get(_targetAdapterId.HasValue && _adapter == null ? "Workspace.TargetMissing" : "Apply.SelectAdapter");
         });
     }
     public Task ReviewAsync(bool recovery) => PrepareReviewAsync(recovery, false);
@@ -124,13 +132,18 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
         await RunAsync(async token =>
         {
             DiscardPlan();
+            if (recovery && _targetAdapterId.HasValue
+                && (_recoveryTarget ?? SelectedSnapshot?.Before)?.Identity.Id != _targetAdapterId)
+                throw new InvalidOperationException("Recovery target differs from the selected adapter.");
             _plan = recovery
                 ? await _coordinator.PrepareRecoveryAsync(_recoveryTarget ?? SelectedSnapshot?.Before ?? throw new InvalidOperationException(), token)
                 : IsLinkLocalTool
                     ? await _coordinator.PrepareManualAsync(SelectedAdapter ?? throw new InvalidOperationException(), dhcp
                         ? new("dhcp", null, 0, null, "automatic", System.Collections.Immutable.ImmutableArray<string>.Empty)
                         : LinkLocalAddressing.Intent(LinkLocalAddress, LinkLocalDns1, LinkLocalDns2), token)
-                    : await _coordinator.PrepareAsync(SelectedAdapter ?? throw new InvalidOperationException(), _intent ?? throw new InvalidOperationException(), Destination, token);
+                    : _device == null
+                        ? await _coordinator.PrepareProfileAsync(SelectedAdapter ?? throw new InvalidOperationException(), _intent ?? throw new InvalidOperationException(), token)
+                        : await _coordinator.PrepareAsync(SelectedAdapter ?? throw new InvalidOperationException(), _intent ?? throw new InvalidOperationException(), Destination, token);
             Review = Loc.Get(recovery ? "Apply.RecoveryReview" : "Apply.RequestReview") + "\n\n"
                 + FormatSnapshot(_plan.Request.Before) + "\n\n" + Loc.Get("Apply.Requested") + "\n" + FormatIntent(_plan.Request.Desired);
             if (_plan.Request.Desired.Mode == "link-local") Review += "\n\n" + Loc.Get("LinkLocal.DadWarning");
@@ -160,7 +173,7 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
             Status = StateText(outcome.State) + "\n" + Loc.Get("Apply.Stage") + " "
                 + Loc.Get($"Apply.Stage.{outcome.Stage}", Loc.Get("Apply.Stage.Unknown"));
             if (outcome.State == ProjectApplyState.Complete && plan.Destination == null && !plan.Request.Recovery)
-                Status = Loc.Get("LinkLocal.Verified");
+                Status = Loc.Get(IsLinkLocalTool ? "LinkLocal.Verified" : "Workspace.Verified");
             if (outcome.JournalUpdateFailed) Status += "\n" + Loc.Get("Apply.JournalWarning");
             if (outcome.Stage == "WorkerStillRunning") Status += "\n" + Loc.Get("Apply.WorkerActive");
             if (outcome.MayHaveChanged && outcome.State != ProjectApplyState.Complete) Status += "\n" + Loc.Get("Apply.ManualRecovery");
@@ -183,7 +196,8 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
         try
         {
             DiscardPlan(); _saved = null; _recoveryTarget = null; Snapshots.Clear();
-            foreach (var request in _readJournals()) Snapshots.Add(request);
+            foreach (var request in _readJournals())
+                if (!_targetAdapterId.HasValue || request.Before.Identity.Id == _targetAdapterId) Snapshots.Add(request);
             Changed(nameof(SelectedSnapshot));
             Status = Loc.Get("Apply.SnapshotsRead");
         }

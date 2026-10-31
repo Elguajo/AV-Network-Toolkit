@@ -15,13 +15,13 @@ public partial class ProjectApplyWindow : Wpf.Ui.Controls.FluentWindow
     public ProjectApplyWindow(ProjectApplyViewModel viewModel)
     { InitializeComponent(); DataContext = viewModel; }
 
-    internal static ProjectApplyWindow Create(ProjectProfile? profile, ProjectDevice? device, string projectName = "", bool linkLocalTool = false)
+    internal static ProjectApplyWindow Create(ProjectProfile? profile, ProjectDevice? device, string projectName = "", bool linkLocalTool = false, Guid? targetAdapterId = null)
     {
         var observation = new WindowsProjectApplyObservation();
         var journal = new ProjectApplyJournal();
         var dialogs = new ApplyDialogs();
         var vm = new ProjectApplyViewModel(profile, device, new WindowsProjectApplyBoundary(), journal,
-            new DefaultBrowserLauncher(), async token => await observation.EnumerateAsync(token), journal.ReadSnapshots, dialogs, projectName: projectName, linkLocalTool: linkLocalTool);
+            new DefaultBrowserLauncher(), async token => await observation.EnumerateAsync(token), journal.ReadSnapshots, dialogs, projectName: projectName, linkLocalTool: linkLocalTool, targetAdapterId: targetAdapterId);
         var window = new ProjectApplyWindow(vm);
         dialogs.Owner = window;
         // Enumerate only after entering this explicit action; no automatic selection.

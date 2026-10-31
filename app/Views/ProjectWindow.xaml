@@ -64,36 +64,7 @@
           <TextBlock Text="{DynamicResource Project.Description}" Style="{StaticResource FieldLabel}" Margin="0,12,0,4"/>
           <ui:TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{DynamicResource Project.Description}"/>
           <Separator Margin="0,16"/>
-          <TextBlock Text="{Binding Editor.Id}" Style="{StaticResource CaptionText}" TextWrapping="Wrap"/>
-          <TextBlock Text="{DynamicResource AddProfile.NameLabel}" Style="{StaticResource FieldLabel}" Margin="0,8,0,4"/>
-          <ui:TextBox Text="{Binding Editor.Name, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{DynamicResource AddProfile.NameLabel}"/>
-          <TextBlock Text="{DynamicResource Adapter.Mode}" Style="{StaticResource FieldLabel}" Margin="0,12,0,4"/>
-          <ComboBox SelectedValue="{Binding Editor.Mode}" SelectedValuePath="Tag" AutomationProperties.Name="{DynamicResource Adapter.Mode}">
-            <ComboBoxItem Tag="dhcp" Content="{DynamicResource EditBar.Dhcp}"/>
-            <ComboBoxItem Tag="static" Content="{DynamicResource EditBar.Static}"/>
-          </ComboBox>
-          <TextBlock Text="{DynamicResource Project.AdapterHint}" Style="{StaticResource FieldLabel}" Margin="0,12,0,4"/>
-          <ui:TextBox Text="{Binding Editor.Alias, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{DynamicResource Project.AdapterHint}"/>
-          <StackPanel IsEnabled="{Binding Editor.IsStatic}">
-            <TextBlock Text="{DynamicResource EditBar.Ip}" Style="{StaticResource FieldLabel}" Margin="0,12,0,4"/>
-            <ui:TextBox Text="{Binding Editor.Address, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{DynamicResource EditBar.Ip}"/>
-            <TextBlock Text="{DynamicResource Project.Prefix}" Style="{StaticResource FieldLabel}" Margin="0,12,0,4"/>
-            <ui:TextBox Text="{Binding Editor.Prefix, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{DynamicResource Project.Prefix}"/>
-            <TextBlock Text="{DynamicResource Project.Gateway}" Style="{StaticResource FieldLabel}" Margin="0,12,0,4"/>
-            <ui:TextBox Text="{Binding Editor.Gateway, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{DynamicResource Project.Gateway}"/>
-            <TextBlock Text="{DynamicResource Project.DnsMode}" Style="{StaticResource FieldLabel}" Margin="0,12,0,4"/>
-            <ComboBox SelectedValue="{Binding Editor.DnsMode}" SelectedValuePath="Tag" AutomationProperties.Name="{DynamicResource Project.DnsMode}">
-              <ComboBoxItem Tag="leave-unchanged" Content="{DynamicResource Project.DnsUnchanged}"/>
-              <ComboBoxItem Tag="automatic" Content="{DynamicResource Project.DnsAutomatic}"/>
-              <ComboBoxItem Tag="static" Content="{DynamicResource EditBar.Static}"/>
-            </ComboBox>
-            <StackPanel IsEnabled="{Binding Editor.IsDnsStatic}">
-              <TextBlock Text="{DynamicResource EditBar.PrimaryDns}" Style="{StaticResource FieldLabel}" Margin="0,12,0,4"/>
-              <ui:TextBox Text="{Binding Editor.Dns1, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{DynamicResource EditBar.PrimaryDns}"/>
-              <TextBlock Text="{DynamicResource AddProfile.SecondaryDnsLabel}" Style="{StaticResource FieldLabel}" Margin="0,12,0,4"/>
-              <ui:TextBox Text="{Binding Editor.Dns2, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{DynamicResource AddProfile.SecondaryDnsLabel}"/>
-            </StackPanel>
-          </StackPanel>
+          <views:ProjectProfileFields DataContext="{Binding Editor}"/>
         </StackPanel>
       </ScrollViewer>
     </Grid>

@@ -8,14 +8,14 @@
 
 ## Original-outcome follow-ups — 2026-10-31
 
-These stable follow-up IDs are separate from the 49 phase tasks; no phase task is accepted, renumbered or removed. Evidence, criteria and source paths: [product-fit review](docs/PRODUCT_FIT_REVIEW_RU.md). Scheduling/design pending; current Phase 06 scope/order unchanged.
+These stable follow-up IDs are separate from the 49 phase tasks; no phase task is accepted, renumbered or removed. Evidence/criteria: [product-fit review](docs/PRODUCT_FIT_REVIEW_RU.md); owner-authorized IDEA-01/04 implementation: [workspace review](docs/testing/MAIN_WORKSPACE_REVIEW.md). IDEA-02/03 scheduling/design remain pending; Phase 06 acceptance and nine-phase order unchanged.
 
 | ID | Follow-up | State |
 |---|---|---|
-| IDEA-01 | Apply a project profile without a device or browser URL; retain explicit NIC/review/UAC/verification/recovery | GAP RECORDED; implementation not started |
+| IDEA-01 | Apply a project profile without a device or browser URL; retain explicit NIC/review/UAC/verification/recovery | EVIDENCE_RECORDED (ADR-028); standalone typed apply with selected GUID, tests in MAIN_WORKSPACE_REVIEW; owner/native acceptance pending |
 | IDEA-02 | Define/test the real DHCP → isolated Static workflow, including DNS/no-lease/APIPA boundaries; preserve conservative blocking until supported | GAP RECORDED; support refinement needs scoped design/review |
 | IDEA-03 | FR-13: optional device-password storage in project JSON; version/compatibility, explicit UI, redaction and backups | OWNER PERMISSION RECORDED (ADR-024); format/UI implementation not started |
-| IDEA-04 | FR-14: coherent main-screen adapter → current state → profile/manual settings → explicit apply → observed result, with optional device Open/Apply & Open; reuse IDEA-01/02 and DESIGN.md | DIRECTION/VISUAL TARGET ACCEPTED (ADR-025/026); second raster in DESIGN.md, separate profile editor/per-row Apply; mapping/states/phase placement pending, implementation not started |
+| IDEA-04 | FR-14: coherent main-screen adapter → current state → profile/manual settings → explicit apply → observed result, with optional device Open/Apply & Open; reuse IDEA-01/02 and DESIGN.md | EVIDENCE_RECORDED (ADR-028); selected second-concept workspace with explicit local/project scopes and detached editor; owner UI review pending, IDEA-02/03 separate |
 
 ## Phase 01: Baseline audit (P0)
 

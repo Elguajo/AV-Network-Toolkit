@@ -17,7 +17,7 @@
           <TextBlock Text="{Binding Destination}" TextWrapping="Wrap" Margin="0,4,0,12"/>
         </StackPanel>
         <TextBlock Text="{DynamicResource Apply.Adapter}" Style="{StaticResource FieldLabel}"/>
-        <ComboBox ItemsSource="{Binding Adapters}" SelectedItem="{Binding SelectedAdapter}" IsEnabled="{Binding CanSelect}"
+        <ComboBox ItemsSource="{Binding Adapters}" SelectedItem="{Binding SelectedAdapter}" IsEnabled="{Binding CanSelectAdapter}"
                   AutomationProperties.Name="{DynamicResource Apply.Adapter}">
           <ComboBox.ItemTemplate><DataTemplate><StackPanel>
             <TextBlock Text="{Binding Alias}" TextTrimming="CharacterEllipsis"/>

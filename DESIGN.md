@@ -29,6 +29,8 @@ Provenance: generated in this chat using built-in imagegen from the owner's Netw
 
 ## Reuse rules
 
+Local implementation of the selected workspace now has [review evidence](docs/testing/MAIN_WORKSPACE_REVIEW.md) and an [actual WPF render](docs/design/main-window-implemented-workspace.png). For compatibility, Network profiles exposes explicit This adapter (5 slots) / Project profiles scopes; the latter is project-wide and applies to the selected NIC without copying stores. Add/Edit is modal, the device tab reuses the existing directory, and manual/Ping/history are expandable. This implements the chosen hierarchy within existing controls; no pixel-identity, credentials or native acceptance claim.
+
 | Element | Existing contract |
 |---|---|
 | Windows | `ui:FluentWindow`, `WindowBackdropType="Mica"`, extended title bar and `ui:TitleBar`. Secondary windows center on their owner; choose resize behavior to fit the existing task pattern. Keep content scrollable and essential footer actions reachable at minimum size. |

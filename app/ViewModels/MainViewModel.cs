@@ -42,8 +42,11 @@ namespace NetworkProfileManager.ViewModels
                 // Refresh() re-selects the same adapter after every apply; that is
                 // not a change and must not reset the page (scroll, fade).
                 if (ReferenceEquals(_selectedAdapter, value)) return;
+                if (_selectedAdapter != null) _selectedAdapter.PropertyChanged -= SelectedAdapterChanged;
                 _selectedAdapter = value;
+                if (_selectedAdapter != null) _selectedAdapter.PropertyChanged += SelectedAdapterChanged;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(ApplyTargetLabel));
             }
         }
 
@@ -51,6 +54,12 @@ namespace NetworkProfileManager.ViewModels
         {
             get => _isLoading;
             set { _isLoading = value; OnPropertyChanged(); }
+        }
+
+        public string ApplyTargetLabel => Helpers.Loc.Format("Workspace.ApplyTo", SelectedAdapter?.Name ?? "—");
+        private void SelectedAdapterChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(AdapterViewModel.Name)) OnPropertyChanged(nameof(ApplyTargetLabel));
         }
 
         public ICommand RefreshCommand { get; }

@@ -42,6 +42,10 @@ public sealed class ProjectApplyCoordinator(
     public async Task<ProjectApplyPlan> PrepareRecoveryAsync(ApplyAdapterSnapshot original, CancellationToken cancellation = default)
         => await PrepareCoreAsync(original.Identity, ProjectApplyPolicy.RecoveryIntent(original), null, true, cancellation);
 
+    public Task<ProjectApplyPlan> PrepareProfileAsync(ApplyAdapterIdentity identity, ApplyIntent desired,
+        CancellationToken cancellation = default)
+        => PrepareCoreAsync(identity, desired, null, false, cancellation);
+
     public async Task<ProjectApplyPlan> PrepareManualAsync(ApplyAdapterIdentity identity, ApplyIntent desired,
         CancellationToken cancellation = default)
     {

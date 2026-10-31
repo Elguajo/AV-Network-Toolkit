@@ -61,7 +61,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="104"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
               </Grid.ColumnDefinitions>
 
@@ -97,10 +97,13 @@
                          Text="{Binding ShortcutLabel}"/>
 
               <ui:Button Grid.Column="3" HorizontalAlignment="Stretch"
-                         Content="{DynamicResource Common.Apply}"
+                         MaxWidth="200"
+                         Content="{Binding DataContext.ApplyTargetLabel, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                          Command="{Binding DataContext.ApplyProfileCommand,
                                    RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                         CommandParameter="{Binding}"/>
+                         CommandParameter="{Binding}">
+                <ui:Button.ContentTemplate><DataTemplate><TextBlock Text="{Binding}" TextWrapping="Wrap" MaxWidth="176"/></DataTemplate></ui:Button.ContentTemplate>
+              </ui:Button>
 
               <ui:Button Grid.Column="4" Style="{StaticResource SubtleButton}" Padding="6" Margin="4,0,0,0"
                          Icon="{ui:SymbolIcon MoreHorizontal20}"

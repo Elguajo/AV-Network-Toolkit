@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -6,6 +7,7 @@ using System.Windows.Media.Animation;
 using NetworkProfileManager.Helpers;
 using NetworkProfileManager.ViewModels;
 using NetworkProfileManager.Views;
+using NetworkProfileManager.Models;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
 
@@ -18,6 +20,44 @@ namespace NetworkProfileManager
         private ProjectWindow? _projectWindow;
         private ProjectApplyWindow? _linkLocalWindow;
         private MdnsDiscoveryWindow? _mdnsWindow;
+        public ProjectViewModel Project { get; }
+        private readonly Action<ProjectProfile, ProjectDevice?, Guid>? _applyRequest;
+
+        private void ShowProjectApply(ProjectProfile profile, ProjectDevice? device)
+        {
+            if (DataContext is not MainViewModel vm || vm.SelectedAdapter == null
+                || !Guid.TryParse(vm.SelectedAdapter.Info.Id, out var target) || target == Guid.Empty)
+            {
+                System.Windows.MessageBox.Show(this, Loc.Get("Workspace.TargetMissing")); return;
+            }
+            if (_applyRequest != null) { _applyRequest(profile, device, target); return; }
+            try
+            {
+                var window = ProjectApplyWindow.Create(profile, device, Project.ProjectName, targetAdapterId: target);
+                window.Owner = this; window.ShowDialog();
+                vm.Refresh();
+            }
+            catch { System.Windows.MessageBox.Show(this, Loc.Get("Apply.Unsupported")); }
+        }
+
+        private void Recovery_Click(object sender, RoutedEventArgs e)
+        {
+            var window = ProjectApplyWindow.Create(null, null); window.Owner = this; window.ShowDialog();
+        }
+        private void ProjectOpened_Click(object sender, RoutedEventArgs e)
+        {
+            WorkspaceTabs.SelectedIndex = 0; ProfileScopes.SelectedIndex = 1;
+        }
+        private void ToolExpanded(object sender, RoutedEventArgs e)
+        {
+            if (ReferenceEquals(sender, e.OriginalSource) && sender is FrameworkElement control) control.BringIntoView();
+        }
+        public bool ConfirmApplicationExit()
+        {
+            if (OwnedWindows.OfType<ProjectApplyWindow>().Any(w => !w.ConfirmApplicationExit())) return false;
+            if (OwnedWindows.OfType<ProjectProfileDialog>().Any(w => !w.ConfirmApplicationExit())) return false;
+            return Project.CanDiscard();
+        }
 
         private void OpenMdnsClick(object sender, RoutedEventArgs e)
         {
@@ -41,17 +81,25 @@ namespace NetworkProfileManager
         {
             if (_projectWindow == null)
             {
-                _projectWindow = new ProjectWindow { Owner = this };
+                _projectWindow = new ProjectWindow(Project) { Owner = this };
                 _projectWindow.Closed += (_, _) => _projectWindow = null;
                 _projectWindow.Show();
             }
             else _projectWindow.Activate();
         }
 
-        public MainWindow()
+        public MainWindow() : this(new MainViewModel(), null) { }
+
+        // Component harness supplies fake NIC enumeration and isolated project IO.
+        internal MainWindow(MainViewModel main, ProjectViewModel? project, Action<ProjectProfile, ProjectDevice?, Guid>? applyRequest = null)
         {
+            _applyRequest = applyRequest;
+            Project = project ?? new ProjectViewModel(new ProjectDialogs(this));
             InitializeComponent();
             DataContextChanged += OnDataContextChanged;
+            DataContext = main;
+            ProjectProfiles.ApplyRequested += profile => ShowProjectApply(profile, null);
+            Project.ApplyAndOpenRequested += (profile, device) => ShowProjectApply(profile, device);
             RegisterProfileHotkeys();
 
             // Fix maximized window overlapping the taskbar

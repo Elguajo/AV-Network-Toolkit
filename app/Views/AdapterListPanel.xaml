@@ -15,6 +15,7 @@
 
     <!-- Navigation-style list: selection is a fill plus the accent pill, nothing else -->
     <ListBox ItemContainerStyle="{StaticResource NavigationListItem}" ItemsSource="{Binding Adapters}"
+             AutomationProperties.Name="{DynamicResource Adapters.Header}"
              SelectedItem="{Binding SelectedAdapter}"
              Background="Transparent" BorderThickness="0" Padding="0"
              ScrollViewer.HorizontalScrollBarVisibility="Disabled"

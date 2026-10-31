@@ -292,6 +292,7 @@ namespace NetworkProfileManager
                         if (!apply.ConfirmApplicationExit()) return;
                     foreach (var project in Windows.OfType<ProjectWindow>().ToArray())
                         if (!project.ConfirmApplicationExit()) return;
+                    if (_mainWindow != null && !_mainWindow.ConfirmApplicationExit()) return;
                     IsExiting = true;
                     _trayIcon!.Visible = false;
                     Shutdown();

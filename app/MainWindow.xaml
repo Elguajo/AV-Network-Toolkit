@@ -1,20 +1,17 @@
-<ui:FluentWindow x:Class="NetworkProfileManager.MainWindow"
+<ui:FluentWindow x:Class="NetworkProfileManager.MainWindow" x:Name="MainRoot"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:vm="clr-namespace:NetworkProfileManager.ViewModels"
         xmlns:views="clr-namespace:NetworkProfileManager.Views"
         Title="{DynamicResource App.Title}"
-        Icon="Assets/icon.ico"
-        Width="1000" Height="720"
+        Icon="/NetworkProfileManager;component/Assets/icon.ico"
+        Width="1200" Height="850"
         MinWidth="760" MinHeight="520"
         WindowStartupLocation="CenterScreen"
         ExtendsContentIntoTitleBar="True"
         WindowBackdropType="Mica">
 
-  <ui:FluentWindow.DataContext>
-    <vm:MainViewModel/>
-  </ui:FluentWindow.DataContext>
 
   <Grid>
     <Grid.RowDefinitions>
@@ -24,7 +21,7 @@
 
     <ui:TitleBar Grid.Row="0" Title="{DynamicResource App.Title}">
       <ui:TitleBar.Icon>
-        <ui:ImageIcon Source="pack://application:,,,/Assets/icon.ico" Width="16" Height="16"/>
+        <ui:ImageIcon Source="pack://application:,,,/NetworkProfileManager;component/Assets/icon.ico" Width="16" Height="16"/>
       </ui:TitleBar.Icon>
       <ui:TitleBar.TrailingContent>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,6,0">
@@ -52,7 +49,7 @@
 
     <Grid Grid.Row="1">
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="280"/>
+        <ColumnDefinition Width="240"/>
         <ColumnDefinition Width="*"/>
       </Grid.ColumnDefinitions>
 
@@ -99,12 +96,20 @@
                 </Style.Triggers>
               </Style>
             </ScrollViewer.Style>
-            <StackPanel Margin="32,24,32,32">
+            <StackPanel Margin="24,20,24,24">
 
               <!-- ── Adapter header: name, then its live settings as plain facts ── -->
               <TextBlock Text="{Binding SelectedAdapter.Name}" Style="{StaticResource PageTitleText}"/>
               <TextBlock Text="{Binding SelectedAdapter.Description}"
-                         Style="{StaticResource CaptionText}" Margin="0,2,0,16"/>
+                         Style="{StaticResource CaptionText}" Margin="0,2,0,4"/>
+              <TextBlock Margin="0,0,0,12">
+               <TextBlock.Style><Style TargetType="TextBlock" BasedOn="{StaticResource CaptionText}">
+                <Setter Property="Text" Value="{DynamicResource Workspace.LinkDisconnected}"/>
+                <Style.Triggers><DataTrigger Binding="{Binding SelectedAdapter.IsConnected}" Value="True">
+                 <Setter Property="Text" Value="{DynamicResource Workspace.LinkConnected}"/>
+                </DataTrigger></Style.Triggers>
+               </Style></TextBlock.Style>
+              </TextBlock>
 
               <WrapPanel Margin="0,0,0,8">
                 <StackPanel Margin="0,0,32,12">
@@ -154,84 +159,32 @@
                 </StackPanel>
               </WrapPanel>
 
-              <!-- ── Profiles ── -->
-              <views:ProfilePanel/>
-
-              <!-- ── Ping ── -->
-              <TextBlock Text="{DynamicResource EditBar.PingHeader}"
-                         Style="{StaticResource SectionHeaderText}" Margin="0,28,0,8"/>
-              <Border Style="{StaticResource Card}">
-                <StackPanel>
-                  <Grid>
-                    <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="*"/>
-                      <ColumnDefinition Width="Auto"/>
-                      <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <ui:TextBox Grid.Column="0"
-                                PlaceholderText="{DynamicResource EditBar.PingPlaceholder}"
-                                Text="{Binding SelectedAdapter.PingTarget, UpdateSourceTrigger=PropertyChanged, FallbackValue=''}"/>
-                    <ui:Button Grid.Column="1" Margin="8,0,0,0" MinWidth="80"
-                               Content="{DynamicResource EditBar.PingButton}"
-                               Command="{Binding PingCommand}"/>
-                    <ui:Button Grid.Column="2" Margin="4,0,0,0" Padding="8,6"
-                               Style="{StaticResource SubtleButton}"
-                               Icon="{ui:SymbolIcon Open20}"
-                               ToolTip="{DynamicResource EditBar.PingWindowTooltip}"
-                               AutomationProperties.Name="{DynamicResource EditBar.PingWindowTooltip}"
-                               Click="OpenPingWindowClick"/>
-                  </Grid>
-
-                  <!-- Result: the dot carries the colour, the text stays neutral -->
-                  <StackPanel Orientation="Horizontal" Margin="2,10,0,0">
-                    <StackPanel.Style>
-                      <Style TargetType="StackPanel">
-                        <Style.Triggers>
-                          <DataTrigger Binding="{Binding SelectedAdapter.PingResult}" Value="">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                          </DataTrigger>
-                        </Style.Triggers>
-                      </Style>
-                    </StackPanel.Style>
-                    <Ellipse Width="8" Height="8" VerticalAlignment="Center" Margin="0,0,8,0">
-                      <Ellipse.Style>
-                        <Style TargetType="Ellipse">
-                          <Setter Property="Fill" Value="{DynamicResource SystemFillColorCriticalBrush}"/>
-                          <Style.Triggers>
-                            <DataTrigger Binding="{Binding SelectedAdapter.PingSuccess}" Value="True">
-                              <Setter Property="Fill" Value="{DynamicResource SystemFillColorSuccessBrush}"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding SelectedAdapter.IsPinging}" Value="True">
-                              <Setter Property="Fill" Value="{DynamicResource TextFillColorTertiaryBrush}"/>
-                            </DataTrigger>
-                          </Style.Triggers>
-                        </Style>
-                      </Ellipse.Style>
-                    </Ellipse>
-                    <TextBlock Text="{Binding SelectedAdapter.PingResult}" TextTrimming="CharacterEllipsis"/>
-                  </StackPanel>
-                </StackPanel>
+              <TextBlock Text="{DynamicResource Workspace.CurrentHint}" Style="{StaticResource CaptionText}" TextWrapping="Wrap"/>
+              <Border Style="{StaticResource Card}" Margin="0,16,0,12" DataContext="{Binding Project, ElementName=MainRoot}">
+               <StackPanel>
+                <WrapPanel>
+                 <TextBlock Text="{Binding ProjectName}" Style="{StaticResource SectionHeaderText}" Margin="0,0,16,8"/>
+                 <ui:Button Content="{DynamicResource Project.Open}" Command="{Binding OpenCommand}" Click="ProjectOpened_Click" Style="{StaticResource SubtleButton}" Padding="10,6"/>
+                 <ui:Button Content="{DynamicResource Project.SaveAs}" Command="{Binding SaveAsCommand}" Style="{StaticResource SubtleButton}" Padding="10,6"/>
+                 <ui:Button Content="{DynamicResource Workspace.ManageProject}" Click="OpenProjectClick" Style="{StaticResource SubtleButton}" Padding="10,6"/>
+                </WrapPanel>
+                <TextBlock Text="{Binding FilePath}" Style="{StaticResource CaptionText}" TextWrapping="Wrap" ToolTip="{Binding FilePath}"/>
+                <TextBlock Text="{DynamicResource Project.UnsavedChanges}" Visibility="{Binding HasUnsavedChanges, Converter={StaticResource BoolToVis}}"/>
+               </StackPanel>
               </Border>
-
-              <!-- ── History ── -->
-              <views:HistoryPanel Margin="0,28,0,0"/>
-            </StackPanel>
-          </ScrollViewer>
-
-          <!-- ── Manual configuration, pinned: vendor presets and Apply never scroll away ── -->
-          <Border Grid.Row="1"
-                  BorderBrush="{DynamicResource DividerStrokeColorDefaultBrush}"
-                  BorderThickness="0,1,0,0"
-                  Padding="32,14,32,18">
-            <Border.Style>
-              <Style TargetType="Border">
-                <Style.Triggers>
-                  <DataTrigger Binding="{Binding SelectedAdapter}" Value="{x:Null}">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                  </DataTrigger>
-                </Style.Triggers>
-              </Style>
-            </Border.Style>
+              <TabControl x:Name="WorkspaceTabs" AutomationProperties.Name="{DynamicResource Project.Sections}">
+               <TabItem Header="{DynamicResource Workspace.NetworkProfiles}">
+                <StackPanel>
+                 <TabControl x:Name="ProfileScopes" Margin="0,12,0,0" AutomationProperties.Name="{DynamicResource Workspace.ProfileSource}">
+                  <TabItem Header="{DynamicResource Workspace.AdapterProfiles}"><views:ProfilePanel/></TabItem>
+                  <TabItem Header="{DynamicResource Workspace.ProjectProfiles}">
+                   <views:ProjectProfilesPanel x:Name="ProjectProfiles" DataContext="{Binding Project, ElementName=MainRoot}"
+                     TargetLabel="{Binding DataContext.ApplyTargetLabel, ElementName=MainRoot}"/>
+                  </TabItem>
+                 </TabControl>
+                 <TextBlock Text="{DynamicResource Workspace.ApplyHint}" Style="{StaticResource CaptionText}" TextWrapping="Wrap" Margin="0,12,0,8"/>
+                 <Expander Header="{DynamicResource Workspace.Manual}" Margin="0,8,0,0" Expanded="ToolExpanded">
+                  <Border Style="{StaticResource Card}" Margin="0,8,0,0">
             <StackPanel>
               <!-- One click fills the fields; it never applies on its own -->
               <StackPanel Margin="0,0,0,10">
@@ -313,13 +266,96 @@
 
                 <!-- Apply takes the free slot next to the DNS fields -->
                 <ui:Button Grid.Row="2" Grid.Column="4"
-                           Content="{DynamicResource Common.Apply}"
+                           Content="{Binding ApplyTargetLabel}"
                            Appearance="Primary"
                            HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                            Command="{Binding ApplyCommand}"/>
               </Grid>
             </StackPanel>
-          </Border>
+                  </Border>
+                 </Expander>
+                 <Expander Header="{DynamicResource EditBar.PingHeader}" Margin="0,8,0,0" Expanded="ToolExpanded">
+              <Border Style="{StaticResource Card}">
+                <StackPanel>
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*"/>
+                      <ColumnDefinition Width="Auto"/>
+                      <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ui:TextBox Grid.Column="0"
+                                PlaceholderText="{DynamicResource EditBar.PingPlaceholder}"
+                                AutomationProperties.Name="{DynamicResource EditBar.PingPlaceholder}"
+                                Text="{Binding SelectedAdapter.PingTarget, UpdateSourceTrigger=PropertyChanged, FallbackValue=''}"/>
+                    <ui:Button Grid.Column="1" Margin="8,0,0,0" MinWidth="80"
+                               Content="{DynamicResource EditBar.PingButton}"
+                               Command="{Binding PingCommand}"/>
+                    <ui:Button Grid.Column="2" Margin="4,0,0,0" Padding="8,6"
+                               Style="{StaticResource SubtleButton}"
+                               Icon="{ui:SymbolIcon Open20}"
+                               ToolTip="{DynamicResource EditBar.PingWindowTooltip}"
+                               AutomationProperties.Name="{DynamicResource EditBar.PingWindowTooltip}"
+                               Click="OpenPingWindowClick"/>
+                  </Grid>
+
+                  <!-- Result: the dot carries the colour, the text stays neutral -->
+                  <StackPanel Orientation="Horizontal" Margin="2,10,0,0">
+                    <StackPanel.Style>
+                      <Style TargetType="StackPanel">
+                        <Style.Triggers>
+                          <DataTrigger Binding="{Binding SelectedAdapter.PingResult}" Value="">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                          </DataTrigger>
+                        </Style.Triggers>
+                      </Style>
+                    </StackPanel.Style>
+                    <Ellipse Width="8" Height="8" VerticalAlignment="Center" Margin="0,0,8,0">
+                      <Ellipse.Style>
+                        <Style TargetType="Ellipse">
+                          <Setter Property="Fill" Value="{DynamicResource SystemFillColorCriticalBrush}"/>
+                          <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedAdapter.PingSuccess}" Value="True">
+                              <Setter Property="Fill" Value="{DynamicResource SystemFillColorSuccessBrush}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding SelectedAdapter.IsPinging}" Value="True">
+                              <Setter Property="Fill" Value="{DynamicResource TextFillColorTertiaryBrush}"/>
+                            </DataTrigger>
+                          </Style.Triggers>
+                        </Style>
+                      </Ellipse.Style>
+                    </Ellipse>
+                    <TextBlock Text="{Binding SelectedAdapter.PingResult}" TextTrimming="CharacterEllipsis"/>
+                  </StackPanel>
+                </StackPanel>
+              </Border>
+                 </Expander>
+                 <Expander Header="{DynamicResource Workspace.History}" Margin="0,8,0,0" Expanded="ToolExpanded">
+                  <StackPanel>
+                   <ui:Button Content="{DynamicResource Apply.Recovery}" Click="Recovery_Click" HorizontalAlignment="Left" Margin="0,8"/>
+                   <views:HistoryPanel/>
+                  </StackPanel>
+                 </Expander>
+                </StackPanel>
+               </TabItem>
+               <TabItem Header="{DynamicResource Device.Header}">
+                <Grid x:Name="DeviceWorkspace" DataContext="{Binding Project, ElementName=MainRoot}" Height="560"
+                      MaxHeight="{Binding ViewportHeight, ElementName=RightPanel}" Margin="0,12,0,0">
+                 <Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                 <views:DeviceDirectoryView/>
+                 <WrapPanel Grid.Row="1" Margin="0,8,0,0">
+                  <ui:Button Content="{DynamicResource Device.Keep}" Command="{Binding KeepDeviceCommand}" Margin="0,0,8,8"/>
+                  <ui:Button Content="{DynamicResource Device.Open}" Command="{Binding OpenDeviceCommand}" Margin="0,0,0,8"/>
+                 </WrapPanel>
+                </Grid>
+               </TabItem>
+              </TabControl>
+              <StackPanel DataContext="{Binding Project, ElementName=MainRoot}" Margin="0,12,0,0">
+               <TextBlock Text="{Binding Error}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Assertive"/>
+               <TextBlock Text="{Binding DeviceNotice}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite"/>
+               <TextBlock Text="{Binding BackupPath}" Style="{StaticResource CaptionText}" TextWrapping="Wrap"/>
+              </StackPanel>
+            </StackPanel>
+          </ScrollViewer>
         </Grid>
       </Border>
     </Grid>

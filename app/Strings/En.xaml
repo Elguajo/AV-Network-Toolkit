@@ -284,7 +284,7 @@
   <sys:String x:Key="Device.UnlinkedWarning">This device has no related network profile. Opening it will not configure an adapter.</sys:String>
   <sys:String x:Key="Device.LaunchError">Could not hand the address to the default browser. Check your default browser settings and try again.</sys:String>
   <sys:String x:Key="Device.HandedToBrowser">Address handed to the default browser. Device reachability has not been checked.</sys:String>
-  <sys:String x:Key="Project.ErrorApplyDraft">Keep or discard the pending related-profile edit before Apply &amp; Open.</sys:String>
+  <sys:String x:Key="Project.ErrorApplyDraft">Finish or discard the pending profile edit in Manage project before continuing.</sys:String>
   <sys:String x:Key="Apply.Title">Apply &amp; Open</sys:String>
   <sys:String x:Key="LinkLocal.Title">Link-Local</sys:String>
   <sys:String x:Key="LinkLocal.Address">Manual IPv4 address (169.254.1.0–169.254.254.255)</sys:String>
@@ -393,4 +393,25 @@
     <sys:String x:Key="Mdns.ExportFailed">Export failed. Choose a writable destination and try again.</sys:String>
     <sys:String x:Key="Mdns.Start">Start listening</sys:String>
     <sys:String x:Key="Mdns.Stop">Stop listening</sys:String>
+    <sys:String x:Key="Workspace.NetworkProfiles">Network profiles</sys:String>
+    <sys:String x:Key="Workspace.AdapterProfiles">This adapter (5 slots)</sys:String>
+    <sys:String x:Key="Workspace.ProjectProfiles">Project profiles</sys:String>
+    <sys:String x:Key="Workspace.ProfileSource">Profile source</sys:String>
+    <sys:String x:Key="Workspace.ApplyTo">Apply to {0}</sys:String>
+    <sys:String x:Key="Workspace.ApplyProfile">Apply network profile</sys:String>
+    <sys:String x:Key="Workspace.CurrentHint">Current settings of this computer's selected adapter.</sys:String>
+    <sys:String x:Key="Workspace.ProjectScopeHint">Portable project profiles. Choose any preset for the selected adapter.</sys:String>
+    <sys:String x:Key="Workspace.EmptyProject">No project profiles yet. Add a profile or open an existing project.</sys:String>
+    <sys:String x:Key="Workspace.ManageProject">Manage project</sys:String>
+    <sys:String x:Key="Workspace.ProfileEditor">Project network profile</sys:String>
+    <sys:String x:Key="Workspace.EditorHint">Settings for this computer, not the device address. Keep profile updates this project; Save as writes the JSON. No network settings are applied here.</sys:String>
+    <sys:String x:Key="Workspace.ApplyHint">Apply changes this computer's selected adapter. Opening a project never changes network settings.</sys:String>
+    <sys:String x:Key="Workspace.Manual">Manual network settings</sys:String>
+    <sys:String x:Key="Workspace.History">History and recovery</sys:String>
+    <sys:String x:Key="Workspace.TargetMissing">The selected adapter is unavailable or cannot be identified. Refresh the adapter list and select it again. No other adapter will be used.</sys:String>
+    <sys:String x:Key="Workspace.Verified">The requested network settings were observed. Device reachability was not checked. No browser was opened.</sys:String>
+    <sys:String x:Key="Workspace.ProfileSummary">Computer IP: {0}/{1} · Gateway: {2} · DNS: {3}</sys:String>
+    <sys:String x:Key="Workspace.AutomaticSummary">Automatic IP and DNS (DHCP)</sys:String>
+    <sys:String x:Key="Workspace.LinkConnected">Link connected · Device reachability not checked</sys:String>
+    <sys:String x:Key="Workspace.LinkDisconnected">Link disconnected · Select a connected port or check the cable</sys:String>
 </ResourceDictionary>

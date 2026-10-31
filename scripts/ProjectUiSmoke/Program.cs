@@ -197,9 +197,10 @@ internal static partial class Program
                 RenderApply(output, theme, width == 900 ? 760 : 620, height == 780 ? 760 : 520);
                 RenderLinkLocal(output, theme, width == 900 ? 760 : 620, height == 780 ? 760 : 520);
                 RenderMdns(output, theme, width == 900 ? 820 : 620, height == 780 ? 760 : 540);
+                RenderWorkspace(output, theme, width == 900 ? 1200 : 760, height == 780 ? 850 : 520);
             }
             if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
-            Console.WriteLine("PASS: 84 isolated project/device/apply/link-local/adapter/mDNS renders (Light/Dark, normal/minimum), explicit NIC selection/review/consent, DNS replacement, DAD conflict/recovery/DHCP, visible disconnected link-local addresses, mDNS explicit Start/Stop/filter/export/stale/failure/close, named controls, visible footer, focus/busy-close/exit guards, 0 WPF binding errors; all NIC/socket/clock/DAD/process/elevation/browser boundaries fake.");
+            Console.WriteLine("PASS: isolated project/device/apply/link-local/adapter/mDNS/main-workspace renders (Light/Dark, normal/minimum), modal draft isolation, per-row explicit target routing, device Open, named controls, footer/focus/exit guards, 0 WPF binding errors; all NIC/socket/process/elevation/browser boundaries fake.");
             return 0;
         }
         catch (Exception ex) { Console.Error.WriteLine(ex); return 1; }
@@ -370,6 +371,9 @@ internal static partial class Program
     }
     private static void Capture(Window window, string path)
     {
+        // Capture the settled endpoint of the existing adapter-change fade, not a transient frame.
+        if (window is NetworkProfileManager.MainWindow main && main.FindName("RightPanel") is UIElement panel)
+        { panel.BeginAnimation(UIElement.OpacityProperty, null); panel.Opacity = 1; }
         var bitmap = new RenderTargetBitmap((int)window.ActualWidth, (int)window.ActualHeight, 96, 96, PixelFormats.Pbgra32);
         bitmap.Render(window);
         var visual = new DrawingVisual();

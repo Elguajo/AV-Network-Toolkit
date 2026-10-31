@@ -104,6 +104,44 @@ public sealed partial class ProjectViewModel : INotifyPropertyChanged
     public ICommand DeleteProfileCommand { get; }
 
     public bool CanDiscard() => !HasUnsavedChanges || _dialogs.ConfirmDiscard();
+    internal bool ConfirmDiscardModalDraft() => _dialogs.ConfirmDiscard();
+
+    // Detached modal drafts never mutate the document on Cancel or failed validation.
+    public bool TryStoreProfile(ProjectProfileEditor draft)
+    {
+        var stored = false;
+        Run(() =>
+        {
+            if (_editorDirty) throw new ProjectValidationException("ApplyDraft");
+            var profile = draft.Build();
+            var proposed = Current();
+            var index = proposed.Profiles.FindIndex(p => p.Id == profile.Id);
+            if (index < 0) proposed.Profiles.Add(profile); else proposed.Profiles[index] = profile;
+            _ = ProjectJson.Serialize(proposed);
+            _updatingProfiles = true;
+            try
+            {
+                if (index < 0) Profiles.Add(profile); else Profiles[index] = profile;
+                if (_selected?.Id == profile.Id) { _selected = profile; SetEditor(profile); Changed(nameof(SelectedProfile)); }
+            }
+            finally { _updatingProfiles = false; }
+            RefreshDeviceDirectory(); Dirty(); stored = true;
+        });
+        return stored;
+    }
+
+    public ProjectProfile? ProfileForApply(string id)
+    {
+        ProjectProfile? result = null;
+        Run(() =>
+        {
+            if (_editorDirty && _editor.Id == id) throw new ProjectValidationException("ApplyDraft");
+            // Validate and deep-copy retained intent; applying never saves a draft.
+            result = ProjectJson.Parse(ProjectJson.Serialize(Current())).Profiles.SingleOrDefault(p => p.Id == id)
+                ?? throw new ProjectValidationException("Reference");
+        });
+        return result;
+    }
 
     private void Open()
     {

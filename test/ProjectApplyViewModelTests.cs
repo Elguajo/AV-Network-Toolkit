@@ -76,4 +76,44 @@ public sealed class ProjectApplyViewModelTests
         Assert.Equal(0, s.Executes); await vm.ApplyAsync(); Assert.Equal(0, s.Executes);
         s.Consent = true; await vm.ApplyAsync(); Assert.Equal(1, s.Executes); Assert.Equal(0, s.Opened);
     }
+
+    private static ProjectApplyViewModel Standalone(Surface s, Guid target, Func<CancellationToken, Task<IReadOnlyList<ApplyAdapterIdentity>>>? enumerate = null)
+        => new(ProjectJsonTests.Sample().Profiles[0], null, s, s, s,
+            enumerate ?? (_ => Task.FromResult<IReadOnlyList<ApplyAdapterIdentity>>(new[] { s.Snapshot.Identity })),
+            () => Array.Empty<ProjectApplyRequest>(), s, verificationAttempts: 1, targetAdapterId: target);
+
+    [Fact]
+    public async Task ExplicitTargetAppliesProfileWithoutUrlAndNeverOpensBrowser()
+    {
+        var s = new Surface { Consent = true }; var vm = Standalone(s, s.Snapshot.Identity.Id);
+        await vm.RefreshAsync(); Assert.Equal(s.Snapshot.Identity, vm.SelectedAdapter); Assert.False(vm.CanSelectAdapter);
+        Assert.Equal(0, s.Executes);
+        vm.SelectedAdapter = s.Snapshot.Identity with { Id = Guid.NewGuid() };
+        Assert.Equal(s.Snapshot.Identity, vm.SelectedAdapter);
+        await vm.ReviewAsync(false); Assert.True(vm.ApplyCommand.CanExecute(null));
+        await vm.ApplyAsync(); Assert.Equal(1, s.Executes); Assert.Equal(0, s.Opened);
+        Assert.NotEmpty(vm.Observed); Assert.DoesNotContain("Link-Local", vm.Status);
+    }
+
+    [Fact]
+    public async Task RemovedTargetWithSameAliasCannotFallBackOrRetainOldPlan()
+    {
+        var s = new Surface(); IReadOnlyList<ApplyAdapterIdentity> adapters = new[] { s.Snapshot.Identity };
+        var vm = Standalone(s, s.Snapshot.Identity.Id, _ => Task.FromResult(adapters));
+        await vm.RefreshAsync(); await vm.ReviewAsync(false);
+        adapters = new[] { s.Snapshot.Identity with { Id = Guid.NewGuid() } };
+        await vm.RefreshAsync(); Assert.Null(vm.SelectedAdapter);
+        Assert.False(vm.ReviewCommand.CanExecute(null)); Assert.False(vm.ApplyCommand.CanExecute(null));
+        await vm.ApplyAsync(); Assert.Equal(0, s.Executes); Assert.Equal(0, s.Opened);
+    }
+
+    [Fact]
+    public async Task ExplicitTargetCannotPrepareAnotherAdaptersRecovery()
+    {
+        var s = new Surface { Consent = true }; var vm = Standalone(s, s.Snapshot.Identity.Id);
+        vm.SelectedSnapshot = new(1, Guid.NewGuid(), DateTimeOffset.UtcNow.AddMinutes(2),
+            s.Snapshot with { Identity = s.Snapshot.Identity with { Id = Guid.NewGuid() } }, ProjectApplyTests.Intent());
+        await vm.ReviewAsync(true); Assert.False(vm.ApplyCommand.CanExecute(null));
+        Assert.Equal(0, s.Executes);
+    }
 }

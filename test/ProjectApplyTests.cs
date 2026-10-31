@@ -96,6 +96,30 @@ public sealed class ProjectApplyTests
     private const string Url = "https://192.0.2.44:8443/en_US/panel?view=main#!/status";
 
     [Fact]
+    public async Task ProfileOnlyApplyRetainsPolicyJournalSingleUseAndNoBrowser()
+    {
+        var (c, b, j, web, _) = Fixture();
+        var plan = await c.PrepareProfileAsync(b.Current.Identity, Intent());
+        Assert.Null(plan.Destination); Assert.Equal(0, b.Calls);
+        var result = await c.ExecuteAsync(plan);
+        Assert.Equal(ProjectApplyState.Complete, result.State); Assert.Null(web.Destination);
+        Assert.Equal(1, j.Begins); Assert.Equal(1, j.Finishes);
+        await Assert.ThrowsAsync<InvalidOperationException>(() => c.ExecuteAsync(plan));
+    }
+
+    [Theory]
+    [InlineData("dns")][InlineData("prefix")][InlineData("no-lease")]
+    public async Task ProfileOnlyDoesNotRelaxPreviouslyUnsupportedStates(string unsupported)
+    {
+        var (c, b, j, web, _) = Fixture(); var intent = Intent();
+        if (unsupported == "dns") intent = intent with { DnsMode = "automatic", DnsServers = ImmutableArray<string>.Empty };
+        if (unsupported == "prefix") intent = intent with { PrefixLength = 31 };
+        if (unsupported == "no-lease") b.Current = b.Current with { Addresses = ImmutableArray<ApplyAddress>.Empty };
+        await Assert.ThrowsAsync<InvalidOperationException>(() => c.PrepareProfileAsync(b.Current.Identity, intent));
+        Assert.Equal(0, b.Calls); Assert.Equal(0, j.Begins); Assert.Null(web.Destination);
+    }
+
+    [Fact]
     public async Task ExactDestinationOpensOnlyAfterObservedAddressGatewayAndBothDnsMatch()
     {
         var (c, b, j, web, _) = Fixture();
