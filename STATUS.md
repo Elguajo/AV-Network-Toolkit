@@ -366,3 +366,18 @@ Implementation committed locally as **d054a61ccd2f27ebd03cc73b9acb5e03e6ecd52d**
 - Remaining tasks in active phase: historical manual/owner acceptance remains open, no phase marked complete. Phase06 implementation starts in the new chat after push verification.
 - Next smallest safe action: validate/commit metadata, ordinary push main, independently compare local/remote SHA, then create/start a local Phase06 project chat with exact handoff. No branch/worktree.
 - Can next session proceed without clarification? Yes for Phase06 bootstrap, design/implementation and safe fake-boundary checks under ADR-023. No live network tests, JSON repair, release/later phase or automatic new-code publication.
+
+## Session handoff — 2026-10-31, original idea summary
+
+- Date and environment: 2026-10-31, Asia/Tashkent; existing Windows/PowerShell workspace.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / pre-change `f160ac0986af59c7cc4357021b8ca7fe942b63e0`. Resolve this scoped documentation commit with `git log -1 --format=%H -- docs/ORIGINAL_IDEA_SUMMARY_RU.md`.
+- Current phase and task IDs: Phase 06 authorized under ADR-023; pre-existing uncommitted mDNS implementation/spec/test work observed. Phase 05 AWAITING_REVIEW and all acceptance checkboxes retained. This separate owner-requested summary does not execute or accept phase tasks.
+- What was actually completed: read the shared conversation's text from its public HTML payload and wrote a Russian summary of the original problem, product evolution, workflow, nine phases and boundaries; distinguished historical proposals from current repository rules. Attachments and third-party software behavior not independently verified.
+- Files changed: [original idea summary](docs/ORIGINAL_IDEA_SUMMARY_RU.md) and this appended handoff only; existing mDNS working changes excluded from the scoped commit. No new requirements, architecture or format decision.
+- Test commands and results: `& "$env:LOCALAPPDATA/AVNetworkToolkit.BuildTools/python/Scripts/python.exe" -B scripts/validate_plan.py` PASS (9 phases, 49 stable tasks, schema/formats/references, 168 links at initial check). Staged whitespace/scope verified before commit; exact final outcome reported in chat. Application build/unit/GUI tests NOT RUN for this documentation-only task; earlier evidence unchanged.
+- Live-network tests: NOT RUN / not authorized; no NIC settings, probes, multicast listeners, UAC or DHCP execution.
+- Known bugs, risk and workarounds: OPEN P05-R01 and previous manual/native limits unchanged. Concurrent/pre-existing Phase 06 changes are not reviewed or certified by this summary.
+- Decisions requiring user approval: no decision needed to save the requested summary; phase acceptance/live tests/release/publication gates remain.
+- Remaining tasks in active phase: 06-T01–06-T04 verification and acceptance remain with the implementation work; no checkbox closed here.
+- Next smallest safe action: owner reads the summary; continue already-authorized Phase 06 work separately, preserving its uncommitted changes. No push in this documentation task.
+- Can next session proceed without clarification? Yes within the existing ADR-023 scope; this summary adds no phase or publication authorization.
