@@ -78,3 +78,7 @@ Owner selected lowercase `app/` and `test/`, with solution `AVNetworkToolkit.sln
 ## Naming-refactor integration authorization — ADR-014
 
 On 2026-10-31 the owner requested commit, merge to main and push of the verified lowercase-path refactor, after confirming the obsolete 00_READ_FIRST_RU.md deletion. ADR-014 authorizes that integration/deletion and supersedes the earlier pending-publication snapshot for this follow-up. Phase 03/live-test/release gates remain unchanged.
+
+## Phase 03 authorization — ADR-015
+
+On 2026-10-31 the owner explicitly requested Phase 03 in a new chat. 03-T01–03-T05 execution is authorized, preserving JSON v1 and DESIGN.md. Supersedes stale no-Phase-03-authorization snapshots only. No live tests, merge/push, release or Phase 04 authorization.

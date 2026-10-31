@@ -3,7 +3,7 @@
   "project": "AV Network Manager fork development",
   "baseRepository": "https://github.com/rmzncakir/network-profile-changer",
   "featureReference": "https://github.com/mefranklin6/AV-Network-Toolbag",
-  "status": "PHASE_02_AWAITING_REVIEW",
+  "status": "AWAITING_REVIEW",
   "licenseNote": "Base MIT; AV Toolbag license not declared at inspection; no source reuse",
   "phases": [
     {
@@ -121,37 +121,37 @@
         "02"
       ],
       "file": "phases/03-device-web-interfaces.md",
-      "status": "NOT_STARTED",
+      "status": "AWAITING_REVIEW",
       "tasks": [
         {
           "id": "03-T01",
           "title": "Design device model with name/type/IP/URL/profile reference and group",
           "acceptance": "Explicit identity, profile association and full URL fields",
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         },
         {
           "id": "03-T02",
           "title": "Add per-project Device Web Interfaces UI: create/edit/delete/search/group",
           "acceptance": "Manage multiple device links for one profile without UI redesign",
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         },
         {
           "id": "03-T03",
           "title": "Launch full http/https deep URL with browser default and safe validation",
           "acceptance": "Path, query, fragment preserved; unsafe schemes and URL credentials rejected",
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         },
         {
           "id": "03-T04",
           "title": "Handle HTTP warning, unreachable endpoints and stale profile refs",
           "acceptance": "No hidden credential handling or unsafe TLS suppression",
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         },
         {
           "id": "03-T05",
           "title": "Automated tests for URL parsing/launch abstraction and JSON round-trip",
           "acceptance": "Tests include deep paths/fragments and malformed URLs",
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         }
       ]
     },
@@ -421,20 +421,22 @@
   ],
   "forkRepository": "https://github.com/Elguajo/AV-Network-Toolkit",
   "baselineCommit": "603cf24fa0ba1819c0ec10b6a57ef5cf57c3852e",
-  "activePhase": "02",
+  "activePhase": "03",
   "phase02Authorized": true,
-  "authorization": "ADR-008: Phase 02 and preparation; ADR-009: format approved; ADR-010/011: existing design and English-only UI; ADR-013: lowercase paths; ADR-014: naming-refactor/deletion commit and main merge/push; no Phase 03/live-test/release authorization",
+  "authorization": "ADR-015: Phase 03 execution; JSON v1/ADR-009 and DESIGN.md/ADR-010/011 preserved; no live tests, merge/push, release or Phase 04 authorization",
   "preparationCheckpoint": [
     "01-T06",
     "01-T07",
     "01-T08"
   ],
-  "implementationCommit": "0bf1070216255c9e1411a4a96445372b6e6a45d1",
-  "reviewPacket": "docs/testing/PHASE02_REVIEW.md",
+  "implementationCommit": "UNCOMMITTED: resolve after Phase 03 feature commit",
+  "reviewPacket": "docs/testing/PHASE03_REVIEW.md",
   "scopeRefinements": [
     "ADR-010: all new UI reuses existing design (DESIGN.md)",
     "ADR-011: retire Turkish UI, English fallback without startup settings rewrite",
     "ADR-013: lowercase app/ and test/ directories; AVNetworkToolkit.sln; internal identities/data paths preserved"
   ],
-  "repositoryLayoutCommit": "b119a84ffb7a8202a1fefeb24ea58cc0a882fde4"
+  "repositoryLayoutCommit": "b119a84ffb7a8202a1fefeb24ea58cc0a882fde4",
+  "phase03Authorized": true,
+  "phase02ImplementationCommit": "0bf1070216255c9e1411a4a96445372b6e6a45d1"
 }

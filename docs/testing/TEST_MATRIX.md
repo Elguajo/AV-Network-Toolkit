@@ -179,3 +179,20 @@ Branch `codex/simplify-project-paths`; starting anchor `4cddfcd1dad4be867d499e74
 | Source inspection of solution/harness/project/CI references; `git diff --check` | PASS: new paths resolve; workflow command edits only; unchanged namespaces, assembly/project filenames and AppData paths |
 
 Historical commands in earlier evidence sections intentionally retain the filenames used when they ran. Current navigation links point to moved files. Updated current README/CONTRIBUTING instructions and fixed their stale bilingual resource path to match the already-approved English-only UI. No tests were added/skipped solely for this mechanical rename. CI/release packaging and native/live-network tests NOT RUN in this follow-up; no push/tag/release or OS network operation performed.
+
+
+## Phase 03 Device Web Interfaces — 2026-10-31
+
+Branch `codex/phase-03-device-web-interfaces`, starting HEAD `17c7014ba585fe85680fcdede51ce967f238054d`. Implementation SHA: resolve `git log -1 --format=%H -- app/ViewModels/ProjectViewModel.Devices.cs`. Complete [review packet](PHASE03_REVIEW.md) has changed paths, exact scope, source evidence, initial failures/corrections, risks and owner gate. Phase 03 AWAITING_REVIEW, not complete. `$sdk`/`$py` use the local tool paths recorded above.
+
+| Exact command/check | Result |
+|---|---|
+| `& $sdk build AVNetworkToolkit.sln --configuration Release --no-restore` | PASS, 0 warnings/errors |
+| `& $sdk test test/NetworkProfileManager.Tests.csproj --configuration Release --no-build --logger 'console;verbosity=minimal' --logger 'trx;LogFileName=phase03.trx'` | PASS, 308 tests, 0 failed/skipped; 22 new device cases |
+| `& $sdk run --project scripts/ProjectUiSmoke/ProjectUiSmoke.csproj --configuration Release -- TestResults/Phase03UiSmoke` | PASS, 20 Light/Dark normal/minimum project/device captures, 0 binding errors; real selected-row identity, 24 linked devices, filtering/grouping/draft guards, fake launch/cancel, named controls, footer bounds and programmatic forward focus |
+| `& $py -B scripts/validate_plan.py`; `& $py -B scripts/test_validate_plan.py` | PASS, full schema+formats/example/planning/107 links and 10 validator regressions |
+| `git diff --check` / staged whitespace / protected-path diff against 17c7014 | PASS; schema/example/license/workflow and legacy network/UAC/history/storage/App/tray/MainWindow unchanged |
+
+Ignored local artifacts: `test/TestResults/phase03.trx`, `TestResults/Phase03UiSmoke/*.png`. Existing DESIGN.md styling verified from representative empty/selected/error/lower-form renders in both themes and sizes. All 20 captures generated; actual native Mica/backdrop not certified. Programmatic traversal is not manual keyboard or screen-reader acceptance.
+
+NOT RUN: actual browser handler/navigation/endpoint/TLS, network apply/revert/scan/DHCP/UAC, real adapter enumeration acceptance, native dialogs/full app/tray, manual keyboard/AT/high contrast/zoom, publish/clean machine/hardware failure and CI. No unit exclusions or live network settings/probes. Existing Phase 02/manual and baseline risks remain; no new release/support guarantee.

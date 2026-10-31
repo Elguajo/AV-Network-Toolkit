@@ -31,4 +31,6 @@ Project is a localized addition: existing title-bar tool style, a separate Fluen
 
 ## Verification for UI changes
 
+Phase 03 extends Project with Profiles/Devices tabs using the existing themed controls. Devices reuses the navigation list, type/profile grouping, labelled editor, Card destination preview and fixed Keep/Open footer. Its left panel and editor scroll independently at minimum size, retaining access to search/group/new/delete and all fields. Both tabs retain their independent drafts. No new colors, primitives, icon pack or theme language.
+
 Build and resource-key checks; exercise new data bindings, disabled/selected/error/empty states and keyboard reachability. Render at normal and minimum supported dimensions, in both themes and the supported English UI. The isolated `scripts/ProjectUiSmoke` harness renders the Project component without launching the application's startup/network services. Its PNGs composite native Mica transparency over the existing application surface; they do not certify the actual desktop backdrop or assistive-technology behavior. Record checks actually run in [test evidence](docs/testing/TEST_MATRIX.md); never claim complete visual/accessibility certification from source inspection.

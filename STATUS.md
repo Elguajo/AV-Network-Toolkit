@@ -1,4 +1,19 @@
-# Current implementation status — PHASE_02_AWAITING_REVIEW
+# Current implementation status — PHASE_03_AWAITING_REVIEW
+
+- **Fork URL:** https://github.com/Elguajo/AV-Network-Toolkit
+- **Current branch / starting HEAD:** codex/phase-03-device-web-interfaces / 17c7014ba585fe85680fcdede51ce967f238054d; remote main independently matched at bootstrap.
+- **Implementation commit SHA:** pending scoped commit; resolve `git log -1 --format=%H -- app/ViewModels/ProjectViewModel.Devices.cs` after commit. No PR/push/merge.
+- **Active phase / authorization:** 03 AWAITING_REVIEW; 03-T01–03-T05 authorized by explicit owner request (ADR-015). No phase marked complete.
+- **Completed tasks / evidence:** prior preparation 01-T06–01-T08 and approved 02-T01 unchanged; 03-T01–03-T05 implemented with EVIDENCE_RECORDED, pending owner acceptance. Prior Phase 02 evidence/manual limits retained below.
+- **In progress / blockers:** owner review/manual acceptance remains. No known failed automated check or unfinished authorized implementation task.
+- **Next action:** owner reviews Phase 03 diff and Devices UI; then decides acceptance. Proposed Phase 04 must begin with explicit adapter/apply/verification/recovery design; not started or authorized.
+- **Tests last executed:** Release build PASS 0 warnings/errors; 308 isolated xUnit PASS/0 failed/0 skipped; 20 Light/Dark normal/minimum component renders PASS/0 binding errors, actual selected row/fake launch/cancel/focus/draft guards. Full draft-2020-12 + formats/example/planning/107 links PASS; 10 validator regressions PASS; whitespace PASS.
+- **Risks:** real default-browser navigation/TLS, native dialogs/full app/tray, manual keyboard/AT/high-contrast/zoom and large-catalog performance UNVERIFIED; prior URL-secret/backup/filesystem/legacy history/apply/migration-marker limitations unchanged.
+- **Live tests / publication:** NOT RUN / not authorized. No NIC changes, probes, scans, real browser launches, DHCP server or elevation. CI, publish/clean-machine and hardware failure tests NOT RUN. No Phase 04 authorization.
+- **Review packet:** [Phase 03 exact commands, artifacts, outcome and limitations](docs/testing/PHASE03_REVIEW.md).
+- **Last verification date:** 2026-10-31 (Asia/Tashkent).
+
+The following previous header snapshot is historical; ADR-015 and the current state above supersede its authorization/next-action fields.
 
 - **Fork URL:** https://github.com/Elguajo/AV-Network-Toolkit
 - **Upstream:** https://github.com/rmzncakir/network-profile-changer
@@ -161,3 +176,19 @@ Exact evidence and reproducible adoption check: [test matrix](docs/testing/TEST_
 - Remaining active-phase work: manual acceptance/review gate remains visible; naming implementation has no known failed checks.
 - Next smallest safe action: finish the authorized integration and return verified commit/remote result.
 - Can next session proceed without clarification: integration verification yes; Phase 03, release or live tests need separate scope.
+
+
+## Session handoff — 2026-10-31, Phase 03 implementation
+
+- Date and environment: Asia/Tashkent; Windows 10.0.26300 x64; local SDK 8.0.427/runtime 8.0.33; Python jsonschema 4.26.0 venv. No installation.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / codex/phase-03-device-web-interfaces / starting 17c7014ba585fe85680fcdede51ce967f238054d; implementation commit resolved after scoped commit via lookup above. Remote main matched that starting anchor at bootstrap.
+- Current phase and task IDs: 03 AWAITING_REVIEW; 03-T01–03-T05 EVIDENCE_RECORDED. Checkboxes remain open for owner acceptance; no self-completion or Phase 04.
+- Actually completed: existing ProjectDevice CRUD/drafts/search/type-profile grouping, safe exact-URL launcher/confirmation, HTTP/mismatch/unlinked handling, explicit relink/unlink, JSON v1 unchanged, tests and isolated WPF verification; ADR-015 records the owner's start request.
+- Files changed: project VM/device partial and browser service, Devices component/Project window/dialogs/English resources, focused tests/smoke, design/spec/security/status/tasks/phase/plan/context/roadmap/ADR/review packet. No legacy network/storage/history/UAC/tray/startup/license/schema/workflow edit.
+- Test commands/results: exact commands in docs/testing/PHASE03_REVIEW.md. PASS Release build 0 warnings/errors, 308 xUnit/0 failed/0 skipped, 20 WPF renders/0 binding errors with actual row/command/draft/fake launch/focus assertions, full schema/planning/107 links, 10 validator regressions and whitespace. Protected-path diff exit 0.
+- Live-network tests: NOT RUN / not authorized. No real browser, probes/scan, NIC config, DHCP server or elevation. Full app/tray/native dialogs/real browser/manual keyboard/AT/high contrast/zoom/publish/clean machine/hardware failure/CI NOT RUN.
+- Known bugs, risks and workarounds: selected-row mismatch and clipped empty state were reproduced and corrected before final checks; small windows require scrolling. Prior migration-marker attribution, backup growth, conservative/incomplete secret detection, hardware/filesystem and legacy history/apply issues unchanged. Large-catalog performance UNVERIFIED. Browser handoff is not reachability proof.
+- Decisions requiring user approval: Phase 03 acceptance; any later merge/push/Phase 04/live tests. Start authorization itself already granted (ADR-015).
+- Remaining active work: owner review/manual acceptance; no known failed automated check or incomplete authorized implementation task.
+- Next smallest safe action: review the Phase 03 diff and Project/Devices UI. Proposed next phase is 04, explicit adapter/apply/verification/recovery design first, only after owner authorization.
+- Can next session proceed without clarification: read-only review and scoped Phase 03 corrections yes; merge/push/live tests/Phase 04 no.

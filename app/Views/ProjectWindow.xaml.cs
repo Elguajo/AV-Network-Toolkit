@@ -63,4 +63,17 @@ internal sealed class ProjectDialogs(Window owner) : IProjectDialogs
         Loc.Get("Project.Overwrite", "Replace this file and retain a backup?") + "\n\n" + path,
         Loc.Get("Project.Title", "Project"), MessageBoxButton.YesNo, MessageBoxImage.Question,
         MessageBoxResult.No) == MessageBoxResult.Yes;
+    public bool ConfirmDeleteDevice() => System.Windows.MessageBox.Show(owner,
+        Loc.Get("Device.DeleteConfirm"), Loc.Get("Device.Header"), MessageBoxButton.YesNo,
+        MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes;
+    public bool ConfirmOpenDevice(string destination, bool isHttp, bool hostMismatch, bool unlinked)
+    {
+        var message = Loc.Get("Device.OpenConfirm") + "\n\n" + destination + "\n\n" + Loc.Get("Device.BrowserOwnsTls");
+        if (isHttp) message += "\n\n" + Loc.Get("Device.HttpWarning");
+        if (hostMismatch) message += "\n\n" + Loc.Get("Device.HostWarning");
+        if (unlinked) message += "\n\n" + Loc.Get("Device.UnlinkedWarning");
+        return System.Windows.MessageBox.Show(owner, message, Loc.Get("Device.Open"), MessageBoxButton.OKCancel,
+            isHttp || hostMismatch ? MessageBoxImage.Warning : MessageBoxImage.Question,
+            MessageBoxResult.Cancel) == MessageBoxResult.OK;
+    }
 }

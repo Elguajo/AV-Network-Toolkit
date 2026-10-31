@@ -25,6 +25,8 @@ public class ProjectViewModelTests : IDisposable
         public string? SavePath(string? folder) => Save;
         public bool ConfirmDiscard() => Discard;
         public bool ConfirmDelete() => Delete;
+        public bool ConfirmDeleteDevice() => Delete;
+        public bool ConfirmOpenDevice(string destination, bool isHttp, bool hostMismatch, bool unlinked) => false;
         public bool ConfirmOverwrite(string path) { OverwritePrompts++; return Overwrite; }
     }
 

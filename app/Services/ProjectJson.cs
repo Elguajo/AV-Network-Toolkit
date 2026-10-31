@@ -145,7 +145,7 @@ public static class ProjectJson
         return ((uint)bytes[0] << 24) | ((uint)bytes[1] << 16) | ((uint)bytes[2] << 8) | bytes[3];
     }
 
-    private static void ValidateUrl(string text, string field)
+    internal static void ValidateUrl(string text, string field = "devices.webUrl")
     {
         if (text.Any(char.IsWhiteSpace) || text.Any(char.IsControl) || text.Contains('\\')
             || !Uri.TryCreate(text, UriKind.Absolute, out var uri)

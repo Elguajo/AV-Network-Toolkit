@@ -22,9 +22,11 @@ public interface IProjectDialogs
     bool ConfirmDiscard();
     bool ConfirmDelete();
     bool ConfirmOverwrite(string path);
+    bool ConfirmDeleteDevice();
+    bool ConfirmOpenDevice(string destination, bool isHttp, bool hostMismatch, bool unlinked);
 }
 
-public sealed class ProjectViewModel : INotifyPropertyChanged
+public sealed partial class ProjectViewModel : INotifyPropertyChanged
 {
     private readonly IProjectDialogs _dialogs;
     private readonly ProjectStore _store;
@@ -37,8 +39,9 @@ public sealed class ProjectViewModel : INotifyPropertyChanged
     private string _error = "";
     private string? _folder;
 
-    public ProjectViewModel(IProjectDialogs dialogs) : this(dialogs, new ProjectStore()) { }
-    internal ProjectViewModel(IProjectDialogs dialogs, ProjectStore store)
+    public ProjectViewModel(IProjectDialogs dialogs) : this(dialogs, new ProjectStore(), new DefaultBrowserLauncher()) { }
+    public ProjectViewModel(IProjectDialogs dialogs, IBrowserLauncher browser) : this(dialogs, new ProjectStore(), browser) { }
+    internal ProjectViewModel(IProjectDialogs dialogs, ProjectStore store, IBrowserLauncher? browser = null)
     {
         (_dialogs, _store) = (dialogs, store);
         AttachEditor();
@@ -55,6 +58,7 @@ public sealed class ProjectViewModel : INotifyPropertyChanged
         }));
         KeepProfileCommand = new RelayCommand(_ => Run(KeepProfile));
         DeleteProfileCommand = new RelayCommand(_ => Run(DeleteProfile), _ => _selected != null);
+        InitializeDevices(browser ?? new DefaultBrowserLauncher());
     }
 
     private static NetworkProject Empty() => new()
@@ -90,7 +94,7 @@ public sealed class ProjectViewModel : INotifyPropertyChanged
     public string Folder => _folder ?? "";
     public string BackupPath => _snapshot?.BackupPath ?? "";
     public string Error { get => _error; private set { _error = value; Changed(); } }
-    public bool HasUnsavedChanges => _documentDirty || _editorDirty;
+    public bool HasUnsavedChanges => _documentDirty || _editorDirty || _deviceEditorDirty;
     public ICommand NewCommand { get; }
     public ICommand OpenCommand { get; }
     public ICommand ChooseFolderCommand { get; }
@@ -118,6 +122,7 @@ public sealed class ProjectViewModel : INotifyPropertyChanged
     private void SaveAs()
     {
         if (_editorDirty) KeepProfile();
+        if (_deviceEditorDirty) KeepDevice();
         var data = Current();
         _ = ProjectJson.Serialize(data);
         var path = _dialogs.SavePath(_folder);
@@ -135,7 +140,7 @@ public sealed class ProjectViewModel : INotifyPropertyChanged
         _folder = Path.GetDirectoryName(saved.Path);
         Changed(nameof(FilePath)); Changed(nameof(Folder)); Changed(nameof(BackupPath)); Changed(nameof(HasUnsavedChanges));
     }
-    private NetworkProject Current() => _project with { Profiles = Profiles.ToList() };
+    private NetworkProject Current() => _project with { Profiles = Profiles.ToList(), Devices = Devices.ToList() };
     private void KeepProfile()
     {
         var profile = _editor.Build();
@@ -155,12 +160,14 @@ public sealed class ProjectViewModel : INotifyPropertyChanged
         SetEditor(profile);
         Changed(nameof(SelectedProfile));
         _editorDirty = false;
+        RefreshDeviceDirectory();
         Dirty();
     }
     private void DeleteProfile()
     {
         if (_selected == null) return;
-        if (_project.Devices.Any(d => d.ProfileId == _selected.Id)) throw new ProjectValidationException("Reference");
+        if (Devices.Any(d => d.ProfileId == _selected.Id) || _deviceEditor.ProfileId == _selected.Id)
+            throw new ProjectValidationException("Reference");
         if (!_dialogs.ConfirmDelete()) return;
         _updatingProfiles = true;
         try { Profiles.Remove(_selected); }
@@ -168,6 +175,7 @@ public sealed class ProjectViewModel : INotifyPropertyChanged
         _selected = null;
         SetEditor(new ProjectProfile());
         Changed(nameof(SelectedProfile));
+        RefreshDeviceDirectory();
         Dirty();
     }
     private void Load(NetworkProject project, ProjectSnapshot? snapshot)
@@ -179,6 +187,7 @@ public sealed class ProjectViewModel : INotifyPropertyChanged
         _snapshot = snapshot;
         Profiles.Clear();
         foreach (var profile in project.Profiles) Profiles.Add(profile);
+        LoadDevices(project.Devices);
         _folder = snapshot == null ? _folder : Path.GetDirectoryName(snapshot.Path);
         SetEditor(new ProjectProfile());
         _documentDirty = snapshot == null;
@@ -216,7 +225,8 @@ public sealed class ProjectViewModel : INotifyPropertyChanged
     private void Changed([CallerMemberName] string? property = null)
     {
         PropertyChanged?.Invoke(this, new(property));
-        if (string.IsNullOrEmpty(property) || property == nameof(SelectedProfile)) CommandManager.InvalidateRequerySuggested();
+        if (string.IsNullOrEmpty(property) || property == nameof(SelectedProfile) || property == nameof(SelectedDevice))
+            CommandManager.InvalidateRequerySuggested();
     }
 }
 

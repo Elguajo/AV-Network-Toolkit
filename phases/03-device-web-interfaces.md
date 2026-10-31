@@ -2,7 +2,7 @@
 
 - **Priority:** P0
 - **Dependencies:** Phase 02
-- **Current status:** NOT STARTED
+- **Current status:** AWAITING_REVIEW (ADR-015; 03-T01–03-T05 EVIDENCE_RECORDED)
 - **Scope:** Add a device catalog and safe browser launch independent of network mutation. Preserve deep paths and fragments.
 - **Read first:** docs/spec/DEVICE_WEB_INTERFACES.md; docs/security/THREAT_MODEL.md
 
@@ -25,3 +25,7 @@
 - [ ] Relevant unit tests and negative tests passed; `NOT RUN` recorded where unsupported.
 - [ ] Exact commit, branch, PR/diff, tests and risks recorded in `STATUS.md`.
 - [ ] User reviewed the results before the next phase.
+
+## Execution evidence
+
+Implementation and isolated local verification are recorded in [Phase 03 review](../docs/testing/PHASE03_REVIEW.md). 308 unit tests, Release build without warnings/errors and 20 WPF renders with no binding errors passed. Browser/live/full-app/manual acceptance remains NOT RUN. No checkbox/phase completion claimed before owner review. No Phase 04, merge/push or release authorization.

@@ -53,7 +53,7 @@ public sealed record ProjectDns
     public List<string> Servers { get; init; } = new();
 }
 
-// Storage contract only; device editing and launching belong to Phase 03.
+// Shared v1 storage contract, also used by the device directory and launcher.
 public sealed record ProjectDevice
 {
     public string Id { get; init; } = Guid.NewGuid().ToString();

@@ -253,4 +253,35 @@
   <sys:String x:Key="Project.Error">Invalid project.</sys:String>
   <sys:String x:Key="Project.OpenFilter">AV Network project (*.json;*.bak)|*.json;*.bak</sys:String>
   <sys:String x:Key="Project.SaveFilter">AV Network project (*.avnet.json)|*.avnet.json</sys:String>
+  <!-- Device directory -->
+  <sys:String x:Key="Project.Sections">Project sections</sys:String>
+  <sys:String x:Key="Device.Header">Devices</sys:String>
+  <sys:String x:Key="Device.Search">Search devices</sys:String>
+  <sys:String x:Key="Device.GroupBy">Group by</sys:String>
+  <sys:String x:Key="Device.Name">Device name</sys:String>
+  <sys:String x:Key="Device.Type">Type</sys:String>
+  <sys:String x:Key="Device.Profile">Related network profile</sys:String>
+  <sys:String x:Key="Device.Manufacturer">Manufacturer (optional)</sys:String>
+  <sys:String x:Key="Device.Ip">Device IPv4 address (optional)</sys:String>
+  <sys:String x:Key="Device.Url">Full web interface URL</sys:String>
+  <sys:String x:Key="Device.Destination">Destination</sys:String>
+  <sys:String x:Key="Device.Notes">Notes (no passwords or secrets)</sys:String>
+  <sys:String x:Key="Device.New">New device</sys:String>
+  <sys:String x:Key="Device.Keep">Keep device</sys:String>
+  <sys:String x:Key="Device.Open">Open Web Interface</sys:String>
+  <sys:String x:Key="Device.Unlink">Unlink profile</sys:String>
+  <sys:String x:Key="Device.Unlinked">Unlinked</sys:String>
+  <sys:String x:Key="Device.StaleProfile">Profile unavailable. Choose a profile or unlink explicitly.</sys:String>
+  <sys:String x:Key="Device.OtherType">Other devices</sys:String>
+  <sys:String x:Key="Device.Empty">No matching devices. Add a device or change the search.</sys:String>
+  <sys:String x:Key="Device.EditorHint">Keep each device in the project, then Save as to store the project file. Opening a web interface does not apply network settings.</sys:String>
+  <sys:String x:Key="Device.InvalidDestination">Enter a valid HTTP/HTTPS URL without credentials or secret parameters.</sys:String>
+  <sys:String x:Key="Device.DeleteConfirm">Delete the selected device and its pending edits?</sys:String>
+  <sys:String x:Key="Device.OpenConfirm">Open this exact destination in your default browser?</sys:String>
+  <sys:String x:Key="Device.BrowserOwnsTls">The browser checks certificates. No connection test or adapter change will be performed.</sys:String>
+  <sys:String x:Key="Device.HttpWarning">This address uses unencrypted HTTP. Information sent to the device may be visible on the network.</sys:String>
+  <sys:String x:Key="Device.HostWarning">The URL host differs from the device IP. Check the full destination before continuing; the address will not be changed.</sys:String>
+  <sys:String x:Key="Device.UnlinkedWarning">This device has no related network profile. Opening it will not configure an adapter.</sys:String>
+  <sys:String x:Key="Device.LaunchError">Could not hand the address to the default browser. Check your default browser settings and try again.</sys:String>
+  <sys:String x:Key="Device.HandedToBrowser">Address handed to the default browser. Device reachability has not been checked.</sys:String>
 </ResourceDictionary>

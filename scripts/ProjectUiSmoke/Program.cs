@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using NetworkProfileManager.Models;
+using NetworkProfileManager.Services;
 using NetworkProfileManager.ViewModels;
 using NetworkProfileManager.Views;
 using Wpf.Ui.Controls;
@@ -45,7 +46,8 @@ internal static class Program
                 dictionaries[dictionaries.Count - 1] = new ResourceDictionary
                 { Source = new Uri($"pack://application:,,,/NetworkProfileManager;component/Strings/{language}.xaml") };
                 var dialogs = new FakeDialogs();
-                var vm = new ProjectViewModel(dialogs);
+                var browser = new FakeBrowser();
+                var vm = new ProjectViewModel(dialogs, browser);
                 var window = new ProjectWindow { DataContext = vm, Width = width, Height = height };
                 window.Show();
                 Pump();
@@ -109,7 +111,79 @@ internal static class Program
                 list.SelectedItem = vm.Profiles[0]; Pump();
                 if (!ReferenceEquals(vm.SelectedProfile, selected) || !ReferenceEquals(list.SelectedItem, selected))
                     throw new Exception("Declining selection discard left the list and editor inconsistent.");
-                vm.Editor.Name = "Unsaved draft";
+                vm.Section = 1; Pump();
+                Capture(window, Path.Combine(output, $"devices-empty-{language}-{theme}-{width}.png"));
+                if (!vm.NoDeviceMatches || vm.OpenDeviceCommand.CanExecute(null) || vm.DeleteDeviceCommand.CanExecute(null))
+                    throw new Exception("Empty device directory has incorrect command state.");
+                for (int i = 0; i < 24; i++)
+                {
+                    vm.NewDeviceCommand.Execute(null);
+                    vm.DeviceEditor.Name = "Control panel " + i;
+                    vm.DeviceEditor.Ip = "192.0.2.20";
+                    vm.DeviceEditor.WebUrl = $"https://192.0.2.20:8443/web/panel?view={i}&lang=en#!/main";
+                    vm.DeviceEditor.Type = i < 12 ? "Control panels" : "Displays";
+                    vm.DeviceEditor.ProfileId = vm.Profiles[0].Id;
+                    vm.KeepDeviceCommand.Execute(null); Pump();
+                    if (vm.Error.Length != 0 || vm.DeviceEditor.ProfileId != vm.Profiles[0].Id)
+                        throw new Exception("Bound device retention lost its profile: " + vm.Error);
+                }
+                if (vm.Devices.Count != 24 || vm.SelectedDevice?.Id != vm.DeviceEditor.Id)
+                    throw new Exception("Device list replacement lost identity.");
+                var deviceList = Descendants(window).OfType<ListBox>().Single(b => b.ItemsSource == vm.DeviceView);
+                if ((deviceList.SelectedItem as DeviceDirectoryEntry)?.Device.Id != vm.DeviceEditor.Id)
+                    throw new Exception("Selected device row does not match the editor.");
+                deviceList.ScrollIntoView(deviceList.SelectedItem); Pump();
+                Capture(window, Path.Combine(output, $"devices-selected-{language}-{theme}-{width}.png"));
+                var selectedDevice = vm.SelectedDevice;
+                vm.DeviceEditor.Name = "Unsaved device draft";
+                deviceList.SelectedItem = vm.DeviceView.Cast<DeviceDirectoryEntry>().First(r => ReferenceEquals(r.Device, vm.Devices[0])); Pump();
+                if (!ReferenceEquals(vm.SelectedDevice, selectedDevice) || (deviceList.SelectedItem as DeviceDirectoryEntry)?.Device.Id != selectedDevice?.Id)
+                    throw new Exception("Declining device selection discard left list/editor inconsistent.");
+                var deviceId = vm.DeviceEditor.Id;
+                vm.DeviceSearch = "no match"; Pump();
+                if (vm.DeviceEditor.Id != deviceId || vm.DeviceEditor.Name != "Unsaved device draft" || vm.SelectedDevice?.Id != deviceId)
+                    throw new Exception("Filtering lost the device draft.");
+                vm.DeviceGroupBy = "profile"; Pump();
+                vm.DeviceSearch = ""; Pump();
+                if ((deviceList.SelectedItem as DeviceDirectoryEntry)?.Device.Id != vm.SelectedDevice?.Id)
+                    throw new Exception("Clearing the search did not restore the selected device row.");
+                if (vm.DeviceEditor.ProfileId != vm.Profiles[0].Id)
+                    throw new Exception("Grouping reset the related profile.");
+                vm.DeviceEditor.WebUrl = "file:///C:/NEVER_ECHO";
+                vm.KeepDeviceCommand.Execute(null); Pump();
+                if (vm.Error.Length == 0 || vm.Error.Contains("NEVER_ECHO") || vm.DeviceDestination.Contains("NEVER_ECHO"))
+                    throw new Exception("Invalid device URL did not produce a redacted error.");
+                Capture(window, Path.Combine(output, $"devices-error-{language}-{theme}-{width}.png"));
+                vm.DeviceEditor.WebUrl = selectedDevice!.WebUrl;
+                vm.OpenDeviceCommand.Execute(null); Pump();
+                if (dialogs.OpenPrompts != 1 || browser.Opened != 0) throw new Exception("Browser cancellation was ignored.");
+                dialogs.Open = true;
+                vm.OpenDeviceCommand.Execute(null); Pump();
+                if (browser.Opened != 1 || vm.DeviceNotice.Length == 0) throw new Exception("Fake browser handoff failed.");
+                foreach (var control in Descendants(window).OfType<Control>())
+                    if (control is System.Windows.Controls.TextBox or ComboBox or ListBox)
+                    {
+                        if (control is System.Windows.Controls.TextBox && control.TemplatedParent != null) continue;
+                        if (string.IsNullOrWhiteSpace(AutomationProperties.GetName(control)))
+                            throw new Exception("Unnamed device control: " + control.GetType().Name);
+                    }
+                var openButton = Descendants(window).OfType<Wpf.Ui.Controls.Button>()
+                    .Single(b => ReferenceEquals(b.Command, vm.OpenDeviceCommand));
+                var buttonBounds = openButton.TransformToAncestor(window).TransformBounds(new Rect(openButton.RenderSize));
+                if (!openButton.IsEnabled || buttonBounds.Bottom > window.ActualHeight || buttonBounds.Right > window.ActualWidth)
+                    throw new Exception("Device footer action is clipped or disabled.");
+                var urlInput = Descendants(window).OfType<Wpf.Ui.Controls.TextBox>()
+                    .Single(t => AutomationProperties.GetName(t) == "Full web interface URL");
+                urlInput.Focus(); Pump();
+                bool reachedOpen = openButton.IsKeyboardFocusWithin;
+                for (int i = 0; i < 80 && !reachedOpen; i++)
+                {
+                    if (System.Windows.Input.Keyboard.FocusedElement is not UIElement focused) break;
+                    focused.MoveFocus(new System.Windows.Input.TraversalRequest(System.Windows.Input.FocusNavigationDirection.Next));
+                    Pump(); reachedOpen = openButton.IsKeyboardFocusWithin;
+                }
+                if (!reachedOpen) throw new Exception("Forward focus traversal did not reach Open Web Interface.");
+                Capture(window, Path.Combine(output, $"devices-details-{language}-{theme}-{width}.png"));
                 dialogs.Discard = false;
                 window.Close(); Pump();
                 if (!window.IsVisible || window.ConfirmApplicationExit()) throw new Exception("Unsaved draft exit refusal was ignored.");
@@ -118,13 +192,29 @@ internal static class Program
                 window.Close();
             }
             if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
-            Console.WriteLine("PASS: 4 isolated project-window renders, bound list edits without discard prompts, selected command state, named controls, close/exit draft guards, 0 WPF binding errors; no NIC or OS-network calls.");
+            Console.WriteLine("PASS: 20 isolated project/device renders (Light/Dark, normal/minimum; empty/selected/error/details), 24 linked devices, bound edits/selection/search/group retention, fake launch/cancel, visible footer, named controls, forward focus traversal, close/exit device draft guards, 0 WPF binding errors; no browser/NIC/OS-network calls.");
             return 0;
         }
         catch (Exception ex) { Console.Error.WriteLine(ex); return 1; }
         finally { app.Shutdown(); }
     }
     private static void Pump() => Dispatcher.CurrentDispatcher.Invoke(() => { }, DispatcherPriority.ApplicationIdle);
+    private static void Capture(Window window, string path)
+    {
+        var bitmap = new RenderTargetBitmap((int)window.ActualWidth, (int)window.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+        bitmap.Render(window);
+        var visual = new DrawingVisual();
+        using (var context = visual.RenderOpen())
+        {
+            var bounds = new Rect(0, 0, bitmap.PixelWidth, bitmap.PixelHeight);
+            context.DrawRectangle((Brush)window.FindResource("ApplicationBackgroundBrush"), null, bounds);
+            context.DrawImage(bitmap, bounds);
+        }
+        var flattened = new RenderTargetBitmap(bitmap.PixelWidth, bitmap.PixelHeight, 96, 96, PixelFormats.Pbgra32);
+        flattened.Render(visual);
+        var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(flattened));
+        using var stream = File.Create(path); encoder.Save(stream);
+    }
     private static IEnumerable<DependencyObject> Descendants(DependencyObject parent)
     {
         for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
@@ -135,13 +225,20 @@ internal static class Program
     }
     private sealed class FakeDialogs : IProjectDialogs
     {
-        public bool Discard = true;
-        public int DiscardPrompts;
+        public bool Discard = true, Open;
+        public int DiscardPrompts, OpenPrompts;
         public string? OpenPath() => null;
         public string? ChooseFolder() => null;
         public string? SavePath(string? folder) => null;
         public bool ConfirmDiscard() { DiscardPrompts++; return Discard; }
         public bool ConfirmDelete() => true;
+        public bool ConfirmDeleteDevice() => true;
+        public bool ConfirmOpenDevice(string destination, bool isHttp, bool hostMismatch, bool unlinked) { OpenPrompts++; return Open; }
         public bool ConfirmOverwrite(string path) => true;
+    }
+    private sealed class FakeBrowser : IBrowserLauncher
+    {
+        public int Opened;
+        public void Open(string destination) => Opened++;
     }
 }
