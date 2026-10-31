@@ -2,6 +2,8 @@
 
 2026-10-31, Asia/Tashkent. Fork https://github.com/Elguajo/AV-Network-Toolkit; main; base `48913b21b7a4ddf62a9f58663fbfcde79d630a29`. Owner start authorization ADR-021 and explicit DNS decision ADR-022. Resolve implementation SHA with `git log -1 --format=%H -- app/Services/LinkLocalAddressing.cs`; the subsequent documentation handoff pins that SHA. No push, release or phase completion.
 
+Implementation SHA: **d054a61ccd2f27ebd03cc73b9acb5e03e6ecd52d**. Review `git diff 48913b2..d054a61` (39 paths, 1131 insertions/84 deletions); later documentation-only handoff pins these exact anchors without changing runtime evidence. Local main only.
+
 ## Outcome and scope
 
 05-T01–05-T05 have local implementation/unit/component evidence; acceptance remains open. 05-T04 isolated-adapter execution is **NOT RUN**. No real NIC assignment, enumeration acceptance, ARP/ICMP/TCP probes, elevation or browser launch was performed. [Exact support contract](../spec/PHASE05_IMPLEMENTATION_CONTRACT.md).

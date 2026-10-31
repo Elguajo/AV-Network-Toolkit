@@ -458,5 +458,6 @@
     "P05-R01 OPEN: intermittent existing empty-static-DNS JSON rejection failure; cause/baseline attribution UNVERIFIED, separate scope. Final 463 PASS does not resolve.",
     "Native DAD/netsh/UAC/recovery/isolated adapter execution NOT RUN; no release/push/Phase06."
   ],
-  "lastTests": "Release build 0 warnings/errors; final full 463 PASS, earlier 462 PASS/1 FAIL P05-R01; diagnostic existing 399 PASS, JSON 53 PASS; 64 WPF captures/0 binding errors; 11 fake observer fixtures; full schema/plan/10 validator regressions PASS."
+  "lastTests": "Release build 0 warnings/errors; final full 463 PASS, earlier 462 PASS/1 FAIL P05-R01; diagnostic existing 399 PASS, JSON 53 PASS; 64 WPF captures/0 binding errors; 11 fake observer fixtures; full schema/plan/10 validator regressions PASS.",
+  "implementationCommit": "d054a61ccd2f27ebd03cc73b9acb5e03e6ecd52d"
 }
