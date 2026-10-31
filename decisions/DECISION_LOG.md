@@ -8,6 +8,7 @@
 | ADR-004 | 2026-10-31 | Add project JSON and Device Web Interfaces | Project-scoped AV configuration and deep URLs | User-approved concept; data schema provisional |
 | ADR-005 | 2026-10-31 | Proposed versioned `project.avnet.json` sidecar | Avoid replacing existing AppData JSON model | PROPOSED (Phase 02 review) |
 | ADR-006 | 2026-10-31 | Adopt Phase 01 audit evidence into canonical documentation/plan and make a local documentation-only commit | User replied "Разрешаю" to the proposed documentation package/commit; avoid losing findings between sessions | User-approved adoption scope; phase acceptance and Phase 02 start NOT approved |
+| ADR-007 | 2026-10-31 | Merge the completed documentation branch into main and push main to origin | User explicitly requested merge to main, then added "Можешь и Push делать" | User-approved integration/publication of this documentation change only; no phase advancement |
 
 ## ADR-006 scope and consequences
 
@@ -18,6 +19,14 @@
 - Material choices remain NEEDS_DECISION: project catalogue layout, project/legacy mapping, unknown-field/future-version policy, reserved link-local mode, suspected URL-secret policy, and support/rejection of complex network configurations. ADR-005 remains PROPOSED.
 - Legacy storage/history fixes are recorded as separate reviews, not silently folded into feature work. SDK/test-isolation/tooling checkpoint execution requires separate authorization.
 - Commit evidence: the commit containing this record on `codex/phase-01-baseline-audit` (resolve using `git log -1 --format=%H -- decisions/DECISION_LOG.md`). A commit cannot embed its own resulting SHA; exact pre-commit evidence anchor is recorded in STATUS.md and final commit ID is reported in the session handoff response.
+
+## ADR-007 scope and consequences
+
+- Supersedes only ADR-006's lack of merge/push authorization for the completed documentation change. Source documentation commit: `abb1430e4cf1fb02a0c201073ded3d81728476bf`; include this integration handoff follow-up.
+- Fetch/reconcile remote main first. Prefer fast-forward; ordinary push only, no force/history rewrite. Preserve untracked original archive manifest/validator, exclude them from commit/push. No PR merge or branch deletion is required.
+- No implicit phase acceptance, task completion, SDK install, source/test/tool changes, live tests or Phase 02 authorization.
+- The existing main push workflow runs unfiltered tests that emit real probes (F06). Use `[skip ci]` on this documentation integration commit to avoid unauthorized live probes until 01-T07 is addressed. Do not call skipped CI passing and do not change workflows or publish tags/releases. [GitHub skip semantics](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/skip-workflow-runs) were checked before relying on the marker.
+- Exact merge/push outcomes and final local/remote SHA are verified after execution and reported in the chat handoff; STATUS.md retains the known pre-integration anchor and reproducible commit lookup.
 
 ## How to log a change
 
