@@ -10,6 +10,23 @@ Owner instruction, 2026-10-31: **all new buttons, windows and other interface el
 - [Settings](app/Views/ThemeSettingsWindow.xaml) and [scanner](app/Views/IpScannerWindow.xaml): secondary windows, cards, controls and command hierarchy.
 - [Adapter list](app/Views/AdapterListPanel.xaml) and [profile cards](app/Views/ProfilePanel.xaml): navigation selection, spacing and action patterns.
 
+## Approved main-window target — ADR-026 / FR-14
+
+On 2026-10-31 the owner selected **the second raster concept** with «Второй тогда зафиксируем как цель». Canonical visual reference: [main-window-target-v2.png](docs/design/main-window-target-v2.png). The first concept with a permanently open editor is not the target. This section specifies future localized UI refinement; it does not describe current implementation or authorize a full redesign.
+
+![Approved second concept: adapter navigation at left, full-width profile rows with per-profile Apply, and separate device tab](docs/design/main-window-target-v2.png)
+
+- Keep adapters in the left navigation; choosing one shows that adapter's observed settings and relevant saved presets on the right.
+- Keep a full-width profile list as the primary content. Each profile has its own explicit target-named **Apply to {adapter}** action. Do not replace this with a wizard or a permanently expanded side-by-side profile editor.
+- **Add Profile** and edit actions open a separate editor. Preserve access to manual network settings, Ping and history/recovery through the compact sections depicted; do not remove underlying functions.
+- Keep current computer IP/mask/gateway/DNS and connection state above the list. Separate observed state from draft intent. A current-profile indicator requires supporting observed evidence; never infer live success or equipment reachability from the image.
+- Use a separate **Device interfaces** tab for saved equipment URLs and the approved optional credential capability (FR-13). This raster does not specify that tab's interior, credential schema or automatic login.
+- Keep project context/open/save available within the same screen flow, while preserving explicit adapter choice. The visual does not settle legacy five-slot/project-store mapping, migration, import/export semantics or relaxed support for blocked network states.
+
+Reproduce the layout/hierarchy using the existing WPF-UI controls, shared resources, themes and accessibility rules below. Raster glyphs, gradients, repeated labels, example values/shortcuts and exact pixel measurements are illustrative, not new assets/tokens or correctness guarantees. Verify labels, minimum-size behavior, keyboard/focus, disabled/error/busy states and Light/Dark appearance against the implementation; this is a concept, not screenshot evidence of shipped functionality.
+
+Provenance: generated in this chat using built-in imagegen from the owner's Network Profile Manager / AV Network Toolkit screenshots, then explicitly approved. No AV Network Toolbag assets used. Only documentation-range IP examples. SHA-256: `a411497344596fb3c86a60546e43560e7247f31613b987974a9782108b282024`.
+
 ## Reuse rules
 
 | Element | Existing contract |

@@ -446,3 +446,18 @@ Implementation committed locally as **d054a61ccd2f27ebd03cc73b9acb5e03e6ecd52d**
 - Can next session proceed without clarification? Yes for read-only review/preparing already-authorized bounded design handoffs; no implicit live tests, schema migration, next-phase development, push or release. Preserve unrelated concurrent worktree changes.
 
 - Phase06 metadata-pin exact pre-commit HEAD: `f7825f0dff96888aac14ef88ad63a4eefd4b7265`; no runtime changes in this pin.
+
+## Session handoff — 2026-10-31, approved second raster target (ADR-026)
+
+- Date and environment: 2026-10-31, Asia/Tashkent; existing Windows/PowerShell/local Python tools.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / clean bootstrap `1a71b870aff99da3b16982b5b96caf961d89f587`; containing adoption commit resolved with `git log -1 --format=%H -- docs/design/main-window-target-v2.png`.
+- Current phase and task IDs: Phase 06 AWAITING_REVIEW unchanged; FR-14 / IDEA-04 second-concept visual target approved. No phase-task checkbox completed or new phase started.
+- What was actually completed: copied the owner's selected second raster into the repository, documented its layout/invariants/provenance/hash in DESIGN.md, linked FR-14/IDEA-04 and recorded ADR-026. First permanent-editor concept superseded as a visual proposal; no code/UI implementation.
+- Files changed: docs/design/main-window-target-v2.png, DESIGN.md, docs/spec/PRODUCT_REQUIREMENTS.md, TASKS.md, decisions/DECISION_LOG.md and this appended handoff only.
+- Test commands and results: offline `scripts/validate_plan.py`, `scripts/test_validate_plan.py`, copied-image SHA-256 equality and staged whitespace/scope checked; actual results reported after execution. Build/application/GUI tests NOT RUN for this documentation/image adoption; prior Phase 06 evidence unchanged.
+- Live-network tests: NOT RUN / not authorized. No NIC changes, network services/probes, UAC/browser or DHCP execution.
+- Known bugs, risk and workarounds: OPEN P05-R01 and manual/native limits retained. Generated raster is a layout reference, not functional evidence; use native resources and real observed state. Store mapping, schema version and unpictured interaction states are not implicitly decided by it.
+- Decisions requiring user approval: later implementation phase placement and material mapping/migration/live-test/publication choices remain; this visual target and password permission already approved.
+- Remaining tasks in active phase: Phase 06 owner/native acceptance remains pending. IDEA-01–04 implementation and unpictured state design remain pending.
+- Next smallest safe action: prepare bounded implementation scope from DESIGN.md's selected target, reusing the current profile list/editor and apply/verification/recovery; retain existing phase acceptance gates.
+- Can next session proceed without clarification? Yes for design preparation using this selected target; no implicit new-phase execution, schema migration, live test or push.
