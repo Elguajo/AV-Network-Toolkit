@@ -38,3 +38,7 @@ ADR-008 supersedes the earlier pending-start snapshot: the owner explicitly auth
 ## Phase 02 integration authorization — ADR-012
 
 On 2026-10-31 the owner explicitly authorized committing the integration handoff, merging the verified Phase 02 branch into main and pushing main to origin. This supersedes earlier lack of publication authorization for this change only. No Phase 03, live-test, tag/release or force-push authorization is implied. Exact anchors and execution plan: STATUS.md / ADR-012.
+
+## Naming-refactor integration authorization — ADR-014
+
+On 2026-10-31 the owner requested commit, merge to main and push of the verified lowercase-path refactor, after confirming the obsolete 00_READ_FIRST_RU.md deletion. ADR-014 authorizes that integration/deletion and supersedes the earlier pending-publication snapshot for this follow-up. Phase 03/live-test/release gates remain unchanged.

@@ -423,7 +423,7 @@
   "baselineCommit": "603cf24fa0ba1819c0ec10b6a57ef5cf57c3852e",
   "activePhase": "02",
   "phase02Authorized": true,
-  "authorization": "ADR-006: documentation adoption and local commit only; preparation execution not authorized",
+  "authorization": "ADR-008: Phase 02 and preparation; ADR-009: format approved; ADR-010/011: existing design and English-only UI; ADR-013: lowercase paths; ADR-014: naming-refactor/deletion commit and main merge/push; no Phase 03/live-test/release authorization",
   "preparationCheckpoint": [
     "01-T06",
     "01-T07",
@@ -435,5 +435,6 @@
     "ADR-010: all new UI reuses existing design (DESIGN.md)",
     "ADR-011: retire Turkish UI, English fallback without startup settings rewrite",
     "ADR-013: lowercase app/ and test/ directories; AVNetworkToolkit.sln; internal identities/data paths preserved"
-  ]
+  ],
+  "repositoryLayoutCommit": "b119a84ffb7a8202a1fefeb24ea58cc0a882fde4"
 }

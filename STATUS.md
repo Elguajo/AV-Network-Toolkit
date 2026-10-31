@@ -2,18 +2,18 @@
 
 - **Fork URL:** https://github.com/Elguajo/AV-Network-Toolkit
 - **Upstream:** https://github.com/rmzncakir/network-profile-changer
-- **Working branch:** codex/simplify-project-paths (ADR-013 local follow-up); main/origin/main last verified at 4cddfcd1dad4be867d499e74a3d5213929bda7f8; prior source branch retained
+- **Working branch / integration target:** main (ADR-014); source codex/simplify-project-paths at b119a84ffb7a8202a1fefeb24ea58cc0a882fde4 plus integration handoff; main/origin/main preflight anchor 4cddfcd1dad4be867d499e74a3d5213929bda7f8
 - **Phase 02 implementation commit SHA:** 0bf1070216255c9e1411a4a96445372b6e6a45d1
-- **Repository-path refactor anchor:** 4cddfcd1dad4be867d499e74a3d5213929bda7f8; resolve resulting refactor commit via `git log -1 --format=%H -- AVNetworkToolkit.sln` (this record cannot embed its own resulting SHA).
+- **Repository-path refactor commit SHA:** b119a84ffb7a8202a1fefeb24ea58cc0a882fde4 (base 4cddfcd1dad4be867d499e74a3d5213929bda7f8).
 - **Project feature commit:** eeb589cf81d8871f4243218d2e1a668829b79a2e
 - **Preparation commit:** 11a6e5cc12f0d752dcbda9160b55369233bb6c98
 - **Code baseline:** 603cf24fa0ba1819c0ec10b6a57ef5cf57c3852e
 - **Status/handoff commit (includes latest path refinement):** resolve `git log -1 --format=%H -- STATUS.md`; this documentation-only record cannot embed its own resulting SHA. Re-read actual HEAD before resuming.
 - **Active phase:** 02 — AWAITING_REVIEW; not marked complete. Phase 03 NOT STARTED / NOT AUTHORIZED.
-- **Authorization:** ADR-008 preparation/Phase 02; ADR-009 approved format; ADR-010 existing design for all new UI; ADR-011 English-only UI with legacy tr fallback. ADR-012 now authorizes this change’s main merge/push; no live tests or future-phase authorization.
+- **Authorization:** ADR-008 preparation/Phase 02; ADR-009 approved format; ADR-010 existing design for all new UI; ADR-011 English-only UI with legacy tr fallback. ADR-012 authorized the completed Phase 02 publication; ADR-014 now authorizes the naming-refactor/deletion commit and main merge/push. No live tests or future-phase authorization.
 - **Completed tasks:** preparation 01-T06/01-T07/01-T08 verified, 02-T01 owner-approved. Historical Phase 01 acceptance not fabricated.
 - **In progress / evidence recorded:** 02-T02–02-T06 implemented/reviewed with evidence; checkboxes remain open pending owner acceptance. No implementation blocker known.
-- **Next action:** review the verified ADR-013 path refactor and its local commit; decide its integration separately. Phase 03/manual acceptance gate unchanged.
+- **Next action:** finish ADR-014 authorized commit/main fast-forward/push and verify remote SHA; Phase 03/manual acceptance gate unchanged.
 - **Tests last executed:** ADR-013 new-path restore/Release build PASS (0 warnings/errors), 286 isolated xUnit PASS/0 skipped, 4 component renders PASS/0 binding errors, full schema+formats/planning and 10 validator tests PASS. New exact commands in docs/testing/TEST_MATRIX.md; earlier Phase 02 evidence retained in docs/testing/PHASE02_REVIEW.md.
 - **Live/network/UAC/native-dialog/full-app/deployment tests:** NOT RUN. No OS network configuration changes, scans or elevation performed.
 - **Limits/side effects:** first failed component harness inadvertently reached real App startup/migration before failing on resources; marker existence/attribution uncertainty recorded below and in review packet. Final harness is isolated. No marker/customer data deleted. Earlier SDK first-run generated an untrusted development certificate; no trust command or admin install.
@@ -145,3 +145,19 @@ Exact evidence and reproducible adoption check: [test matrix](docs/testing/TEST_
 - Remaining active-phase work: review/acceptance gate; no incomplete naming implementation or failing checks known.
 - Next smallest safe action: review the focused rename diff/commit, then decide integration. Do not advance Phase 03 automatically.
 - Can next session proceed without clarification: read-only review/fixes within ADR-013 yes; merge/push of this new change and later phases require their own scope.
+
+## Session handoff — 2026-10-31, authorized naming-refactor integration
+
+- Date and environment: 2026-10-31, Asia/Tashkent; same Windows workspace/SDK; no app execution or production code change in this step.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main integration target; source codex/simplify-project-paths at b119a84ffb7a8202a1fefeb24ea58cc0a882fde4 plus this integration record. Resolve containing handoff commit with `git log -1 --format=%H -- STATUS.md`; final resulting SHA is verified/reported after execution.
+- Current phase/tasks: Phase 02 AWAITING_REVIEW; no task/phase completion or Phase 03 start implied by publication. ADR-014 explicitly authorizes this integration.
+- Actually verified before commit: fresh `git fetch origin main` PASS; main/origin/main both 4cddfcd1dad4be867d499e74a3d5213929bda7f8; both ancestry checks return 0. Only initial working-tree change: owner-confirmed deletion of 00_READ_FIRST_RU.md; index initially clean.
+- Files changed in this step: owner's obsolete entry-file deletion, STATUS/decision/context/roadmap/plan authorization records. New layout commit remains unchanged; no unrelated source files staged. Archive manifest absent before this step and not modified.
+- Tests/results: retained verified ADR-013 restore/Release build (0 warnings/errors), 286 xUnit/0 skipped, 4 component renders/0 binding errors; repeat only documentation/schema/links/planning, 10 tooling regression tests and whitespace checks for this documentation/deletion change. Exact prior new-path commands: TEST_MATRIX.md ADR-013 section.
+- Live-network tests: NOT RUN / not authorized; no NIC/probe/UAC/app-startup/DHCP/network-setting operations. CI status is separate, not preclaimed.
+- Known risks/deviations: Phase 02 manual/native-dialog/AT/filesystem limits unchanged. No conflicts known; no force/history rewrite, PR, tag/release or branch deletion planned.
+- Execution after commit: switch main, fast-forward merge, ordinary push main:main, verify local/remote SHA equality and report actual outcomes. This pre-execution handoff does not claim future command success.
+- Decisions requiring user approval: future phases/live tests; current commit/merge/push and confirmed deletion are authorized.
+- Remaining active-phase work: manual acceptance/review gate remains visible; naming implementation has no known failed checks.
+- Next smallest safe action: finish the authorized integration and return verified commit/remote result.
+- Can next session proceed without clarification: integration verification yes; Phase 03, release or live tests need separate scope.

@@ -20,6 +20,8 @@
 
 | ADR-013 | 2026-10-31 | Simplify repository paths to app/ and test/, and rename solution to AVNetworkToolkit.sln | Owner selected lowercase «App и Test можно строчной» and retained the proposed solution name | User-approved structural change only; project filenames, namespaces, assembly identities and user-data paths stay unchanged |
 
+| ADR-014 | 2026-10-31 | Commit the owner-confirmed obsolete entry-file deletion and merge/push the verified path-refactor branch to main | Owner confirmed deleting 00_READ_FIRST_RU.md, then explicitly requested «Сделай merge в main и сделай коммит и пуш» | User-approved integration of ADR-013 plus that deletion; ordinary push, no force; no later-phase/live-test/release authorization |
+
 ## ADR-006 scope and consequences
 
 - Source: Phase 01 bootstrap report and subsequent user-approved documentation/plan proposal in this chat on 2026-10-31. Evidence and per-finding dispositions: [baseline/source map](../docs/architecture/BASELINE_AND_SOURCE_MAP.md).
@@ -59,3 +61,9 @@ The user authorized integrating these results. Phase 02's previously recorded ma
 Rename `NetworkProfileManager/` to `app/`, `NetworkProfileManager.Tests/` to `test/`, and `NetworkProfileManager.sln` to `AVNetworkToolkit.sln`. Update solution/project references, source-root discovery in tests, CI build/release command paths and current documentation links/commands. Historical execution commands remain recorded under their original names; this is a path refactor, not retroactive execution evidence. `MANIFEST.sha256` is the original archive inventory and is excluded from this refactor; it was absent at final verification.
 
 No product, network behavior, JSON format, namespace, assembly/executable name or `%LOCALAPPDATA%/NetworkProfileManager/data` migration. SDK/build/test/smoke verification must pass on the new paths. Phase 02 review state and later-phase/live-test gates are unchanged. This authorization does not extend ADR-012's completed merge/push scope to the new change.
+
+## ADR-014 integration scope
+
+Source: `codex/simplify-project-paths` at `b119a84ffb7a8202a1fefeb24ea58cc0a882fde4`, plus this integration handoff and the owner's confirmed `00_READ_FIRST_RU.md` deletion. At preflight, local main and freshly fetched origin/main both equal `4cddfcd1dad4be867d499e74a3d5213929bda7f8`; both are ancestors of source. No production source/test changes in this step. Preserve namespaces, assembly/output/data identities and current Phase 02 review limits.
+
+Record the deletion with explicit paths rather than staging unrelated working-tree changes. Run planning/link/schema and tooling regression/whitespace checks, commit on source, switch main and `git merge --ff-only codex/simplify-project-paths`, then ordinary `git push origin main:main` and independently compare local HEAD with `git ls-remote origin refs/heads/main`. Final command outcomes/SHA are verified after execution. No PR merge, tag/release, force push or branch deletion. Normal push CI may run the previously isolated unit suite; its result is separate from local PASS evidence.

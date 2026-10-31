@@ -74,3 +74,7 @@ On 2026-10-31 the owner explicitly authorized committing the integration handoff
 ## Repository paths — ADR-013
 
 Owner selected lowercase `app/` and `test/`, with solution `AVNetworkToolkit.sln`. Project filenames, namespaces/assembly names, executable and LocalAppData paths retain existing identities. Current build/test commands use the new paths; historical audit/execution commands retain their original spelling. This structural refinement does not advance phases or authorize publication of the new change.
+
+## Naming-refactor integration authorization — ADR-014
+
+On 2026-10-31 the owner requested commit, merge to main and push of the verified lowercase-path refactor, after confirming the obsolete 00_READ_FIRST_RU.md deletion. ADR-014 authorizes that integration/deletion and supersedes the earlier pending-publication snapshot for this follow-up. Phase 03/live-test/release gates remain unchanged.
