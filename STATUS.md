@@ -1,5 +1,9 @@
 # Current implementation status — PHASE_06_AWAITING_REVIEW
 
+## Current publication authorization — ADR-027
+
+Owner requested commit/push of all current main changes. Clean preflight main `6f10792a43c316f3cc0961650c7638e8dc1a79b8`; freshly fetched origin/main `f160ac0986af59c7cc4357021b8ca7fe942b63e0`, 0 remote-only/7 local-only, ancestry verified. Current publication is authorized; earlier no-push statements are historical for this scope. Phase 06 acceptance, OPEN P05-R01, live-test/release and future-phase gates are unchanged. Next action: commit this bounded authorization/handoff, ordinary push, verify remote SHA. No implementation change or repeated runtime suite in this metadata-only step.
+
 - **Phase06 implementation commit:** `18534bef32f6b9ad52445ab04d3834be28fe9834`, local main; 30 paths, 1778 insertions/20 deletions. Documentation-only evidence handoff follows; resolve its containing HEAD via `git log -1 --format=%H -- STATUS.md`.
 
 - **Fork / branch / exact bootstrap SHA:** https://github.com/Elguajo/AV-Network-Toolkit / main / `f160ac0986af59c7cc4357021b8ca7fe942b63e0`; clean tree and remote SHA independently matched. During implementation, another owner chat committed documentation `648f20769b50aa694350dd41fcd287dd9a5caa8a` and `ed086cdfcb22df877fd3f94d431f0f3538f422ff`; inspected/preserved. Pre-implementation-commit HEAD is `ed086cdfcb22df877fd3f94d431f0f3538f422ff`; resolve this scoped implementation with `git log -1 --format=%H -- app/Services/MdnsDiscoverySession.cs` and the later pinned handoff below.
@@ -461,3 +465,18 @@ Implementation committed locally as **d054a61ccd2f27ebd03cc73b9acb5e03e6ecd52d**
 - Remaining tasks in active phase: Phase 06 owner/native acceptance remains pending. IDEA-01–04 implementation and unpictured state design remain pending.
 - Next smallest safe action: prepare bounded implementation scope from DESIGN.md's selected target, reusing the current profile list/editor and apply/verification/recovery; retain existing phase acceptance gates.
 - Can next session proceed without clarification? Yes for design preparation using this selected target; no implicit new-phase execution, schema migration, live test or push.
+
+## Session handoff — 2026-10-31, publish current main (ADR-027)
+
+- Date and environment: 2026-10-31, Asia/Tashkent; existing Windows/PowerShell/local tools.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / preflight `6f10792a43c316f3cc0961650c7638e8dc1a79b8`; origin/main `f160ac0986af59c7cc4357021b8ca7fe942b63e0`. Resolve containing publication record with `git log -1 --format=%H -- decisions/DECISION_LOG.md`.
+- Current phase and task IDs: Phase 06 AWAITING_REVIEW; 06-T01–06-T04 evidence and IDEA-01–04 pending implementation unchanged. No checkbox closed.
+- What was actually completed: verified clean main, remote URL/fetched tip/ancestry and seven unpublished commits; recorded explicit owner publication permission. Push/resulting remote SHA verified after this record, never preclaimed.
+- Files changed: STATUS.md and decisions/DECISION_LOG.md only in this follow-up; publish all existing seven commits including mDNS, requirements and approved second raster.
+- Test commands and results: `scripts/validate_plan.py`, `scripts/test_validate_plan.py` and staged whitespace/scope checks before commit; actual results reported in chat. Prior Release build/542 isolated tests/84 WPF captures retained; no unnecessary runtime rerun for authorization metadata. Push CI outcome separate.
+- Live-network tests: NOT RUN / not authorized. No NIC changes, probes, UAC/browser, multicast listener or DHCP execution.
+- Known bugs, risk and workarounds: P05-R01 remains OPEN/release-blocking; native/manual acceptance and unresolved follow-up mapping/format/UI limits retained. Publication does not certify readiness.
+- Decisions requiring user approval: phase acceptance, new phase/implementation scope, live tests/release remain separate; current ordinary push already authorized.
+- Remaining tasks in active phase: owner/native acceptance; no phase marked complete by publication.
+- Next smallest safe action: ordinary `git push origin main:main`; verify `git ls-remote origin refs/heads/main` equals local HEAD, then review current Phase 06 evidence and the separately approved visual target.
+- Can next session proceed without clarification? Yes for this publication and existing read-only/design preparation; no new phase/live tests/release implied.
