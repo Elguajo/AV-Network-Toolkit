@@ -16,6 +16,16 @@ namespace NetworkProfileManager
         private readonly SnackbarService        _snackbarService = new();
         private readonly ContentDialogService   _dialogService   = new();
         private ProjectWindow? _projectWindow;
+        private ProjectApplyWindow? _linkLocalWindow;
+
+        private void OpenLinkLocalClick(object sender, RoutedEventArgs e)
+        {
+            if (_linkLocalWindow != null) { _linkLocalWindow.Activate(); return; }
+            _linkLocalWindow = ProjectApplyWindow.Create(null, null, linkLocalTool: true);
+            _linkLocalWindow.Owner = this;
+            _linkLocalWindow.Closed += (_, _) => _linkLocalWindow = null;
+            _linkLocalWindow.Show();
+        }
 
         private void OpenProjectClick(object sender, RoutedEventArgs e)
         {

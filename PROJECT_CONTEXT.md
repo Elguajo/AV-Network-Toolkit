@@ -98,3 +98,7 @@ Owner explicitly requested Phase 04 in a new chat and approved blocking complex/
 ## Current publication authorization — ADR-020
 
 Owner requested «Коммит и пуш в main» after the Phase 04 report. Current main, including branding/Phase 04/handoff and the bounded authorization metadata, may be committed/pushed ordinarily. Supersedes previous no-push snapshots for this publication only. Phase 04 manual acceptance, live isolated tests, release and Phase 05 remain separate gates; no force/history rewrite or new branches.
+
+## Phase 05 execution — ADR-021/022
+
+Owner explicitly started Phase 05 in a new chat on 2026-10-31 and approved explicit static DNS entry when the source uses automatic DNS. Work directly on main. Reuse Phase 04 apply/recovery for a transient manual Link-Local action; preserve JSON v1, all legacy functionality and IPv6. [Contract](docs/spec/PHASE05_IMPLEMENTATION_CONTRACT.md) documents DAD during assignment, exact DNS/recovery semantics and conservative APIPA/complex-state limits. Supersedes historical no-Phase-05-start snapshots only. No new push, live tests, release, Phase 06 or fabricated prior manual acceptance.

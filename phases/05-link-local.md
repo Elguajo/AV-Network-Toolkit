@@ -2,9 +2,11 @@
 
 - **Priority:** P1
 - **Dependencies:** Phase 01, Phase 04
-- **Current status:** NOT STARTED
+- **Current status:** AWAITING_REVIEW (ADR-021/022); local evidence recorded, manual acceptance pending
 - **Scope:** Manage IPv4 Link-Local on a selected adapter with conflict checks and restoration.
 - **Read first:** docs/spec/NETWORK_DISCOVERY_AND_DHCP.md
+- **Implementation contract:** [Phase 05](../docs/spec/PHASE05_IMPLEMENTATION_CONTRACT.md); transient action, JSON v1 unchanged, Windows DAD during assignment, explicit DNS/recovery and conservative source-state limits. No live tests/publication/Phase 06 authorized.
+- **Evidence:** [review packet](../docs/testing/PHASE05_REVIEW.md), 463 final unit cases, 64 component captures, 11 fake observer fixtures. Isolated 05-T04 adapter execution NOT RUN. P05-R01 intermittent existing JSON failure is OPEN; a subsequent green run does not close it. No phase/task acceptance implied.
 
 ## Tasks and acceptance criteria
 

@@ -7,6 +7,8 @@
 - Preserve previous configuration before assignment. Return to DHCP or restore saved state with deliberate action.
 - Do not change IPv6 or unrelated NICs.
 
+Phase 05 implementation: [exact support/DNS/DAD/recovery contract](PHASE05_IMPLEMENTATION_CONTRACT.md), authorized by ADR-021/022. Transient manual action, project JSON v1 unchanged. Conflict detection uses enabled Windows DAD **during assignment**; no pre-assignment availability guarantee or full RFC 3927 automatic-allocation claim. An address suggestion is local only. Automatic APIPA/no-lease source and complex/unknown state remain blocked, while their observed addresses remain visible. Actual Windows/lab acceptance remains NOT RUN until separately approved.
+
 ## mDNS
 
 - Explicit bind to the selected interface, not to all interfaces by accident; explicit start/stop.

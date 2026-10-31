@@ -68,7 +68,7 @@ internal sealed class ProjectApplyJournal : IProjectApplyJournal
             // An expired journal is evidence to review, never a replayable worker request.
             if (request.Version != 1 || Path.GetFileName(file) != request.OperationId.ToString("N") + ".request.json")
                 throw new InvalidDataException("Invalid journal.");
-            ProjectApplyPolicy.ValidateSnapshot(request.Before, allowTransient: request.Recovery);
+            ProjectApplyPolicy.ValidateTransition(request.Before, request.Desired, request.Recovery);
             requests.Add(request);
         }
         return requests.OrderByDescending(r => r.ExpiresAt).ToList();

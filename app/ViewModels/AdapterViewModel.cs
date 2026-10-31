@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Net;
 using System.Runtime.CompilerServices;
 using NetworkProfileManager.Models;
+using NetworkProfileManager.Helpers;
+using NetworkProfileManager.Services;
 
 namespace NetworkProfileManager.ViewModels
 {
@@ -49,6 +51,8 @@ namespace NetworkProfileManager.ViewModels
             OnPropertyChanged(nameof(CurrentSubnet));
             OnPropertyChanged(nameof(CurrentGateway));
             OnPropertyChanged(nameof(IsDhcp));
+            OnPropertyChanged(nameof(CurrentModeDisplay));
+            OnPropertyChanged(nameof(HasLinkLocalAddress));
             OnPropertyChanged(nameof(CurrentDnsDisplay));
             NotifyProfilesActive();
         }
@@ -72,6 +76,11 @@ namespace NetworkProfileManager.ViewModels
         public string CurrentSubnet  => string.IsNullOrEmpty(_info.CurrentSubnet)  ? "—" : _info.CurrentSubnet;
         public string CurrentGateway => string.IsNullOrEmpty(_info.CurrentGateway) ? "—" : _info.CurrentGateway;
         public bool   IsDhcp      => _info.IsDhcp;
+        public bool HasLinkLocalAddress => LinkLocalAddressing.IsLinkLocal(_info.CurrentIp);
+        public string CurrentModeDisplay => LinkLocalAddressing.IsLinkLocal(_info.CurrentIp)
+            ? Loc.Get(!_info.IsDhcpKnown ? "LinkLocal.Unknown" : _info.IsDhcp ? "LinkLocal.Automatic"
+                : _info.IsCurrentIpv4Manual == true ? "LinkLocal.Manual" : "LinkLocal.UnknownOrigin")
+            : Loc.Get(_info.IsDhcp ? "EditBar.Dhcp" : "EditBar.Static");
         public string AdapterType => _info.AdapterType;
 
         public string CurrentDnsDisplay

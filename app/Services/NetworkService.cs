@@ -19,9 +19,15 @@ namespace NetworkProfileManager.Services
 #if DEBUG
             if (DemoMode.IsActive) return DemoMode.Adapters();
 #endif
+            return GetAdapters(NetworkInterface.GetAllNetworkInterfaces());
+        }
+
+        // Same projection for production and fixture interfaces; tests never enumerate the host.
+        internal List<AdapterInfo> GetAdapters(IEnumerable<NetworkInterface> interfaces)
+        {
             var result = new List<AdapterInfo>();
 
-            foreach (var nic in NetworkInterface.GetAllNetworkInterfaces())
+            foreach (var nic in interfaces)
             {
                 if (nic.NetworkInterfaceType == NetworkInterfaceType.Loopback) continue;
                 if (nic.NetworkInterfaceType == NetworkInterfaceType.Tunnel)   continue;
@@ -40,8 +46,21 @@ namespace NetworkProfileManager.Services
                 string subnet  = unicast?.IPv4Mask.ToString() ?? "";
                 string gateway = gw?.Address.ToString() ?? "";
                 bool   isDhcp  = false;
+                bool   dhcpKnown = true;
 
-                try { isDhcp = props.GetIPv4Properties()?.IsDhcpEnabled ?? false; } catch { }
+                try
+                {
+                    var ipv4 = props.GetIPv4Properties();
+                    dhcpKnown = ipv4 != null;
+                    isDhcp = ipv4?.IsDhcpEnabled ?? false;
+                }
+                catch { dhcpKnown = false; }
+                bool? manualAddress = null;
+                if (LinkLocalAddressing.IsLinkLocal(ip) && unicast != null)
+                {
+                    try { manualAddress = unicast.PrefixOrigin == PrefixOrigin.Manual && unicast.SuffixOrigin == SuffixOrigin.Manual; }
+                    catch { }
+                }
 
                 // DNS servers (IPv4 only)
                 var dnsAddrs = props.DnsAddresses
@@ -51,10 +70,6 @@ namespace NetworkProfileManager.Services
                 string primaryDns   = dnsAddrs.Count > 0 ? dnsAddrs[0] : "";
                 string secondaryDns = dnsAddrs.Count > 1 ? dnsAddrs[1] : "";
 
-                // Filter APIPA addresses (169.254.x.x) — these appear on disconnected DHCP adapters
-                bool isApipa = ip.StartsWith("169.254.");
-                if (isApipa) ip = "";
-
                 // If not connected and no active IP, try registry for configured static IP
                 if (!connected && string.IsNullOrEmpty(ip))
                 {
@@ -63,6 +78,7 @@ namespace NetworkProfileManager.Services
                     subnet  = reg.subnet;
                     gateway = reg.gateway;
                     isDhcp  = reg.isDhcp;
+                    dhcpKnown = !string.IsNullOrEmpty(reg.ip);
                 }
 
                 result.Add(new AdapterInfo
@@ -75,6 +91,8 @@ namespace NetworkProfileManager.Services
                     CurrentSubnet     = subnet,
                     CurrentGateway    = gateway,
                     IsDhcp            = isDhcp,
+                    IsDhcpKnown       = dhcpKnown,
+                    IsCurrentIpv4Manual = manualAddress,
                     AdapterType       = nic.NetworkInterfaceType.ToString(),
                     CurrentPrimaryDns   = primaryDns,
                     CurrentSecondaryDns = secondaryDns

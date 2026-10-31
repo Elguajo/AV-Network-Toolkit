@@ -14,11 +14,14 @@ foreach ($command in $commands) {
     if ($command.GetCommandName() -notin $allow) { throw 'Unexpected command in read-only observer' }
 }
 # Execute only with every OS-query command shadowed by fixture functions in a child scope.
-foreach ($variant in @('ordinary', 'policy', 'finite-address', 'registration', 'global-dns', 'suffix')) {
+foreach ($variant in @('ordinary', 'policy', 'finite-address', 'registration', 'global-dns', 'suffix',
+    'dad-disabled', 'dad-unknown', 'connection-unknown', 'disconnected', 'manual-link-local')) {
     $result = & {
         param($embedded, $fixtureVariant)
         function Get-NetAdapter { [pscustomobject]@{ InterfaceGuid='{00000000-0000-0000-0000-000000000012}'; InterfaceIndex=12; Name='Ethernet fixture'; MacAddress='02-00-00-00-00-01' } }
-        function Get-NetIPInterface { param($AddressFamily) [pscustomobject]@{ InterfaceIndex=12; Dhcp='Disabled' } }
+        function Get-NetIPInterface { param($AddressFamily) [pscustomobject]@{ InterfaceIndex=12; Dhcp='Disabled';
+            DadTransmits=$(if ($fixtureVariant -eq 'dad-disabled') { 0 } elseif ($fixtureVariant -eq 'dad-unknown') { $null } else { 1 });
+            ConnectionState=$(if ($fixtureVariant -eq 'connection-unknown') { $null } elseif ($fixtureVariant -eq 'disconnected') { 'Disconnected' } else { 'Connected' }) } }
         function Get-ItemProperty {
             param($LiteralPath)
             if ($LiteralPath -like '*Interfaces*') { [pscustomobject]@{ EnableDHCP=0; NameServer='192.0.2.53 192.0.2.54' } }
@@ -30,7 +33,9 @@ foreach ($variant in @('ordinary', 'policy', 'finite-address', 'registration', '
         function Get-DnsClientNrptPolicy { param([switch]$Effective) }
         function Get-NetIPAddress {
             param($AddressFamily, $PolicyStore)
-            [pscustomobject]@{ InterfaceIndex=12; IPAddress='192.0.2.10'; PrefixLength=24; PrefixOrigin='Manual';
+            [pscustomobject]@{ InterfaceIndex=12;
+                IPAddress=$(if ($fixtureVariant -eq 'manual-link-local') { '169.254.42.10' } else { '192.0.2.10' });
+                PrefixLength=$(if ($fixtureVariant -eq 'manual-link-local') { 16 } else { 24 }); PrefixOrigin='Manual';
                 SuffixOrigin=$(if ($fixtureVariant -eq 'suffix') { 'Other' } else { 'Manual' });
                 AddressState=$(if ($PolicyStore -eq 'ActiveStore') { 'Preferred' } else { 'Invalid' });
                 SkipAsSource=$false; Type='Unicast'; ValidLifetime=[timespan]::FromSeconds([uint32]::MaxValue);
@@ -38,12 +43,17 @@ foreach ($variant in @('ordinary', 'policy', 'finite-address', 'registration', '
         }
         function Get-NetRoute {
             param($AddressFamily, $PolicyStore)
+            if ($fixtureVariant -eq 'manual-link-local') { return }
             [pscustomobject]@{ InterfaceIndex=12; DestinationPrefix='0.0.0.0/0'; NextHop='192.0.2.1'; RouteMetric=1; Protocol='NetMgmt' }
         }
         $idx = 12
         & ([scriptblock]::Create($embedded))
     } $match.Groups[1].Value $variant | ConvertFrom-Json
-    if ($result.ClassificationComplete -ne ($variant -eq 'ordinary')) { throw "Fixture classification failed: $variant" }
-    if ($result.Identity.InterfaceIndex -ne 12 -or $result.Addresses.Count -ne 1 -or $result.PersistentAddresses.Count -ne 1 -or $result.Routes.Count -ne 2 -or $result.DnsServers.Count -ne 2) { throw 'Fixture snapshot lost affected state' }
+    if ($result.ClassificationComplete -ne ($variant -in @('ordinary','dad-disabled','dad-unknown','connection-unknown','disconnected','manual-link-local'))) { throw "Fixture classification failed: $variant" }
+    $routeCount = 2; if ($variant -eq 'manual-link-local') { $routeCount = 0 }
+    if ($result.Identity.InterfaceIndex -ne 12 -or $result.Addresses.Count -ne 1 -or $result.PersistentAddresses.Count -ne 1 -or $result.Routes.Count -ne $routeCount -or $result.DnsServers.Count -ne 2) { throw 'Fixture snapshot lost affected state' }
+    if ($variant -in @('dad-unknown','connection-unknown')) { if ($null -ne $result.Dad) { throw 'Missing DAD must remain unknown' } }
+    elseif ($result.Dad.Transmits -ne $(if ($variant -eq 'dad-disabled') { 0 } else { 1 }) -or $result.Dad.Connected -ne ($variant -ne 'disconnected')) { throw 'DAD/link state lost' }
+    if ($variant -eq 'manual-link-local' -and $result.Addresses[0].Address -ne '169.254.42.10') { throw 'Link-local hidden from full snapshot' }
 }
-Write-Output 'PASS: embedded observer parses; 6 fake-query fixtures classify state/DNS/policy/lifetimes/origins; no real OS queries, processes, probes or mutations'
+Write-Output 'PASS: embedded observer parses; 11 fake-query fixtures classify state/DNS/policy/lifetimes/origins/DAD/link-local; no real OS queries, processes, probes or mutations'

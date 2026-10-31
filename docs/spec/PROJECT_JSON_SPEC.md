@@ -10,7 +10,7 @@ Project ID and profile/device IDs are nonblank case-sensitive strings, unique ac
 
 ## Profiles and intent
 
-- `mode`: `static` or `dhcp`. `link-local` and static 169.254/16 are rejected until Phase 05.
+- `mode`: `static` or `dhcp`. `link-local` and static 169.254/16 remain rejected in v1. Phase 05 provides a separate transient manual action under [its contract](PHASE05_IMPLEMENTATION_CONTRACT.md); it does not extend/migrate the approved portable format.
 - Static requires an `ipv4` object: canonical dotted-quad `address`, integer `prefixLength` 1–32, explicit `gateway` and `dns`.
 - Gateway must be a different valid host in the same subnet, or explicit JSON `null` for no gateway. Missing gateway and empty string are invalid. There is no inheritance from the previous adapter state. The editor labels blank as **no gateway**, serializing it to null.
 - DNS is explicit: `static` with 1–2 distinct valid IPv4 servers, or `automatic`/`leave-unchanged` with an empty server array. An editor secondary without primary is rejected. No automatic translation to legacy empty DNS.

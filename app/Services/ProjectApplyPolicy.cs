@@ -37,6 +37,14 @@ internal static class ProjectApplyPolicy
             ValidateDns(intent.DnsMode, intent.DnsServers);
             return;
         }
+        if (intent.Mode == "link-local")
+        {
+            if (!LinkLocalAddressing.IsCandidate(intent.Address) || intent.PrefixLength != 16 || intent.Gateway != null
+                || intent.GatewayMetric != 1 || intent.DnsMode is not ("leave-unchanged" or "static"))
+                throw new InvalidOperationException("Invalid manual link-local intent.");
+            ValidateDns(intent.DnsMode, intent.DnsServers);
+            return;
+        }
         _ = FromProfile(new ProjectProfile
         {
             Id = "profile-validation", Name = "Apply validation", Mode = intent.Mode,
@@ -47,7 +55,8 @@ internal static class ProjectApplyPolicy
             throw new InvalidOperationException("Unsupported intent.");
     }
 
-    internal static void ValidateSnapshot(ApplyAdapterSnapshot s, bool allowTransient = false)
+    internal static void ValidateSnapshot(ApplyAdapterSnapshot s, bool allowTransient = false, bool allowLinkLocal = false,
+        bool restoringDhcp = false)
     {
         if (s == null || s.Identity == null || s.Identity.Id == Guid.Empty || s.Identity.InterfaceIndex <= 0
             || string.IsNullOrWhiteSpace(s.Identity.Alias) || s.Identity.Alias.Length > 256
@@ -60,14 +69,22 @@ internal static class ProjectApplyPolicy
         if (s.DnsRegistration is not ("none" or "primary" or "both")) throw new InvalidOperationException("Unknown DNS registration.");
         foreach (var a in s.Addresses.Concat(s.PersistentAddresses))
         {
-            if (!Usable(a.Address) || a.PrefixLength < 1 || a.PrefixLength > 30 || !HostInSubnet(a.Address, a.Address, a.PrefixLength)
+            var manualLinkLocal = allowLinkLocal && !s.Dhcp && LinkLocalAddressing.IsCandidate(a.Address)
+                && a.PrefixLength == 16 && a.Origin == "manual";
+            if ((!Usable(a.Address) && !manualLinkLocal) || a.PrefixLength < 1 || a.PrefixLength > 30 || !HostInSubnet(a.Address, a.Address, a.PrefixLength)
                 || (a.Origin != "manual" && a.Origin != "dhcp")
                 ) throw new InvalidOperationException("Unsupported address.");
         }
         if (!allowTransient && s.Addresses.Any(a => a.State != "preferred")) throw new InvalidOperationException("Address not ready.");
         if (!s.Dhcp)
         {
-            if (s.DnsSource == "automatic") throw new InvalidOperationException("Static automatic DNS unsupported.");
+            // Address assignment can fail DAD before explicit DNS replacement.
+            // Only recovery TO DHCP may leave that classified intermediate state;
+            // it is never accepted as a restorable static source/target.
+            if (s.DnsSource == "automatic" && !(restoringDhcp && allowTransient && allowLinkLocal
+                && s.Addresses.Length == 1 && LinkLocalAddressing.IsCandidate(s.Addresses[0].Address)
+                && s.Addresses[0].PrefixLength == 16 && s.Addresses[0].Origin == "manual"))
+                throw new InvalidOperationException("Static automatic DNS unsupported.");
             if (!allowTransient && (s.PersistentAddresses.Length != 1 || !SameAddress(s.Addresses[0], s.PersistentAddresses[0])
                 || s.Addresses[0].Origin != "manual")) throw new InvalidOperationException("Unknown persistent address.");
         }
@@ -87,6 +104,8 @@ internal static class ProjectApplyPolicy
         }
         var active = s.Routes.Where(r => r.Destination == "0.0.0.0/0" && r.Store == "active").ToArray();
         var persistent = s.Routes.Where(r => r.Destination == "0.0.0.0/0" && r.Store == "persistent").ToArray();
+        if (s.Addresses.Concat(s.PersistentAddresses).Any(a => LinkLocalAddressing.IsLinkLocal(a.Address))
+            && (active.Length != 0 || persistent.Length != 0)) throw new InvalidOperationException("Link-local gateway unsupported.");
         if (active.Length > 1 || persistent.Length > 1
             || (!s.Dhcp && !allowTransient && (active.Length != persistent.Length
                 || active.Length == 1 && (active[0].NextHop != persistent[0].NextHop || active[0].Metric != persistent[0].Metric)))
@@ -98,12 +117,24 @@ internal static class ProjectApplyPolicy
 
     internal static ApplyIntent RecoveryIntent(ApplyAdapterSnapshot snapshot)
     {
-        ValidateSnapshot(snapshot);
+        ValidateSnapshot(snapshot, allowLinkLocal: true);
         if (snapshot.Dhcp) return new("dhcp", null, 0, null, snapshot.DnsSource,
             snapshot.DnsSource == "automatic" ? ImmutableArray<string>.Empty : snapshot.DnsServers, DnsRegistration: snapshot.DnsRegistration);
         var a = snapshot.Addresses.Single();
         var g = snapshot.Routes.SingleOrDefault(r => r.Destination == "0.0.0.0/0" && r.Store == "active");
-        return new("static", a.Address, a.PrefixLength, g?.NextHop, snapshot.DnsSource, snapshot.DnsServers, g?.Metric ?? 1, snapshot.DnsRegistration);
+        return LinkLocalAddressing.IsCandidate(a.Address)
+            ? new("link-local", a.Address, 16, null, snapshot.DnsSource, snapshot.DnsServers, DnsRegistration: snapshot.DnsRegistration)
+            : new("static", a.Address, a.PrefixLength, g?.NextHop, snapshot.DnsSource, snapshot.DnsServers, g?.Metric ?? 1, snapshot.DnsRegistration);
+    }
+
+    internal static void ValidateTransition(ApplyAdapterSnapshot snapshot, ApplyIntent desired, bool recovery)
+    {
+        ValidateIntent(desired, recovery);
+        ValidateSnapshot(snapshot, allowTransient: recovery,
+            allowLinkLocal: recovery || desired.Mode is "link-local" or "dhcp", restoringDhcp: recovery && desired.Mode == "dhcp");
+        if (desired.Mode is "static" or "link-local" && desired.DnsMode == "leave-unchanged" && snapshot.DnsSource == "automatic")
+            throw new InvalidOperationException("Static automatic DNS unsupported.");
+        if (desired.Mode == "link-local") LinkLocalAddressing.RequireDad(snapshot);
     }
 
     private static bool SameAddress(ApplyAddress a, ApplyAddress b) =>

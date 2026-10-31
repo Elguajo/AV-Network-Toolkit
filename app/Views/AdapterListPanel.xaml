@@ -58,6 +58,9 @@
               <Setter TargetName="NameText" Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}"/>
               <Setter TargetName="TypeIcon" Property="Foreground" Value="{DynamicResource TextFillColorTertiaryBrush}"/>
             </DataTrigger>
+            <DataTrigger Binding="{Binding HasLinkLocalAddress}" Value="True">
+              <Setter TargetName="IpLine" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
           </DataTemplate.Triggers>
         </DataTemplate>
       </ListBox.ItemTemplate>

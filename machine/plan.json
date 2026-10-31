@@ -219,37 +219,37 @@
         "04"
       ],
       "file": "phases/05-link-local.md",
-      "status": "NOT_STARTED",
+      "status": "AWAITING_REVIEW",
       "tasks": [
         {
           "id": "05-T01",
           "title": "Specify explicit 169.254/16 mode, selection and address constraints",
           "acceptance": "No gateway; previous config captured; DHCP mode not confused with manual link-local",
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         },
         {
           "id": "05-T02",
           "title": "Add conflict check and controlled address choice/assignment",
           "acceptance": "Avoid claimed conflict-free guarantee from ping alone; use Windows APIs where justified",
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         },
         {
           "id": "05-T03",
           "title": "Add restore/return-to-DHCP action and consistent UI states",
           "acceptance": "Existing profile semantics and IPv6 preserved",
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         },
         {
           "id": "05-T04",
           "title": "Test on isolated adapter and cover failures in unit tests",
           "acceptance": "Test evidence with no live production network scanning",
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         },
         {
           "id": "05-T05",
           "title": "Represent link-local state without hiding the selected address",
           "acceptance": "Account for current APIPA filtering in GetAdapters; distinguish automatic APIPA from manual link-local and verify display/snapshot/restore with fixtures",
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         }
       ]
     },
@@ -429,17 +429,15 @@
   ],
   "forkRepository": "https://github.com/Elguajo/AV-Network-Toolkit",
   "baselineCommit": "603cf24fa0ba1819c0ec10b6a57ef5cf57c3852e",
-  "activePhase": "04",
+  "activePhase": "05",
   "phase02Authorized": true,
-  "authorization": "ADR-020: current main commit/push including branding and Phase 04 authorized; ADR-019 execution/support policy and ADR-017 direct-main workflow retained. No live-test/release/Phase 05 authorization; manual acceptance pending",
+  "authorization": "ADR-021: Phase 05 authorized directly on main; ADR-022: explicit static DNS replacement approved. No new publication/live tests/release/Phase 06. Prior manual acceptance pending.",
   "preparationCheckpoint": [
     "01-T06",
     "01-T07",
     "01-T08"
   ],
-  "implementationCommit": "3e7a0ae3f0f3ef87729fa94e2873d53e23750991",
-  "implementationBaseCommit": "abdd1d1c61dd4f0d6b39adfc24ee69ff46367cbc",
-  "reviewPacket": "docs/testing/PHASE04_REVIEW.md",
+  "implementationBaseCommit": "48913b21b7a4ddf62a9f58663fbfcde79d630a29",
   "scopeRefinements": [
     "ADR-010: all new UI reuses existing design (DESIGN.md)",
     "ADR-011: retire Turkish UI, English fallback without startup settings rewrite",
@@ -451,5 +449,14 @@
   "phase03ImplementationCommit": "e861c3a426f24e0103e9cc26b7e82b6e2f1e503f",
   "phase02ImplementationCommit": "0bf1070216255c9e1411a4a96445372b6e6a45d1",
   "workingBranch": "main",
-  "branchPolicy": "Direct work on main; no separate branches unless owner explicitly changes instruction (ADR-017)"
+  "branchPolicy": "Direct work on main; no separate branches unless owner explicitly changes instruction (ADR-017)",
+  "phase05Authorized": true,
+  "phase04ImplementationCommit": "3e7a0ae3f0f3ef87729fa94e2873d53e23750991",
+  "implementationContract": "docs/spec/PHASE05_IMPLEMENTATION_CONTRACT.md",
+  "reviewPacket": "docs/testing/PHASE05_REVIEW.md",
+  "risks": [
+    "P05-R01 OPEN: intermittent existing empty-static-DNS JSON rejection failure; cause/baseline attribution UNVERIFIED, separate scope. Final 463 PASS does not resolve.",
+    "Native DAD/netsh/UAC/recovery/isolated adapter execution NOT RUN; no release/push/Phase06."
+  ],
+  "lastTests": "Release build 0 warnings/errors; final full 463 PASS, earlier 462 PASS/1 FAIL P05-R01; diagnostic existing 399 PASS, JSON 53 PASS; 64 WPF captures/0 binding errors; 11 fake observer fixtures; full schema/plan/10 validator regressions PASS."
 }

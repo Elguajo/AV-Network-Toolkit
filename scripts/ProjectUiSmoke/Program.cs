@@ -34,6 +34,7 @@ internal static class Program
         app.Resources.MergedDictionaries.Add(new ResourceDictionary
         { Source = new Uri("pack://application:,,,/NetworkProfileManager;component/Strings/En.xaml") });
         app.Resources.Add("BoolToVis", new NetworkProfileManager.Converters.BoolToVisibilityConverter());
+        app.Resources.Add("AdapterTypeToSymbol", new NetworkProfileManager.Converters.AdapterTypeToSymbolConverter());
         try
         {
             foreach (var (language, theme, width, height) in new[]
@@ -192,15 +193,91 @@ internal static class Program
                 if (!window.ConfirmApplicationExit()) throw new Exception("Confirmed exit was rejected.");
                 window.Close();
                 RenderApply(output, theme, width == 900 ? 760 : 620, height == 780 ? 760 : 520);
+                RenderLinkLocal(output, theme, width == 900 ? 760 : 620, height == 780 ? 760 : 520);
             }
             if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
-            Console.WriteLine("PASS: 40 isolated project/device/apply renders (Light/Dark, normal/minimum), explicit NIC selection and review/consent, apply failure/no browser, verified recovery/no browser, named controls, visible footer, existing directory/focus/draft guards, 0 WPF binding errors; all NIC/process/elevation/browser boundaries fake.");
+            Console.WriteLine("PASS: 64 isolated project/device/apply/link-local/adapter renders (Light/Dark, normal/minimum), explicit NIC selection/review/consent, DNS replacement, DAD conflict/recovery/DHCP, visible disconnected link-local addresses, named controls, visible footer, focus/busy-close/exit guards, 0 WPF binding errors; all NIC/DAD/process/elevation/browser boundaries fake.");
             return 0;
         }
         catch (Exception ex) { Console.Error.WriteLine(ex); return 1; }
         finally { app.Shutdown(); }
     }
     private static void Pump() => Dispatcher.CurrentDispatcher.Invoke(() => { }, DispatcherPriority.ApplicationIdle);
+    private static void RenderLinkLocal(string output, string theme, int width, int height)
+    {
+        var fixture = new ApplyFixture { Fail = false };
+        fixture.Snapshot = fixture.Snapshot with { Dad = new(1, true), Dhcp = true, DnsSource = "automatic",
+            PersistentAddresses = ImmutableArray<ApplyAddress>.Empty,
+            Addresses = ImmutableArray.Create(new ApplyAddress("192.0.2.10", 24, "dhcp", "preferred")) };
+        var vm = new ProjectApplyViewModel(null, null, fixture, fixture, fixture,
+            _ => Task.FromResult<IReadOnlyList<ApplyAdapterIdentity>>(new[] { fixture.Snapshot.Identity }),
+            () => Array.Empty<ProjectApplyRequest>(), fixture, verificationAttempts: 1, linkLocalTool: true);
+        var window = new ProjectApplyWindow(vm) { Width = width, Height = height };
+        window.Show(); vm.RefreshAsync().GetAwaiter().GetResult(); Pump();
+        if (window.Title != "Link-Local" || vm.SelectedAdapter != null || fixture.Executed != 0) throw new Exception("Link-local implicitly selected/applied.");
+        Capture(window, Path.Combine(output, $"link-local-empty-{theme}-{width}.png"));
+        var inputs = Descendants(window).OfType<Wpf.Ui.Controls.TextBox>().Where(t => t.IsVisible).ToArray();
+        if (inputs.Length != 3 || inputs.Any(t => string.IsNullOrWhiteSpace(AutomationProperties.GetName(t)))) throw new Exception("Link-local inputs missing accessible names.");
+        var adapter = Descendants(window).OfType<ComboBox>().First(); adapter.SelectedIndex = 0;
+        inputs.Single(t => AutomationProperties.GetName(t).StartsWith("Manual IPv4")).Text = "169.254.42.10";
+        inputs.Single(t => AutomationProperties.GetName(t) == "Primary DNS").Text = "192.0.2.53";
+        inputs.Single(t => AutomationProperties.GetName(t) == "Secondary DNS").Text = "192.0.2.54"; Pump();
+        vm.ReviewAsync(false).GetAwaiter().GetResult(); Pump();
+        if (!vm.ApplyCommand.CanExecute(null) || !vm.Review.Contains("169.254.42.10/16") || !vm.Review.Contains("during assignment")) throw new Exception("Link-local review/DNS binding failed.");
+        var confirm = Descendants(window).OfType<Wpf.Ui.Controls.Button>().Single(b => ReferenceEquals(b.Command, vm.ApplyCommand));
+        var bounds = confirm.TransformToAncestor(window).TransformBounds(new Rect(confirm.RenderSize));
+        if (!confirm.IsEnabled || bounds.Bottom > height || bounds.Right > width) throw new Exception("Link-local confirmation clipped.");
+        adapter.Focus(); Pump(); var reached = confirm.IsKeyboardFocusWithin;
+        for (var i = 0; i < 80 && !reached; i++)
+        {
+            if (System.Windows.Input.Keyboard.FocusedElement is not UIElement focused) break;
+            focused.MoveFocus(new System.Windows.Input.TraversalRequest(System.Windows.Input.FocusNavigationDirection.Next)); Pump();
+            reached = confirm.IsKeyboardFocusWithin;
+        }
+        if (!reached) throw new Exception("Link-local confirm inaccessible by forward focus.");
+        var scroll = Descendants(window).OfType<ScrollViewer>().First(); scroll.ScrollToBottom(); Pump();
+        Capture(window, Path.Combine(output, $"link-local-review-{theme}-{width}.png"));
+        vm.ApplyAsync().GetAwaiter().GetResult(); if (fixture.Executed != 0) throw new Exception("Link-local ignored declined consent.");
+        fixture.Consent = true; fixture.Conflict = true; vm.ApplyAsync().GetAwaiter().GetResult(); Pump();
+        if (fixture.Executed != 1 || fixture.Opened != 0 || !vm.Status.Contains("duplicate address") || !vm.Observed.Contains("duplicate")) throw new Exception("Link-local conflict was hidden.");
+        scroll.ScrollToBottom(); Pump(); Capture(window, Path.Combine(output, $"link-local-conflict-{theme}-{width}.png"));
+        fixture.Conflict = false; vm.ReviewAsync(true).GetAwaiter().GetResult(); vm.ApplyAsync().GetAwaiter().GetResult(); Pump();
+        if (!fixture.Snapshot.Dhcp || fixture.Snapshot.DnsSource != "automatic" || fixture.Opened != 0) throw new Exception("Original DHCP/DNS recovery failed.");
+        vm.ReviewAsync(false).GetAwaiter().GetResult(); vm.ApplyAsync().GetAwaiter().GetResult(); Pump();
+        if (!vm.Status.Contains("No browser was opened") || fixture.Snapshot.Dhcp) throw new Exception("Link-local success misreported.");
+        scroll.ScrollToBottom(); Pump(); Capture(window, Path.Combine(output, $"link-local-verified-{theme}-{width}.png"));
+        vm.ReviewDhcpAsync().GetAwaiter().GetResult(); Pump();
+        Capture(window, Path.Combine(output, $"link-local-dhcp-{theme}-{width}.png"));
+        fixture.Hold = new(TaskCreationOptions.RunContinuationsAsynchronously); var pending = vm.ApplyAsync();
+        window.Close(); Pump();
+        if (!window.IsVisible || window.ConfirmApplicationExit() || inputs.Any(t => t.IsEnabled)) throw new Exception("Busy link-local allowed edits/exit.");
+        fixture.Hold.SetResult(); var deadline = DateTime.UtcNow.AddSeconds(10);
+        while (!pending.IsCompleted && DateTime.UtcNow < deadline) Pump();
+        if (!pending.IsCompleted) throw new Exception("Link-local cancel/observe did not finish.");
+        pending.GetAwaiter().GetResult(); if (fixture.Opened != 0 || !window.ConfirmApplicationExit()) throw new Exception("Link-local cancellation launched browser or retained busy.");
+        window.Close();
+        var adapters = new System.Collections.ObjectModel.ObservableCollection<AdapterViewModel>();
+        foreach (var (name, address, dhcp, known) in new[]
+        {
+            ("Manual Link-Local", "169.254.42.10", false, true),
+            ("DHCP / APIPA", "169.254.42.20", true, true),
+            ("Unknown DHCP policy", "169.254.42.30", false, false)
+        }) adapters.Add(new(new AdapterInfo { Id = name, Name = name, CurrentIp = address, CurrentSubnet = "255.255.0.0",
+            IsDhcp = dhcp, IsDhcpKnown = known, IsCurrentIpv4Manual = !dhcp, IsConnected = false, AdapterType = "Ethernet" }, new(), new()));
+        var panel = new AdapterListPanel { DataContext = new AdapterFixture { Adapters = adapters, SelectedAdapter = adapters[0] } };
+        var host = new Wpf.Ui.Controls.FluentWindow { Width = 320, Height = 340, Content = panel, Title = "Fixture adapters" };
+        host.Show(); Pump();
+        foreach (var model in adapters)
+            if (!Descendants(panel).OfType<System.Windows.Controls.TextBlock>().Any(t => t.Text == model.CurrentIp && t.IsVisible))
+                throw new Exception("Disconnected Link-Local address hidden from adapter list.");
+        Capture(host, Path.Combine(output, $"link-local-adapters-{theme}-{width}.png")); host.Close();
+    }
+    private sealed class AdapterFixture
+    {
+        public System.Collections.ObjectModel.ObservableCollection<AdapterViewModel> Adapters { get; init; } = new();
+        public AdapterViewModel? SelectedAdapter { get; set; }
+        public System.Windows.Input.ICommand RefreshCommand { get; } = new NetworkProfileManager.Commands.RelayCommand(_ => { });
+    }
     private static void RenderApply(string output, string theme, int width, int height)
     {
         var fixture = new ApplyFixture();
@@ -259,7 +336,7 @@ internal static class Program
         internal ApplyAdapterSnapshot Snapshot = new(new(Guid.NewGuid(), 12, "Ethernet fixture", "02-00-00-00-00-01"), false,
             ImmutableArray.Create(new ApplyAddress("192.0.2.10", 24, "manual", "preferred")), "static", ImmutableArray.Create("192.0.2.53", "192.0.2.54"),
             ImmutableArray<ApplyRoute>.Empty, true, ImmutableArray.Create(new ApplyAddress("192.0.2.10", 24, "manual", "preferred")));
-        internal bool Consent, Fail = true;
+        internal bool Consent, Fail = true, Conflict;
         internal int Executed, Opened;
         internal TaskCompletionSource? Hold;
         public Task<ApplyAdapterSnapshot> ReadAsync(ApplyAdapterIdentity identity, CancellationToken cancellation) => Task.FromResult(Snapshot);
@@ -269,8 +346,18 @@ internal static class Program
             Executed++;
             if (Hold != null) await Hold.Task;
             if (Fail) return new ApplyExecutionResult(ApplyExecutionStatus.Failed, true, "DnsSecondary");
-            var d = request.Desired; var a = new ApplyAddress(d.Address!, d.PrefixLength, "manual", "preferred");
-            Snapshot = Snapshot with { Addresses = ImmutableArray.Create(a), PersistentAddresses = ImmutableArray.Create(a), DnsSource = d.DnsMode, DnsServers = d.DnsServers };
+            var oldSource = Snapshot.DnsSource; var oldServers = Snapshot.DnsServers;
+            var d = request.Desired; var a = new ApplyAddress(d.Address ?? "198.51.100.10", d.Mode == "dhcp" ? 24 : d.PrefixLength,
+                d.Mode == "dhcp" ? "dhcp" : "manual", Conflict ? "duplicate" : "preferred");
+            Snapshot = Snapshot with { Dhcp = d.Mode == "dhcp", Addresses = ImmutableArray.Create(a),
+                PersistentAddresses = d.Mode == "dhcp" ? ImmutableArray<ApplyAddress>.Empty : ImmutableArray.Create(a),
+                DnsSource = d.DnsMode == "leave-unchanged" ? Snapshot.DnsSource : d.DnsMode,
+                DnsServers = d.DnsMode == "leave-unchanged" ? Snapshot.DnsServers : d.DnsServers };
+            if (Conflict)
+            {
+                Snapshot = Snapshot with { DnsSource = oldSource, DnsServers = oldServers };
+                return new ApplyExecutionResult(ApplyExecutionStatus.Failed, true, "AddressConflict");
+            }
             return new ApplyExecutionResult(ApplyExecutionStatus.Finished, true, "CommandsFinished");
         }
         public Task BeginAsync(ProjectApplyRequest request, CancellationToken cancellation) => Task.CompletedTask;

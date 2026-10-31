@@ -31,6 +31,8 @@
           <ui:Button Style="{StaticResource SubtleButton}" Padding="10,6" Margin="0,0,2,0"
                      Content="{DynamicResource Project.Title}" Click="OpenProjectClick"/>
           <ui:Button Style="{StaticResource SubtleButton}" Padding="10,6" Margin="0,0,2,0"
+                     Content="{DynamicResource LinkLocal.Title}" Click="OpenLinkLocalClick"/>
+          <ui:Button Style="{StaticResource SubtleButton}" Padding="10,6" Margin="0,0,2,0"
                      Icon="{ui:SymbolIcon SearchInfo20}"
                      Content="{DynamicResource MainWindow.IpScannerButton}"
                      ToolTip="{DynamicResource MainWindow.IpScannerTooltip}"
@@ -113,6 +115,9 @@
                               <Setter Property="Text" Value="{DynamicResource Adapters.NotConnected}"/>
                               <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}"/>
                             </DataTrigger>
+                            <DataTrigger Binding="{Binding SelectedAdapter.HasLinkLocalAddress}" Value="True">
+                              <Setter Property="Text" Value="{Binding SelectedAdapter.CurrentIp}"/>
+                            </DataTrigger>
                           </Style.Triggers>
                         </Style>
                       </TextBlock.Style>
@@ -141,18 +146,7 @@
                 </StackPanel>
                 <StackPanel Margin="0,0,32,12">
                   <TextBlock Text="{DynamicResource Adapter.Mode}" Style="{StaticResource FieldLabel}"/>
-                  <TextBlock FontSize="14">
-                    <TextBlock.Style>
-                      <Style TargetType="TextBlock">
-                        <Setter Property="Text" Value="{DynamicResource EditBar.Static}"/>
-                        <Style.Triggers>
-                          <DataTrigger Binding="{Binding SelectedAdapter.IsDhcp}" Value="True">
-                            <Setter Property="Text" Value="{DynamicResource EditBar.Dhcp}"/>
-                          </DataTrigger>
-                        </Style.Triggers>
-                      </Style>
-                    </TextBlock.Style>
-                  </TextBlock>
+                  <TextBlock Text="{Binding SelectedAdapter.CurrentModeDisplay}" FontSize="14" TextWrapping="Wrap"/>
                 </StackPanel>
               </WrapPanel>
 

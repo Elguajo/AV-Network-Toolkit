@@ -91,7 +91,10 @@ internal sealed class WindowsProjectApplyObservation
         @{ Identity=@{ Id=$guid.ToString(); InterfaceIndex=[int]$nic.InterfaceIndex;
              Alias=$nic.Name; PhysicalAddress=$nic.MacAddress }; Dhcp=$dhcp; Addresses=@($addresses);
            PersistentAddresses=@($persistent); DnsSource=$source; DnsServers=@($dns); Routes=@($routes);
-           ClassificationComplete=[bool]$complete; DnsRegistration=$registration } | ConvertTo-Json -Depth 8 -Compress
+           ClassificationComplete=[bool]$complete; DnsRegistration=$registration;
+           Dad=$(if ($null -ne $iface[0].DadTransmits -and [string]$iface[0].ConnectionState -in @('Connected','Disconnected')) {
+             @{ Transmits=[int]$iface[0].DadTransmits; Connected=([string]$iface[0].ConnectionState -eq 'Connected') }
+           } else { $null }) } | ConvertTo-Json -Depth 8 -Compress
         """;
 
     private static async Task<string> QueryAsync(string script, CancellationToken cancellation)

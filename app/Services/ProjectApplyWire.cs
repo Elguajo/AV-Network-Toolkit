@@ -40,10 +40,7 @@ internal static class ProjectApplyWire
     {
         if (request == null || request.Version != 1 || request.OperationId == Guid.Empty
             || request.ExpiresAt <= now || request.ExpiresAt > now.AddMinutes(2)) throw new InvalidDataException("Invalid request.");
-        ProjectApplyPolicy.ValidateIntent(request.Desired, request.Recovery);
-        ProjectApplyPolicy.ValidateSnapshot(request.Before, allowTransient: request.Recovery);
-        if (request.Desired.Mode == "static" && request.Desired.DnsMode == "leave-unchanged" && request.Before.DnsSource == "automatic")
-            throw new InvalidDataException("Static automatic DNS unsupported.");
+        ProjectApplyPolicy.ValidateTransition(request.Before, request.Desired, request.Recovery);
     }
     internal static async Task WriteAsync<T>(Stream stream, T value, CancellationToken cancellation)
     {

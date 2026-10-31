@@ -1,5 +1,7 @@
 # Phase 01 baseline and source map
 
+Current Phase 05 disposition (2026-10-31, ADR-021/022): observed Link-Local/APIPA addresses are no longer filtered from the adapter projection or hidden by disconnected-row/selected-fact presentation. Full typed snapshot/recovery remains separate from reduced legacy history. [Phase 05 packet](../testing/PHASE05_REVIEW.md) records exact scoped changes, fake evidence and native limits. The baseline findings below remain historical. New out-of-phase risk P05-R01 (intermittent project JSON rejection) is logged there; no unreviewed JSON repair is included.
+
 Audit date: 2026-10-31 (Asia/Tashkent). Code baseline: `603cf24fa0ba1819c0ec10b6a57ef5cf57c3852e`.
 Repository path note (ADR-013): source links now use `app/` and `test/`; baseline facts and historical command evidence still refer to the original inspected commit.
 

@@ -15,13 +15,13 @@ public partial class ProjectApplyWindow : Wpf.Ui.Controls.FluentWindow
     public ProjectApplyWindow(ProjectApplyViewModel viewModel)
     { InitializeComponent(); DataContext = viewModel; }
 
-    internal static ProjectApplyWindow Create(ProjectProfile? profile, ProjectDevice? device, string projectName = "")
+    internal static ProjectApplyWindow Create(ProjectProfile? profile, ProjectDevice? device, string projectName = "", bool linkLocalTool = false)
     {
         var observation = new WindowsProjectApplyObservation();
         var journal = new ProjectApplyJournal();
         var dialogs = new ApplyDialogs();
         var vm = new ProjectApplyViewModel(profile, device, new WindowsProjectApplyBoundary(), journal,
-            new DefaultBrowserLauncher(), async token => await observation.EnumerateAsync(token), journal.ReadSnapshots, dialogs, projectName: projectName);
+            new DefaultBrowserLauncher(), async token => await observation.EnumerateAsync(token), journal.ReadSnapshots, dialogs, projectName: projectName, linkLocalTool: linkLocalTool);
         var window = new ProjectApplyWindow(vm);
         dialogs.Owner = window;
         // Enumerate only after entering this explicit action; no automatic selection.
@@ -43,7 +43,7 @@ public partial class ProjectApplyWindow : Wpf.Ui.Controls.FluentWindow
     {
         public Window? Owner;
         public bool Confirm(string review, bool recovery) => System.Windows.MessageBox.Show(Owner,
-            review, Loc.Get(recovery ? "Apply.Recovery" : "Apply.Title"), MessageBoxButton.OKCancel,
+            review, recovery ? Loc.Get("Apply.Recovery") : Owner?.Title ?? Loc.Get("Apply.Title"), MessageBoxButton.OKCancel,
             MessageBoxImage.Warning, MessageBoxResult.Cancel) == MessageBoxResult.OK;
     }
 }

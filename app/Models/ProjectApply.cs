@@ -11,6 +11,7 @@ public sealed record ApplyAddress([property: JsonRequired] string Address, [prop
     [property: JsonRequired] string Origin, [property: JsonRequired] string State);
 public sealed record ApplyRoute([property: JsonRequired] string Destination, [property: JsonRequired] string NextHop,
     [property: JsonRequired] int Metric, [property: JsonRequired] string Store, [property: JsonRequired] string Origin);
+public sealed record ApplyDadConfiguration([property: JsonRequired] int Transmits, [property: JsonRequired] bool Connected);
 public sealed record ApplyAdapterSnapshot(
     [property: JsonRequired] ApplyAdapterIdentity Identity,
     [property: JsonRequired] bool Dhcp,
@@ -20,7 +21,8 @@ public sealed record ApplyAdapterSnapshot(
     [property: JsonRequired] ImmutableArray<ApplyRoute> Routes,
     [property: JsonRequired] bool ClassificationComplete,
     [property: JsonRequired] ImmutableArray<ApplyAddress> PersistentAddresses,
-    [property: JsonRequired] string DnsRegistration = "primary");
+    [property: JsonRequired] string DnsRegistration = "primary",
+    ApplyDadConfiguration? Dad = null);
 
 public sealed record ApplyIntent(
     [property: JsonRequired] string Mode, [property: JsonRequired] string? Address,

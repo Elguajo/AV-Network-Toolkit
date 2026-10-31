@@ -44,6 +44,28 @@ internal static class ProjectApplyWorker
                 ProjectApplyWire.ValidateRequest(request, now());
                 changed = true; // A command can mutate and then fail/timeout.
                 await run(commands[i], CancellationToken.None);
+                if (i == 0 && request.Desired.Mode == "link-local")
+                {
+                    stage = "DadVerification";
+                    // Windows performs DAD during assignment. Do not change DNS
+                    // or claim success while that address is tentative/unknown.
+                    using var deadline = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+                    var preferred = false;
+                    for (var attempt = 0; attempt < 10; attempt++)
+                    {
+                        var observed = await read(request.Before.Identity, deadline.Token);
+                        if (observed.Identity != request.Before.Identity)
+                            return new(ApplyExecutionStatus.Failed, true, "AdapterChanged");
+                        if (!observed.ClassificationComplete) return new(ApplyExecutionStatus.Failed, true, stage);
+                        LinkLocalAddressing.RequireDad(observed);
+                        var address = System.Linq.Enumerable.SingleOrDefault(observed.Addresses,
+                            a => a.Address == request.Desired.Address && a.PrefixLength == 16 && a.Origin == "manual");
+                        if (address?.State == "duplicate") return new(ApplyExecutionStatus.Failed, true, "AddressConflict");
+                        if (address?.State == "preferred") { preferred = true; break; }
+                        if (attempt < 9) await Task.Delay(TimeSpan.FromMilliseconds(500), deadline.Token);
+                    }
+                    if (!preferred) return new(ApplyExecutionStatus.Failed, true, stage);
+                }
             }
             return new(ApplyExecutionStatus.Finished, changed, "CommandsFinished");
             }

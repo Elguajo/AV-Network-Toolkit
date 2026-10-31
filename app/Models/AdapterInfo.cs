@@ -10,6 +10,8 @@ namespace NetworkProfileManager.Models
         public string CurrentSubnet  { get; set; } = "";
         public string CurrentGateway { get; set; } = "";
         public bool   IsDhcp         { get; set; }
+        public bool   IsDhcpKnown    { get; set; } = true;
+        public bool?  IsCurrentIpv4Manual { get; set; }
         public string AdapterType    { get; set; } = "";
         public string CurrentPrimaryDns   { get; set; } = "";
         public string CurrentSecondaryDns { get; set; } = "";

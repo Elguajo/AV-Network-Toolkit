@@ -99,7 +99,7 @@ internal static class ProjectApplyElevation
     }
     internal static bool ValidResult(ApplyExecutionResult result) =>
         result.Status is ApplyExecutionStatus.Finished or ApplyExecutionStatus.Failed or ApplyExecutionStatus.Cancelled
-        && result.Stage is "Validation" or "OperationActive" or "PreStateChanged" or "AdapterChanged" or "Address" or "DnsPrimary" or "DnsSecondary" or "CommandsFinished"
+        && result.Stage is "Validation" or "OperationActive" or "PreStateChanged" or "AdapterChanged" or "Address" or "DnsPrimary" or "DnsSecondary" or "CommandsFinished" or "DadVerification" or "AddressConflict"
         && (result.Status != ApplyExecutionStatus.Finished || result.MayHaveChanged && result.Stage == "CommandsFinished");
 
     internal static async Task<int> RunWorkerAsync(string name, string parentPid)
@@ -165,10 +165,6 @@ internal sealed class WindowsProjectApplyBoundary : IProjectApplyBoundary
     private readonly WindowsProjectApplyObservation _observation = new();
     public Task<ApplyAdapterSnapshot> ReadAsync(ApplyAdapterIdentity identity, CancellationToken cancellation) => _observation.ReadAsync(identity, cancellation);
     public void ValidateSupported(ApplyAdapterSnapshot snapshot, ApplyIntent desired, bool recovery)
-    {
-        ProjectApplyPolicy.ValidateSnapshot(snapshot, allowTransient: recovery);
-        if (desired.Mode == "static" && desired.DnsMode == "leave-unchanged" && snapshot.DnsSource == "automatic")
-            throw new InvalidOperationException("Static automatic DNS unsupported.");
-    }
+        => ProjectApplyPolicy.ValidateTransition(snapshot, desired, recovery);
     public Task<ApplyExecutionResult> ExecuteAsync(ProjectApplyRequest request, CancellationToken cancellation) => ProjectApplyElevation.ExecuteAsync(request, cancellation);
 }

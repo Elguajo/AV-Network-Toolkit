@@ -37,10 +37,17 @@ public sealed class ProjectApplyCoordinator(
 
     public async Task<ProjectApplyPlan> PrepareAsync(ApplyAdapterIdentity identity, ApplyIntent desired,
         string destination, CancellationToken cancellation = default)
-        => await PrepareCoreAsync(identity, desired, destination, false, cancellation);
+        => await PrepareCoreAsync(identity, desired, destination ?? throw new ArgumentNullException(nameof(destination)), false, cancellation);
 
     public async Task<ProjectApplyPlan> PrepareRecoveryAsync(ApplyAdapterSnapshot original, CancellationToken cancellation = default)
         => await PrepareCoreAsync(original.Identity, ProjectApplyPolicy.RecoveryIntent(original), null, true, cancellation);
+
+    public async Task<ProjectApplyPlan> PrepareManualAsync(ApplyAdapterIdentity identity, ApplyIntent desired,
+        CancellationToken cancellation = default)
+    {
+        if (desired.Mode is not ("link-local" or "dhcp")) throw new InvalidOperationException("Invalid manual action.");
+        return await PrepareCoreAsync(identity, desired, null, false, cancellation);
+    }
 
     private async Task<ProjectApplyPlan> PrepareCoreAsync(ApplyAdapterIdentity identity, ApplyIntent desired,
         string? destination, bool recovery, CancellationToken cancellation)
@@ -52,7 +59,7 @@ public sealed class ProjectApplyCoordinator(
                 throw new InvalidOperationException("Confirmation pending.");
             _pending = null;
             State = ProjectApplyState.Preparing;
-            if (!recovery) ProjectJson.ValidateUrl(destination!);
+            if (!recovery && destination != null) ProjectJson.ValidateUrl(destination);
             ProjectApplyPolicy.ValidateIntent(desired, recovery);
             cancellation.ThrowIfCancellationRequested();
             var before = await boundary.ReadAsync(identity, cancellation);
@@ -149,8 +156,9 @@ public sealed class ProjectApplyCoordinator(
                 // Cancellation must not hand off a URL even if the just-completed apply verified.
                 if (cancellation.IsCancellationRequested)
                     outcome = End(ProjectApplyState.Cancelled, execution.MayHaveChanged, observed, "BeforeBrowser");
-                else if (request.Recovery)
-                    outcome = End(ProjectApplyState.Complete, execution.MayHaveChanged, observed, "RecoveryVerified");
+                else if (request.Recovery || plan.Destination == null)
+                    outcome = End(ProjectApplyState.Complete, execution.MayHaveChanged, observed,
+                        request.Recovery ? "RecoveryVerified" : "NetworkVerified");
                 else
                 {
                     State = ProjectApplyState.Opening;
@@ -188,6 +196,7 @@ public sealed class ProjectApplyCoordinator(
         && a.DnsSource == b.DnsSource && a.Addresses.SequenceEqual(b.Addresses)
         && a.DnsServers.SequenceEqual(b.DnsServers) && a.Routes.SequenceEqual(b.Routes)
         && a.DnsRegistration == b.DnsRegistration
+        && a.Dad == b.Dad
         && a.PersistentAddresses.SequenceEqual(b.PersistentAddresses);
 }
 
@@ -198,14 +207,18 @@ internal static class ProjectApplyVerification
         var desired = request.Desired;
         if (!actual.ClassificationComplete || actual.Identity != request.Before.Identity
             || actual.DnsRegistration != (desired.DnsRegistration ?? request.Before.DnsRegistration)) return false;
-        try { ProjectApplyPolicy.ValidateSnapshot(actual); }
+        try
+        {
+            ProjectApplyPolicy.ValidateSnapshot(actual, allowLinkLocal: desired.Mode == "link-local");
+            if (desired.Mode == "link-local") LinkLocalAddressing.RequireDad(actual);
+        }
         catch { return false; }
         if (desired.Mode == "dhcp")
             return actual.Dhcp && actual.DnsSource == desired.DnsMode && actual.Addresses.Length == 1
                 && ProjectApplyPolicy.Usable(actual.Addresses[0].Address)
                 && actual.Addresses[0].Origin == "dhcp" && actual.Addresses[0].State == "preferred"
                 && (desired.DnsMode != "static" || actual.DnsServers.SequenceEqual(desired.DnsServers));
-        if (desired.Mode != "static" || actual.Dhcp || actual.Addresses.Length != 1) return false;
+        if (desired.Mode is not ("static" or "link-local") || actual.Dhcp || actual.Addresses.Length != 1) return false;
         var address = actual.Addresses[0];
         if (address.Address != desired.Address || address.PrefixLength != desired.PrefixLength
             || address.Origin != "manual" || address.State != "preferred") return false;

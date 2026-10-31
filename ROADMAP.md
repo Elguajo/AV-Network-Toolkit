@@ -58,3 +58,7 @@ Owner explicitly started Phase 04 and approved conservative blocking of complex/
 ## Current publication follow-up — ADR-020
 
 Owner authorized committing/pushing current main including branding and Phase 04. Ordinary push only; phase order and manual/live-test/release gates remain. This supersedes stale no-publication statements for the current changes, without marking Phase 04 complete or starting Phase 05.
+
+## Phase 05 start — ADR-021/022
+
+Owner explicitly authorized 05-T01–05-T05 in a new chat and approved explicit static DNS replacement for automatic DNS. Current work: manual Link-Local using Phase 04 infrastructure, strict JSON v1 unchanged. [Contract](docs/spec/PHASE05_IMPLEMENTATION_CONTRACT.md) defines supported states and DAD/recovery limits. Prior acceptance gaps remain historical; Phase 06, live tests and publication of new work require separate owner decisions.

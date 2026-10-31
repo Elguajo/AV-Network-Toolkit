@@ -1,5 +1,18 @@
 # Testing strategy and acceptance matrix
 
+## Phase 05 current local evidence — 2026-10-31
+
+Main, base `48913b21b7a4ddf62a9f58663fbfcde79d630a29`, ADR-021/022. [Complete review packet](PHASE05_REVIEW.md) records changed paths, exact commands, artifacts, failures/corrections, focused reviews and separate isolated Windows plan. Implementation commit is pinned by the subsequent STATUS handoff. Local SDK/Python paths remain those below.
+
+- Release solution build `--configuration Release --no-restore`: PASS, 0 warnings/errors.
+- Full xUnit `--configuration Release --no-build --logger 'console;verbosity=minimal' --logger 'trx;LogFileName=phase05-final.trx'`: final PASS **463/0 failed/0 skipped**; **P05-R01 OPEN** from earlier 463-case run: 462 passed/1 failed, empty static DNS not rejected. Failed `test/TestResults/phase05.trx` retained. Later green is not resolution.
+- Diagnostic existing suite `--filter 'FullyQualifiedName!~LinkLocal'`: PASS **399**; JSON-only `--filter 'FullyQualifiedName~ProjectJsonTests'`: PASS **53**. Neither filter replaces the final full run. JSON/schema/test unchanged; cause and baseline attribution UNVERIFIED, separate repair scope required under AGENTS.md.
+- `scripts/ProjectUiSmoke` to `TestResults/Phase05UiSmoke`: PASS **64** Light/Dark normal/minimum component captures, 0 binding errors, actual bindings/focus/consent/busy close/exit and disconnected Link-Local display; fake all OS/DAD/process/elevation/browser boundaries.
+- `& ./scripts/validate_apply_observation.ps1`: PASS parse/allowlist and **11** fully shadowed OS-query fixtures, no native calls.
+- `& $py -B scripts/validate_plan.py`; `& $py -B scripts/test_validate_plan.py`: PASS schema/formats/example/planning/local links and **10** validator regressions. Whitespace/protected paths/unchanged legacy mutation-method comparison: PASS.
+
+No real NIC/probe/UAC/browser/DHCP/native observation/manual integration performed. Native Windows DAD/assignment/recovery, full App/tray/dialogs/accessibility/deployment/CI remain NOT RUN; release NO-SHIP and phase acceptance pending. Project JSON v1 and legacy formats unchanged; existing historical limits retained.
+
 ## Phase 04 current local evidence — 2026-10-31
 
 Main, base abdd1d1c61dd4f0d6b39adfc24ee69ff46367cbc. Exact resulting implementation SHA is in STATUS.md / resolved with `git log -1 --format=%H -- app/Services/ProjectApplyCoordinator.cs`. Full [review packet](PHASE04_REVIEW.md) contains commands, supported contract, failures/corrections, risks and isolated manual plan. Phase 04 AWAITING_REVIEW under ADR-019, not completed.
