@@ -2,6 +2,8 @@
 
 Base: main `4af148dd47abc56962ac623e35a99d94fdae8d06`, clean bootstrap. Owner pointed to the marked block and the approved compact raster: project identity/file + Open/Save, Network profiles / Device interfaces, then saved-profile heading and right-aligned actions. This corrects the prior tall banner and second visible navigation row; it is a localized IDEA-04 follow-up under ADR-030, not a new phase or storage design.
 
+Implementation/evidence commit: `9b1823b203e7591b7bb8d2316530170922e85abd` (21 paths), followed by this documentation-only SHA pin. No push, phase completion or release.
+
 ## Result and boundaries
 
 - One-row project bar: folder, project name, file basename and unsaved marker; full path remains in the tooltip. Open project and Save project stay visible. Save as and Manage project remain in a named, keyboard-focusable “…” menu connected to the same shared ProjectViewModel and existing commands.
