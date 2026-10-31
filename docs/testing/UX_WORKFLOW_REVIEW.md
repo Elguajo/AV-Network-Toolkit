@@ -2,6 +2,8 @@
 
 Base main `ef2e4773a36fa2d7feb941655e07427fcf7ae108`. Owner explicitly requested a WPF scenario audit followed by local UX fixes under the approved second concept. This is expert observation of actual controls with fake external boundaries, not user research or native network acceptance.
 
+Local implementation/evidence commit: `ef0db3b51a3b93acc5eb58daf91ad47a573fd16d` (35 paths). The following documentation-only pin adds its exact SHA; runtime evidence is unchanged. No push, phase completion or release.
+
 ## Before implementation: observed findings
 
 Executed `ProjectUiSmoke.dll TestResults/UxBefore --ux-before` against the baseline application components. Real MainWindow, ProjectProfileDialog and ProjectApplyWindow were shown/rendered; typed in the IP TextBox, invoked Keep, closed via Window.Close (same closing path as ×), changed adapter selection and read fixed-target state. All fixture IO stays under ignored TestResults; no App startup/NIC APIs/UAC/browser.
