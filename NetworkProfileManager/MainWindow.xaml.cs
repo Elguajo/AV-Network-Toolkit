@@ -15,6 +15,18 @@ namespace NetworkProfileManager
     {
         private readonly SnackbarService        _snackbarService = new();
         private readonly ContentDialogService   _dialogService   = new();
+        private ProjectWindow? _projectWindow;
+
+        private void OpenProjectClick(object sender, RoutedEventArgs e)
+        {
+            if (_projectWindow == null)
+            {
+                _projectWindow = new ProjectWindow { Owner = this };
+                _projectWindow.Closed += (_, _) => _projectWindow = null;
+                _projectWindow.Show();
+            }
+            else _projectWindow.Activate();
+        }
 
         public MainWindow()
         {

@@ -279,6 +279,10 @@ namespace NetworkProfileManager
                 openSettings: () => Dispatcher.Invoke(ShowThemeSettings),
                 exit: () => Dispatcher.Invoke(() =>
                 {
+                    // Application.Shutdown bypasses cancellable owned-window closing.
+                    // Protect the new project draft before retaining the existing exit flow.
+                    foreach (var project in Windows.OfType<ProjectWindow>().ToArray())
+                        if (!project.ConfirmApplicationExit()) return;
                     IsExiting = true;
                     _trayIcon!.Visible = false;
                     Shutdown();

@@ -16,6 +16,7 @@ This file is the persistent contract for every agent session, regardless of chat
 - Preserve **all existing Network Profile Manager functionality** unless a specific, reviewed task explicitly changes it: IP/mask/gateway/DNS, DHCP, JSON import/export, named per-adapter profiles, network scanner, ping, history and revert, tray, UAC behavior and localization.
 - Add features incrementally, minimize diffs, preserve MVVM and testing conventions unless Phase 01 documents a justified alternative.
 - Do **not** make sweeping rewrites or visual redesigns. Retain the UI language and layout except where a feature requires a localized addition.
+- All new windows, buttons, controls and other UI elements must reuse the existing product style/design documented in `DESIGN.md`; read it before UI edits. Do not introduce a parallel visual language.
 - Do **not** modify real OS network settings, run a DHCP server, scan a live network, or require administrator elevation during unit tests, CI or read-only analysis. Explicit approval + an isolated Windows test environment are prerequisites for live tests.
 - Do **not** change network configuration merely because a project file or device link was opened. Applying network settings must be a separate deliberate action.
 - Never silently remove existing gateway, DNS, routes, or network adapter settings. Define and test exact semantics for empty/automatic fields and recovery paths.

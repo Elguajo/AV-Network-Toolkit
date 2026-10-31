@@ -1,44 +1,51 @@
-# Draft project JSON format — **NOT implemented**
+# Project JSON v1 — approved contract (ADR-009)
 
-**Proposed filename:** `project.avnet.json` under a user-selected AV project folder.
+Owner approved the concrete format package on 2026-10-31. See [review package](PHASE02_FORMAT_REVIEW.md). Implementation status and execution evidence belong to [STATUS](../../STATUS.md) and [test matrix](../testing/TEST_MATRIX.md); this specification does not certify Windows apply behavior.
 
-- Project file is **separate** from existing `%LOCALAPPDATA%\NetworkProfileManager\data\profiles_<adapter-id>.json` files. Never repurpose these without a migration plan.
-- Root `schemaVersion: 1`; require stable IDs; preserve unknown fields or report incompatibilities, **never silently discard** them.
-- `profiles[]`: ID/name, `mode` (static/dhcp/link-local), optional adapter hint, IPv4 static settings if static.
-- `ipv4.prefixLength` is 0–32; UI can show/convert dotted-decimal subnet mask. Additional semantic validation rejects nonsensical addresses/masks and gateway choices.
-- `ipv4.gateway: null` means **no gateway** (do not add one). Importer must not interpret absent gateway as an inherited previous gateway.
-- `ipv4.dns.mode = automatic` or `static`; static requires one/two validated addresses. The meaning of automatic DNS on static IP needs implementation/Windows API proof; it must not silently leave stale manual DNS.
-- `adapterHint.preferredAlias` is display guidance only; on a different machine it must not auto-bind a NIC.
-- `devices[]`: ID/name/type, optional IP, optional referenced `profileId`, required full `webUrl` for browser launch. References must resolve or be explicitly flagged as orphaned.
-- **URL:** preserve full path/query/fragment verbatim through read/write; support `http` and `https` only. Warn if HTTP or if IP differs from URL hostname; keep user override deliberate.
-- Project JSON must contain **no username, password, cookies, session token or secret browser URL query values**. If a URL contains a credential-like token, warn/block its persistence pending a reviewed policy.
-- Not suitable for storing networks as publicly committed sample data; private projects remain outside public Git repository.
+## Layout and ownership
 
-## IO policy
+One portable `project.avnet.json`, selected explicitly by the user, contains `schemaVersion`, `project`, `profiles[]`, `devices[]`. Open/Choose Folder never applies network settings, launches URLs or writes legacy AppData profiles. Project profiles have no five-slot limit; legacy five profiles per adapter and legacy JSON import/export remain unchanged. There is no automatic project-to-legacy mapping or merge-import in Phase 02.
 
-Open = parse and validate **without changing the OS or app profile store**. Save = write temporary file in same directory, flush and replace safely, retain a backup of previous content as appropriate. The user chooses project folder; any overwrite requires clear context and permission. Handle file locks, invalid JSON, future versions, duplicate IDs and missing references predictably.
+Project ID and profile/device IDs are nonblank case-sensitive strings, unique across all records. New records use UUIDs. Normal edits and Save As preserve identity. Duplicate IDs, duplicate JSON property names and orphan references are rejected. Duplicate display names are permitted; identity is the ID, never a display name. IDs/refs are never automatically repaired or renamed.
 
-## Example and validator
+## Profiles and intent
 
-- `examples/project.avnet.json` contains **documentation-range IPs**, not production endpoints.
-- `schemas/project.avnet.schema.json` is a draft structural validator; IP subnet/gateway and security semantics require additional application-level validation.
-- Schema is intended for review in Phase 02 and may change by an explicit recorded ADR before implementation.
+- `mode`: `static` or `dhcp`. `link-local` and static 169.254/16 are rejected until Phase 05.
+- Static requires an `ipv4` object: canonical dotted-quad `address`, integer `prefixLength` 1–32, explicit `gateway` and `dns`.
+- Gateway must be a different valid host in the same subnet, or explicit JSON `null` for no gateway. Missing gateway and empty string are invalid. There is no inheritance from the previous adapter state. The editor labels blank as **no gateway**, serializing it to null.
+- DNS is explicit: `static` with 1–2 distinct valid IPv4 servers, or `automatic`/`leave-unchanged` with an empty server array. An editor secondary without primary is rejected. No automatic translation to legacy empty DNS.
+- DHCP has no `ipv4` block and means automatic IPv4 plus automatic DNS intent. IPv6 is outside the format/application scope.
+- Reject unspecified/loopback/multicast/reserved host addresses. For prefixes <=30, reject subnet network/broadcast host and gateway addresses. /31 and /32 with null gateway may be stored; this does not certify OS apply support.
+- `adapterHint.preferredAlias` is optional display guidance only, never a selection or stable OS identity binding.
 
-## Phase 01 findings and Phase 02 decision gate
+Phase 02 stores intent only. In particular null-gateway route removal and static-IP/automatic-DNS cannot be implemented by omitting legacy command arguments. Phase 04 must prove exact requested/observed state and recovery before enabling project apply; unsupported cases must be blocked before mutation.
 
-This remains a draft. ADR-006 authorizes documenting decisions to make, not choosing their outcomes. See [baseline findings F02/F05/F07/F10](../architecture/BASELINE_AND_SOURCE_MAP.md) and 02-T01 through 02-T06.
+## Device storage and URL security
 
-- **Identity:** project/profile/device IDs must remain stable across normal edits. The legacy dialog creates a new `IpProfile` on edit; do not use that identity lifecycle for linked project records. Define duplicate IDs, imported conflicts and explicit copy semantics before implementation.
-- **Storage layout — NEEDS_DECISION:** the draft schema has `devices[]` in one project file; earlier roadmap wording suggested a separate catalogue. Choose same-file or separate-file storage and its consistency/recovery rules in 02-T01; this adoption does not choose or change the schema.
-- **Legacy mapping — NEEDS_DECISION:** define whether project profiles apply directly or are explicitly mapped into saved adapter slots. Preserve the existing five-slot workflow and reject overflow instead of truncating silently.
-- **DNS:** legacy empty primary means leave current DNS unchanged, not automatic. A secondary without primary is ignored in that path. Do not map explicit project automatic/static DNS to those legacy defaults. Decide whether a leave-unchanged policy belongs in the project format; no third mode is added by this document. Unsupported automatic-DNS/static-IP combinations must fail before mutation until proved on Windows.
-- **Gateway:** draft `null` means no gateway; define missing/empty values and exact removal/preservation semantics for affected routes. Omitting an argument in current `ApplyStaticIp` is not proof of the intended resulting OS state.
-- **Compatibility — NEEDS_DECISION:** choose unknown-field preservation versus explicit incompatibility rejection. Current `additionalProperties: false` rejects extensions; never deserialize-and-resave while silently losing them. Future versions require a declared read/save policy.
-- **Reserved mode — NEEDS_DECISION:** the draft accepts `link-local` before Phase 05 exists. Choose reject, read-only preservation or another reviewed unsupported-mode behavior; never execute it as static/DHCP by fallback.
-- **URL secrets — NEEDS_DECISION:** retain full non-secret URLs, reject embedded credentials, and settle the policy for suspected secret query/fragment values before persistence. The schema's http(s) pattern does not enforce these semantics.
+Devices store ID, name, full `webUrl`, optional type/manufacturer/IP/notes and nullable/optional `profileId`. Device management, HTTP/IP-host mismatch warnings and browser launch belong to Phase 03. Non-secret URL text round-trips verbatim, including path/query/fragment, ports and escaping.
 
-## Required IO and validation evidence (02-T04/02-T05)
+Only valid absolute http(s) URLs without userinfo, whitespace, controls or backslashes are accepted. Query and fragment are percent-decoded for inspection (not storage), with bounded decoding; excessively nested encoding is rejected. Suspected credential keys are matched case-insensitively, including fragment routes and hyphen variants: password/passwd/pwd/token/access_token/refresh_token/id_token/api_key/apikey/secret/authorization/auth/session/sessionid/cookie/code/signature/sig/key. Such URLs are rejected without a persistence override. Error messages contain code/field path, never the URL or rejected value.
 
-Test malformed JSON, full JSON Schema draft 2020-12 constraints with format enforcement explicitly configured, and application semantic checks separately. Fixtures cover IDs/references, subnet/gateway constraints, DNS policy and exact URL round trips. Syntactic parsing or matching schemaVersion is insufficient.
+This deliberately conservative check may reject harmless keys, and cannot detect arbitrary secrets hidden in unrelated free text. Do not put credentials in names, descriptions or notes. There are no credential/password/token fields; unknown properties are rejected. No URL is visited during validation, no DNS resolution, TLS bypass or browser integration occurs.
 
-For new project storage, demonstrate that failed serialization/temp write/flush/backup/replace leaves the original recoverable. Define behavior for file locks, permissions, interrupted writes and concurrent external edits. Never delete the only original after failed backup. Restore must be explicit and preserve evidence of corruption. Legacy remediation belongs to the separately reviewed 02-T06 scope; no migration is authorized here.
+## Validation and compatibility
+
+[Public schema](../../schemas/project.avnet.schema.json) is draft 2020-12, embedded in the app. JsonSchema.Net 7.4.0 is pinned, with `EvaluateAs = SpecVersion.Draft202012` and `RequireFormatValidation = true`. Explicit canonical IPv4 patterns supplement the library's permissive IPv4 format implementation. Independent Python checks use Draft202012Validator with an explicit FormatChecker.
+
+Separate semantic validation enforces identities, references, host/subnet/gateway and URL-security rules. UTF-8 must be valid; comments/trailing commas are rejected. Input/output is limited to 8 MiB and depth 64 to bound parsing work; there is no arbitrary profile count cap.
+
+Version 1 rejects unknown properties at every object level and unsupported schema versions. Unsupported/corrupt files are never normalized, reset or resaved automatically. There is no released predecessor format to migrate; v0 and future versions receive explicit incompatibility errors. Legacy arrays stay on their existing separate path, not a hidden migration path.
+
+## Files, saves and recovery
+
+- Open reads/validates only; failed open retains the active document/draft. Choose Folder chooses a future save location, not a recursive folder import.
+- File paths must be explicit absolute local paths; UNC/device paths, alternate streams and existing junction/symlink components are rejected. Network shares, concurrent multi-user editing, hostile local filesystem races and atomicity on arbitrary third-party filesystems are not certified.
+- New/Open/close protect unsaved document/editor changes with discard confirmation. Save As includes pending valid profile edits; invalid edits block saving. Existing target overwrite always requires explicit confirmation showing its exact path.
+- Existing targets require their observed SHA-256 revision. Saving back to an opened path retains its original revision; intervening external edits/deletion cause conflict rather than blind overwrite.
+- Cooperative savers use an exclusive DeleteOnClose lease. Write a unique same-directory temp file, validate before writing, and flush bytes to disk. Before overwrite, copy exact old bytes to a unique backup and flush it. Failed serialization/temp write/flush/backup/replace never triggers delete/reset of the original.
+- Replace atomically with Windows `File.Replace`, retaining a second backup in that operation. If an uncooperative external replacement races after the last revision check, its bytes survive in that backup and the app signals `ConcurrentReplace`; the target may already contain the new document. Reopen/compare all versions before another save. No claim of universal compare-and-swap against arbitrary editors.
+- Normal successful overwrite keeps one unique `.bak` of exact previous bytes; redundant atomic backup is removed only if byte-identical to that complete backup. Backups are not auto-pruned. Growth is visible via the backup path; user manages retention.
+- No automatic restore or corruption cleanup. Open a backup explicitly (Open accepts `.bak`) and Save As to a new path. Preserve the corrupt/conflicting source and any partial backups for comparison; only valid project files may be used as recovered documents.
+- A crash before replace leaves the original plus possible temp/backup evidence; after replace leaves a complete target and prior version. Best effort cleanup removes only this operation's temp file. Power-loss behavior ultimately depends on filesystem/storage guarantees; not fault-injection certified on hardware.
+
+No project repository calls AppPaths, ProfileRepository, HistoryRepository, netsh, UAC or browser APIs. Legacy persistence review is [02-T06](../architecture/LEGACY_PERSISTENCE_REVIEW.md), not authorization to fix/migrate legacy files.

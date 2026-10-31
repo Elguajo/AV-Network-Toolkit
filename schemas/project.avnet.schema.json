@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://example.invalid/schemas/project.avnet.schema.json",
-  "title": "Draft AV Network Manager project schema (not yet implemented)",
+  "title": "AV Network Toolkit project v1",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -12,7 +12,8 @@
   ],
   "properties": {
     "schemaVersion": {
-      "const": 1
+      "const": 1,
+      "type": "integer"
     },
     "project": {
       "type": "object",
@@ -61,11 +62,12 @@
       "properties": {
         "address": {
           "type": "string",
-          "format": "ipv4"
+          "format": "ipv4",
+          "pattern": "^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])$"
         },
         "prefixLength": {
           "type": "integer",
-          "minimum": 0,
+          "minimum": 1,
           "maximum": 32
         },
         "gateway": {
@@ -75,7 +77,8 @@
             },
             {
               "type": "string",
-              "format": "ipv4"
+              "format": "ipv4",
+              "pattern": "^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])$"
             }
           ]
         },
@@ -90,16 +93,19 @@
             "mode": {
               "enum": [
                 "automatic",
-                "static"
+                "static",
+                "leave-unchanged"
               ]
             },
             "servers": {
               "type": "array",
               "items": {
                 "type": "string",
-                "format": "ipv4"
+                "format": "ipv4",
+                "pattern": "^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])$"
               },
-              "maxItems": 2
+              "maxItems": 2,
+              "uniqueItems": true
             }
           },
           "allOf": [
@@ -126,7 +132,10 @@
               "if": {
                 "properties": {
                   "mode": {
-                    "const": "automatic"
+                    "enum": [
+                      "automatic",
+                      "leave-unchanged"
+                    ]
                   }
                 },
                 "required": [
@@ -165,8 +174,7 @@
         "mode": {
           "enum": [
             "static",
-            "dhcp",
-            "link-local"
+            "dhcp"
           ]
         },
         "adapterHint": {
@@ -205,8 +213,7 @@
             "properties": {
               "mode": {
                 "enum": [
-                  "dhcp",
-                  "link-local"
+                  "dhcp"
                 ]
               }
             },
@@ -249,7 +256,8 @@
         },
         "ip": {
           "type": "string",
-          "format": "ipv4"
+          "format": "ipv4",
+          "pattern": "^(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])$"
         },
         "webUrl": {
           "type": "string",

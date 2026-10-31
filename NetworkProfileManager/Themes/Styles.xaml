@@ -77,4 +77,43 @@
         <Setter Property="Padding" Value="20,12" />
     </Style>
 
+    <!-- Existing adapter navigation style, shared with project profiles. -->
+    <Style x:Key="NavigationListItem" TargetType="ListBoxItem">
+      <Setter Property="Margin" Value="0,1"/>
+      <Setter Property="Padding" Value="12,8"/>
+      <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
+      <Setter Property="FocusVisualStyle" Value="{DynamicResource DefaultControlFocusVisualStyle}"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ListBoxItem">
+            <Grid>
+              <Border x:Name="Bg" Background="Transparent" CornerRadius="{DynamicResource ControlCornerRadius}"/>
+              <Border x:Name="Pill" Width="3" Height="16" CornerRadius="1.5"
+                      HorizontalAlignment="Left" VerticalAlignment="Center"
+                      Background="{DynamicResource AccentFillColorDefaultBrush}"
+                      Visibility="Collapsed"/>
+              <ContentPresenter Margin="{TemplateBinding Padding}"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/>
+              </Trigger>
+              <Trigger Property="IsSelected" Value="True">
+                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/>
+                <Setter TargetName="Pill" Property="Visibility" Value="Visible"/>
+              </Trigger>
+              <MultiTrigger>
+                <MultiTrigger.Conditions>
+                  <Condition Property="IsSelected" Value="True"/>
+                  <Condition Property="IsMouseOver" Value="True"/>
+                </MultiTrigger.Conditions>
+                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource SubtleFillColorTertiaryBrush}"/>
+              </MultiTrigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
 </ResourceDictionary>

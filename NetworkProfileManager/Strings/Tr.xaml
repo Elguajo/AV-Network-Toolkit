@@ -206,4 +206,50 @@
     <!-- ── Scanner status ── -->
     <sys:String x:Key="Scanner.Status.AppliedIp">IP uygulandı: {0}</sys:String>
 
+
+  <!-- Portable project storage -->
+  <sys:String x:Key="Project.Title">Proje</sys:String>
+  <sys:String x:Key="Project.New">Yeni proje</sys:String>
+  <sys:String x:Key="Project.NewName">Yeni proje</sys:String>
+  <sys:String x:Key="Project.Open">Proje aç…</sys:String>
+  <sys:String x:Key="Project.ChooseFolder">Klasör seç…</sys:String>
+  <sys:String x:Key="Project.SaveAs">Farklı kaydet…</sys:String>
+  <sys:String x:Key="Project.Unsaved">Kaydedilmedi</sys:String>
+  <sys:String x:Key="Project.Path">Proje dosyası</sys:String>
+  <sys:String x:Key="Project.StorageOnly">Proje profilleri ayrı saklanır. Açma veya kaydetme, bağdaştırıcı ayarlarını değiştirmez.</sys:String>
+  <sys:String x:Key="Project.UnsavedChanges">Kaydedilmemiş değişiklikler</sys:String>
+  <sys:String x:Key="Project.Name">Proje adı</sys:String>
+  <sys:String x:Key="Project.Description">Açıklama</sys:String>
+  <sys:String x:Key="Project.AdapterHint">Bağdaştırıcı ipucu (yalnızca bilgi)</sys:String>
+  <sys:String x:Key="Project.Prefix">Önek uzunluğu (1–32)</sys:String>
+  <sys:String x:Key="Project.Gateway">Ağ geçidi (boş = ağ geçidi yok)</sys:String>
+  <sys:String x:Key="Project.DnsMode">DNS ilkesi</sys:String>
+  <sys:String x:Key="Project.DnsUnchanged">Değiştirme</sys:String>
+  <sys:String x:Key="Project.DnsAutomatic">Otomatik</sys:String>
+  <sys:String x:Key="Project.AddProfile">Yeni profil</sys:String>
+  <sys:String x:Key="Project.Delete">Sil</sys:String>
+  <sys:String x:Key="Project.KeepProfile">Profili projede tut</sys:String>
+  <sys:String x:Key="Project.Backup">Önceki dosyanın yedeği</sys:String>
+  <sys:String x:Key="Project.Discard">Kaydedilmemiş değişiklikler silinsin mi?</sys:String>
+  <sys:String x:Key="Project.Overwrite">Bu dosya bir yedek tutularak değiştirilsin mi?</sys:String>
+  <sys:String x:Key="Project.ErrorTooLarge">Proje 8 MiB boyut sınırını aşıyor.</sys:String>
+  <sys:String x:Key="Project.ErrorVersion">Desteklenmeyen proje sürümü. Dosya değiştirilmedi.</sys:String>
+  <sys:String x:Key="Project.ErrorStructure">Proje desteklenen şemaya uymuyor. Zorunlu alanları, alan türlerini, DNS ve bilinmeyen özellikleri denetleyin.</sys:String>
+  <sys:String x:Key="Project.ErrorJson">Geçersiz JSON veya UTF-8. Dosya değiştirilmedi.</sys:String>
+  <sys:String x:Key="Project.ErrorDuplicateProperty">Yinelenen JSON özellik adları desteklenmiyor.</sys:String>
+  <sys:String x:Key="Project.ErrorIdentity">Kimlikler boş olamaz ve benzersiz olmalıdır.</sys:String>
+  <sys:String x:Key="Project.ErrorName">Ad gerekli.</sys:String>
+  <sys:String x:Key="Project.ErrorLinkLocal">Link-local profilleri sonraki bir aşama için ayrılmıştır.</sys:String>
+  <sys:String x:Key="Project.ErrorSubnet">Bu alt ağ için geçersiz ana bilgisayar adresi veya önek uzunluğu.</sys:String>
+  <sys:String x:Key="Project.ErrorGateway">Ağ geçidi aynı alt ağdaki farklı bir ana bilgisayar olmalıdır.</sys:String>
+  <sys:String x:Key="Project.ErrorAddress">Desteklenmeyen IPv4 ana bilgisayar adresi.</sys:String>
+  <sys:String x:Key="Project.ErrorReference">Bir cihaz bu profile başvuruyor veya profil başvurusu bulunamadı.</sys:String>
+  <sys:String x:Key="Project.ErrorUrl">Yalnızca gömülü kimlik bilgisi içermeyen geçerli HTTP/HTTPS adreslerine izin verilir.</sys:String>
+  <sys:String x:Key="Project.ErrorUrlSecret">URL şüpheli bir gizli parametre içeriyor. Kaydetmeden önce kaldırın.</sys:String>
+  <sys:String x:Key="Project.ErrorPath">Bağlantı veya alternatif veri akışı içermeyen tam bir yerel dosya yolu seçin.</sys:String>
+  <sys:String x:Key="Project.ErrorConflict">Hedef değişti veya zaten var. Yeniden açın ya da yeni bir dosyaya kaydedin.</sys:String>
+  <sys:String x:Key="Project.ErrorConcurrentReplace">Kaydetme sırasında harici bir yazma oldu. İki sürüm de yedek dosyalarda tutuldu; yeniden kaydetmeden önce açıp karşılaştırın.</sys:String>
+  <sys:String x:Key="Project.ErrorIo">Proje dosyasına erişilemiyor. Klasörü, izinleri ve kilitleri kontrol edin. Özgün/yedek dosyalar korunur; durumu denetlemek için yeniden açın.</sys:String>
+  <sys:String x:Key="Project.DeleteConfirm">Seçili profil silinsin mi?</sys:String>
+  <sys:String x:Key="Project.Error">Geçersiz proje.</sys:String>
 </ResourceDictionary>

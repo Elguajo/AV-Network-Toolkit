@@ -31,9 +31,8 @@
 - **NFR-06** Clear error propagation; do not claim connectivity based solely on Ping, ARP or port response.
 - **NFR-07** Modular, maintainable C#/.NET 8/WPF code with tests; minimum UI changes.
 
-## Open decisions (Phase 01/02)
+## Phase 02 decisions approved (ADR-009)
 
-- Should project file contain both profiles and devices or separate referenced JSON files? The supplied schema assumes one file for transactional consistency.
-- Does the app support unlimited project profiles while preserving base's five live saved profiles per adapter? Proposed: yes, but do not implement before approval.
-- Is custom static DNS mandatory if IP is static? Proposed explicit DNS mode to avoid accidental changes.
-- How should import conflicts and duplicate profile IDs be handled? Proposed reject and offer mapped import rather than silently rename.
+Single-file project catalogue; independent project collection without five-slot cap; no legacy mapping/apply in Phase 02; explicit automatic/static/leave-unchanged DNS; stable IDs with duplicate/orphan rejection; strict unknown/future-version incompatibility; reserved link-local rejection; conservative secret-URL persistence blocking. Exact semantics: [project JSON specification](PROJECT_JSON_SPEC.md).
+
+All new interface elements reuse the current design language, per owner instruction recorded in [DESIGN.md](../../DESIGN.md). Device UI/browser launch and Apply & Open remain later phases.

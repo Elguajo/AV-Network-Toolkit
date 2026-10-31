@@ -29,6 +29,8 @@
       <ui:TitleBar.TrailingContent>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,6,0">
           <ui:Button Style="{StaticResource SubtleButton}" Padding="10,6" Margin="0,0,2,0"
+                     Content="{DynamicResource Project.Title}" Click="OpenProjectClick"/>
+          <ui:Button Style="{StaticResource SubtleButton}" Padding="10,6" Margin="0,0,2,0"
                      Icon="{ui:SymbolIcon SearchInfo20}"
                      Content="{DynamicResource MainWindow.IpScannerButton}"
                      ToolTip="{DynamicResource MainWindow.IpScannerTooltip}"

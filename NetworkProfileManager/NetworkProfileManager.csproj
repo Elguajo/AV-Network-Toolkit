@@ -28,6 +28,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="JsonSchema.Net" Version="7.4.0" />
     <PackageReference Include="WPF-UI" Version="4.2.0" />
   </ItemGroup>
   <ItemGroup>
@@ -35,5 +36,8 @@
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="NetworkProfileManager.Tests" />
+    <EmbeddedResource Include="..\schemas\project.avnet.schema.json" LogicalName="ProjectSchema.json" />
+    <None Include="..\docs\legal\THIRD_PARTY_NOTICES.md" Link="THIRD_PARTY_NOTICES.md"
+          CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

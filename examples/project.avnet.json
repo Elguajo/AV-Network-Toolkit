@@ -29,6 +29,20 @@
       "id": "office-dhcp",
       "name": "Office (DHCP)",
       "mode": "dhcp"
+    },
+    {
+      "id": "service-static",
+      "name": "Service network (keep DNS)",
+      "mode": "static",
+      "ipv4": {
+        "address": "198.51.100.10",
+        "prefixLength": 24,
+        "gateway": "198.51.100.1",
+        "dns": {
+          "mode": "leave-unchanged",
+          "servers": []
+        }
+      }
     }
   ],
   "devices": [

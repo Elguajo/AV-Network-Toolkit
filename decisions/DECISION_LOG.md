@@ -12,6 +12,7 @@
 | ADR-008 | 2026-10-31 | Start Phase 02 in a new chat, including prerequisite 01-T06–01-T08 preparation | Owner explicitly requested Phase 02 start and transferred bounded SDK/test/tool preparation scope | User-authorized execution; schema choices still require 02-T01 review; no live tests, merge/push or Phase 03 authorization |
 
 | ADR-009 | 2026-10-31 | Approve the Phase 02 format package in docs/spec/PHASE02_FORMAT_REVIEW.md | Owner answered «Утверждаю пакет решений» to the explicit 02-T01 review | User-approved schema/semantics; no OS apply or legacy mapping in Phase 02 |
+| ADR-010 | 2026-10-31 | All new windows, buttons and other UI elements reuse the existing product design, documented in DESIGN.md | Owner explicitly requested existing style/design for every new interface element | User-approved standing constraint; localized additions only, no redesign or separate visual system |
 
 ## ADR-006 scope and consequences
 

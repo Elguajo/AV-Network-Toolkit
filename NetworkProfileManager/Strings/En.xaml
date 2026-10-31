@@ -206,4 +206,50 @@
     <!-- ── Scanner status ── -->
     <sys:String x:Key="Scanner.Status.AppliedIp">IP applied: {0}</sys:String>
 
+
+  <!-- Portable project storage -->
+  <sys:String x:Key="Project.Title">Project</sys:String>
+  <sys:String x:Key="Project.New">New project</sys:String>
+  <sys:String x:Key="Project.NewName">New project</sys:String>
+  <sys:String x:Key="Project.Open">Open project…</sys:String>
+  <sys:String x:Key="Project.ChooseFolder">Choose folder…</sys:String>
+  <sys:String x:Key="Project.SaveAs">Save as…</sys:String>
+  <sys:String x:Key="Project.Unsaved">Not saved</sys:String>
+  <sys:String x:Key="Project.Path">Project file</sys:String>
+  <sys:String x:Key="Project.StorageOnly">Project profiles are stored separately. Opening or saving does not change adapter settings.</sys:String>
+  <sys:String x:Key="Project.UnsavedChanges">Unsaved changes</sys:String>
+  <sys:String x:Key="Project.Name">Project name</sys:String>
+  <sys:String x:Key="Project.Description">Description</sys:String>
+  <sys:String x:Key="Project.AdapterHint">Adapter hint (display only)</sys:String>
+  <sys:String x:Key="Project.Prefix">Prefix length (1–32)</sys:String>
+  <sys:String x:Key="Project.Gateway">Gateway (blank = no gateway)</sys:String>
+  <sys:String x:Key="Project.DnsMode">DNS policy</sys:String>
+  <sys:String x:Key="Project.DnsUnchanged">Leave unchanged</sys:String>
+  <sys:String x:Key="Project.DnsAutomatic">Automatic</sys:String>
+  <sys:String x:Key="Project.AddProfile">New profile</sys:String>
+  <sys:String x:Key="Project.Delete">Delete</sys:String>
+  <sys:String x:Key="Project.KeepProfile">Keep profile in project</sys:String>
+  <sys:String x:Key="Project.Backup">Previous file backup</sys:String>
+  <sys:String x:Key="Project.Discard">Discard unsaved changes?</sys:String>
+  <sys:String x:Key="Project.Overwrite">Replace this file and retain a backup?</sys:String>
+  <sys:String x:Key="Project.ErrorTooLarge">Project exceeds the 8 MiB size limit.</sys:String>
+  <sys:String x:Key="Project.ErrorVersion">Unsupported project version. The file has not been changed.</sys:String>
+  <sys:String x:Key="Project.ErrorStructure">Project does not match the supported schema. Check required fields, field types, DNS and unknown properties.</sys:String>
+  <sys:String x:Key="Project.ErrorJson">Invalid JSON or UTF-8. The file has not been changed.</sys:String>
+  <sys:String x:Key="Project.ErrorDuplicateProperty">Duplicate JSON property names are not supported.</sys:String>
+  <sys:String x:Key="Project.ErrorIdentity">IDs must be nonblank and unique.</sys:String>
+  <sys:String x:Key="Project.ErrorName">A name is required.</sys:String>
+  <sys:String x:Key="Project.ErrorLinkLocal">Link-local profiles are reserved for a later phase.</sys:String>
+  <sys:String x:Key="Project.ErrorSubnet">Invalid host address or prefix length for this subnet.</sys:String>
+  <sys:String x:Key="Project.ErrorGateway">Gateway must be a different host in the same subnet.</sys:String>
+  <sys:String x:Key="Project.ErrorAddress">Unsupported IPv4 host address.</sys:String>
+  <sys:String x:Key="Project.ErrorReference">A device references this profile or a profile reference is missing.</sys:String>
+  <sys:String x:Key="Project.ErrorUrl">Only valid HTTP/HTTPS URLs without embedded credentials are allowed.</sys:String>
+  <sys:String x:Key="Project.ErrorUrlSecret">URL contains a suspected secret parameter. Remove it before saving.</sys:String>
+  <sys:String x:Key="Project.ErrorPath">Choose an absolute local file path without links or alternate data streams.</sys:String>
+  <sys:String x:Key="Project.ErrorConflict">The target changed or already exists. Reopen it or save to a new file.</sys:String>
+  <sys:String x:Key="Project.ErrorConcurrentReplace">An external write raced with saving. Both versions were retained in backup files; reopen and compare before saving again.</sys:String>
+  <sys:String x:Key="Project.ErrorIo">Cannot access the project file. Check its folder, permissions and locks. Original/backup files are retained; reopen to check state.</sys:String>
+  <sys:String x:Key="Project.DeleteConfirm">Delete the selected profile?</sys:String>
+  <sys:String x:Key="Project.Error">Invalid project.</sys:String>
 </ResourceDictionary>

@@ -25,6 +25,6 @@ Static host validation will reject unspecified, loopback, multicast/reserved, su
 - Same-directory temporary file, durable flush, atomic replace with unique backup on existing target; abort on backup/replace failure, never delete original. Explicit overwrite confirmation; external edit conflict check and file locking. No automatic recovery overwrite; open backup explicitly and use Save As.
 - Preparation tests/tooling first, then format/schema tests, store failure/round-trip tests, project viewmodel tests, build and isolated regression. Windows UI/live network checks reported separately.
 
-## Review requested
+## Review outcome
 
-Approve this package or name changes. In particular: third DNS mode, strict rejection of unknown fields/link-local, no legacy mapping in Phase 02, and conservative URL-secret blocking are product choices. Phase 02 start is already authorized; this review is specifically required by 02-T01 before schema implementation.
+Owner approved this package on 2026-10-31 by answering «Утверждаю пакет решений» (ADR-009). Implementation uses JsonSchema.Net 7.4.0 (MIT) and its explicit format assertion option, not the later binary with additional maintenance terms. The final contract is maintained in [PROJECT_JSON_SPEC.md](PROJECT_JSON_SPEC.md); implementation evidence does not imply Windows apply certification.
