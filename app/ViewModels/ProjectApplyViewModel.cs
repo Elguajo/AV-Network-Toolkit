@@ -96,6 +96,7 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
     public bool IsBusy { get => _busy; private set { _busy = value; Changed(); Changed(nameof(CanSelect)); Changed(nameof(CanSelectAdapter)); } }
     public bool CanSelect => !IsBusy;
     public bool CanSelectAdapter => !IsBusy && !_targetAdapterId.HasValue;
+    public string AdapterLabel => Loc.Get(_targetAdapterId.HasValue ? "Ux.TargetAdapter" : "Apply.Adapter");
     public string Review { get => _review; private set { _review = value; Changed(); } }
     public string Status { get => _status; private set { _status = value; Changed(); } }
     public string Observed { get => _observed; private set { _observed = value; Changed(); } }
@@ -113,6 +114,7 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
         await RunAsync(async token =>
         {
             DiscardPlan();
+            Status = Loc.Get("Ux.Reading");
             _adapter = null; Changed(nameof(SelectedAdapter));
             Adapters.Clear();
             foreach (var adapter in await _enumerate(token)) Adapters.Add(adapter);
@@ -121,7 +123,9 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
                 _adapter = Adapters.SingleOrDefault(a => a.Id == _targetAdapterId);
                 Changed(nameof(SelectedAdapter));
             }
-            Status = Loc.Get(_targetAdapterId.HasValue && _adapter == null ? "Workspace.TargetMissing" : "Apply.SelectAdapter");
+            Status = _targetAdapterId.HasValue
+                ? _adapter == null ? Loc.Get("Workspace.TargetMissing") : Loc.Format("Ux.TargetReady", _adapter.Alias)
+                : Loc.Get("Apply.SelectAdapter");
         });
     }
     public Task ReviewAsync(bool recovery) => PrepareReviewAsync(recovery, false);
@@ -132,6 +136,7 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
         await RunAsync(async token =>
         {
             DiscardPlan();
+            Status = Loc.Get("Ux.Reading");
             if (recovery && _targetAdapterId.HasValue
                 && (_recoveryTarget ?? SelectedSnapshot?.Before)?.Identity.Id != _targetAdapterId)
                 throw new InvalidOperationException("Recovery target differs from the selected adapter.");
@@ -199,7 +204,7 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
             foreach (var request in _readJournals())
                 if (!_targetAdapterId.HasValue || request.Before.Identity.Id == _targetAdapterId) Snapshots.Add(request);
             Changed(nameof(SelectedSnapshot));
-            Status = Loc.Get("Apply.SnapshotsRead");
+            Status = Loc.Get(Snapshots.Count == 0 ? "Ux.NoRecovery" : "Apply.SnapshotsRead");
         }
         catch { Status = Loc.Get("Apply.SnapshotsError"); }
     }

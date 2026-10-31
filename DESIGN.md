@@ -29,7 +29,7 @@ Provenance: generated in this chat using built-in imagegen from the owner's Netw
 
 ## Reuse rules
 
-Local implementation of the selected workspace now has [review evidence](docs/testing/MAIN_WORKSPACE_REVIEW.md) and an [actual WPF render](docs/design/main-window-implemented-workspace.png). For compatibility, Network profiles exposes explicit This adapter (5 slots) / Project profiles scopes; the latter is project-wide and applies to the selected NIC without copying stores. Add/Edit is modal, the device tab reuses the existing directory, and manual/Ping/history are expandable. This implements the chosen hierarchy within existing controls; no pixel-identity, credentials or native acceptance claim.
+Local implementation of the selected workspace now has [review evidence](docs/testing/MAIN_WORKSPACE_REVIEW.md) and an [actual WPF render](docs/design/main-window-implemented-workspace.png). Network profiles exposes On this computer / Project profiles scopes: the first explains its selected-adapter association and five-slot limit, the latter is project-wide and applies to the selected NIC without copying stores. Add/Edit is modal, the device tab reuses the existing directory, and manual/Ping/history are expandable. This implements the chosen hierarchy within existing controls; no pixel-identity, credentials or native acceptance claim. On 2026-11-01 the owner confirmed that these two levels of tabs are convenient; preserve them. Broader task acceptance remains pending.
 
 | Element | Existing contract |
 |---|---|
@@ -46,9 +46,11 @@ Local implementation of the selected workspace now has [review evidence](docs/te
 
 ## Project window application
 
-Project is a localized addition: existing title-bar tool style, a separate FluentWindow, existing navigation-list selection, the existing profile-form idiom and fixed `FooterBar`. New/Open/Choose Folder are subtle commands; Save As is the main file action; profile creation and retention use standard buttons. No new primitive or visual identity is introduced. Legacy adapter/profile UI keeps its established behavior.
+Project is a localized addition: existing title-bar tool style, a separate FluentWindow, existing navigation-list selection, the existing profile-form idiom and fixed `FooterBar`. New/Open/Choose Folder and Save as are subtle commands; Save project file is the main file action (first save asks for a path, subsequent saves retain it and existing overwrite/revision protection). Modal Keep retains a profile in memory; it does not write the file or apply settings. No new primitive or visual identity is introduced. Legacy adapter/profile operations retain their established behavior.
 
 ## Verification for UI changes
+
+ADR-029 adds [workflow UX evidence](docs/testing/UX_WORKFLOW_REVIEW.md) and [actual main capture](docs/design/ux/main-project-dark.png): modal close protection, explicit Computer IP and field focus, pinned save/error/apply feedback and recovery, empty-state actions, fixed-target/loading guidance. Existing controls/resources are reused. Twelve focused and 112 full WPF captures passed; the final unit regression gate failed 1/565 in unchanged JSON validation. This is a release blocker, not a visual acceptance claim. Owner tabs feedback does not accept the complete flow, Phase 06 or native behavior.
 
 Phase 06 adds a separate Fluent/Mica mDNS window and one subtle icon tool in the main title bar. Existing labelled selector/search, Card counters, navigation-list items and FooterBar are reused. Status, exact scope tooltip and Start/Stop/Export/Close remain fixed while results scroll; observable row identities retain selection during TTL polling. [Phase 06 packet](docs/testing/PHASE06_REVIEW.md) records 84 isolated renders, named controls, focus/footer/close behavior and remaining manual/full-app limits. No redesign or new token system.
 

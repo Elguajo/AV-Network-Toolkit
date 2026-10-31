@@ -237,3 +237,9 @@ Main, clean starting `f160ac0986af59c7cc4357021b8ca7fe942b63e0`; implementation 
 | `git diff --check`; protected-source comparison against f160ac0 | PASS; JSON/schema/example/apply/legacy/license/workflow unchanged |
 
 **P05-R01 remains OPEN**, root cause/baseline attribution UNVERIFIED; subsequent 542 PASS does not repair or close earlier empty-static-DNS rejection failure. Native IFLIST/membership/metadata/shared-port/IGMP and isolated network acceptance NOT RUN. No actual socket, probes, NIC mutation, UAC, browser, DHCP or full App/tray launch. Native dialogs/manual AT/high contrast/zoom/clean-machine/deployment/CI NOT RUN; no push. New ADR-024/IDEA-01–03 documentation is separate concurrent work, not mDNS functionality.
+
+## Workflow UX follow-up — 2026-11-01
+
+Main baseline ef2e4773a36fa2d7feb941655e07427fcf7ae108; [exact commands, findings, captures and limits](UX_WORKFLOW_REVIEW.md). Release solution and WPF harness builds PASS 0 warnings/errors. Final unit regression **FAIL: 564 passed / 1 failed / 0 skipped, total 565**; thirteen added save/validation cases pass. Failure: unchanged ProjectJsonTests dhcpIpv4 should reject Structure but did not throw; [excerpt/hash](evidence/ux-json-failure.txt), related-to-P05-R01 attribution UNVERIFIED. No green retry or gate suppression.
+
+Focused safe WPF walkthrough PASS (12 captures); full Light/Dark/normal/minimum suite PASS (112 captures), 0 binding errors. Actual Add/Keep, invalid/corrected field focus, declined close, save picker/repeat path, no adapters/disconnected IP, fixed target, loading, fake UAC denial/partial failure and visible recovery are exercised. No live NIC/probe/socket/elevation/browser/native-dialog/App/tray operation. Owner tabs feedback positive; overall task success, manual AT/high contrast/scaling and native/isolated-network acceptance NOT RUN. Phase 06 AWAITING_REVIEW; release NO-SHIP.

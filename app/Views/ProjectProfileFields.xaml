@@ -3,35 +3,37 @@
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
  <StackPanel>
-          <TextBlock Text="{Binding Id}" Style="{StaticResource CaptionText}" TextWrapping="Wrap"/>
           <TextBlock Text="{DynamicResource AddProfile.NameLabel}" Style="{StaticResource FieldLabel}" Margin="0,8,0,4"/>
-          <ui:TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{DynamicResource AddProfile.NameLabel}"/>
+          <ui:TextBox x:Name="NameField" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" AutomationProperties.Name="{DynamicResource AddProfile.NameLabel}"/>
           <TextBlock Text="{DynamicResource Adapter.Mode}" Style="{StaticResource FieldLabel}" Margin="0,12,0,4"/>
-          <ComboBox SelectedValue="{Binding Mode}" SelectedValuePath="Tag" AutomationProperties.Name="{DynamicResource Adapter.Mode}">
+          <ComboBox x:Name="ModeField" SelectedValue="{Binding Mode, ValidatesOnDataErrors=True}" SelectedValuePath="Tag" AutomationProperties.Name="{DynamicResource Adapter.Mode}">
             <ComboBoxItem Tag="dhcp" Content="{DynamicResource EditBar.Dhcp}"/>
             <ComboBoxItem Tag="static" Content="{DynamicResource EditBar.Static}"/>
           </ComboBox>
-          <TextBlock Text="{DynamicResource Project.AdapterHint}" Style="{StaticResource FieldLabel}" Margin="0,12,0,4"/>
-          <ui:TextBox Text="{Binding Alias, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{DynamicResource Project.AdapterHint}"/>
           <StackPanel IsEnabled="{Binding IsStatic}">
-            <TextBlock Text="{DynamicResource EditBar.Ip}" Style="{StaticResource FieldLabel}" Margin="0,12,0,4"/>
-            <ui:TextBox Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{DynamicResource EditBar.Ip}"/>
+            <TextBlock Text="{DynamicResource Ux.ComputerIp}" Style="{StaticResource FieldLabel}" Margin="0,12,0,4"/>
+            <ui:TextBox x:Name="AddressField" Text="{Binding Address, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" AutomationProperties.Name="{DynamicResource Ux.ComputerIp}"/>
             <TextBlock Text="{DynamicResource Project.Prefix}" Style="{StaticResource FieldLabel}" Margin="0,12,0,4"/>
-            <ui:TextBox Text="{Binding Prefix, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{DynamicResource Project.Prefix}"/>
+            <ui:TextBox x:Name="PrefixField" Text="{Binding Prefix, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" AutomationProperties.Name="{DynamicResource Project.Prefix}"/>
             <TextBlock Text="{DynamicResource Project.Gateway}" Style="{StaticResource FieldLabel}" Margin="0,12,0,4"/>
-            <ui:TextBox Text="{Binding Gateway, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{DynamicResource Project.Gateway}"/>
+            <ui:TextBox x:Name="GatewayField" Text="{Binding Gateway, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" AutomationProperties.Name="{DynamicResource Project.Gateway}"/>
             <TextBlock Text="{DynamicResource Project.DnsMode}" Style="{StaticResource FieldLabel}" Margin="0,12,0,4"/>
-            <ComboBox SelectedValue="{Binding DnsMode}" SelectedValuePath="Tag" AutomationProperties.Name="{DynamicResource Project.DnsMode}">
+            <ComboBox x:Name="DnsModeField" SelectedValue="{Binding DnsMode, ValidatesOnDataErrors=True}" SelectedValuePath="Tag" AutomationProperties.Name="{DynamicResource Project.DnsMode}">
               <ComboBoxItem Tag="leave-unchanged" Content="{DynamicResource Project.DnsUnchanged}"/>
               <ComboBoxItem Tag="automatic" Content="{DynamicResource Project.DnsAutomatic}"/>
               <ComboBoxItem Tag="static" Content="{DynamicResource EditBar.Static}"/>
             </ComboBox>
             <StackPanel IsEnabled="{Binding IsDnsStatic}">
               <TextBlock Text="{DynamicResource EditBar.PrimaryDns}" Style="{StaticResource FieldLabel}" Margin="0,12,0,4"/>
-              <ui:TextBox Text="{Binding Dns1, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{DynamicResource EditBar.PrimaryDns}"/>
+              <ui:TextBox x:Name="Dns1Field" Text="{Binding Dns1, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" AutomationProperties.Name="{DynamicResource EditBar.PrimaryDns}"/>
               <TextBlock Text="{DynamicResource AddProfile.SecondaryDnsLabel}" Style="{StaticResource FieldLabel}" Margin="0,12,0,4"/>
-              <ui:TextBox Text="{Binding Dns2, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{DynamicResource AddProfile.SecondaryDnsLabel}"/>
+              <ui:TextBox x:Name="Dns2Field" Text="{Binding Dns2, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" AutomationProperties.Name="{DynamicResource AddProfile.SecondaryDnsLabel}"/>
             </StackPanel>
           </StackPanel>
+  <Expander Header="{DynamicResource Ux.Advanced}" Margin="0,12,0,0"><StackPanel>
+          <TextBlock Text="{DynamicResource Project.AdapterHint}" Style="{StaticResource FieldLabel}" Margin="0,12,0,4"/>
+          <ui:TextBox Text="{Binding Alias, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="{DynamicResource Project.AdapterHint}"/>
+  <TextBlock Text="{Binding Id}" Style="{StaticResource CaptionText}" TextWrapping="Wrap"/>
+  </StackPanel></Expander>
  </StackPanel>
 </UserControl>

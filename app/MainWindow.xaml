@@ -68,21 +68,18 @@
             <RowDefinition Height="Auto"/>
           </Grid.RowDefinitions>
 
-          <TextBlock Grid.RowSpan="2"
-                     Text="{DynamicResource Profiles.NoAdapterSelected}"
-                     FontSize="14"
-                     HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock.Style>
-              <Style TargetType="TextBlock" BasedOn="{StaticResource CaptionText}">
-                <Setter Property="Visibility" Value="Collapsed"/>
-                <Style.Triggers>
-                  <DataTrigger Binding="{Binding SelectedAdapter}" Value="{x:Null}">
-                    <Setter Property="Visibility" Value="Visible"/>
-                  </DataTrigger>
-                </Style.Triggers>
-              </Style>
-            </TextBlock.Style>
-          </TextBlock>
+          <StackPanel Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="24" MaxWidth="420">
+           <StackPanel.Style><Style TargetType="StackPanel">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers><DataTrigger Binding="{Binding SelectedAdapter}" Value="{x:Null}"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers>
+           </Style></StackPanel.Style>
+           <TextBlock Text="{DynamicResource Ux.NoAdapter}" Style="{StaticResource SectionHeaderText}" TextWrapping="Wrap"/>
+           <TextBlock Text="{DynamicResource Ux.NoAdapterHint}" TextWrapping="Wrap" Margin="0,8,0,16"/>
+           <WrapPanel>
+            <ui:Button x:Name="EmptyRefresh" Content="{DynamicResource Apply.Refresh}" Command="{Binding RefreshCommand}" Appearance="Primary" Margin="0,0,8,8"/>
+            <ui:Button Content="{DynamicResource Ux.PrepareProject}" Click="OpenProjectClick" Margin="0,0,0,8"/>
+           </WrapPanel>
+          </StackPanel>
 
           <ScrollViewer x:Name="RightPanel" Grid.Row="0"
                         VerticalScrollBarVisibility="Auto"
@@ -120,10 +117,6 @@
                         <Style TargetType="TextBlock">
                           <Setter Property="Text" Value="{Binding SelectedAdapter.CurrentIp}"/>
                           <Style.Triggers>
-                            <DataTrigger Binding="{Binding SelectedAdapter.IsConnected}" Value="False">
-                              <Setter Property="Text" Value="{DynamicResource Adapters.NotConnected}"/>
-                              <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}"/>
-                            </DataTrigger>
                             <DataTrigger Binding="{Binding SelectedAdapter.HasLinkLocalAddress}" Value="True">
                               <Setter Property="Text" Value="{Binding SelectedAdapter.CurrentIp}"/>
                             </DataTrigger>
@@ -165,6 +158,7 @@
                 <WrapPanel>
                  <TextBlock Text="{Binding ProjectName}" Style="{StaticResource SectionHeaderText}" Margin="0,0,16,8"/>
                  <ui:Button Content="{DynamicResource Project.Open}" Command="{Binding OpenCommand}" Click="ProjectOpened_Click" Style="{StaticResource SubtleButton}" Padding="10,6"/>
+                 <ui:Button Content="{DynamicResource Ux.SaveProject}" Command="{Binding SaveCommand}" Appearance="Primary" Margin="0,0,8,0"/>
                  <ui:Button Content="{DynamicResource Project.SaveAs}" Command="{Binding SaveAsCommand}" Style="{StaticResource SubtleButton}" Padding="10,6"/>
                  <ui:Button Content="{DynamicResource Workspace.ManageProject}" Click="OpenProjectClick" Style="{StaticResource SubtleButton}" Padding="10,6"/>
                 </WrapPanel>
@@ -349,13 +343,22 @@
                 </Grid>
                </TabItem>
               </TabControl>
-              <StackPanel DataContext="{Binding Project, ElementName=MainRoot}" Margin="0,12,0,0">
-               <TextBlock Text="{Binding Error}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Assertive"/>
-               <TextBlock Text="{Binding DeviceNotice}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite"/>
-               <TextBlock Text="{Binding BackupPath}" Style="{StaticResource CaptionText}" TextWrapping="Wrap"/>
-              </StackPanel>
             </StackPanel>
           </ScrollViewer>
+          <Border x:Name="WorkspaceFeedback" Grid.Row="1" Style="{StaticResource FooterBar}"
+                  DataContext="{Binding Project, ElementName=MainRoot}" Visibility="{Binding HasFeedback, Converter={StaticResource BoolToVis}}">
+           <Border.Resources>
+            <Style x:Key="FeedbackText" TargetType="TextBlock">
+             <Setter Property="TextWrapping" Value="Wrap"/>
+             <Style.Triggers><Trigger Property="Text" Value=""><Setter Property="Visibility" Value="Collapsed"/></Trigger></Style.Triggers>
+            </Style>
+           </Border.Resources>
+           <StackPanel>
+            <TextBlock Text="{Binding Error}" Style="{StaticResource FeedbackText}" AutomationProperties.LiveSetting="Assertive"/>
+            <TextBlock Text="{Binding DeviceNotice}" Style="{StaticResource FeedbackText}" AutomationProperties.LiveSetting="Polite"/>
+            <TextBlock Text="{Binding FileFeedback}" Style="{StaticResource FeedbackText}" AutomationProperties.LiveSetting="Polite"/>
+           </StackPanel>
+          </Border>
         </Grid>
       </Border>
     </Grid>

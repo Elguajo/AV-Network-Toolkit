@@ -19,10 +19,10 @@ public class ProjectViewModelTests : IDisposable
     {
         public string? Open, Save, Folder;
         public bool Discard = true, Overwrite = true, Delete = true;
-        public int OverwritePrompts;
+        public int OverwritePrompts, SavePickers;
         public string? OpenPath() => Open;
         public string? ChooseFolder() => Folder;
-        public string? SavePath(string? folder) => Save;
+        public string? SavePath(string? folder) { SavePickers++; return Save; }
         public bool ConfirmDiscard() => Discard;
         public bool ConfirmDelete() => Delete;
         public bool ConfirmDeleteDevice() => Delete;
@@ -224,5 +224,56 @@ public class ProjectViewModelTests : IDisposable
         Assert.Equal("Pending", vm.Editor.Name);
         Assert.NotNull(vm.ProfileForApply(vm.Profiles[1].Id));
         Assert.Null(vm.ProfileForApply("missing"));
+    }
+
+    [Fact]
+    public void SaveUsesOpenedPathAndClearsFeedbackWhenEdited()
+    {
+        var (vm, dialogs) = OpenSample();
+        vm.ProjectName = "Renamed project";
+        vm.SaveCommand.Execute(null);
+        Assert.Empty(vm.Error); Assert.Equal(0, dialogs.SavePickers);
+        Assert.Equal(1, dialogs.OverwritePrompts); Assert.False(vm.HasUnsavedChanges);
+        Assert.Equal("Renamed project", new ProjectStore().Open(FilePath).Data.Project.Name);
+        Assert.NotEmpty(vm.FileFeedback); Assert.False(vm.SaveCommand.CanExecute(null));
+        vm.ProjectName = "Next draft";
+        Assert.Empty(vm.FileFeedback); Assert.True(vm.SaveCommand.CanExecute(null));
+    }
+
+    [Fact]
+    public void FirstSaveCancellationRetainsDraftAndFirstSuccessUsesOnePicker()
+    {
+        var dialogs = new Dialogs(); var vm = new ProjectViewModel(dialogs) { ProjectName = "Draft" };
+        vm.SaveCommand.Execute(null);
+        Assert.True(vm.HasUnsavedChanges); Assert.Empty(Directory.GetFiles(_root)); Assert.Empty(vm.FileFeedback);
+        dialogs.Save = FilePath; vm.SaveCommand.Execute(null);
+        Assert.Equal(2, dialogs.SavePickers); Assert.False(vm.HasUnsavedChanges);
+        vm.ProjectName = "Second"; vm.SaveCommand.Execute(null);
+        Assert.Equal(2, dialogs.SavePickers); Assert.Empty(vm.Error);
+    }
+
+    [Fact]
+    public void SaveDoesNotBypassDeclinedOverwriteOrExternalRevisionConflict()
+    {
+        var (vm, dialogs) = OpenSample(); var original = File.ReadAllBytes(FilePath);
+        vm.ProjectName = "Draft"; dialogs.Overwrite = false; vm.SaveCommand.Execute(null);
+        Assert.Equal(original, File.ReadAllBytes(FilePath)); Assert.True(vm.HasUnsavedChanges); Assert.Empty(vm.FileFeedback);
+        dialogs.Overwrite = true;
+        var sample = ProjectJsonTests.Sample(); var external = sample with { Project = sample.Project with { Name = "External edit" } };
+        new ProjectStore().Save(external, FilePath, new ProjectStore().RevisionAt(FilePath));
+        var changed = File.ReadAllBytes(FilePath); vm.SaveCommand.Execute(null);
+        Assert.NotEmpty(vm.Error); Assert.Empty(vm.FileFeedback); Assert.True(vm.HasUnsavedChanges);
+        Assert.Equal(changed, File.ReadAllBytes(FilePath)); Assert.Equal(0, dialogs.SavePickers);
+    }
+
+    [Fact]
+    public void NormalSaveFailureRetainsOpenedFileAndUnsavedDocument()
+    {
+        new ProjectStore().Save(ProjectJsonTests.Sample(), FilePath); var original = File.ReadAllBytes(FilePath);
+        var dialogs = new Dialogs { Open = FilePath };
+        var vm = new ProjectViewModel(dialogs, new ProjectStore(_ => throw new IOException()));
+        vm.OpenCommand.Execute(null); vm.ProjectName = "Draft"; vm.SaveCommand.Execute(null);
+        Assert.Equal(original, File.ReadAllBytes(FilePath)); Assert.True(vm.HasUnsavedChanges);
+        Assert.NotEmpty(vm.Error); Assert.Empty(vm.FileFeedback); Assert.Equal(0, dialogs.SavePickers);
     }
 }

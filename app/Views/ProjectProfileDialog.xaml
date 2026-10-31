@@ -11,7 +11,7 @@
   <ScrollViewer Grid.Row="1" Margin="20,12,20,16" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
    <StackPanel Margin="0,0,12,0">
     <TextBlock Text="{DynamicResource Workspace.EditorHint}" TextWrapping="Wrap" Margin="0,0,0,12"/>
-    <views:ProjectProfileFields/>
+    <views:ProjectProfileFields x:Name="Fields"/>
    </StackPanel>
   </ScrollViewer>
   <Border Grid.Row="2" Style="{StaticResource FooterBar}">

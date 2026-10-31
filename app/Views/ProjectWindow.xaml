@@ -15,7 +15,8 @@
       <ui:Button Style="{StaticResource SubtleButton}" Padding="10,6" Content="{DynamicResource Project.New}" Command="{Binding NewCommand}" Margin="0,0,8,8"/>
       <ui:Button Style="{StaticResource SubtleButton}" Padding="10,6" Content="{DynamicResource Project.Open}" Command="{Binding OpenCommand}" Margin="0,0,8,8"/>
       <ui:Button Style="{StaticResource SubtleButton}" Padding="10,6" Content="{DynamicResource Project.ChooseFolder}" Command="{Binding ChooseFolderCommand}" Margin="0,0,8,8"/>
-      <ui:Button Content="{DynamicResource Project.SaveAs}" Command="{Binding SaveAsCommand}" Appearance="Primary" MinWidth="96" Margin="0,0,0,8"/>
+      <ui:Button Content="{DynamicResource Ux.SaveProject}" Command="{Binding SaveCommand}" Appearance="Primary" MinWidth="96" Margin="0,0,8,8"/>
+      <ui:Button Content="{DynamicResource Project.SaveAs}" Command="{Binding SaveAsCommand}" Style="{StaticResource SubtleButton}" Padding="10,6" Margin="0,0,0,8"/>
       <ui:Button Content="{DynamicResource Apply.Recovery}" Click="Recovery_Click" Style="{StaticResource SubtleButton}" Padding="10,6" Margin="8,0,0,8"/>
     </WrapPanel>
     <StackPanel Grid.Row="2" Margin="20,0,20,12">
@@ -77,6 +78,7 @@
         <StackPanel Margin="0,0,16,0" VerticalAlignment="Center">
           <TextBlock Text="{Binding Error}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Assertive"/>
           <TextBlock Text="{Binding DeviceNotice}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite"/>
+          <TextBlock Text="{Binding FileFeedback}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite"/>
           <TextBlock Text="{Binding BackupPath}" TextWrapping="Wrap" Style="{StaticResource CaptionText}" AutomationProperties.Name="{DynamicResource Project.Backup}"/>
         </StackPanel>
         <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">

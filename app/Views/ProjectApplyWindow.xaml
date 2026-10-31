@@ -16,9 +16,9 @@
           <TextBlock Text="{Binding ProfileName}" Style="{StaticResource SectionHeaderText}" TextWrapping="Wrap"/>
           <TextBlock Text="{Binding Destination}" TextWrapping="Wrap" Margin="0,4,0,12"/>
         </StackPanel>
-        <TextBlock Text="{DynamicResource Apply.Adapter}" Style="{StaticResource FieldLabel}"/>
+        <TextBlock Text="{Binding AdapterLabel}" Style="{StaticResource FieldLabel}"/>
         <ComboBox ItemsSource="{Binding Adapters}" SelectedItem="{Binding SelectedAdapter}" IsEnabled="{Binding CanSelectAdapter}"
-                  AutomationProperties.Name="{DynamicResource Apply.Adapter}">
+                  AutomationProperties.Name="{Binding AdapterLabel}">
           <ComboBox.ItemTemplate><DataTemplate><StackPanel>
             <TextBlock Text="{Binding Alias}" TextTrimming="CharacterEllipsis"/>
             <TextBlock Text="{Binding Id}" Style="{StaticResource CaptionText}"/>
@@ -44,12 +44,15 @@
         </StackPanel>
         <WrapPanel Margin="0,8,0,12">
           <ui:Button Content="{DynamicResource Apply.Refresh}" Command="{Binding RefreshCommand}" Style="{StaticResource SubtleButton}" Padding="10,6" Margin="0,0,8,8"/>
-          <ui:Button Content="{DynamicResource Apply.Review}" Command="{Binding ReviewCommand}" Margin="0,0,0,8"/>
+          <ui:Button Content="{DynamicResource Apply.Review}" Command="{Binding ReviewCommand}" Margin="0,0,0,8">
+            <ui:Button.Style><Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}"><Style.Triggers>
+              <DataTrigger Binding="{Binding Review}" Value=""><Setter Property="Appearance" Value="Primary"/></DataTrigger>
+            </Style.Triggers></Style></ui:Button.Style>
+          </ui:Button>
         </WrapPanel>
         <Border Style="{StaticResource Card}" Margin="0,0,0,12">
           <TextBlock Text="{Binding Review}" TextWrapping="Wrap" AutomationProperties.Name="{DynamicResource Apply.RequestReview}"/>
         </Border>
-        <TextBlock Text="{Binding Status}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Assertive" Margin="0,0,0,12"/>
         <TextBlock Text="{DynamicResource Apply.Observed}" Style="{StaticResource SectionHeaderText}"/>
         <TextBlock Text="{Binding Observed}" TextWrapping="Wrap" Margin="0,4,0,16"/>
         <TextBlock Text="{DynamicResource Apply.Recovery}" Style="{StaticResource SectionHeaderText}"/>
@@ -62,15 +65,18 @@
             <TextBlock Text="{Binding OperationId}" Style="{StaticResource CaptionText}"/>
           </StackPanel></DataTemplate></ComboBox.ItemTemplate>
         </ComboBox>
-        <ui:Button Content="{DynamicResource Apply.ReviewRecovery}" Command="{Binding ReviewRecoveryCommand}" HorizontalAlignment="Left"/>
       </StackPanel>
     </ScrollViewer>
     <Border Grid.Row="2" Style="{StaticResource FooterBar}">
+     <StackPanel>
+      <TextBlock x:Name="ApplyFeedback" Text="{Binding Status}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite" Margin="0,0,0,8"/>
       <WrapPanel HorizontalAlignment="Right">
+        <ui:Button x:Name="RecoveryReviewFooter" Content="{DynamicResource Apply.ReviewRecovery}" Command="{Binding ReviewRecoveryCommand}" MinWidth="96" Margin="0,0,8,8"/>
         <ui:Button Content="{DynamicResource Apply.Cancel}" Command="{Binding CancelCommand}" MinWidth="96" Margin="0,0,8,8"/>
         <ui:Button Content="{DynamicResource Apply.Confirm}" Command="{Binding ApplyCommand}" Appearance="Primary" MinWidth="96" Margin="0,0,8,8"/>
         <ui:Button Content="{DynamicResource Common.Close}" Click="Close_Click" MinWidth="96" Margin="0,0,0,8"/>
       </WrapPanel>
+     </StackPanel>
     </Border>
   </Grid>
 </ui:FluentWindow>

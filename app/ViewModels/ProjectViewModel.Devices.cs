@@ -51,7 +51,7 @@ public sealed partial class ProjectViewModel
             catch (ProjectValidationException) { return Loc.Get("Device.InvalidDestination"); }
         }
     }
-    public string DeviceNotice { get => _deviceNotice; private set { _deviceNotice = value; Changed(); } }
+    public string DeviceNotice { get => _deviceNotice; private set { _deviceNotice = value; Changed(); Changed(nameof(HasFeedback)); } }
     public int Section
     {
         get => _section;
@@ -238,6 +238,7 @@ public sealed partial class ProjectViewModel
     }
     private void DeviceEditorChanged(object? sender, PropertyChangedEventArgs e)
     {
+        FileFeedback = "";
         _deviceEditorDirty = true;
         DeviceNotice = "";
         Changed(nameof(DeviceProfileStatus)); Changed(nameof(DeviceDestination)); Changed(nameof(HasUnsavedChanges));

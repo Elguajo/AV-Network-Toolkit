@@ -1,0 +1,12 @@
+Final UX regression evidence — 2026-11-01 Asia/Tashkent
+Command: dotnet test test/NetworkProfileManager.Tests.csproj --configuration Release --no-build -p:OutputPath=bin/UxUnit/ --logger "trx;LogFileName=ux-reviewed.trx" --results-directory TestResults/UxUnit
+TRX SHA-256: FC86B118D3D0BDACE1B600B1B28684AB7F207ADE73EE894871CF3416D7A25D18
+Test: NetworkProfileManager.Tests.ProjectJsonTests.RejectsInvalidStructureOrSemantics(variant: "dhcpIpv4", code: "Structure")
+Outcome: Failed
+Assert.Throws() Failure: No exception was thrown
+Expected: typeof(NetworkProfileManager.Services.ProjectValidationException)
+   at NetworkProfileManager.Tests.ProjectJsonTests.RejectsInvalidStructureOrSemantics(String variant, String code) in D:\DEV\NETWORKING\AV-Network-Toolkit\test\ProjectJsonTests.cs:line 141
+   at InvokeStub_ProjectJsonTests.RejectsInvalidStructureOrSemantics(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+Total=565 Passed=564 Failed=1 Skipped=0
+ProjectJson.cs, schema and existing JSON tests are unchanged from ef2e477. Root cause and relationship to P05-R01 remain UNVERIFIED. No suppression/serialization/repair or green rerun.

@@ -14,8 +14,9 @@ using NetworkProfileManager.ViewModels;
 using NetworkProfileManager.Views;
 using Wpf.Ui.Controls;
 
-// Isolated component render. Never calls App.Run/OnStartup, MainWindow, NIC APIs,
-// tray/monitor, OS network commands or native file dialogs.
+// Isolated component render, including MainWindow with injected safe view models.
+// Never calls App.Run/OnStartup, real NIC APIs, tray/monitor, OS network commands
+// or native file dialogs.
 internal static partial class Program
 {
     [STAThread]
@@ -39,6 +40,13 @@ internal static partial class Program
         app.Resources.Add("AdapterTypeToSymbol", new NetworkProfileManager.Converters.AdapterTypeToSymbolConverter());
         try
         {
+            if (args.Contains("--ux-before") || args.Contains("--ux-after"))
+            {
+                RenderUxWalkthrough(output, args.Contains("--ux-before"));
+                if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
+                Console.WriteLine("PASS: focused WPF UX walkthrough, safe fixture IO, fake NIC/apply/browser, 0 binding errors.");
+                return 0;
+            }
             foreach (var (language, theme, width, height) in new[]
             {
                 ("En", "Dark", 900, 780), ("En", "Light", 700, 540), ("En", "Dark", 700, 540), ("En", "Light", 900, 780)
@@ -340,7 +348,7 @@ internal static partial class Program
         internal ApplyAdapterSnapshot Snapshot = new(new(Guid.NewGuid(), 12, "Ethernet fixture", "02-00-00-00-00-01"), false,
             ImmutableArray.Create(new ApplyAddress("192.0.2.10", 24, "manual", "preferred")), "static", ImmutableArray.Create("192.0.2.53", "192.0.2.54"),
             ImmutableArray<ApplyRoute>.Empty, true, ImmutableArray.Create(new ApplyAddress("192.0.2.10", 24, "manual", "preferred")));
-        internal bool Consent, Fail = true, Conflict;
+        internal bool Consent, Fail = true, Conflict, ElevationDenied;
         internal int Executed, Opened;
         internal TaskCompletionSource? Hold;
         public Task<ApplyAdapterSnapshot> ReadAsync(ApplyAdapterIdentity identity, CancellationToken cancellation) => Task.FromResult(Snapshot);
@@ -349,6 +357,7 @@ internal static partial class Program
         {
             Executed++;
             if (Hold != null) await Hold.Task;
+            if (ElevationDenied) return new ApplyExecutionResult(ApplyExecutionStatus.ElevationDenied, false, "UacDenied");
             if (Fail) return new ApplyExecutionResult(ApplyExecutionStatus.Failed, true, "DnsSecondary");
             var oldSource = Snapshot.DnsSource; var oldServers = Snapshot.DnsServers;
             var d = request.Desired; var a = new ApplyAddress(d.Address ?? "198.51.100.10", d.Mode == "dhcp" ? 24 : d.PrefixLength,

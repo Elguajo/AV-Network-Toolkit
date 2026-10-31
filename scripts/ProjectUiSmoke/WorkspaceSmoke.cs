@@ -95,13 +95,15 @@ internal static partial class Program
             var keep = Descendants(editor).OfType<Wpf.Ui.Controls.Button>().Single(b => b.Content?.ToString() == Loc.Get("Project.KeepProfile"));
             AssertWorkspaceBounds(editor, keep);
             keep.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent)); Pump();
-            if (!ReferenceEquals(project.Profiles[0], original) || !editor.IsVisible || string.IsNullOrEmpty(project.Error))
+            if (!ReferenceEquals(project.Profiles[0], original) || !editor.IsVisible || string.IsNullOrEmpty(((TextBlock)editor.FindName("EditorError")).Text))
                 throw new Exception("Invalid modal edit replaced the retained profile.");
             Capture(editor, Path.Combine(output, $"workspace-editor-error-{theme}-{width}.png"));
             dialogs.Discard = false; var prompts = dialogs.DiscardPrompts;
             if (window.ConfirmApplicationExit() || dialogs.DiscardPrompts != prompts + 1 || editor.ConfirmApplicationExit())
                 throw new Exception("Tray exit did not protect the detached modal draft.");
             editor.Close(); Pump();
+            if (!editor.IsVisible) throw new Exception("Declined modal close discarded the draft.");
+            dialogs.Discard = true; editor.Close(); Pump();
             dialogs.Discard = false;
             if (window.ConfirmApplicationExit()) throw new Exception("Main/tray exit lost the shared project draft.");
             var manage = new ProjectWindow(project) { Owner = window }; manage.Show(); Pump(); manage.Close(); Pump();

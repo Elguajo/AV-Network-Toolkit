@@ -37,6 +37,7 @@ public sealed partial class ProjectViewModel : INotifyPropertyChanged
     private bool _documentDirty, _editorDirty;
     private bool _updatingProfiles;
     private string _error = "";
+    private string _fileFeedback = "";
     private string? _folder;
 
     public ProjectViewModel(IProjectDialogs dialogs) : this(dialogs, new ProjectStore(), new DefaultBrowserLauncher()) { }
@@ -48,7 +49,8 @@ public sealed partial class ProjectViewModel : INotifyPropertyChanged
         NewCommand = new RelayCommand(_ => Run(() => { if (CanDiscard()) Load(Empty(), null); }));
         OpenCommand = new RelayCommand(_ => Run(Open));
         ChooseFolderCommand = new RelayCommand(_ => Run(ChooseFolder));
-        SaveAsCommand = new RelayCommand(_ => Run(SaveAs));
+        SaveAsCommand = new RelayCommand(_ => Run(() => Save(true)));
+        SaveCommand = new RelayCommand(_ => Run(() => Save(false)), _ => _snapshot == null || HasUnsavedChanges);
         NewProfileCommand = new RelayCommand(_ => Run(() =>
         {
             if (_editorDirty && !_dialogs.ConfirmDiscard()) return;
@@ -93,12 +95,15 @@ public sealed partial class ProjectViewModel : INotifyPropertyChanged
     public string FilePath => _snapshot?.Path ?? Loc.Get("Project.Unsaved", "Not saved");
     public string Folder => _folder ?? "";
     public string BackupPath => _snapshot?.BackupPath ?? "";
-    public string Error { get => _error; private set { _error = value; Changed(); } }
+    public string Error { get => _error; private set { _error = value; Changed(); Changed(nameof(HasFeedback)); } }
+    public string FileFeedback { get => _fileFeedback; private set { _fileFeedback = value; Changed(); Changed(nameof(HasFeedback)); } }
+    public bool HasFeedback => Error.Length != 0 || FileFeedback.Length != 0 || DeviceNotice.Length != 0;
     public bool HasUnsavedChanges => _documentDirty || _editorDirty || _deviceEditorDirty;
     public ICommand NewCommand { get; }
     public ICommand OpenCommand { get; }
     public ICommand ChooseFolderCommand { get; }
     public ICommand SaveAsCommand { get; }
+    public ICommand SaveCommand { get; }
     public ICommand NewProfileCommand { get; }
     public ICommand KeepProfileCommand { get; }
     public ICommand DeleteProfileCommand { get; }
@@ -125,7 +130,7 @@ public sealed partial class ProjectViewModel : INotifyPropertyChanged
                 if (_selected?.Id == profile.Id) { _selected = profile; SetEditor(profile); Changed(nameof(SelectedProfile)); }
             }
             finally { _updatingProfiles = false; }
-            RefreshDeviceDirectory(); Dirty(); stored = true;
+            RefreshDeviceDirectory(); Dirty(); FileFeedback = Loc.Get("Ux.ProfileKept"); stored = true;
         });
         return stored;
     }
@@ -148,7 +153,7 @@ public sealed partial class ProjectViewModel : INotifyPropertyChanged
         var path = _dialogs.OpenPath();
         if (path == null) return;
         var snapshot = _store.Open(path); // Validate before replacing any current state.
-        if (CanDiscard()) Load(snapshot.Data, snapshot);
+        if (CanDiscard()) { Load(snapshot.Data, snapshot); FileFeedback = Loc.Get("Ux.Opened"); }
     }
     private void ChooseFolder()
     {
@@ -157,13 +162,13 @@ public sealed partial class ProjectViewModel : INotifyPropertyChanged
         _folder = Path.GetDirectoryName(ProjectStore.ValidatePath(Path.Combine(folder, "project.avnet.json")));
         Changed(nameof(Folder));
     }
-    private void SaveAs()
+    private void Save(bool saveAs)
     {
         if (_editorDirty) KeepProfile();
         if (_deviceEditorDirty) KeepDevice();
         var data = Current();
         _ = ProjectJson.Serialize(data);
-        var path = _dialogs.SavePath(_folder);
+        var path = !saveAs && _snapshot != null ? _snapshot.Path : _dialogs.SavePath(_folder);
         if (path == null) return;
         path = ProjectStore.ValidatePath(path);
         var currentRevision = _store.RevisionAt(path);
@@ -177,6 +182,7 @@ public sealed partial class ProjectViewModel : INotifyPropertyChanged
         _documentDirty = false;
         _folder = Path.GetDirectoryName(saved.Path);
         Changed(nameof(FilePath)); Changed(nameof(Folder)); Changed(nameof(BackupPath)); Changed(nameof(HasUnsavedChanges));
+        FileFeedback = Loc.Get("Ux.Saved");
     }
     private NetworkProject Current() => _project with { Profiles = Profiles.ToList(), Devices = Devices.ToList() };
     private void KeepProfile()
@@ -200,6 +206,7 @@ public sealed partial class ProjectViewModel : INotifyPropertyChanged
         _editorDirty = false;
         RefreshDeviceDirectory();
         Dirty();
+        FileFeedback = Loc.Get("Ux.ProfileKept");
     }
     private void DeleteProfile()
     {
@@ -242,13 +249,15 @@ public sealed partial class ProjectViewModel : INotifyPropertyChanged
     private void AttachEditor() => _editor.PropertyChanged += EditorChanged;
     private void EditorChanged(object? sender, PropertyChangedEventArgs e)
     {
+        FileFeedback = "";
         _editorDirty = true;
         Changed(nameof(HasUnsavedChanges));
     }
-    private void Dirty() { _documentDirty = true; Changed(nameof(HasUnsavedChanges)); }
+    private void Dirty() { FileFeedback = ""; _documentDirty = true; Changed(nameof(HasUnsavedChanges)); }
     private void Run(Action action)
     {
         Error = "";
+        FileFeedback = "";
         try { action(); }
         catch (ProjectValidationException ex)
         {
@@ -263,12 +272,12 @@ public sealed partial class ProjectViewModel : INotifyPropertyChanged
     private void Changed([CallerMemberName] string? property = null)
     {
         PropertyChanged?.Invoke(this, new(property));
-        if (string.IsNullOrEmpty(property) || property == nameof(SelectedProfile) || property == nameof(SelectedDevice))
+        if (string.IsNullOrEmpty(property) || property == nameof(SelectedProfile) || property == nameof(SelectedDevice) || property == nameof(HasUnsavedChanges))
             CommandManager.InvalidateRequerySuggested();
     }
 }
 
-public sealed class ProjectProfileEditor : INotifyPropertyChanged
+public sealed partial class ProjectProfileEditor : INotifyPropertyChanged
 {
     private readonly string _id;
     private string _name, _mode, _alias, _address, _prefix, _gateway, _dnsMode, _dns1, _dns2;
@@ -324,6 +333,7 @@ public sealed class ProjectProfileEditor : INotifyPropertyChanged
         if (field == value) return;
         field = value;
         Changed(property);
+        if (_showValidation) Changed(string.Empty);
     }
     private void Changed([CallerMemberName] string? property = null) => PropertyChanged?.Invoke(this, new(property));
 }
