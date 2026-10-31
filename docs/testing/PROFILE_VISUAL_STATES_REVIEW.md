@@ -2,6 +2,8 @@
 
 Base main `f7346833c7f8b21af4a73741a257852287679cdf`, clean bootstrap. Owner requested visually matching Import / Export / Add Profile, then the highlighted current row. The owner explicitly chose: show Selected when the profile matches the current adapter, as a status, not when a row is merely clicked. ADR-031/032; bounded IDEA-04 follow-up, Phase 06 still AWAITING_REVIEW.
 
+Implementation/evidence: `a2879f5c5c90ac35160c03c663e345acb9db51aa` (29 paths), followed by this documentation-only SHA pin. No push, phase completion or release.
+
 ## Implemented behavior and design
 
 - Shared WPF-UI toolbar styles: 100×40 Import/Export, 150×40 Add, 15/16-point labels, contour tray-arrow icons, 20-high divider and reference spacing. Dark blue fill `#2E5E8D` and border `#3F74A1` were sampled from the approved [toolbar target](../design/compact/toolbar-target.png). Existing SymbolIcon ShareIos/Add glyphs are used; no borrowed external assets.
