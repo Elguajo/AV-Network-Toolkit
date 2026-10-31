@@ -8,6 +8,8 @@
     <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
     <AssemblyName>NetworkProfileManager</AssemblyName>
     <RootNamespace>NetworkProfileManager</RootNamespace>
+    <AssemblyTitle>AV Network Toolkit</AssemblyTitle>
+    <Product>AV Network Toolkit</Product>
     <Nullable>enable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
     <LangVersion>latest</LangVersion>

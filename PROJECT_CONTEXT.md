@@ -1,5 +1,9 @@
 # Project context — persistent product brief
 
+## Product name — ADR-018
+
+The owner requested that the application name match this fork. The display/product name is **AV Network Toolkit** (repository: `AV-Network-Toolkit`). Window/title-bar resources, tray tooltip and binary product/title metadata use this name. Internal `NetworkProfileManager` assembly/executable/namespace, startup registry key and LocalAppData paths remain compatible; no data migration or network behavior change. This bounded branding follow-up does not advance Phase 03 or authorize Phase 04/live tests/publication.
+
 ## Goal
 
 Create an **AV-oriented Windows network and device manager** by incrementally extending a GitHub fork of Network Profile Manager. The user works with AV equipment (e.g., Extron control/touch panels, DSP, Woxcon video wall devices) and regularly moves a Windows laptop between equipment-specific Ethernet subnets.

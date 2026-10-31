@@ -1,10 +1,10 @@
 # Current implementation status — PHASE_03_AWAITING_REVIEW
 
 - **Fork URL:** https://github.com/Elguajo/AV-Network-Toolkit
-- **Current branch / integration anchor:** main / 9dd249dda74d03e23856117d756a7d63f50309d0 after authorized fast-forward; preflight main/fetched origin/main both 17c7014ba585fe85680fcdede51ce967f238054d. Future work directly on main (ADR-017); no separate branches.
+- **Current branch / integration anchor:** main / branding follow-up based on bb506194723fb8f5c60a7e845ef69b3bc853cb41. Resolve the containing branding commit with `git log -1 --format=%H -- app/Strings/En.xaml`. Future work directly on main (ADR-017); no separate branches.
 - **Implementation commit SHA:** `e861c3a426f24e0103e9cc26b7e82b6e2f1e503f`; documentation-only handoff commit is resolved by `git log -1 --format=%H -- STATUS.md`. ADR-017 authorizes integration/push; exact execution record below.
 - **Active phase / authorization:** 03 AWAITING_REVIEW; 03-T01–03-T05 authorized by explicit owner request (ADR-015). No phase marked complete.
-- **Completed tasks / evidence:** prior preparation 01-T06–01-T08 and approved 02-T01 unchanged; 03-T01–03-T05 implemented with EVIDENCE_RECORDED, pending owner acceptance. Prior Phase 02 evidence/manual limits retained below.
+- **Completed tasks / evidence:** prior preparation 01-T06–01-T08 and approved 02-T01 unchanged; 03-T01–03-T05 implemented with EVIDENCE_RECORDED, pending owner acceptance. ADR-018 display/product branding verified (see handoff below); Phase 02 evidence/manual limits retained.
 - **In progress / blockers:** owner review/manual acceptance remains. No known failed automated check or unfinished authorized implementation task.
 - **Next action:** owner reviews Phase 03 diff and Devices UI; then decides acceptance. Proposed Phase 04 must begin with explicit adapter/apply/verification/recovery design; not started or authorized.
 - **Tests last executed:** Release build PASS 0 warnings/errors; 308 isolated xUnit PASS/0 failed/0 skipped; 20 Light/Dark normal/minimum component renders PASS/0 binding errors, actual selected row/fake launch/cancel/focus/draft guards. Full draft-2020-12 + formats/example/planning/107 links PASS; 10 validator regressions PASS; whitespace PASS.
@@ -236,3 +236,32 @@ Feature commit `e861c3a426f24e0103e9cc26b7e82b6e2f1e503f` contains the reviewed 
 - Remaining active work: review/manual acceptance limits unchanged by publication; no new implementation task in this integration.
 - Next smallest safe action: commit this scoped documentation on main; ordinary push origin main:main; compare HEAD with remote main. After verified push, await owner's next scoped task/phase decision.
 - Can next session proceed without clarification: current commit/push and read-only verification yes; future work uses main, with phase/live-test gates retained.
+
+## Session handoff — 2026-10-31, application display name (ADR-018)
+
+- Date and environment: Asia/Tashkent; existing Windows workspace, local SDK 8.0.427; no installation.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / pre-change bb506194723fb8f5c60a7e845ef69b3bc853cb41; containing commit: `git log -1 --format=%H -- app/Strings/En.xaml`.
+- Current phase and task IDs: Phase 03 AWAITING_REVIEW; 03-T01–03-T05 acceptance unchanged. Owner-requested branding follow-up ADR-018 verified; no new phase/task ID or checkbox completion.
+- Actually completed: App.Title is AV Network Toolkit, tray uses that localized resource, AssemblyTitle/Product metadata updated. Executable/assembly/namespace, startup registry identity, data paths, JSON, network behavior and MIT attribution preserved.
+- Files changed: app/Strings/En.xaml, app/App.xaml.cs, app/NetworkProfileManager.csproj, PROJECT_CONTEXT.md, TASKS.md, decisions/DECISION_LOG.md and this status.
+- Exact application checks: `& "$env:LOCALAPPDATA/AVNetworkToolkit.BuildTools/dotnet/dotnet.exe" build AVNetworkToolkit.sln --configuration Release --no-restore` PASS, 0 warnings/errors; `& "$env:LOCALAPPDATA/AVNetworkToolkit.BuildTools/dotnet/dotnet.exe" test test/NetworkProfileManager.Tests.csproj --configuration Release --no-build --logger 'console;verbosity=minimal'` PASS, 308/0 failed/0 skipped. Metadata check below PASS for both DLL/EXE; XML App.Title PASS. `& "$env:LOCALAPPDATA/AVNetworkToolkit.BuildTools/python/Scripts/python.exe" -B scripts/validate_plan.py` PASS (9 phases, 49 stable tasks, 107 links/schema/formats); same Python with `-B scripts/test_validate_plan.py` PASS (10 tests); `git diff --check` PASS.
+- Initial verification corrections: PowerShell XML query attempted GetAttribute on comments; corrected with SelectSingleNode. Initial MSBuild Title property did not change FileDescription; replaced with AssemblyTitle and rebuilt. Final metadata checks pass; no application defect concealed or test weakened.
+- Live-network tests: NOT RUN / not authorized. App/tray runtime, screenshots, browser, UAC, publish/clean-machine and CI NOT RUN for this wording-only follow-up. Earlier Phase 03 render evidence retained without rerunning unrelated component captures.
+- Risks/workarounds: internal executable remains NetworkProfileManager.exe for compatibility; use the rebuilt file and restart a previously running instance to load the new title. Existing manual/network/recovery limitations unchanged.
+- Decisions requiring user approval: phase acceptance/future phases/live tests/publication/release; local scoped commit required by AGENTS.md. Git identity is unset, so use the existing verified repository author Elguajo <elguajo@icloud.com> for this command only, without modifying global configuration.
+- Remaining active work: Phase 03 owner/manual review; Phase 04 not started or authorized.
+- Next smallest safe action: review the rebuilt application's name; separately decide Phase 03 acceptance. No push in this follow-up.
+- Can next session proceed without clarification: read-only checks yes; retain phase/live-test/publication gates.
+
+Reproducible branding check (PowerShell; does not launch the application):
+
+```powershell
+$ErrorActionPreference = 'Stop'
+[xml]$brandResources = Get-Content app/Strings/En.xaml
+$brandEntry = $brandResources.SelectSingleNode("//*[@*[local-name()='Key' and .='App.Title']]")
+if ($brandEntry.InnerText -ne 'AV Network Toolkit') { throw 'Incorrect product resource' }
+foreach ($brandBinary in @('NetworkProfileManager.dll', 'NetworkProfileManager.exe')) {
+    $brandInfo = [System.Diagnostics.FileVersionInfo]::GetVersionInfo((Resolve-Path "app/bin/Release/net8.0-windows/$brandBinary"))
+    if ($brandInfo.ProductName -ne 'AV Network Toolkit' -or $brandInfo.FileDescription -ne 'AV Network Toolkit') { throw "Incorrect binary product metadata: $brandBinary" }
+}
+```

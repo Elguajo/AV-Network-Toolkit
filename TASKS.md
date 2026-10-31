@@ -4,6 +4,8 @@
 
 **Prior state:** Phase 02 implemented and verified; AWAITING_REVIEW, not marked phase complete. 02-T02–02-T06 have EVIDENCE_RECORDED with exact commits/tests in docs/testing/PHASE02_REVIEW.md; acceptance checkboxes remain open pending owner review. 01-T06–01-T08 verified, 02-T01 approved. Owner refinements ADR-010/011 require existing design and English-only UI. Historical Phase 01 review items remain open. Stable IDs unchanged. ADR-013 adds the verified structural path refinement (`app/`, `test/`, `AVNetworkToolkit.sln`), with no new feature or phase advancement.
 
+**Owner follow-up — ADR-018:** display/product branding corrected to AV Network Toolkit; VERIFIED by Release build, 308 isolated tests and resource/EXE/DLL metadata checks. Exact commands and containing-commit lookup in STATUS.md. Phase acceptance checkboxes and all stable IDs unchanged.
+
 ## Phase 01: Baseline audit (P0)
 
 - [ ] **01-T01** — Record fork origin, exact commit, branch, license and build prerequisites. **AC:** Evidence with git commands, repo SHA and MIT notice recorded.

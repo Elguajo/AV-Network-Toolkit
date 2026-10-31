@@ -230,7 +230,7 @@ namespace NetworkProfileManager
             _trayIcon = new NotifyIcon
             {
                 Icon = GetIcon(),
-                Text = "Network Profile Manager",
+                Text = Loc.Get("App.Title"),
                 Visible = true
             };
 
