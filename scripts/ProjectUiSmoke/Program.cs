@@ -36,7 +36,7 @@ internal static class Program
         {
             foreach (var (language, theme, width, height) in new[]
             {
-                ("En", "Dark", 900, 780), ("En", "Light", 700, 540), ("Tr", "Dark", 700, 540), ("Tr", "Light", 900, 780)
+                ("En", "Dark", 900, 780), ("En", "Light", 700, 540), ("En", "Dark", 700, 540), ("En", "Light", 900, 780)
             })
             {
                 var dictionaries = app.Resources.MergedDictionaries;
@@ -49,6 +49,10 @@ internal static class Program
                 var window = new ProjectWindow { DataContext = vm, Width = width, Height = height };
                 window.Show();
                 Pump();
+                NetworkProfileManager.Helpers.LanguageManager.ApplyPreference("tr", persist: false);
+                Pump();
+                if (NetworkProfileManager.Helpers.LanguageManager.EffectiveLanguage != "en")
+                    throw new Exception("Retired Turkish preference did not use English resources.");
                 if (vm.HasUnsavedChanges) throw new Exception("Opening a blank form marked it dirty without input.");
                 vm.Editor.Name = "AV static network";
                 vm.Editor.Mode = "static";

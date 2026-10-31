@@ -45,7 +45,6 @@
                       AutomationProperties.Name="{DynamicResource Settings.Language}"
                       SelectionChanged="Language_Changed">
               <ComboBoxItem x:Name="LangSystemItem" Tag="System"/>
-              <ComboBoxItem Tag="tr" Content="{DynamicResource Settings.LanguageTurkish}"/>
               <ComboBoxItem Tag="en" Content="{DynamicResource Settings.LanguageEnglish}"/>
             </ComboBox>
             <TextBlock Text="{DynamicResource Settings.Language}" FontSize="14" VerticalAlignment="Center"/>

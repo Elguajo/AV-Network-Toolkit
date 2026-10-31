@@ -128,8 +128,7 @@
     <sys:String x:Key="Settings.ThemeDark">Dark</sys:String>
     <sys:String x:Key="Settings.ThemeLight">Light</sys:String>
     <sys:String x:Key="Settings.Language">Language</sys:String>
-    <sys:String x:Key="Settings.LanguageSystem">System language</sys:String>
-    <sys:String x:Key="Settings.LanguageTurkish">Türkçe</sys:String>
+    <sys:String x:Key="Settings.LanguageSystem">Default language</sys:String>
     <sys:String x:Key="Settings.LanguageEnglish">English</sys:String>
     <sys:String x:Key="Settings.Startup">Startup</sys:String>
     <sys:String x:Key="Settings.StartupTitle">Start with Windows</sys:String>
@@ -252,4 +251,6 @@
   <sys:String x:Key="Project.ErrorIo">Cannot access the project file. Check its folder, permissions and locks. Original/backup files are retained; reopen to check state.</sys:String>
   <sys:String x:Key="Project.DeleteConfirm">Delete the selected profile?</sys:String>
   <sys:String x:Key="Project.Error">Invalid project.</sys:String>
+  <sys:String x:Key="Project.OpenFilter">AV Network project (*.json;*.bak)|*.json;*.bak</sys:String>
+  <sys:String x:Key="Project.SaveFilter">AV Network project (*.avnet.json)|*.avnet.json</sys:String>
 </ResourceDictionary>

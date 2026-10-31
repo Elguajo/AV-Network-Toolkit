@@ -62,3 +62,7 @@ The user authorized documentation adoption only (ADR-006). Phase 01 acceptance a
 ## Current authorization — 2026-10-31
 
 ADR-008 supersedes the earlier pending-start snapshot: the owner explicitly authorized Phase 02 and its prerequisite preparation in a new chat. ADR-009 approves the concrete format package in docs/spec/PHASE02_FORMAT_REVIEW.md. 01-T06–01-T08 have verified preparation evidence; historical Phase 01 acceptance is not fabricated. No authorization for live tests, future phases, merge or push.
+
+## Owner localization refinement — ADR-011
+
+Turkish UI is no longer required. English remains supported; legacy `tr` preferences fall back to English without a startup settings rewrite. This explicitly supersedes the baseline bilingual preservation requirement only; other baseline capabilities remain protected. All new UI follows DESIGN.md (ADR-010).

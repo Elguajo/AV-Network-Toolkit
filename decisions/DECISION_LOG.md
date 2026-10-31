@@ -14,6 +14,8 @@
 | ADR-009 | 2026-10-31 | Approve the Phase 02 format package in docs/spec/PHASE02_FORMAT_REVIEW.md | Owner answered «Утверждаю пакет решений» to the explicit 02-T01 review | User-approved schema/semantics; no OS apply or legacy mapping in Phase 02 |
 | ADR-010 | 2026-10-31 | All new windows, buttons and other UI elements reuse the existing product design, documented in DESIGN.md | Owner explicitly requested existing style/design for every new interface element | User-approved standing constraint; localized additions only, no redesign or separate visual system |
 
+| ADR-011 | 2026-10-31 | Retire Turkish UI support; keep English and map legacy tr preferences to English on read | Owner explicitly said «Турецкий язык не нужен»; execution assumption stated in chat: remove Turkish from app, retain English | User-authorized localization exception; no automatic settings-file rewrite, profile-format/network behavior unchanged |
+
 ## ADR-006 scope and consequences
 
 - Source: Phase 01 bootstrap report and subsequent user-approved documentation/plan proposal in this chat on 2026-10-31. Evidence and per-finding dispositions: [baseline/source map](../docs/architecture/BASELINE_AND_SOURCE_MAP.md).
@@ -35,3 +37,7 @@
 ## How to log a change
 
 Append `ADR-XXX | YYYY-MM-DD | accepted/rejected/proposed | scope and alternatives | consequences | who approved`. Never rewrite history to imply a proposal was implemented or approved. Link relevant commit/PR.
+
+## ADR-011 compatibility
+
+Settings remain the same flat string dictionary and file path. `en` and `System` remain valid preferences; System resolves to supported English. Saved `tr` normalizes in memory to `en`; startup uses persist=false and leaves existing bytes/other keys untouched, including on repeated reads. An older app can still read the original value. A later explicit user settings change uses the existing writer. Removed `Tr.xaml` and the Turkish menu option; retained resource-based labels and English dictionary. Unsupported culture inputs never load a removed dictionary. No customer settings were edited to exercise this transition; tests use temp fixtures.

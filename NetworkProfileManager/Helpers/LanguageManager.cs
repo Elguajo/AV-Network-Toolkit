@@ -7,13 +7,12 @@ namespace NetworkProfileManager.Helpers
 {
     /// <summary>
     /// Owns the application's current language. Loads a saved preference,
-    /// falls back to the system UI culture, and hot-swaps the merged string
-    /// ResourceDictionary (Strings/Tr.xaml or Strings/En.xaml).
+    /// uses English as the supported UI language, and swaps the merged string
+    /// ResourceDictionary (Strings/En.xaml).
     /// </summary>
     public static class LanguageManager
     {
         public const string SystemDefault = "System";
-        public const string Turkish       = "tr";
         public const string English       = "en";
 
         private const string LanguageKey = "Language";
@@ -21,33 +20,22 @@ namespace NetworkProfileManager.Helpers
         /// <summary>The user's selected preference (may be "System").</summary>
         public static string CurrentPreference { get; private set; } = SystemDefault;
 
-        /// <summary>The actual culture being shown — "tr" or "en", never "System".</summary>
+        /// <summary>The actual supported UI culture: English.</summary>
         public static string EffectiveLanguage { get; private set; } = English;
 
         /// <summary>Fired after a successful language swap.</summary>
         public static event Action? LanguageChanged;
 
-        /// <summary>
-        /// Override for tests — when set, ResolveEffective uses this instead of the OS.
-        /// Return "tr" or "en". Set to null to restore default detection.
-        /// </summary>
-        public static Func<string>? SystemLanguageDetector { get; set; }
+        /// <summary>All preferences, including legacy tr and unsupported OS cultures,
+        /// resolve to English. No OS language lookup or settings write is needed.</summary>
+        public static string ResolveEffective(string preference) => English;
 
-        /// <summary>Maps a preference to a concrete language code (System → detect).</summary>
-        public static string ResolveEffective(string preference)
+        internal static string NormalizePreference(string preference) => preference switch
         {
-            if (preference == Turkish) return Turkish;
-            if (preference == English) return English;
-
-            // System detection — uses InstalledUICulture (the OS display language).
-            // We deliberately avoid CurrentUICulture because ApplyPreference overrides
-            // it; reading from there would lose track of the real system language
-            // once the user picks an explicit language and later returns to "System".
-            var sys = SystemLanguageDetector?.Invoke()
-                      ?? (CultureInfo.InstalledUICulture.TwoLetterISOLanguageName == "tr"
-                          ? Turkish : English);
-            return sys == Turkish ? Turkish : English;
-        }
+            English or SystemDefault => preference,
+            "tr" => English, // Compatibility with the retired UI language; read-only at startup.
+            _ => SystemDefault
+        };
 
         /// <summary>Call once at startup, before any window opens.</summary>
         public static void Initialize()
@@ -59,18 +47,14 @@ namespace NetworkProfileManager.Helpers
         /// <summary>Switch language at runtime. Persists the choice.</summary>
         public static void ApplyPreference(string preference, bool persist = true)
         {
-            preference = preference switch
-            {
-                Turkish or English or SystemDefault => preference,
-                _ => SystemDefault
-            };
+            preference = NormalizePreference(preference);
 
             CurrentPreference = preference;
             var effective = ResolveEffective(preference);
             EffectiveLanguage = effective;
 
             // Set thread culture so DateTime formatting, etc. respect user choice
-            var ci = CultureInfo.GetCultureInfo(effective == Turkish ? "tr-TR" : "en-US");
+            var ci = CultureInfo.GetCultureInfo("en-US");
             Thread.CurrentThread.CurrentCulture = ci;
             Thread.CurrentThread.CurrentUICulture = ci;
             CultureInfo.DefaultThreadCurrentCulture = ci;
@@ -88,7 +72,7 @@ namespace NetworkProfileManager.Helpers
             if (Application.Current is null) return;
 
             var newUri = new Uri(
-                $"pack://application:,,,/Strings/{(effective == Turkish ? "Tr" : "En")}.xaml",
+                "pack://application:,,,/NetworkProfileManager;component/Strings/En.xaml",
                 UriKind.Absolute);
             var newDict = new ResourceDictionary { Source = newUri };
 

@@ -1,89 +1,71 @@
 using System.Globalization;
+using System.IO;
 using NetworkProfileManager.Helpers;
 
 namespace NetworkProfileManager.Tests;
 
-/// <summary>
-/// LanguageManager swaps ResourceDictionaries on Application.Current, which is
-/// null in unit tests. We test only the parts that don't require a live WPF app:
-/// system-language resolution and the preference normalization contract.
-/// </summary>
 [Collection("StaticState")]
 public class LanguageManagerTests
 {
     [Theory]
-    [InlineData(LanguageManager.Turkish, LanguageManager.Turkish)]
-    [InlineData(LanguageManager.English, LanguageManager.English)]
-    public void ResolveEffective_PassThroughForExplicitChoice(string pref, string expected)
-    {
-        Assert.Equal(expected, LanguageManager.ResolveEffective(pref));
-    }
+    [InlineData("en")]
+    [InlineData("tr")]
+    [InlineData("System")]
+    [InlineData("ru")]
+    [InlineData("garbage")]
+    [InlineData("")]
+    public void UnsupportedAndLegacyChoicesResolveToEnglish(string preference)
+        => Assert.Equal("en", LanguageManager.ResolveEffective(preference));
 
-    [Fact]
-    public void ResolveEffective_System_FollowsDetectorTurkish()
+    [Theory]
+    [InlineData("en", "en")]
+    [InlineData("tr", "en")]
+    [InlineData("System", "System")]
+    [InlineData("ru", "System")]
+    [InlineData("garbage", "System")]
+    [InlineData("", "System")]
+    public void PreferencesNormalizeWithoutInventingALanguage(string preference, string expected)
+        => Assert.Equal(expected, LanguageManager.NormalizePreference(preference));
+
+    [Theory]
+    [InlineData("tr")]
+    [InlineData("System")]
+    public void InitializeIsReadOnlyAndEnglishOnUnsupportedOsCulture(string savedPreference)
     {
-        var saved = LanguageManager.SystemLanguageDetector;
+        using var directory = new TestDataDirectoryFixture();
+        var culture = CultureInfo.CurrentCulture;
+        var uiCulture = CultureInfo.CurrentUICulture;
+        var defaultCulture = CultureInfo.DefaultThreadCurrentCulture;
+        var defaultUiCulture = CultureInfo.DefaultThreadCurrentUICulture;
+        var previousPreference = LanguageManager.CurrentPreference;
         try
         {
-            LanguageManager.SystemLanguageDetector = () => LanguageManager.Turkish;
-            Assert.Equal(LanguageManager.Turkish,
-                LanguageManager.ResolveEffective(LanguageManager.SystemDefault));
-        }
-        finally { LanguageManager.SystemLanguageDetector = saved; }
-    }
-
-    [Fact]
-    public void ResolveEffective_System_FollowsDetectorEnglish()
-    {
-        var saved = LanguageManager.SystemLanguageDetector;
-        try
-        {
-            LanguageManager.SystemLanguageDetector = () => LanguageManager.English;
-            Assert.Equal(LanguageManager.English,
-                LanguageManager.ResolveEffective(LanguageManager.SystemDefault));
-        }
-        finally { LanguageManager.SystemLanguageDetector = saved; }
-    }
-
-    [Fact]
-    public void ResolveEffective_System_DoesNotFollowThreadCurrentUICulture()
-    {
-        // Bug guard: previously CurrentUICulture was used. After ApplyPreference
-        // overrides the thread culture, "System" must still reflect the actual OS.
-        var saved = LanguageManager.SystemLanguageDetector;
-        var savedCulture = CultureInfo.CurrentUICulture;
-        try
-        {
-            LanguageManager.SystemLanguageDetector = () => LanguageManager.Turkish;
-            CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
-            Assert.Equal(LanguageManager.Turkish,
-                LanguageManager.ResolveEffective(LanguageManager.SystemDefault));
+            AppSettingsStore.Set("Language", savedPreference);
+            AppSettingsStore.Set("Theme", "Dark");
+            var settings = Path.Combine(directory.Root, "app_settings.json");
+            var bytes = File.ReadAllBytes(settings);
+            CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("tr-TR");
+            LanguageManager.Initialize();
+            LanguageManager.Initialize(); // Idempotent interpretation, no settings migration/write.
+            Assert.Equal("en", LanguageManager.EffectiveLanguage);
+            Assert.Equal("en-US", CultureInfo.CurrentUICulture.Name);
+            Assert.Equal(bytes, File.ReadAllBytes(settings));
+            Assert.Equal("Dark", AppSettingsStore.Get("Theme"));
         }
         finally
         {
-            LanguageManager.SystemLanguageDetector = saved;
-            CultureInfo.CurrentUICulture = savedCulture;
+            LanguageManager.ApplyPreference(previousPreference, persist: false);
+            CultureInfo.CurrentCulture = culture;
+            CultureInfo.CurrentUICulture = uiCulture;
+            CultureInfo.DefaultThreadCurrentCulture = defaultCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = defaultUiCulture;
         }
     }
 
     [Fact]
-    public void ResolveEffective_UnknownPreference_TreatedAsSystem()
+    public void ConstantsExposeSupportedPreferences()
     {
-        var saved = LanguageManager.SystemLanguageDetector;
-        try
-        {
-            LanguageManager.SystemLanguageDetector = () => LanguageManager.English;
-            Assert.Equal(LanguageManager.English,
-                LanguageManager.ResolveEffective("garbage"));
-        }
-        finally { LanguageManager.SystemLanguageDetector = saved; }
-    }
-
-    [Fact]
-    public void Constants_ExposeCanonicalCodes()
-    {
-        Assert.Equal("tr",     LanguageManager.Turkish);
-        Assert.Equal("en",     LanguageManager.English);
+        Assert.Equal("en", LanguageManager.English);
         Assert.Equal("System", LanguageManager.SystemDefault);
     }
 }

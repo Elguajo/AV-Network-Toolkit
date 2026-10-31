@@ -13,7 +13,7 @@ This file is the persistent contract for every agent session, regardless of chat
 
 ## Non-negotiable rules
 
-- Preserve **all existing Network Profile Manager functionality** unless a specific, reviewed task explicitly changes it: IP/mask/gateway/DNS, DHCP, JSON import/export, named per-adapter profiles, network scanner, ping, history and revert, tray, UAC behavior and localization.
+- Preserve **all existing Network Profile Manager functionality** unless a specific, reviewed task explicitly changes it: IP/mask/gateway/DNS, DHCP, JSON import/export, named per-adapter profiles, network scanner, ping, history and revert, tray, UAC behavior and localization (English remains supported; Turkish retired by explicit owner instruction, ADR-011).
 - Add features incrementally, minimize diffs, preserve MVVM and testing conventions unless Phase 01 documents a justified alternative.
 - Do **not** make sweeping rewrites or visual redesigns. Retain the UI language and layout except where a feature requires a localized addition.
 - All new windows, buttons, controls and other UI elements must reuse the existing product style/design documented in `DESIGN.md`; read it before UI edits. Do not introduce a parallel visual language.

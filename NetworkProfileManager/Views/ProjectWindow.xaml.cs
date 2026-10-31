@@ -32,7 +32,10 @@ internal sealed class ProjectDialogs(Window owner) : IProjectDialogs
 {
     public string? OpenPath()
     {
-        var dialog = new OpenFileDialog { Filter = "AV Network project (*.json;*.bak)|*.json;*.bak", CheckFileExists = true };
+        var dialog = new OpenFileDialog
+        {
+            Filter = Loc.Get("Project.OpenFilter"), Title = Loc.Get("Project.Open"), CheckFileExists = true
+        };
         return dialog.ShowDialog(owner) == true ? dialog.FileName : null;
     }
     public string? ChooseFolder()
@@ -44,7 +47,7 @@ internal sealed class ProjectDialogs(Window owner) : IProjectDialogs
     {
         var dialog = new SaveFileDialog
         {
-            Filter = "AV Network project (*.avnet.json)|*.avnet.json", DefaultExt = ".avnet.json",
+            Filter = Loc.Get("Project.SaveFilter"), Title = Loc.Get("Project.SaveAs"), DefaultExt = ".avnet.json",
             FileName = "project.avnet.json", InitialDirectory = folder ?? "", OverwritePrompt = false,
             CheckPathExists = true
         };

@@ -38,7 +38,7 @@ Other typical users: IT field technicians, lab/test-bench engineers, anyone runn
 - 📡 **Ping tool** — a continuous ping window for connectivity testing.
 - 🔔 **Live notifications** — system-tray balloon when adapter IP changes or connection drops.
 - 🎨 **Windows 11 look** — Fluent design with Mica and your Windows accent colour; follows the system light/dark mode, or pin Light / Dark.
-- 🌍 **Bilingual** — Turkish / English / System (auto-detect). Runtime switching, persisted.
+- 🌍 **English UI** — legacy Turkish language preferences fall back to English; theme and other settings are preserved.
 - 🪟 **System tray** — keeps running in the tray when the window is closed; optional auto-start with Windows.
 
 ---
@@ -141,7 +141,7 @@ To report a vulnerability, see [SECURITY.md](SECURITY.md).
 dotnet test NetworkProfileManager.Tests/NetworkProfileManager.Tests.csproj
 ```
 
-xUnit, **188 tests**, run on every push by the build workflow. They cover input validation, the elevated worker's command whitelist, profile / history storage, CIDR formatting, Turkish / English string parity and view-model logic — about 40% line coverage of the non-UI code (Models, Services, Helpers, ViewModels). The WPF views are checked by hand.
+xUnit covers input validation, the elevated worker's command whitelist, profile/history/project storage, CIDR formatting, English string resources and view-model logic. Network/OS boundaries are isolated with fixtures. Exact executed commands, test counts and remaining UI/live-network limitations are recorded in [the test matrix](docs/testing/TEST_MATRIX.md); coverage has not been measured for this fork.
 
 ---
 

@@ -6,7 +6,7 @@ namespace NetworkProfileManager.Helpers
 {
     /// <summary>
     /// String resource lookup against the currently merged language ResourceDictionary
-    /// (Strings/Tr.xaml or Strings/En.xaml). Used by code-behind / ViewModels;
+    /// (Strings/En.xaml). Used by code-behind / ViewModels;
     /// XAML uses <c>{DynamicResource Key}</c> directly.
     /// </summary>
     public static class Loc

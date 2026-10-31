@@ -9,8 +9,7 @@ namespace NetworkProfileManager.Tests;
 
 /// <summary>
 /// A missing string key does not fail the build: XAML shows an empty label and
-/// Loc falls back to Turkish. These tests read the source files so a typo or a
-/// key added to only one language is caught here instead of on screen.
+/// These tests read the source files so missing labels are caught before display.
 /// </summary>
 public class StringResourceTests
 {
@@ -35,12 +34,14 @@ public class StringResourceTests
     }
 
     [Fact]
-    public void TurkishAndEnglish_HaveTheSameKeys()
+    public void EnglishResourcesHaveUniqueKeysAndNoRetiredLanguageOption()
     {
-        var tr = Keys("Tr");
-        var en = Keys("En");
-        Assert.Empty(tr.Except(en));
-        Assert.Empty(en.Except(tr));
+        XNamespace x = "http://schemas.microsoft.com/winfx/2006/xaml";
+        var keys = XDocument.Load(Path.Combine(AppDir, "Strings", "En.xaml")).Root!.Elements()
+            .Select(e => (string?)e.Attribute(x + "Key")).ToList();
+        Assert.Equal(keys.Count, keys.Distinct().Count());
+        Assert.DoesNotContain("Settings.LanguageTurkish", keys);
+        Assert.False(File.Exists(Path.Combine(AppDir, "Strings", "Tr.xaml")));
     }
 
     [Fact]

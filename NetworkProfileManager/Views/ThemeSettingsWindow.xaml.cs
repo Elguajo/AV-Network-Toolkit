@@ -28,12 +28,11 @@ namespace NetworkProfileManager.Views
                                ?? box.Items[0];
         }
 
-        /// <summary>"System language (Türkçe)": show what "System" resolves to.</summary>
+        /// <summary>Default language (English): the only supported UI language.</summary>
         private void UpdateSystemLanguageLabel()
         {
-            var effective = LanguageManager.ResolveEffective(LanguageManager.SystemDefault);
-            string name = effective == LanguageManager.Turkish ? "Türkçe" : "English";
-            LangSystemItem.Content = $"{Loc.Get("Settings.LanguageSystem", "Sistem dili")} ({name})";
+            string name = Loc.Get("Settings.LanguageEnglish", "English");
+            LangSystemItem.Content = $"{Loc.Get("Settings.LanguageSystem", "Default language")} ({name})";
         }
 
         private void Theme_Changed(object sender, SelectionChangedEventArgs e)

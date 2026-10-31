@@ -15,8 +15,8 @@
     <Version>1.1.1</Version>
     <AssemblyVersion>1.1.1.0</AssemblyVersion>
     <FileVersion>1.1.1.0</FileVersion>
-    <!-- The UI is Turkish / English only; skip WPF's resource folders for 11 other languages. -->
-    <SatelliteResourceLanguages>en;tr</SatelliteResourceLanguages>
+    <!-- The supported UI is English; skip unused dependency language resources. -->
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
   </PropertyGroup>
   <!-- Publishing for a runtime, as the release zip does (self-contained win-x64), produces one
        .exe plus WPF's five native DLLs. They stay beside the exe on purpose: bundling them
