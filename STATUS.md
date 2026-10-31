@@ -1,7 +1,7 @@
 # Current implementation status — PHASE_04_AWAITING_REVIEW
 
 - **Fork / branch / starting HEAD:** https://github.com/Elguajo/AV-Network-Toolkit / main / abdd1d1c61dd4f0d6b39adfc24ee69ff46367cbc. Local branding commit preserved; no reset, branch/worktree or push.
-- **Implementation commit:** resolve `git log -1 --format=%H -- app/Services/ProjectApplyCoordinator.cs`; exact post-commit anchor is appended in the handoff. No phase is marked complete.
+- **Implementation commit:** 3e7a0ae3f0f3ef87729fa94e2873d53e23750991, local on main; code evidence anchor. Resolve the containing documentation-only handoff commit with `git log -1 --format=%H -- STATUS.md`. No phase is marked complete.
 - **Active phase / authorization:** 04 AWAITING_REVIEW, 04-T01–04-T07 EVIDENCE_RECORDED under ADR-019. Owner approved blocking complex/unknown state and unproved static automatic DNS and /31–/32 before mutation.
 - **Completed / in progress:** implementation, isolated tests, component verification and separate legacy review recorded. Owner acceptance and live/manual integration remain pending; no unfinished authorized implementation task or known failed automated check.
 - **Blockers / risks:** owner review gate. Real Windows observation/netsh/UAC/IPC/recovery semantics UNVERIFIED; bounded identity/filesystem/policy races, restrictive support and journal retention remain. Historical limitations preserved.
@@ -291,3 +291,7 @@ foreach ($brandBinary in @('NetworkProfileManager.dll', 'NetworkProfileManager.e
 - Remaining tasks in active phase: owner acceptance/manual integration evidence; no known failed automated check or unfinished authorized implementation task.
 - Next smallest safe action: review implementation diff and packet; if desired, separately authorize disposable isolated Windows/NIC integration using the recorded plan. Proposed Phase 05 only after an explicit decision.
 - Can next session proceed without clarification: read-only review/safe regression and scoped corrections within Phase 04 yes; no automatic live test, push/release or next phase.
+
+### Phase 04 commit verification
+
+Implementation committed locally as **3e7a0ae3f0f3ef87729fa94e2873d53e23750991** (`feat: add verified project Apply and Open with explicit recovery`), 41 paths / 2396 insertions / 22 deletions. Post-commit `git status --short --branch` showed clean main, ahead 2 of cached origin/main (the existing branding commit plus Phase 04); `git show --format= --check HEAD` PASS. No push or remote-state claim. This follow-up records exact anchors only; application/test code and the 399-test/40-render evidence above remain unchanged. Resulting documentation HEAD is resolved by the lookup at the top; owner acceptance/live-test/publication/Phase 05 gates remain pending.

@@ -2,6 +2,8 @@
 
 2026-10-31, Asia/Tashkent. Fork https://github.com/Elguajo/AV-Network-Toolkit; branch main; starting anchor abdd1d1c61dd4f0d6b39adfc24ee69ff46367cbc (unpublished branding preserved). Resolve the implementation commit with `git log -1 --format=%H -- app/Services/ProjectApplyCoordinator.cs`; the documentation handoff records its exact resulting SHA. No PR/push/release and no phase marked complete.
 
+Implementation commit: **3e7a0ae3f0f3ef87729fa94e2873d53e23750991**. Review full diff with `git diff abdd1d1..3e7a0ae` (41 paths, 2396 insertions/22 deletions); later documentation-only handoff pins that anchor. Local main only; branding preserved, no publication.
+
 ## Outcome and changed surfaces
 
 04-T01–04-T07 have implementation/review evidence, pending owner acceptance. ADR-019 records both the explicit Phase 04 start and owner approval to block complex/unknown state. [Implementation contract](../spec/PHASE04_IMPLEMENTATION_CONTRACT.md) and [legacy history review](../architecture/PHASE04_LEGACY_HISTORY_REVIEW.md) define the boundaries.
