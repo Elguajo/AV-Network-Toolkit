@@ -16,6 +16,21 @@ Earlier headers below are historical; this Phase06 record supersedes their activ
 - Blockers / risks: standalone project Apply Profile missing, conservative DHCP/no-lease/APIPA/DNS support gaps, password fields not implemented, OPEN P05-R01 and native/manual acceptance limits remain. Plaintext password files/backups are readable by their holders.
 - Latest checks for this documentation-only scope: `scripts/validate_plan.py` PASS (9 phases, 49 phase tasks, schema/formats/references/links); `scripts/test_validate_plan.py` PASS (10 tests); whitespace/scope verification before local commit. No new application/runtime/live tests; earlier evidence unchanged. No push, phase advancement, JSON version change or network mutation.
 
+## Session handoff — 2026-10-31, approved primary workflow (ADR-025)
+
+- Date and environment: 2026-10-31, Asia/Tashkent; existing Windows/PowerShell/local Python tools.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / bootstrap `ed086cdfcb22df877fd3f94d431f0f3538f422ff`; concurrent uncommitted Phase 06 code/evidence/planning present and preserved. Resolve this adoption commit with `git log -1 --format=%H -- docs/spec/PRODUCT_REQUIREMENTS.md`.
+- Current phase and task IDs: Phase 06 AWAITING_REVIEW / 06-T01–06-T04 EVIDENCE_RECORDED per current worktree; no phase accepted here. FR-14 / IDEA-04 approved direction; IDEA-01–03 retained.
+- What was actually completed: adopted the owner-endorsed primary screen workflow, distinguished adapter intent/observation and device destinations, mapped overlap to existing follow-ups and Phase 07 ownership, recorded ADR-025. Exact layout/store mapping/phase placement remain future design decisions; implementation not performed.
+- Files changed: PRODUCT_REQUIREMENTS, PRODUCT_FIT_REVIEW_RU, DECISION_LOG and only this session's TASKS/STATUS additions. Concurrent Phase 06 modifications in these/other paths are not part of the adoption commit; stage only the incremental adoption hunks.
+- Test commands and results: offline `scripts/validate_plan.py`, `scripts/test_validate_plan.py` and staged whitespace/scope checks run for adoption; actual command outcomes reported after execution. No new build/unit/GUI evidence; prior Phase 06 results are not re-certified here.
+- Live-network tests: NOT RUN / not authorized. No NIC changes, sockets/probes, UAC/browser or DHCP execution.
+- Known bugs, risk and workarounds: OPEN P05-R01 and all manual/native limits retained. Main-screen profile-store mapping unresolved; do not silently merge/migrate or expand supported network states.
+- Decisions requiring user approval: bounded layout/mapping/phase-placement design, any phase advancement/live test/publication. Primary workflow direction and password-storage permission already approved; do not ask again for those same choices.
+- Remaining tasks in active phase: owner/native acceptance stays open. IDEA-01–04 implementation remains pending; no checkbox closed.
+- Next smallest safe action: prepare the bounded FR-14 / IDEA-01/04 design handoff under DESIGN.md, reusing existing apply/verification/recovery; reconcile phase placement before coding, while retaining current Phase 06 review gate.
+- Can next session proceed without clarification? Yes for read-only/design preparation within the approved direction; no implicit implementation phase, schema migration, live test or push.
+
 ## Current publication / next-chat authorization — ADR-023
 
 - Fork / branch / exact preflight HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `e5858635759b22a7cd0d5a277b9eafebab67e2f4`; clean bootstrap. Fresh origin/main `48913b21b7a4ddf62a9f58663fbfcde79d630a29`, ancestor, 0 remote-only/2 local-only commits.

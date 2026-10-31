@@ -15,6 +15,7 @@ These stable follow-up IDs are separate from the 49 phase tasks; no phase task i
 | IDEA-01 | Apply a project profile without a device or browser URL; retain explicit NIC/review/UAC/verification/recovery | GAP RECORDED; implementation not started |
 | IDEA-02 | Define/test the real DHCP → isolated Static workflow, including DNS/no-lease/APIPA boundaries; preserve conservative blocking until supported | GAP RECORDED; support refinement needs scoped design/review |
 | IDEA-03 | FR-13: optional device-password storage in project JSON; version/compatibility, explicit UI, redaction and backups | OWNER PERMISSION RECORDED (ADR-024); format/UI implementation not started |
+| IDEA-04 | FR-14: coherent main-screen adapter → current state → profile/manual settings → explicit apply → observed result, with optional device Open/Apply & Open; reuse IDEA-01/02 and DESIGN.md | DIRECTION ACCEPTED (ADR-025); localized UI/mapping design and phase placement pending, implementation not started |
 
 ## Phase 01: Baseline audit (P0)
 
