@@ -34,3 +34,7 @@ Phase 02 must settle 02-T01 decisions before changing the draft schema. Phase 04
 ## Current authorization — 2026-10-31
 
 ADR-008 supersedes the earlier pending-start snapshot: the owner explicitly authorized Phase 02 and its prerequisite preparation in a new chat. ADR-009 approves the concrete format package in docs/spec/PHASE02_FORMAT_REVIEW.md. 01-T06–01-T08 have verified preparation evidence; historical Phase 01 acceptance is not fabricated. No authorization for live tests, future phases, merge or push.
+
+## Phase 02 integration authorization — ADR-012
+
+On 2026-10-31 the owner explicitly authorized committing the integration handoff, merging the verified Phase 02 branch into main and pushing main to origin. This supersedes earlier lack of publication authorization for this change only. No Phase 03, live-test, tag/release or force-push authorization is implied. Exact anchors and execution plan: STATUS.md / ADR-012.

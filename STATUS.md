@@ -2,17 +2,17 @@
 
 - **Fork URL:** https://github.com/Elguajo/AV-Network-Toolkit
 - **Upstream:** https://github.com/rmzncakir/network-profile-changer
-- **Working branch:** codex/phase-02-project-json (local; no push/PR/merge)
+- **Working branch / integration target:** main (ADR-012); source codex/phase-02-project-json retained
 - **Current implementation commit SHA:** 0bf1070216255c9e1411a4a96445372b6e6a45d1
 - **Project feature commit:** eeb589cf81d8871f4243218d2e1a668829b79a2e
 - **Preparation commit:** 11a6e5cc12f0d752dcbda9160b55369233bb6c98
 - **Code baseline:** 603cf24fa0ba1819c0ec10b6a57ef5cf57c3852e
-- **Status/handoff commit:** resolve `git log -1 --format=%H -- STATUS.md`; this documentation-only record cannot embed its own resulting SHA. Re-read actual HEAD before resuming.
+- **Status/handoff commit (includes ADR-012 integration authorization):** resolve `git log -1 --format=%H -- STATUS.md`; this documentation-only record cannot embed its own resulting SHA. Re-read actual HEAD before resuming.
 - **Active phase:** 02 — AWAITING_REVIEW; not marked complete. Phase 03 NOT STARTED / NOT AUTHORIZED.
-- **Authorization:** ADR-008 preparation/Phase 02; ADR-009 approved format; ADR-010 existing design for all new UI; ADR-011 English-only UI with legacy tr fallback. No live tests or publication authorization.
+- **Authorization:** ADR-008 preparation/Phase 02; ADR-009 approved format; ADR-010 existing design for all new UI; ADR-011 English-only UI with legacy tr fallback. ADR-012 now authorizes this change’s main merge/push; no live tests or future-phase authorization.
 - **Completed tasks:** preparation 01-T06/01-T07/01-T08 verified, 02-T01 owner-approved. Historical Phase 01 acceptance not fabricated.
 - **In progress / evidence recorded:** 02-T02–02-T06 implemented/reviewed with evidence; checkboxes remain open pending owner acceptance. No implementation blocker known.
-- **Next action:** owner reviews Phase 02 diff/window and packet; decide acceptance before Phase 03. No automatic push/merge/phase advancement.
+- **Next action:** execute the authorized main fast-forward/push and verify remote SHA; retain manual acceptance limits and decide Phase 03 separately.
 - **Tests last executed:** SDK 8.0.427; Release build PASS (0 warnings/errors); 286 isolated xUnit PASS, 0 failed/skipped; 4 English Light/Dark WPF component renders PASS, 0 binding errors; full draft-2020-12+formats/planning validator PASS and 10 validator regression tests PASS. Exact commands/commit evidence in docs/testing/PHASE02_REVIEW.md.
 - **Live/network/UAC/native-dialog/full-app/deployment tests:** NOT RUN. No OS network configuration changes, scans or elevation performed.
 - **Limits/side effects:** first failed component harness inadvertently reached real App startup/migration before failing on resources; marker existence/attribution uncertainty recorded below and in review packet. Final harness is isolated. No marker/customer data deleted. Earlier SDK first-run generated an untrusted development certificate; no trust command or admin install.
@@ -113,3 +113,18 @@ Exact evidence and reproducible adoption check: [test matrix](docs/testing/TEST_
 - Next smallest safe action: review diff and Project window; after acceptance separately authorize Phase 03. Do not merge/push or start live tests automatically.
 - Can next session proceed without clarification: inspection/review and fixes within Phase 02 scope yes; advancing phases/publishing/live tests requires owner decision.
 - Original untracked MANIFEST.sha256 preserved; no other untracked deliverable or generated artifact is intended for commit.
+
+## Session handoff — 2026-10-31, authorized main integration
+
+- Date and environment: 2026-10-31, Asia/Tashkent; same verified Windows workspace/SDK; no application execution in this integration step.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main integration target; source codex/phase-02-project-json at da8a976409fd90fafbb8b19499660b557f6880b1 plus this documentation-only record. Resolve containing record commit via `git log -1 --format=%H -- STATUS.md`.
+- Current phase/tasks: Phase 02 implementation integrated by owner request (ADR-012); recorded acceptance/manual-test limitations remain; Phase 03 not started or authorized. No task checkbox changed by publication alone.
+- Actually verified before integration: `git fetch origin main` PASS; main and origin/main both 5e6231f731a532fd0947903e4dbaf47115f0d2e3; both `git merge-base --is-ancestor main HEAD` and `git merge-base --is-ancestor origin/main HEAD` return 0; tracked/staged state clean before this docs update.
+- Files changed in this step: STATUS.md, decisions/DECISION_LOG.md, context/roadmap authorization notes; application and tests unchanged. Original archive manifest remains untracked/excluded.
+- Tests: prior code PASS evidence retained (286 xUnit, Release build, 4 UI renders, full schema/planning and 10 validator tests); docs consistency/whitespace checks run before commit. Normal CI may run after push because scanner/VM test boundaries are now isolated; its result is separate, never preclaimed.
+- Live-network tests: NOT RUN / not authorized. No NIC enumeration/probes/UAC/app launch or configuration changes in integration.
+- Risks/deviations: existing review-packet limits unchanged; no force push, merge conflict, PR, tag/release or branch deletion planned.
+- Execution after this handoff commit: switch main; `git merge --ff-only codex/phase-02-project-json`; `git push origin main:main`; compare `git rev-parse HEAD` and `git ls-remote origin refs/heads/main`. Final outcomes/SHA are verified and reported in chat after execution, not preclaimed here.
+- Decisions requiring user approval: later phase advancement/live tests; this merge/push is already authorized.
+- Next smallest safe action: finish authorized integration, report remote equality and CI status if available.
+- Can next session proceed without clarification: integration verification yes; Phase 03/live tests require owner decision.

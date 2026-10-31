@@ -16,6 +16,8 @@
 
 | ADR-011 | 2026-10-31 | Retire Turkish UI support; keep English and map legacy tr preferences to English on read | Owner explicitly said «Турецкий язык не нужен»; execution assumption stated in chat: remove Turkish from app, retain English | User-authorized localization exception; no automatic settings-file rewrite, profile-format/network behavior unchanged |
 
+| ADR-012 | 2026-10-31 | Commit the integration handoff, merge the verified Phase 02 branch into main and push main to origin | Owner explicitly requested «Коммит и пуш в Main можно сделать Merge» after the implementation report | User-approved integration/publication of this change; ordinary push, no force; no Phase 03 or live-test authorization |
+
 ## ADR-006 scope and consequences
 
 - Source: Phase 01 bootstrap report and subsequent user-approved documentation/plan proposal in this chat on 2026-10-31. Evidence and per-finding dispositions: [baseline/source map](../docs/architecture/BASELINE_AND_SOURCE_MAP.md).
@@ -41,3 +43,11 @@ Append `ADR-XXX | YYYY-MM-DD | accepted/rejected/proposed | scope and alternativ
 ## ADR-011 compatibility
 
 Settings remain the same flat string dictionary and file path. `en` and `System` remain valid preferences; System resolves to supported English. Saved `tr` normalizes in memory to `en`; startup uses persist=false and leaves existing bytes/other keys untouched, including on repeated reads. An older app can still read the original value. A later explicit user settings change uses the existing writer. Removed `Tr.xaml` and the Turkish menu option; retained resource-based labels and English dictionary. Unsupported culture inputs never load a removed dictionary. No customer settings were edited to exercise this transition; tests use temp fixtures.
+
+## ADR-012 integration scope
+
+Integrate source branch `codex/phase-02-project-json` at `da8a976409fd90fafbb8b19499660b557f6880b1` plus this authorization/handoff record. Fetched local main and origin/main both equal `5e6231f731a532fd0947903e4dbaf47115f0d2e3`; both are ancestors of the source, so use `git merge --ff-only`. No PR, force push, history rewrite, branch deletion, tag or release is required. Preserve untracked MANIFEST.sha256.
+
+Existing code verification remains 286 isolated tests, Release build, four component renders and ten validator regression tests. No source changes in integration; no unnecessary rerun of unchanged checks. Unit OS/probe boundaries were re-inspected before allowing normal push CI; ADR-007's earlier skip-CI workaround concerned the pre-isolation documentation push and is not needed now. CI outcome must be reported separately from local PASS evidence.
+
+The user authorized integrating these results. Phase 02's previously recorded manual acceptance limitations and Phase 03 review gate remain visible; this record does not invent native-dialog, live-network, deployment or full phase-acceptance results. Execution after this commit: switch main, fast-forward merge, ordinary `git push origin main:main`, compare local HEAD with `git ls-remote origin refs/heads/main`. Report actual outcomes and resulting SHA after execution.

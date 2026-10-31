@@ -66,3 +66,7 @@ ADR-008 supersedes the earlier pending-start snapshot: the owner explicitly auth
 ## Owner localization refinement — ADR-011
 
 Turkish UI is no longer required. English remains supported; legacy `tr` preferences fall back to English without a startup settings rewrite. This explicitly supersedes the baseline bilingual preservation requirement only; other baseline capabilities remain protected. All new UI follows DESIGN.md (ADR-010).
+
+## Phase 02 integration authorization — ADR-012
+
+On 2026-10-31 the owner explicitly authorized committing the integration handoff, merging the verified Phase 02 branch into main and pushing main to origin. This supersedes earlier lack of publication authorization for this change only. No Phase 03, live-test, tag/release or force-push authorization is implied. Exact anchors and execution plan: STATUS.md / ADR-012.
