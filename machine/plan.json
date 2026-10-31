@@ -429,7 +429,7 @@
     "01-T07",
     "01-T08"
   ],
-  "implementationCommit": "UNCOMMITTED: resolve after Phase 03 feature commit",
+  "implementationCommit": "e861c3a426f24e0103e9cc26b7e82b6e2f1e503f",
   "reviewPacket": "docs/testing/PHASE03_REVIEW.md",
   "scopeRefinements": [
     "ADR-010: all new UI reuses existing design (DESIGN.md)",

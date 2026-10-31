@@ -2,7 +2,7 @@
 
 - **Fork URL:** https://github.com/Elguajo/AV-Network-Toolkit
 - **Current branch / starting HEAD:** codex/phase-03-device-web-interfaces / 17c7014ba585fe85680fcdede51ce967f238054d; remote main independently matched at bootstrap.
-- **Implementation commit SHA:** pending scoped commit; resolve `git log -1 --format=%H -- app/ViewModels/ProjectViewModel.Devices.cs` after commit. No PR/push/merge.
+- **Implementation commit SHA:** `e861c3a426f24e0103e9cc26b7e82b6e2f1e503f`; documentation-only handoff commit is resolved by `git log -1 --format=%H -- STATUS.md`. No PR/push/merge.
 - **Active phase / authorization:** 03 AWAITING_REVIEW; 03-T01–03-T05 authorized by explicit owner request (ADR-015). No phase marked complete.
 - **Completed tasks / evidence:** prior preparation 01-T06–01-T08 and approved 02-T01 unchanged; 03-T01–03-T05 implemented with EVIDENCE_RECORDED, pending owner acceptance. Prior Phase 02 evidence/manual limits retained below.
 - **In progress / blockers:** owner review/manual acceptance remains. No known failed automated check or unfinished authorized implementation task.
@@ -181,7 +181,7 @@ Exact evidence and reproducible adoption check: [test matrix](docs/testing/TEST_
 ## Session handoff — 2026-10-31, Phase 03 implementation
 
 - Date and environment: Asia/Tashkent; Windows 10.0.26300 x64; local SDK 8.0.427/runtime 8.0.33; Python jsonschema 4.26.0 venv. No installation.
-- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / codex/phase-03-device-web-interfaces / starting 17c7014ba585fe85680fcdede51ce967f238054d; implementation commit resolved after scoped commit via lookup above. Remote main matched that starting anchor at bootstrap.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / codex/phase-03-device-web-interfaces / starting 17c7014ba585fe85680fcdede51ce967f238054d; implementation `e861c3a426f24e0103e9cc26b7e82b6e2f1e503f`; final documentation-only handoff commit resolved via STATUS.md lookup. Remote main matched that starting anchor at bootstrap.
 - Current phase and task IDs: 03 AWAITING_REVIEW; 03-T01–03-T05 EVIDENCE_RECORDED. Checkboxes remain open for owner acceptance; no self-completion or Phase 04.
 - Actually completed: existing ProjectDevice CRUD/drafts/search/type-profile grouping, safe exact-URL launcher/confirmation, HTTP/mismatch/unlinked handling, explicit relink/unlink, JSON v1 unchanged, tests and isolated WPF verification; ADR-015 records the owner's start request.
 - Files changed: project VM/device partial and browser service, Devices component/Project window/dialogs/English resources, focused tests/smoke, design/spec/security/status/tasks/phase/plan/context/roadmap/ADR/review packet. No legacy network/storage/history/UAC/tray/startup/license/schema/workflow edit.
@@ -192,3 +192,8 @@ Exact evidence and reproducible adoption check: [test matrix](docs/testing/TEST_
 - Remaining active work: owner review/manual acceptance; no known failed automated check or incomplete authorized implementation task.
 - Next smallest safe action: review the Phase 03 diff and Project/Devices UI. Proposed next phase is 04, explicit adapter/apply/verification/recovery design first, only after owner authorization.
 - Can next session proceed without clarification: read-only review and scoped Phase 03 corrections yes; merge/push/live tests/Phase 04 no.
+
+
+### Phase 03 commit verification
+
+Feature commit `e861c3a426f24e0103e9cc26b7e82b6e2f1e503f` contains the reviewed implementation and pre-commit evidence. Commit succeeded; working tree was clean immediately afterward. This follow-up only fills exact SHA/evidence pointers in STATUS, plan and review matrix/packet. Final containing documentation SHA is resolved with `git log -1 --format=%H -- STATUS.md`; it cannot embed itself. No new application/test change, merge, push or phase completion. Post-commit whitespace/planning/clean-state verification is performed after this documentation commit and reported in chat.

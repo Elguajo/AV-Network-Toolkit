@@ -183,7 +183,7 @@ Historical commands in earlier evidence sections intentionally retain the filena
 
 ## Phase 03 Device Web Interfaces — 2026-10-31
 
-Branch `codex/phase-03-device-web-interfaces`, starting HEAD `17c7014ba585fe85680fcdede51ce967f238054d`. Implementation SHA: resolve `git log -1 --format=%H -- app/ViewModels/ProjectViewModel.Devices.cs`. Complete [review packet](PHASE03_REVIEW.md) has changed paths, exact scope, source evidence, initial failures/corrections, risks and owner gate. Phase 03 AWAITING_REVIEW, not complete. `$sdk`/`$py` use the local tool paths recorded above.
+Branch `codex/phase-03-device-web-interfaces`, starting HEAD `17c7014ba585fe85680fcdede51ce967f238054d`. Implementation SHA: `e861c3a426f24e0103e9cc26b7e82b6e2f1e503f`. Complete [review packet](PHASE03_REVIEW.md) has changed paths, exact scope, source evidence, initial failures/corrections, risks and owner gate. Phase 03 AWAITING_REVIEW, not complete. `$sdk`/`$py` use the local tool paths recorded above.
 
 | Exact command/check | Result |
 |---|---|
