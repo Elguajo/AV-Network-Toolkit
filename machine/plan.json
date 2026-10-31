@@ -1,0 +1,432 @@
+{
+  "planVersion": 1,
+  "project": "AV Network Manager fork development",
+  "baseRepository": "https://github.com/rmzncakir/network-profile-changer",
+  "featureReference": "https://github.com/mefranklin6/AV-Network-Toolbag",
+  "status": "AUDIT_RECORDED_AWAITING_REVIEW",
+  "licenseNote": "Base MIT; AV Toolbag license not declared at inspection; no source reuse",
+  "phases": [
+    {
+      "id": "01",
+      "title": "Baseline audit",
+      "priority": "P0",
+      "dependsOn": [],
+      "file": "phases/01-baseline-audit.md",
+      "status": "AUDIT_RECORDED_AWAITING_REVIEW",
+      "tasks": [
+        {
+          "id": "01-T01",
+          "title": "Record fork origin, exact commit, branch, license and build prerequisites",
+          "acceptance": "Evidence with git commands, repo SHA and MIT notice recorded",
+          "status": "EVIDENCE_RECORDED"
+        },
+        {
+          "id": "01-T02",
+          "title": "Map models, viewmodels, services, UAC/netsh, data paths, scanner and revert",
+          "acceptance": "Source map with paths, entry points, call graph and risk notes",
+          "status": "EVIDENCE_RECORDED"
+        },
+        {
+          "id": "01-T03",
+          "title": "Inventory all existing capabilities, supported data formats and compatibility",
+          "acceptance": "Baseline preservation checklist signed off",
+          "status": "AWAITING_REVIEW"
+        },
+        {
+          "id": "01-T04",
+          "title": "Run non-invasive baseline build/test/static checks where supported",
+          "acceptance": "Exact commands/results/limitations; no device configuration",
+          "status": "EVIDENCE_RECORDED"
+        },
+        {
+          "id": "01-T05",
+          "title": "Review risk surface and propose implementation boundaries for Phases 02–09",
+          "acceptance": "Audited phase plan, security assumptions and open decisions documented",
+          "status": "EVIDENCE_RECORDED"
+        },
+        {
+          "id": "01-T06",
+          "title": "Prepare the SDK/build environment in a separately authorized checkpoint",
+          "acceptance": "Record SDK 8 version, approved install/restore scope and baseline build command/result; no application launch, elevation or network probes",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "01-T07",
+          "title": "Isolate automated tests from network probes and real adapter enumeration",
+          "acceptance": "Review exact safe test set; fake OS/probe boundaries or segregate integration cases; run the isolated baseline and report every exclusion as NOT RUN",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "01-T08",
+          "title": "Repair and verify the planning validator in a separate tooling task",
+          "acceptance": "Support current plan states and task inventory; distinguish GitHub-relative links from filesystem links; retain meaningful checks and demonstrate expected valid/invalid cases",
+          "status": "NOT_STARTED"
+        }
+      ]
+    },
+    {
+      "id": "02",
+      "title": "Project-scoped JSON profiles",
+      "priority": "P0",
+      "dependsOn": [
+        "01"
+      ],
+      "file": "phases/02-project-json.md",
+      "status": "NOT_STARTED",
+      "tasks": [
+        {
+          "id": "02-T01",
+          "title": "Approve independent versioned project schema and round-trip semantics",
+          "acceptance": "Schema reviewed; includes project, profiles, adapter hints, device refs; no secrets",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "02-T02",
+          "title": "Implement Open Project / Choose Folder / Save As with explicit path",
+          "acceptance": "Open/save project JSON from arbitrary user-approved folders; never overwrite silently",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "02-T03",
+          "title": "Import/export static + DHCP settings including gateway and DNS",
+          "acceptance": "Round-trip preserves all specified fields and legacy profile compatibility",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "02-T04",
+          "title": "Handle schema versions, corrupt files, atomic writes and backups",
+          "acceptance": "Clear errors, original file preserved, missing/unknown fields handled per spec",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "02-T05",
+          "title": "Add unit tests for parse/validate/export, path security and migration",
+          "acceptance": "Automated test evidence; existing ProfileRepository unaffected",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "02-T06",
+          "title": "Review legacy persistence remediation as a separate compatibility change",
+          "acceptance": "Document direct-write and backup-failure/delete risks, recovery fixtures and proposed scoped PR; do not change legacy storage without reviewed authorization",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "entryGate": "Phase 01 acceptance and completed preparation checkpoint; explicit Phase 02 authorization"
+    },
+    {
+      "id": "03",
+      "title": "Device Web Interfaces",
+      "priority": "P0",
+      "dependsOn": [
+        "02"
+      ],
+      "file": "phases/03-device-web-interfaces.md",
+      "status": "NOT_STARTED",
+      "tasks": [
+        {
+          "id": "03-T01",
+          "title": "Design device model with name/type/IP/URL/profile reference and group",
+          "acceptance": "Explicit identity, profile association and full URL fields",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "03-T02",
+          "title": "Add per-project Device Web Interfaces UI: create/edit/delete/search/group",
+          "acceptance": "Manage multiple device links for one profile without UI redesign",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "03-T03",
+          "title": "Launch full http/https deep URL with browser default and safe validation",
+          "acceptance": "Path, query, fragment preserved; unsafe schemes and URL credentials rejected",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "03-T04",
+          "title": "Handle HTTP warning, unreachable endpoints and stale profile refs",
+          "acceptance": "No hidden credential handling or unsafe TLS suppression",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "03-T05",
+          "title": "Automated tests for URL parsing/launch abstraction and JSON round-trip",
+          "acceptance": "Tests include deep paths/fragments and malformed URLs",
+          "status": "NOT_STARTED"
+        }
+      ]
+    },
+    {
+      "id": "04",
+      "title": "Apply & Open",
+      "priority": "P0",
+      "dependsOn": [
+        "02",
+        "03"
+      ],
+      "file": "phases/04-apply-and-open.md",
+      "status": "NOT_STARTED",
+      "tasks": [
+        {
+          "id": "04-T01",
+          "title": "Define explicit state machine and adapter-selection gate",
+          "acceptance": "No implicit apply; user sees target adapter, requested old/new config",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "04-T02",
+          "title": "Snapshot pre-change config, apply with UAC, verify actual post-state",
+          "acceptance": "Settings re-read; failure clearly reported; best-effort recovery design",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "04-T03",
+          "title": "Launch browser only after supported network-state verification",
+          "acceptance": "Not tied to ping success; no browser launch on failed apply",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "04-T04",
+          "title": "Add cancellation, error messaging, retry and manual recovery route",
+          "acceptance": "All branches documented incl. UAC denied, adapter removed, partial netsh failure",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "04-T05",
+          "title": "Unit tests for state machine and isolated Windows integration plan",
+          "acceptance": "No real NIC changes in CI; manual NIC tests reported separately",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "04-T06",
+          "title": "Review and harden the elevated request boundary for the new apply flow",
+          "acceptance": "Bind typed validated request to stable NIC identity, recheck after UAC, review request/result paths and tampering, and cover rejection paths without elevation",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "04-T07",
+          "title": "Review legacy history and revert limitations separately",
+          "acceptance": "Define backward-compatible handling of missing DNS/policy/routes/additional-address snapshots; scope any legacy repair separately and never invent recoverable state",
+          "status": "NOT_STARTED"
+        }
+      ]
+    },
+    {
+      "id": "05",
+      "title": "Link-Local addressing",
+      "priority": "P1",
+      "dependsOn": [
+        "01",
+        "04"
+      ],
+      "file": "phases/05-link-local.md",
+      "status": "NOT_STARTED",
+      "tasks": [
+        {
+          "id": "05-T01",
+          "title": "Specify explicit 169.254/16 mode, selection and address constraints",
+          "acceptance": "No gateway; previous config captured; DHCP mode not confused with manual link-local",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "05-T02",
+          "title": "Add conflict check and controlled address choice/assignment",
+          "acceptance": "Avoid claimed conflict-free guarantee from ping alone; use Windows APIs where justified",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "05-T03",
+          "title": "Add restore/return-to-DHCP action and consistent UI states",
+          "acceptance": "Existing profile semantics and IPv6 preserved",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "05-T04",
+          "title": "Test on isolated adapter and cover failures in unit tests",
+          "acceptance": "Test evidence with no live production network scanning",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "05-T05",
+          "title": "Represent link-local state without hiding the selected address",
+          "acceptance": "Account for current APIPA filtering in GetAdapters; distinguish automatic APIPA from manual link-local and verify display/snapshot/restore with fixtures",
+          "status": "NOT_STARTED"
+        }
+      ]
+    },
+    {
+      "id": "06",
+      "title": "mDNS Discovery",
+      "priority": "P1",
+      "dependsOn": [
+        "01",
+        "03"
+      ],
+      "file": "phases/06-mdns-discovery.md",
+      "status": "NOT_STARTED",
+      "tasks": [
+        {
+          "id": "06-T01",
+          "title": "Define service-discovery scope, interface binding and listener lifecycle",
+          "acceptance": "Explicit start/stop; does not leak onto unintended interface",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "06-T02",
+          "title": "Implement mDNS listener/discovery without copying AV Toolbag source",
+          "acceptance": "Source provenance clean; bounded CPU/memory and packet parsing",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "06-T03",
+          "title": "Display service type, hostname, IP, port, TTL; optional add-to-device",
+          "acceptance": "Entries may be incomplete; no automatic config or trust of unverified hostnames",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "06-T04",
+          "title": "Add safe export/filter, timeouts and negative tests",
+          "acceptance": "CSV injection mitigated, invalid packets handled; tests via fixtures",
+          "status": "NOT_STARTED"
+        }
+      ]
+    },
+    {
+      "id": "07",
+      "title": "Ethernet & Hyper-V diagnostics",
+      "priority": "P1",
+      "dependsOn": [
+        "01",
+        "04"
+      ],
+      "file": "phases/07-adapter-hyperv-diagnostics.md",
+      "status": "NOT_STARTED",
+      "tasks": [
+        {
+          "id": "07-T01",
+          "title": "Map physical, USB, Wi-Fi, virtual and Hyper-V adapters without false binding",
+          "acceptance": "Unambiguous selection and stable hints; never choose adapter silently",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "07-T02",
+          "title": "Add diagnostics: IPv4/DHCP/DNS/gateway/route/link status",
+          "acceptance": "Clearly distinguish interface-derived vs probe-derived status",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "07-T03",
+          "title": "Add opt-in Hyper-V uplink filtering and persistence",
+          "acceptance": "Adapter hiding affects UI only, never silently disables interfaces",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "07-T04",
+          "title": "Extend tests for enumeration/failures/performance",
+          "acceptance": "Virtual and unplugged adapters included in fixtures; existing behavior preserved",
+          "status": "NOT_STARTED"
+        }
+      ]
+    },
+    {
+      "id": "08",
+      "title": "Temporary DHCP server",
+      "priority": "P2",
+      "dependsOn": [
+        "05",
+        "07"
+      ],
+      "file": "phases/08-temporary-dhcp-server.md",
+      "status": "NOT_STARTED",
+      "tasks": [
+        {
+          "id": "08-T01",
+          "title": "Threat-model and specify isolated service boundaries BEFORE implementation",
+          "acceptance": "Written approval checkpoint for binding, relay, conflicts, firewall, cleanup",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "08-T02",
+          "title": "Design pool, lease, router/DNS/NTP options with safe validation",
+          "acceptance": "Pool excludes host/router/reserved and validates subnet/leases",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "08-T03",
+          "title": "Implement explicit start/stop, adapter binding, visibility and audit logs",
+          "acceptance": "No auto-start; active interface prominent; service cannot silently move NICs",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "08-T04",
+          "title": "Detect existing DHCP where feasible; reliable cleanup of sockets/firewall",
+          "acceptance": "Abort or warn for suspicious network; crash recovery and stop behavior tested",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "08-T05",
+          "title": "Prove behavior only on isolated lab network with explicit permission",
+          "acceptance": "Documented packet captures/leasing and negative tests; never use production LAN",
+          "status": "NOT_STARTED"
+        }
+      ]
+    },
+    {
+      "id": "09",
+      "title": "Integration, QA & release",
+      "priority": "P0",
+      "dependsOn": [
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "file": "phases/09-qa-and-release.md",
+      "status": "NOT_STARTED",
+      "tasks": [
+        {
+          "id": "09-T01",
+          "title": "Run full unit, static-analysis and Windows build regression suite",
+          "acceptance": "Commands, OS/build, exact commit and results documented",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "09-T02",
+          "title": "Run isolated adapter tests across DHCP/static/gateway/DNS/revert/link-local",
+          "acceptance": "Pass/fail matrix; never claim unperformed live tests passed",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "09-T03",
+          "title": "Verify JSON compatibility, web deep-links, URL security, profiles + history",
+          "acceptance": "Import/export round-trip and previous version fixtures covered",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "09-T04",
+          "title": "Verify mDNS, Hyper-V diagnostics and DHCP isolated-network safety",
+          "acceptance": "DHCP release blocked if service safety evidence absent",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "09-T05",
+          "title": "Prepare changelog, MIT notices, tagged release and reproducible artifacts",
+          "acceptance": "Release checklist approved; unsigned-binary risks documented",
+          "status": "NOT_STARTED"
+        }
+      ]
+    }
+  ],
+  "forkRepository": "https://github.com/Elguajo/AV-Network-Toolkit",
+  "baselineCommit": "603cf24fa0ba1819c0ec10b6a57ef5cf57c3852e",
+  "activePhase": "01",
+  "phase02Authorized": false,
+  "authorization": "ADR-006: documentation adoption and local commit only; preparation execution not authorized",
+  "preparationCheckpoint": [
+    "01-T06",
+    "01-T07",
+    "01-T08"
+  ]
+}

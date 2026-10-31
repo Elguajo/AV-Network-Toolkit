@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "id": "demo-av-site",
+    "name": "Example AV Site",
+    "description": "Documentation-only IP addresses; replace locally."
+  },
+  "profiles": [
+    {
+      "id": "av-lan",
+      "name": "AV static network",
+      "mode": "static",
+      "adapterHint": {
+        "preferredAlias": "Ethernet"
+      },
+      "ipv4": {
+        "address": "192.0.2.10",
+        "prefixLength": 24,
+        "gateway": null,
+        "dns": {
+          "mode": "static",
+          "servers": [
+            "192.0.2.53"
+          ]
+        }
+      }
+    },
+    {
+      "id": "office-dhcp",
+      "name": "Office (DHCP)",
+      "mode": "dhcp"
+    }
+  ],
+  "devices": [
+    {
+      "id": "panel-main",
+      "name": "TouchPanel Main",
+      "type": "TouchPanel",
+      "manufacturer": "Example",
+      "ip": "192.0.2.44",
+      "profileId": "av-lan",
+      "webUrl": "https://192.0.2.44/web/panel/index.html#!/main"
+    },
+    {
+      "id": "device-admin",
+      "name": "Device Admin",
+      "type": "AV Device",
+      "ip": "192.0.2.55",
+      "profileId": "av-lan",
+      "webUrl": "http://192.0.2.55/en_US/admin"
+    }
+  ]
+}

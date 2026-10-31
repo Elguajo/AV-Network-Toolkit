@@ -1,0 +1,83 @@
+# Traceable task backlog
+
+**State:** Phase 01 audit evidence recorded; acceptance pending. Phase 02 is NOT AUTHORIZED. All checkboxes remain open until verified acceptance. See `STATUS.md` for evidence and ADR-006 for documentation-only authorization. IDs are stable.
+
+## Phase 01: Baseline audit (P0)
+
+- [ ] **01-T01** — Record fork origin, exact commit, branch, license and build prerequisites. **AC:** Evidence with git commands, repo SHA and MIT notice recorded.
+- [ ] **01-T02** — Map models, viewmodels, services, UAC/netsh, data paths, scanner and revert. **AC:** Source map with paths, entry points, call graph and risk notes.
+- [ ] **01-T03** — Inventory all existing capabilities, supported data formats and compatibility. **AC:** Baseline preservation checklist signed off.
+- [ ] **01-T04** — Run non-invasive baseline build/test/static checks where supported. **AC:** Exact commands/results/limitations; no device configuration.
+- [ ] **01-T05** — Review risk surface and propose implementation boundaries for Phases 02–09. **AC:** Audited phase plan, security assumptions and open decisions documented.
+
+- [ ] **01-T06** — Prepare the SDK/build environment in a separately authorized checkpoint. **AC:** Record SDK 8 version, approved install/restore scope and baseline build command/result; no application launch, elevation or network probes.
+- [ ] **01-T07** — Isolate automated tests from network probes and real adapter enumeration. **AC:** Review exact safe test set; fake OS/probe boundaries or segregate integration cases; run the isolated baseline and report every exclusion as NOT RUN.
+- [ ] **01-T08** — Repair and verify the planning validator in a separate tooling task. **AC:** Support current plan states and task inventory; distinguish GitHub-relative links from filesystem links; retain meaningful checks and demonstrate expected valid/invalid cases.
+
+## Phase 02: Project-scoped JSON profiles (P0)
+
+- [ ] **02-T01** — Approve independent versioned project schema and round-trip semantics. **AC:** Schema reviewed; includes project, profiles, adapter hints, device refs; no secrets.
+- [ ] **02-T02** — Implement Open Project / Choose Folder / Save As with explicit path. **AC:** Open/save project JSON from arbitrary user-approved folders; never overwrite silently.
+- [ ] **02-T03** — Import/export static + DHCP settings including gateway and DNS. **AC:** Round-trip preserves all specified fields and legacy profile compatibility.
+- [ ] **02-T04** — Handle schema versions, corrupt files, atomic writes and backups. **AC:** Clear errors, original file preserved, missing/unknown fields handled per spec.
+- [ ] **02-T05** — Add unit tests for parse/validate/export, path security and migration. **AC:** Automated test evidence; existing ProfileRepository unaffected.
+
+- [ ] **02-T06** — Review legacy persistence remediation as a separate compatibility change. **AC:** Document direct-write and backup-failure/delete risks, recovery fixtures and proposed scoped PR; do not change legacy storage without reviewed authorization.
+
+## Phase 03: Device Web Interfaces (P0)
+
+- [ ] **03-T01** — Design device model with name/type/IP/URL/profile reference and group. **AC:** Explicit identity, profile association and full URL fields.
+- [ ] **03-T02** — Add per-project Device Web Interfaces UI: create/edit/delete/search/group. **AC:** Manage multiple device links for one profile without UI redesign.
+- [ ] **03-T03** — Launch full http/https deep URL with browser default and safe validation. **AC:** Path, query, fragment preserved; unsafe schemes and URL credentials rejected.
+- [ ] **03-T04** — Handle HTTP warning, unreachable endpoints and stale profile refs. **AC:** No hidden credential handling or unsafe TLS suppression.
+- [ ] **03-T05** — Automated tests for URL parsing/launch abstraction and JSON round-trip. **AC:** Tests include deep paths/fragments and malformed URLs.
+
+## Phase 04: Apply & Open (P0)
+
+- [ ] **04-T01** — Define explicit state machine and adapter-selection gate. **AC:** No implicit apply; user sees target adapter, requested old/new config.
+- [ ] **04-T02** — Snapshot pre-change config, apply with UAC, verify actual post-state. **AC:** Settings re-read; failure clearly reported; best-effort recovery design.
+- [ ] **04-T03** — Launch browser only after supported network-state verification. **AC:** Not tied to ping success; no browser launch on failed apply.
+- [ ] **04-T04** — Add cancellation, error messaging, retry and manual recovery route. **AC:** All branches documented incl. UAC denied, adapter removed, partial netsh failure.
+- [ ] **04-T05** — Unit tests for state machine and isolated Windows integration plan. **AC:** No real NIC changes in CI; manual NIC tests reported separately.
+
+- [ ] **04-T06** — Review and harden the elevated request boundary for the new apply flow. **AC:** Bind typed validated request to stable NIC identity, recheck after UAC, review request/result paths and tampering, and cover rejection paths without elevation.
+- [ ] **04-T07** — Review legacy history and revert limitations separately. **AC:** Define backward-compatible handling of missing DNS/policy/routes/additional-address snapshots; scope any legacy repair separately and never invent recoverable state.
+
+## Phase 05: Link-Local addressing (P1)
+
+- [ ] **05-T01** — Specify explicit 169.254/16 mode, selection and address constraints. **AC:** No gateway; previous config captured; DHCP mode not confused with manual link-local.
+- [ ] **05-T02** — Add conflict check and controlled address choice/assignment. **AC:** Avoid claimed conflict-free guarantee from ping alone; use Windows APIs where justified.
+- [ ] **05-T03** — Add restore/return-to-DHCP action and consistent UI states. **AC:** Existing profile semantics and IPv6 preserved.
+- [ ] **05-T04** — Test on isolated adapter and cover failures in unit tests. **AC:** Test evidence with no live production network scanning.
+
+- [ ] **05-T05** — Represent link-local state without hiding the selected address. **AC:** Account for current APIPA filtering in GetAdapters; distinguish automatic APIPA from manual link-local and verify display/snapshot/restore with fixtures.
+
+## Phase 06: mDNS Discovery (P1)
+
+- [ ] **06-T01** — Define service-discovery scope, interface binding and listener lifecycle. **AC:** Explicit start/stop; does not leak onto unintended interface.
+- [ ] **06-T02** — Implement mDNS listener/discovery without copying AV Toolbag source. **AC:** Source provenance clean; bounded CPU/memory and packet parsing.
+- [ ] **06-T03** — Display service type, hostname, IP, port, TTL; optional add-to-device. **AC:** Entries may be incomplete; no automatic config or trust of unverified hostnames.
+- [ ] **06-T04** — Add safe export/filter, timeouts and negative tests. **AC:** CSV injection mitigated, invalid packets handled; tests via fixtures.
+
+## Phase 07: Ethernet & Hyper-V diagnostics (P1)
+
+- [ ] **07-T01** — Map physical, USB, Wi-Fi, virtual and Hyper-V adapters without false binding. **AC:** Unambiguous selection and stable hints; never choose adapter silently.
+- [ ] **07-T02** — Add diagnostics: IPv4/DHCP/DNS/gateway/route/link status. **AC:** Clearly distinguish interface-derived vs probe-derived status.
+- [ ] **07-T03** — Add opt-in Hyper-V uplink filtering and persistence. **AC:** Adapter hiding affects UI only, never silently disables interfaces.
+- [ ] **07-T04** — Extend tests for enumeration/failures/performance. **AC:** Virtual and unplugged adapters included in fixtures; existing behavior preserved.
+
+## Phase 08: Temporary DHCP server (P2)
+
+- [ ] **08-T01** — Threat-model and specify isolated service boundaries BEFORE implementation. **AC:** Written approval checkpoint for binding, relay, conflicts, firewall, cleanup.
+- [ ] **08-T02** — Design pool, lease, router/DNS/NTP options with safe validation. **AC:** Pool excludes host/router/reserved and validates subnet/leases.
+- [ ] **08-T03** — Implement explicit start/stop, adapter binding, visibility and audit logs. **AC:** No auto-start; active interface prominent; service cannot silently move NICs.
+- [ ] **08-T04** — Detect existing DHCP where feasible; reliable cleanup of sockets/firewall. **AC:** Abort or warn for suspicious network; crash recovery and stop behavior tested.
+- [ ] **08-T05** — Prove behavior only on isolated lab network with explicit permission. **AC:** Documented packet captures/leasing and negative tests; never use production LAN.
+
+## Phase 09: Integration, QA & release (P0)
+
+- [ ] **09-T01** — Run full unit, static-analysis and Windows build regression suite. **AC:** Commands, OS/build, exact commit and results documented.
+- [ ] **09-T02** — Run isolated adapter tests across DHCP/static/gateway/DNS/revert/link-local. **AC:** Pass/fail matrix; never claim unperformed live tests passed.
+- [ ] **09-T03** — Verify JSON compatibility, web deep-links, URL security, profiles + history. **AC:** Import/export round-trip and previous version fixtures covered.
+- [ ] **09-T04** — Verify mDNS, Hyper-V diagnostics and DHCP isolated-network safety. **AC:** DHCP release blocked if service safety evidence absent.
+- [ ] **09-T05** — Prepare changelog, MIT notices, tagged release and reproducible artifacts. **AC:** Release checklist approved; unsigned-binary risks documented.
