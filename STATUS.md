@@ -1,5 +1,12 @@
 # Current implementation status — PHASE_05_AWAITING_REVIEW
 
+## Latest product-fit follow-up — ADR-024
+
+- Fork / branch / review base: https://github.com/Elguajo/AV-Network-Toolkit / main / `648f20769b50aa694350dd41fcd287dd9a5caa8a`. Phase 06 is authorized and has concurrent uncommitted implementation/tests; no phase accepted by this follow-up.
+- Completed: [original-outcome/code comparison](docs/PRODUCT_FIT_REVIEW_RU.md) and owner permission for optional passwords in project JSON (FR-13). In progress / next action: IDEA-01–03 require separately scoped design/scheduling/implementation; current v1/code unchanged here. Continue authorized Phase 06 separately; do not mix these follow-ups into it.
+- Blockers / risks: standalone project Apply Profile missing, conservative DHCP/no-lease/APIPA/DNS support gaps, password fields not implemented, OPEN P05-R01 and native/manual acceptance limits remain. Plaintext password files/backups are readable by their holders.
+- Latest checks for this documentation-only scope: `scripts/validate_plan.py` PASS (9 phases, 49 phase tasks, schema/formats/references/links); `scripts/test_validate_plan.py` PASS (10 tests); whitespace/scope verification before local commit. No new application/runtime/live tests; earlier evidence unchanged. No push, phase advancement, JSON version change or network mutation.
+
 ## Current publication / next-chat authorization — ADR-023
 
 - Fork / branch / exact preflight HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `e5858635759b22a7cd0d5a277b9eafebab67e2f4`; clean bootstrap. Fresh origin/main `48913b21b7a4ddf62a9f58663fbfcde79d630a29`, ancestor, 0 remote-only/2 local-only commits.
@@ -381,3 +388,18 @@ Implementation committed locally as **d054a61ccd2f27ebd03cc73b9acb5e03e6ecd52d**
 - Remaining tasks in active phase: 06-T01–06-T04 verification and acceptance remain with the implementation work; no checkbox closed here.
 - Next smallest safe action: owner reads the summary; continue already-authorized Phase 06 work separately, preserving its uncommitted changes. No push in this documentation task.
 - Can next session proceed without clarification? Yes within the existing ADR-023 scope; this summary adds no phase or publication authorization.
+
+## Session handoff — 2026-10-31, product fit and password permission
+
+- Date and environment: 2026-10-31, Asia/Tashkent; existing Windows/PowerShell and local Python validation environment.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / base `648f20769b50aa694350dd41fcd287dd9a5caa8a`; resolve containing documentation commit with `git log -1 --format=%H -- docs/PRODUCT_FIT_REVIEW_RU.md`.
+- Current phase and task IDs: Phase 06 authorized under ADR-023 with pre-existing/concurrent uncommitted mDNS code/spec/harness/tests. Phase 05 AWAITING_REVIEW retained; no phase-task checkboxes changed. Separate IDEA-01–03 track outcome gaps and new permission.
+- What was actually completed: traced project storage/editor/browser/apply/policy against the original workflow, documented two functional gaps and pending password support; recorded ADR-024 / FR-13, superseding only the blanket password-storage prohibition. Proposed password UI/acceptance criteria are not implemented or owner-approved architecture.
+- Files changed: product-fit report, original-summary refinement, AGENTS/context/roadmap/tasks/decision/status and product/JSON/device/security documentation only. App/test/schema/example/machine plan and pre-existing Phase 06 changes excluded from this commit.
+- Test commands and results: `& "$env:LOCALAPPDATA/AVNetworkToolkit.BuildTools/python/Scripts/python.exe" -B scripts/validate_plan.py` PASS (9 phases, 49 stable phase tasks, schema/formats/references/links); same Python `-B scripts/test_validate_plan.py` PASS (10 tests). `git diff --check` PASS; final staged scope/whitespace checked before commit, actual final results reported in chat. Build/unit/GUI tests NOT RUN for this documentation task; no new runtime claim.
+- Live-network tests: NOT RUN / not authorized. No real NIC mutation, enumeration/probes from application execution, UAC/browser, multicast listener or DHCP started by this review.
+- Known bugs, risk and workarounds: OPEN P05-R01, native/manual limitations and conservative apply blocking unchanged. Current schema rejects password fields; do not use notes/URL to bypass it. Future plaintext project backups will retain passwords; no encryption/universal deletion claim. Concurrent mDNS work not reviewed/certified here.
+- Decisions requiring user approval: exact format version/migration and implementation scope/scheduling, any new support expansion/live tests/release/publication. Password-storage permission itself already given and must not be requested again.
+- Remaining tasks in active phase: Phase 06 implementation/evidence/acceptance remains with its ongoing work; standalone project apply, practical transition support and FR-13 implementation remain unstarted follow-ups.
+- Next smallest safe action: owner reviews product-fit findings; finish separately authorized Phase 06 review, then place IDEA-01–03 into a bounded implementation scope. Do not advance a phase or silently relax network/URL validation here.
+- Can next session proceed without clarification? Yes for ADR-023 scope and read-only follow-up design; no implicit schema version selection, new live test, push or phase acceptance.

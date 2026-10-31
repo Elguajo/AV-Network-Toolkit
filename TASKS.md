@@ -6,6 +6,16 @@
 
 **Owner follow-up — ADR-018:** display/product branding corrected to AV Network Toolkit; VERIFIED by Release build, 308 isolated tests and resource/EXE/DLL metadata checks. Exact commands and containing-commit lookup in STATUS.md. Phase acceptance checkboxes and all stable IDs unchanged.
 
+## Original-outcome follow-ups — 2026-10-31
+
+These stable follow-up IDs are separate from the 49 phase tasks; no phase task is accepted, renumbered or removed. Evidence, criteria and source paths: [product-fit review](docs/PRODUCT_FIT_REVIEW_RU.md). Scheduling/design pending; current Phase 06 scope/order unchanged.
+
+| ID | Follow-up | State |
+|---|---|---|
+| IDEA-01 | Apply a project profile without a device or browser URL; retain explicit NIC/review/UAC/verification/recovery | GAP RECORDED; implementation not started |
+| IDEA-02 | Define/test the real DHCP → isolated Static workflow, including DNS/no-lease/APIPA boundaries; preserve conservative blocking until supported | GAP RECORDED; support refinement needs scoped design/review |
+| IDEA-03 | FR-13: optional device-password storage in project JSON; version/compatibility, explicit UI, redaction and backups | OWNER PERMISSION RECORDED (ADR-024); format/UI implementation not started |
+
 ## Phase 01: Baseline audit (P0)
 
 - [ ] **01-T01** — Record fork origin, exact commit, branch, license and build prerequisites. **AC:** Evidence with git commands, repo SHA and MIT notice recorded.

@@ -25,7 +25,7 @@
 
 - **NFR-01** Least privilege; UAC only for actions requiring elevation.
 - **NFR-02** Atomic writes, versioning, clear corruption messages, backup-before-overwrite.
-- **NFR-03** No hardcoded credentials/secrets in project JSON or logs.
+- **NFR-03** No hardcoded/real credentials in repository examples/tests or logs. Owner permits optional device passwords in private project JSON (ADR-024); current v1 has no fields for them. Keep credentials separate from URLs/launch arguments and preserve file-format compatibility.
 - **NFR-04** All live network mutations gated behind explicit user intent; no live network in automated tests.
 - **NFR-05** Backward compatibility with original user profile files.
 - **NFR-06** Clear error propagation; do not claim connectivity based solely on Ping, ARP or port response.
@@ -36,3 +36,8 @@
 Single-file project catalogue; independent project collection without five-slot cap; no legacy mapping/apply in Phase 02; explicit automatic/static/leave-unchanged DNS; stable IDs with duplicate/orphan rejection; strict unknown/future-version incompatibility; reserved link-local rejection; conservative secret-URL persistence blocking. Exact semantics: [project JSON specification](PROJECT_JSON_SPEC.md).
 
 All new interface elements reuse the current design language, per owner instruction recorded in [DESIGN.md](../../DESIGN.md). Device UI/browser launch and Apply & Open remain later phases.
+
+## Owner-approved requirement follow-up — ADR-024
+
+- **FR-13** Permit optional device passwords in portable project JSON. Storage permission is approved; implementation and versioned format extension are pending. Proposed login/password editor, reveal/copy behavior, backup implications, compatibility and acceptance criteria are in [the product-fit review](../PRODUCT_FIT_REVIEW_RU.md). Automatic login, token storage and TLS bypass are not included.
+- Original-outcome gaps IDEA-01 (project Apply Profile without device URL) and IDEA-02 (practical DHCP/no-lease/APIPA/static DNS transitions) are recorded for separate scope/design, not silently implemented in Phase 06. Existing 49 phase-task IDs, phase ordering and acceptance gates remain unchanged.

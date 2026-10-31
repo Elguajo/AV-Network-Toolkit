@@ -41,6 +41,7 @@ P2: temporary DHCP server (higher operational risk).
 - No imported code from unlicensed AV Toolbag.
 - No hardware-vendor integration/API automation beyond saved web-link launching in this roadmap.
 - No cloud storage, account management, credential vault or password synchronization.
+- ADR-024 permits optional device passwords in portable project JSON; this is an approved requirement, not current v1 functionality. No cloud credential synchronization or automatic device login is implied. See [product-fit review and FR-13 criteria](docs/PRODUCT_FIT_REVIEW_RU.md).
 - No automatic subnet change merely because a device entry is clicked or a project is opened.
 - No arbitrary background network scan, no auto-running DHCP on existing networks.
 - No UI redesign; preserve existing application identity as much as possible.

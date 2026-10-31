@@ -1,5 +1,7 @@
 # Device Web Interfaces — Phase 03 spec
 
+**Later owner refinement (ADR-024 / FR-13):** optional device passwords in project JSON are now permitted. The no-password wording below describes the original Phase 03/v1 boundary; it does not prohibit the future feature. Current model/editor/schema still have no credential fields. Versioning and explicit credential UI are pending under [the product-fit review](../PRODUCT_FIT_REVIEW_RU.md); URL validation, no automatic login and no TLS bypass remain unchanged.
+
 ## User flow
 
 1. Choose project.

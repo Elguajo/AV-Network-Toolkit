@@ -2,6 +2,8 @@
 
 Owner approved the concrete format package on 2026-10-31. See [review package](PHASE02_FORMAT_REVIEW.md). Implementation status and execution evidence belong to [STATUS](../../STATUS.md) and [test matrix](../testing/TEST_MATRIX.md); this specification does not certify Windows apply behavior.
 
+**Later requirement, ADR-024:** owner now permits optional device-password storage in project JSON. This v1 document still describes the implemented format: no credential fields and strict rejection of unknown properties. A versioned extension/compatibility design is pending under FR-13, with [acceptance criteria](../PRODUCT_FIT_REVIEW_RU.md). Do not add a password to v1, put it in notes/URL, or loosen URL validation as a substitute. The previous prohibition on password storage is superseded as a product requirement, not retroactively removed from the current reader.
+
 ## Layout and ownership
 
 One portable `project.avnet.json`, selected explicitly by the user, contains `schemaVersion`, `project`, `profiles[]`, `devices[]`. Open/Choose Folder never applies network settings, launches URLs or writes legacy AppData profiles. Project profiles have no five-slot limit; legacy five profiles per adapter and legacy JSON import/export remain unchanged. There is no automatic project-to-legacy mapping or merge-import in Phase 02.

@@ -1,5 +1,9 @@
 # Threat model & safety gates
 
+## Approved future password storage — ADR-024 / FR-13
+
+Owner permits optional device passwords in project JSON. Current v1 has no credential fields; the extension is not implemented. A plaintext project and every retained backup can disclose the password to anyone with file access. Future work must cover explicit masked/reveal/copy behavior, exact round-trip/version compatibility and exclusion from logs/errors/search/URLs/worker requests/recovery journals. Real credentials must never enter Git/test artifacts. This changes the product's blanket storage prohibition only; it does not authorize tokens, automatic login or TLS bypass. [Requirements and acceptance criteria](../PRODUCT_FIT_REVIEW_RU.md).
+
 | Risk | Failure mode | Mitigation/evidence |
 |---|---|---|
 | Wrong adapter | Laptop disconnects office or AV management | Require selected NIC identity; show diff; recheck identity at apply boundary |
