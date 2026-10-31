@@ -62,3 +62,7 @@ Owner authorized committing/pushing current main including branding and Phase 04
 ## Phase 05 start — ADR-021/022
 
 Owner explicitly authorized 05-T01–05-T05 in a new chat and approved explicit static DNS replacement for automatic DNS. Current work: manual Link-Local using Phase 04 infrastructure, strict JSON v1 unchanged. [Contract](docs/spec/PHASE05_IMPLEMENTATION_CONTRACT.md) defines supported states and DAD/recovery limits. Prior acceptance gaps remain historical; Phase 06, live tests and publication of new work require separate owner decisions.
+
+## Publication and next phase authorized — ADR-023
+
+Owner requested current commit/push and next-phase execution in a new chat. Publish Phase 05 ordinarily and start Phase 06 mDNS (06-T01–06-T04) in a new local project chat, directly on main. No fabricated Phase 05/manual completion, no live tests/release/Phase 07/08 or automatic push of new Phase 06 work. P05-R01 remains OPEN and release-blocking; phase order unchanged.

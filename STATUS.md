@@ -1,5 +1,16 @@
 # Current implementation status — PHASE_05_AWAITING_REVIEW
 
+## Current publication / next-chat authorization — ADR-023
+
+- Fork / branch / exact preflight HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `e5858635759b22a7cd0d5a277b9eafebab67e2f4`; clean bootstrap. Fresh origin/main `48913b21b7a4ddf62a9f58663fbfcde79d630a29`, ancestor, 0 remote-only/2 local-only commits.
+- Owner explicitly authorized current commit/push and Phase 06 in a new session. This chat changes metadata and publishes only; new chat will execute 06-T01–06-T04 on main. Existing Phase 05 evidence/review state remains below, no invented manual acceptance or completed phase.
+- Completed / in progress / blockers: Phase 05 implementation/evidence commits ready for publication; authorization/handoff in progress. P05-R01 OPEN and native/manual/live evidence limits remain release blockers, not a reason to re-request the authorized Phase 06 start. No JSON repair in this publication step.
+- Next action: validate metadata, commit this handoff, ordinary push, verify local/remote SHA, create/start the new local project chat. Final execution results are reported afterward; resolve containing authorization commit with `git log -1 --format=%H -- STATUS.md`.
+- Tests last executed: prior 463-case final PASS, earlier 462/1 FAIL P05-R01, 64 WPF captures, 11 fake observer fixtures remain unchanged. For this metadata-only step run schema/planning/10 validator regressions/whitespace; no unnecessary runtime rerun. CI is separate, not preclaimed.
+- Gates: current publication and Phase 06 start authorized; live NIC/multicast/UAC/browser tests, release, Phase 07/08 and automatic publication of future Phase 06 work are not. P05-R01 and historic migration-marker/native/legacy limits retained.
+
+The following Phase 05 header fields are historical where ADR-023 changes publication/next-phase authorization; implementation/test/risk evidence stays valid.
+
 - **Fork / branch / exact base SHA:** https://github.com/Elguajo/AV-Network-Toolkit / main / `48913b21b7a4ddf62a9f58663fbfcde79d630a29`; clean bootstrap verified. No new branch/worktree.
 - **Active scope / authorization:** 05-T01–05-T05 executed under ADR-021/022. Local implementation evidence recorded, not phase acceptance; 05-T04 isolated adapter execution NOT RUN. Prior Phase 04/manual acceptance remains pending historically.
 - **Implementation commit:** `d054a61ccd2f27ebd03cc73b9acb5e03e6ecd52d` on main; 39 paths, 1131 insertions/84 deletions. Resolve containing documentation-only handoff HEAD with `git log -1 --format=%H -- STATUS.md`. Project JSON v1 and legacy formats unchanged.
@@ -340,3 +351,18 @@ Implementation committed locally as **3e7a0ae3f0f3ef87729fa94e2873d53e23750991**
 ### Phase 05 commit verification
 
 Implementation committed locally as **d054a61ccd2f27ebd03cc73b9acb5e03e6ecd52d** (`feat: add manual Link-Local with DAD verification and recovery`), 39 paths / 1131 insertions / 84 deletions. `git show --format= --check HEAD` PASS; post-commit tree/index/untracked clean, main ahead 1 of cached origin/main. No push or fresh remote-state claim. This documentation-only follow-up pins code/evidence anchors and machine mirror; no application/test changes or unnecessary runtime rerun. P05-R01 remains OPEN, failed TRX retained, manual/live/phase acceptance NOT RUN/pending, no Phase 06 authorization. Final containing documentation SHA is resolved from STATUS.md history because a commit cannot embed its own resulting SHA.
+
+## Session handoff — 2026-10-31, Phase 05 publication / Phase 06 dispatch
+
+- Date and environment: 2026-10-31, Asia/Tashkent; same Windows/local SDK/Python workspace, no install or App startup.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / preflight e5858635759b22a7cd0d5a277b9eafebab67e2f4; fetched origin/main 48913b21b7a4ddf62a9f58663fbfcde79d630a29 is an ancestor, 0 remote-only/2 local-only. Resolve containing authorization commit via STATUS.md history.
+- Current phase and task IDs: 05 AWAITING_REVIEW; 05-T01–05-T05 EVIDENCE_RECORDED, manual 05-T04 NOT RUN. Owner explicitly authorizes 06-T01–06-T04 in a new project chat (ADR-023), not implementation in this publishing chat.
+- What was actually completed (evidence/commits): verified clean main, current origin/provenance/ancestry and owner publication/start instruction; Phase05 d054a61ccd2f27ebd03cc73b9acb5e03e6ecd52d and handoff e5858635759b22a7cd0d5a277b9eafebab67e2f4 retained. Commit/push/new-chat outcomes are verified after this record and reported in chat, not fabricated beforehand.
+- Files changed: only STATUS/TASKS/PROJECT_CONTEXT/ROADMAP/DECISION_LOG/machine plan/Phase06 authorization metadata. Application/test/schema/license/workflow unchanged in this step.
+- Test commands and results (PASS / FAIL / NOT RUN): schema/planning/link validator, 10 validator regressions and whitespace/staged checks run before commit; actual outcomes in tool output/final. Prior full 463 PASS and earlier 462 PASS/1 FAIL P05-R01, 64 WPF captures and 11 fake observers remain the recorded runtime evidence. No unnecessary runtime rerun for metadata. CI outcome separate.
+- Live-network tests? NOT RUN / not authorized. No NIC mutation, live UDP/multicast socket/join, probes, scans, UAC, browser or DHCP server.
+- Known bugs, risk and workarounds: P05-R01 OPEN, root cause/baseline attribution UNVERIFIED. Do not silently fix/suppress/serialize its gate in mDNS work. Carry native/manual/driver/identity/policy/filesystem/retention, legacy history and migration-marker limits from Phase05 review packet. Publication/advancing development does not certify support or close risks.
+- Decisions requiring user approval: live isolated tests, release, future Phase06 publication or Phase07/08; separate out-of-phase JSON repair. Current publication/Phase06 start already authorized, no repeat permission loop.
+- Remaining tasks in active phase: historical manual/owner acceptance remains open, no phase marked complete. Phase06 implementation starts in the new chat after push verification.
+- Next smallest safe action: validate/commit metadata, ordinary push main, independently compare local/remote SHA, then create/start a local Phase06 project chat with exact handoff. No branch/worktree.
+- Can next session proceed without clarification? Yes for Phase06 bootstrap, design/implementation and safe fake-boundary checks under ADR-023. No live network tests, JSON repair, release/later phase or automatic new-code publication.

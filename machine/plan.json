@@ -431,7 +431,7 @@
   "baselineCommit": "603cf24fa0ba1819c0ec10b6a57ef5cf57c3852e",
   "activePhase": "05",
   "phase02Authorized": true,
-  "authorization": "ADR-021: Phase 05 authorized directly on main; ADR-022: explicit static DNS replacement approved. No new publication/live tests/release/Phase 06. Prior manual acceptance pending.",
+  "authorization": "ADR-023: publish current Phase 05/main and start 06-T01\u201306-T04 in a new local project chat, directly on main. Existing manual acceptance/P05-R01 remain; no live tests/release/later phases or automatic future Phase06 publication.",
   "preparationCheckpoint": [
     "01-T06",
     "01-T07",
@@ -459,5 +459,8 @@
     "Native DAD/netsh/UAC/recovery/isolated adapter execution NOT RUN; no release/push/Phase06."
   ],
   "lastTests": "Release build 0 warnings/errors; final full 463 PASS, earlier 462 PASS/1 FAIL P05-R01; diagnostic existing 399 PASS, JSON 53 PASS; 64 WPF captures/0 binding errors; 11 fake observer fixtures; full schema/plan/10 validator regressions PASS.",
-  "implementationCommit": "d054a61ccd2f27ebd03cc73b9acb5e03e6ecd52d"
+  "implementationCommit": "d054a61ccd2f27ebd03cc73b9acb5e03e6ecd52d",
+  "phase06Authorized": true,
+  "nextPhase": "06",
+  "handoffState": "Phase05 publication/new Phase06 chat authorized; execution results verified after commit/push. Phase06 not implemented in publishing chat."
 }

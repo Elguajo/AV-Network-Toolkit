@@ -102,3 +102,7 @@ Owner requested «Коммит и пуш в main» after the Phase 04 report. Cu
 ## Phase 05 execution — ADR-021/022
 
 Owner explicitly started Phase 05 in a new chat on 2026-10-31 and approved explicit static DNS entry when the source uses automatic DNS. Work directly on main. Reuse Phase 04 apply/recovery for a transient manual Link-Local action; preserve JSON v1, all legacy functionality and IPv6. [Contract](docs/spec/PHASE05_IMPLEMENTATION_CONTRACT.md) documents DAD during assignment, exact DNS/recovery semantics and conservative APIPA/complex-state limits. Supersedes historical no-Phase-05-start snapshots only. No new push, live tests, release, Phase 06 or fabricated prior manual acceptance.
+
+## Publication and Phase 06 handoff — ADR-023
+
+Owner explicitly requested commit/push and the next phase in a new session. Authorizes current Phase 05 publication and a new local project chat executing 06-T01–06-T04 directly on main. Prior manual acceptance and OPEN P05-R01 remain; no live multicast/NIC/UAC tests, release, later phases or automatic publication of future Phase 06 changes. This supersedes earlier no-push/no-Phase-06-start snapshots only; no repeated start permission is needed.

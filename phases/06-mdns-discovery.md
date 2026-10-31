@@ -2,9 +2,10 @@
 
 - **Priority:** P1
 - **Dependencies:** Phase 01, Phase 03
-- **Current status:** NOT STARTED
+- **Current status:** NOT STARTED; execution authorized in a new chat under ADR-023 (2026-10-31)
 - **Scope:** Implement original mDNS discovery bound to selected NIC and safe exports.
 - **Read first:** docs/spec/NETWORK_DISCOVERY_AND_DHCP.md; docs/security/THREAT_MODEL.md
+- **Authorization:** owner explicitly requested the next phase in a new session after Phase 05. No repeated start permission. Work directly on main, preserve JSON v1/legacy behavior/DESIGN.md and OPEN P05-R01. No live socket/multicast/NIC tests, release, later phases or automatic push of future Phase 06 changes. Existing manual acceptance limits remain.
 
 ## Tasks and acceptance criteria
 
