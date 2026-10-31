@@ -4,11 +4,11 @@ Owner instruction, 2026-10-31: **all new buttons, windows and other interface el
 
 ## Source of truth
 
-- [Shared styles](NetworkProfileManager/Themes/Styles.xaml), WPF-UI 4.2.0 theme/control dictionaries in [App.xaml](NetworkProfileManager/App.xaml).
-- [Main window](NetworkProfileManager/MainWindow.xaml): Mica navigation, content surface, title-bar tools.
-- [Profile editor](NetworkProfileManager/Views/AddProfileDialog.xaml): labelled inputs, scrollable body, fixed footer actions.
-- [Settings](NetworkProfileManager/Views/ThemeSettingsWindow.xaml) and [scanner](NetworkProfileManager/Views/IpScannerWindow.xaml): secondary windows, cards, controls and command hierarchy.
-- [Adapter list](NetworkProfileManager/Views/AdapterListPanel.xaml) and [profile cards](NetworkProfileManager/Views/ProfilePanel.xaml): navigation selection, spacing and action patterns.
+- [Shared styles](app/Themes/Styles.xaml), WPF-UI 4.2.0 theme/control dictionaries in [App.xaml](app/App.xaml).
+- [Main window](app/MainWindow.xaml): Mica navigation, content surface, title-bar tools.
+- [Profile editor](app/Views/AddProfileDialog.xaml): labelled inputs, scrollable body, fixed footer actions.
+- [Settings](app/Views/ThemeSettingsWindow.xaml) and [scanner](app/Views/IpScannerWindow.xaml): secondary windows, cards, controls and command hierarchy.
+- [Adapter list](app/Views/AdapterListPanel.xaml) and [profile cards](app/Views/ProfilePanel.xaml): navigation selection, spacing and action patterns.
 
 ## Reuse rules
 

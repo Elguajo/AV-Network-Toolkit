@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NetworkProfileManager\NetworkProfileManager.csproj" />
+    <ProjectReference Include="..\app\NetworkProfileManager.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,8 @@
 # Phase 01 baseline and source map
 
 Audit date: 2026-10-31 (Asia/Tashkent). Code baseline: `603cf24fa0ba1819c0ec10b6a57ef5cf57c3852e`.
+Repository path note (ADR-013): source links now use `app/` and `test/`; baseline facts and historical command evidence still refer to the original inspected commit.
+
 The investigation was read-only. The user subsequently authorized documentation adoption and a local documentation-only commit. This does not accept the phase or authorize Phase 02.
 
 ## Provenance and environment — FACT
@@ -9,8 +11,8 @@ The investigation was read-only. The user subsequently authorized documentation 
 - Audit branch: `main`; adoption branch: `codex/phase-01-baseline-audit`.
 - HEAD: `603cf24fa0ba1819c0ec10b6a57ef5cf57c3852e`, subject `Publish as one exe plus WPF's native DLLs, Turkish/English resources only`. Preceding commits: `c0cae2c` (Release 1.1.1), `d771b23` (tray/preset adjustment).
 - [LICENSE](../../LICENSE): MIT, copyright 2026 rmzncakir, retained unchanged.
-- [Application project](../../NetworkProfileManager/NetworkProfileManager.csproj): version 1.1.1, `net8.0-windows`, WPF/Windows Forms; Newtonsoft.Json 13.0.3, WPF-UI 4.2.0.
-- [Test project](../../NetworkProfileManager.Tests/NetworkProfileManager.Tests.csproj): xUnit 2.5.3, Microsoft.NET.Test.Sdk 17.8.0, coverlet.collector 6.0.0; Windows/WPF target.
+- [Application project](../../app/NetworkProfileManager.csproj): version 1.1.1, `net8.0-windows`, WPF/Windows Forms; Newtonsoft.Json 13.0.3, WPF-UI 4.2.0.
+- [Test project](../../test/NetworkProfileManager.Tests.csproj): xUnit 2.5.3, Microsoft.NET.Test.Sdk 17.8.0, coverlet.collector 6.0.0; Windows/WPF target.
 - Host: Windows `10.0.26300.0`, x64. `dotnet --info`: runtime 10.0.9, no SDK. A .NET 8 SDK and dependency restore are prerequisites; neither was installed/run during this work.
 - Tracked/staged diffs were empty at audit start. The planning overlay was untracked; adoption first versions its related documentation and draft JSON artifacts.
 - Windows 10/11 support, README's 188 tests and coverage are upstream claims, **UNVERIFIED** by execution here.
@@ -20,22 +22,22 @@ The investigation was read-only. The user subsequently authorized documentation 
 
 | Area | Source / entry point | Observed responsibility |
 |---|---|---|
-| Startup | [App.xaml.cs](../../NetworkProfileManager/App.xaml.cs), `OnStartup` | Dispatch `--run-netsh` before normal UI; otherwise migration, language/theme, tray and monitor |
-| UI orchestration | [MainViewModel.cs](../../NetworkProfileManager/ViewModels/MainViewModel.cs), constructor / `Refresh` | Concrete services, enumeration, per-adapter profiles/history; restore selection by name with first-adapter fallback |
-| Profile model/state | [IpProfile.cs](../../NetworkProfileManager/Models/IpProfile.cs), [AdapterViewModel.cs](../../NetworkProfileManager/ViewModels/AdapterViewModel.cs), [ProfileViewModel.cs](../../NetworkProfileManager/ViewModels/ProfileViewModel.cs) | ID/name/IP/mask/gateway/DHCP/two DNS/creation time; edit validation, slots and active display |
-| Profile editor | [AddProfileDialog.xaml.cs](../../NetworkProfileManager/Views/AddProfileDialog.xaml.cs), `Save_Click`; [ProfilePanel.xaml.cs](../../NetworkProfileManager/Views/ProfilePanel.xaml.cs) | Create/edit dialog returns a new `IpProfile`, including on edit |
-| Persistence | [ProfileRepository.cs](../../NetworkProfileManager/Services/ProfileRepository.cs), `Load` / `Save` | JSON list, sanitized filename, save limit five; direct writes, best-effort corruption backup/reset |
-| Paths | [AppPaths.cs](../../NetworkProfileManager/Helpers/AppPaths.cs), `DataDirectory` / `MigrateLegacyDataIfPresent` | LocalAppData, test override; one-shot legacy copy without deleting old files |
+| Startup | [App.xaml.cs](../../app/App.xaml.cs), `OnStartup` | Dispatch `--run-netsh` before normal UI; otherwise migration, language/theme, tray and monitor |
+| UI orchestration | [MainViewModel.cs](../../app/ViewModels/MainViewModel.cs), constructor / `Refresh` | Concrete services, enumeration, per-adapter profiles/history; restore selection by name with first-adapter fallback |
+| Profile model/state | [IpProfile.cs](../../app/Models/IpProfile.cs), [AdapterViewModel.cs](../../app/ViewModels/AdapterViewModel.cs), [ProfileViewModel.cs](../../app/ViewModels/ProfileViewModel.cs) | ID/name/IP/mask/gateway/DHCP/two DNS/creation time; edit validation, slots and active display |
+| Profile editor | [AddProfileDialog.xaml.cs](../../app/Views/AddProfileDialog.xaml.cs), `Save_Click`; [ProfilePanel.xaml.cs](../../app/Views/ProfilePanel.xaml.cs) | Create/edit dialog returns a new `IpProfile`, including on edit |
+| Persistence | [ProfileRepository.cs](../../app/Services/ProfileRepository.cs), `Load` / `Save` | JSON list, sanitized filename, save limit five; direct writes, best-effort corruption backup/reset |
+| Paths | [AppPaths.cs](../../app/Helpers/AppPaths.cs), `DataDirectory` / `MigrateLegacyDataIfPresent` | LocalAppData, test override; one-shot legacy copy without deleting old files |
 | Import/export | `MainViewModel.ImportProfiles` / `ExportProfiles` | User-picked JSON array; duplicate-name/validation/count filtering on import; no project schema/version |
 | Apply | `MainViewModel.ApplyAsync` / `ApplyProfileAsync` / `ApplyCoreAsync` | Capture target alias/settings; batch, append history, success notification, refresh |
-| OS boundary | [NetworkService.cs](../../NetworkProfileManager/Services/NetworkService.cs), `GetAdapters`, `ApplyStaticIp`, `ApplyDhcp`, `BuildDnsCommands`, `RunNetshBatch`, `RunNetsh` | IPv4 enumeration/registry fallback; validation; sequential `netsh` using `ArgumentList` |
-| UAC | [ElevationHelper.cs](../../NetworkProfileManager/Helpers/ElevationHelper.cs), `RunElevated` / `RunWorker` / `ValidateCommand`; [manifest](../../NetworkProfileManager/app.manifest) | `asInvoker`, one `runas` worker per batch, temp request/result files, verb/character checks |
-| History/revert | [HistoryEntry.cs](../../NetworkProfileManager/Models/HistoryEntry.cs), [HistoryRepository.cs](../../NetworkProfileManager/Services/HistoryRepository.cs), `MainViewModel.RevertAsync` | 100 entries; old IP/mask/gateway and DHCP state, no DNS snapshot |
-| Scanner | [IpScannerService.cs](../../NetworkProfileManager/Services/IpScannerService.cs), `ScanRangeAsync` / `RunScan` / `ProbeHost` | ARP/ICMP/TCP/reverse DNS; probes follow OS routing, no selected-NIC binding |
-| Scanner UI | [IpScannerViewModel.cs](../../NetworkProfileManager/ViewModels/IpScannerViewModel.cs) | Start/stop, settings, CSV escaping, opt-in monitoring; enabled state not persisted |
-| Ping | `NetworkService.PingAsync`; [PingWindow.xaml.cs](../../NetworkProfileManager/Views/PingWindow.xaml.cs), `RunPingAsync` | Single ping or four requests per window run with retry; README's continuous wording exceeds code |
-| Tray/theme/startup | `App.InitTrayIcon` / `ShowTrayPopup` / `ApplyTheme`; [StartupHelper.cs](../../NetworkProfileManager/Helpers/StartupHelper.cs) | Close-to-tray, menu, System/Light/Dark, optional HKCU startup |
-| Notifications/language | [NetworkMonitorService.cs](../../NetworkProfileManager/Services/NetworkMonitorService.cs); [LanguageManager.cs](../../NetworkProfileManager/Helpers/LanguageManager.cs) | Adapter notifications, Turkish/English/System, runtime switching and persistence |
+| OS boundary | [NetworkService.cs](../../app/Services/NetworkService.cs), `GetAdapters`, `ApplyStaticIp`, `ApplyDhcp`, `BuildDnsCommands`, `RunNetshBatch`, `RunNetsh` | IPv4 enumeration/registry fallback; validation; sequential `netsh` using `ArgumentList` |
+| UAC | [ElevationHelper.cs](../../app/Helpers/ElevationHelper.cs), `RunElevated` / `RunWorker` / `ValidateCommand`; [manifest](../../app/app.manifest) | `asInvoker`, one `runas` worker per batch, temp request/result files, verb/character checks |
+| History/revert | [HistoryEntry.cs](../../app/Models/HistoryEntry.cs), [HistoryRepository.cs](../../app/Services/HistoryRepository.cs), `MainViewModel.RevertAsync` | 100 entries; old IP/mask/gateway and DHCP state, no DNS snapshot |
+| Scanner | [IpScannerService.cs](../../app/Services/IpScannerService.cs), `ScanRangeAsync` / `RunScan` / `ProbeHost` | ARP/ICMP/TCP/reverse DNS; probes follow OS routing, no selected-NIC binding |
+| Scanner UI | [IpScannerViewModel.cs](../../app/ViewModels/IpScannerViewModel.cs) | Start/stop, settings, CSV escaping, opt-in monitoring; enabled state not persisted |
+| Ping | `NetworkService.PingAsync`; [PingWindow.xaml.cs](../../app/Views/PingWindow.xaml.cs), `RunPingAsync` | Single ping or four requests per window run with retry; README's continuous wording exceeds code |
+| Tray/theme/startup | `App.InitTrayIcon` / `ShowTrayPopup` / `ApplyTheme`; [StartupHelper.cs](../../app/Helpers/StartupHelper.cs) | Close-to-tray, menu, System/Light/Dark, optional HKCU startup |
+| Notifications/language | [NetworkMonitorService.cs](../../app/Services/NetworkMonitorService.cs); [LanguageManager.cs](../../app/Helpers/LanguageManager.cs) | Adapter notifications, Turkish/English/System, runtime switching and persistence |
 
 Apply call graph: UI/hotkey/tray -> `ApplyCoreAsync` -> `NetworkService` -> direct `RunNetsh` if elevated, otherwise `RunElevated` -> `App.OnStartup --run-netsh` -> `RunWorker` -> `ValidateCommand` -> sequential `RunNetsh`. Success then records history and refreshes. No requested-versus-observed comparison is present.
 

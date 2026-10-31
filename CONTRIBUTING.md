@@ -10,9 +10,9 @@ Bug reports, vendor subnet corrections and pull requests are all welcome.
 
 ## Pull requests
 
-1. Add tests under `NetworkProfileManager.Tests/` for new logic.
-2. `dotnet build` and `dotnet test NetworkProfileManager.Tests/NetworkProfileManager.Tests.csproj` must pass.
-3. New UI text goes into **both** `Strings/Tr.xaml` and `Strings/En.xaml`; a test fails if the two drift apart.
+1. Add tests under `test/` for new logic.
+2. `dotnet build` and `dotnet test test/NetworkProfileManager.Tests.csproj` must pass.
+3. New UI text goes into `app/Strings/En.xaml` (English is the supported UI language); resource tests check for missing and duplicate keys.
 4. Point out anything security-relevant (elevation, `netsh` arguments, file paths) in the PR description.
 5. Add a line under `## [Unreleased]` in [CHANGELOG.md](CHANGELOG.md) for user-visible changes.
 

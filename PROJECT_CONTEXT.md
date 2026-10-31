@@ -70,3 +70,7 @@ Turkish UI is no longer required. English remains supported; legacy `tr` prefere
 ## Phase 02 integration authorization — ADR-012
 
 On 2026-10-31 the owner explicitly authorized committing the integration handoff, merging the verified Phase 02 branch into main and pushing main to origin. This supersedes earlier lack of publication authorization for this change only. No Phase 03, live-test, tag/release or force-push authorization is implied. Exact anchors and execution plan: STATUS.md / ADR-012.
+
+## Repository paths — ADR-013
+
+Owner selected lowercase `app/` and `test/`, with solution `AVNetworkToolkit.sln`. Project filenames, namespaces/assembly names, executable and LocalAppData paths retain existing identities. Current build/test commands use the new paths; historical audit/execution commands retain their original spelling. This structural refinement does not advance phases or authorize publication of the new change.

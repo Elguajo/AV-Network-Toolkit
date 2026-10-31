@@ -163,3 +163,19 @@ Final implementation commit: `0bf1070216255c9e1411a4a96445372b6e6a45d1`. Complet
 - Exact SDK/Python variable paths are in the preparation section and review packet. Current CI/publish/native-dialog/full-app/live-network certification NOT RUN.
 
 Earlier 278-test/En+Tr results precede owner ADR-011; final UI is English-only. Legacy `tr` and System settings are interpreted as English without altering saved bytes on initialization. The early failed harness reached real startup/migration before resources failed; `.migrated_v1` was observed afterward (prior existence UNVERIFIED), preserved; no network mutation/probe was reached. See review packet for full incident and corrected proof boundary.
+
+## Repository path refinement — ADR-013, 2026-10-31
+
+Branch `codex/simplify-project-paths`; starting anchor `4cddfcd1dad4be867d499e74a3d5213929bda7f8`. Resolve the containing refactor commit via `git log -1 --format=%H -- AVNetworkToolkit.sln` after commit. SDK 8.0.427, Windows 10.0.26300 x64; `$sdk`/`$py` use the local tool paths recorded above.
+
+| Exact command / check | Result |
+|---|---|
+| `& $sdk restore AVNetworkToolkit.sln` | PASS, application/test projects restored using new paths |
+| `& $sdk build AVNetworkToolkit.sln --configuration Release --no-restore` | PASS, 0 warnings/errors |
+| `& $sdk test test/NetworkProfileManager.Tests.csproj --configuration Release --no-build --logger 'console;verbosity=minimal' --logger 'trx;LogFileName=path-rename.trx'` | PASS, 286 tests, 0 failed/skipped; `test/TestResults/path-rename.trx` local ignored evidence |
+| `& $sdk run --project scripts/ProjectUiSmoke/ProjectUiSmoke.csproj --configuration Release -- TestResults/ProjectUiSmoke` | PASS, 4 isolated English component renders, 0 binding errors, retained command/selection/draft guards |
+| `& $py -B scripts/validate_plan.py`; `& $py -B scripts/test_validate_plan.py` | PASS: full schema+format/example/planning/local-link checks and 10 tooling regression tests |
+| Read-only `python -B -` comparison of `git ls-tree -r`/`git show 4cddfcd:<old-path>` against moved files (normalized line endings) | PASS: 59 application files content-identical; 25 test files preserved except expected project reference and two source-root lookup edits; no old source directories/solution remain |
+| Source inspection of solution/harness/project/CI references; `git diff --check` | PASS: new paths resolve; workflow command edits only; unchanged namespaces, assembly/project filenames and AppData paths |
+
+Historical commands in earlier evidence sections intentionally retain the filenames used when they ran. Current navigation links point to moved files. Updated current README/CONTRIBUTING instructions and fixed their stale bilingual resource path to match the already-approved English-only UI. No tests were added/skipped solely for this mechanical rename. CI/release packaging and native/live-network tests NOT RUN in this follow-up; no push/tag/release or OS network operation performed.

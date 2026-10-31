@@ -433,6 +433,7 @@
   "reviewPacket": "docs/testing/PHASE02_REVIEW.md",
   "scopeRefinements": [
     "ADR-010: all new UI reuses existing design (DESIGN.md)",
-    "ADR-011: retire Turkish UI, English fallback without startup settings rewrite"
+    "ADR-011: retire Turkish UI, English fallback without startup settings rewrite",
+    "ADR-013: lowercase app/ and test/ directories; AVNetworkToolkit.sln; internal identities/data paths preserved"
   ]
 }

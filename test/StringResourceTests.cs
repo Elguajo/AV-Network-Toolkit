@@ -13,14 +13,14 @@ namespace NetworkProfileManager.Tests;
 /// </summary>
 public class StringResourceTests
 {
-    private static readonly string AppDir = Path.Combine(FindRepoRoot(), "NetworkProfileManager");
+    private static readonly string AppDir = Path.Combine(FindRepoRoot(), "app");
 
     private static string FindRepoRoot()
     {
         var dir = new DirectoryInfo(System.AppContext.BaseDirectory);
-        while (dir != null && !File.Exists(Path.Combine(dir.FullName, "NetworkProfileManager.sln")))
+        while (dir != null && !File.Exists(Path.Combine(dir.FullName, "AVNetworkToolkit.sln")))
             dir = dir.Parent;
-        return dir?.FullName ?? throw new DirectoryNotFoundException("NetworkProfileManager.sln not found");
+        return dir?.FullName ?? throw new DirectoryNotFoundException("AVNetworkToolkit.sln not found");
     }
 
     private static HashSet<string> Keys(string language)

@@ -84,10 +84,10 @@ There is **no auto-updater**. Check this repo's [Releases](../../releases) page 
 ## Build from source
 
 ```powershell
-git clone https://github.com/rmzncakir/network-profile-changer.git
-cd network-profile-changer
-dotnet build -c Release
-dotnet publish NetworkProfileManager/NetworkProfileManager.csproj `
+git clone https://github.com/Elguajo/AV-Network-Toolkit.git
+cd AV-Network-Toolkit
+dotnet build AVNetworkToolkit.sln -c Release
+dotnet publish app/NetworkProfileManager.csproj `
     -c Release -r win-x64 --self-contained true -o publish
 ```
 
@@ -138,7 +138,7 @@ To report a vulnerability, see [SECURITY.md](SECURITY.md).
 ## Tests
 
 ```powershell
-dotnet test NetworkProfileManager.Tests/NetworkProfileManager.Tests.csproj
+dotnet test test/NetworkProfileManager.Tests.csproj
 ```
 
 xUnit covers input validation, the elevated worker's command whitelist, profile/history/project storage, CIDR formatting, English string resources and view-model logic. Network/OS boundaries are isolated with fixtures. Exact executed commands, test counts and remaining UI/live-network limitations are recorded in [the test matrix](docs/testing/TEST_MATRIX.md); coverage has not been measured for this fork.
@@ -148,20 +148,20 @@ xUnit covers input validation, the elevated worker's command whitelist, profile/
 ## Architecture
 
 ```
-NetworkProfileManager/
+app/
 ├── Models/         IpProfile, AdapterInfo, HistoryEntry, ScanResult, VendorPreset
 ├── Services/       NetworkService (netsh), Profile/HistoryRepository, IpScannerService, NetworkMonitorService
 ├── ViewModels/     MainViewModel, AdapterViewModel, ProfileViewModel, IpScannerViewModel
 ├── Views/          MainWindow, AdapterListPanel, ProfilePanel, HistoryPanel, AddProfileDialog,
 │                   IpScannerWindow, PingWindow, ThemeSettingsWindow, TrayPopupWindow
 ├── Themes/         Styles.xaml — shared text/card styles (colours come from WPF-UI)
-├── Strings/        Tr.xaml, En.xaml — UI strings bound via DynamicResource
+├── Strings/        En.xaml — UI strings bound via DynamicResource
 ├── Helpers/        ElevationHelper (UAC worker), AppPaths, AppSettingsStore, LanguageManager, Loc,
 │                   NotificationService, StartupHelper, IpFormat, ClipboardHelper
 └── Converters/     BoolToVisibility, AdapterTypeToSymbol
 ```
 
-Standard MVVM. UI-independent code (Core) is covered by `NetworkProfileManager.Tests`.
+`AVNetworkToolkit.sln` groups the application in `app/` and xUnit tests in `test/`. Project filenames, namespaces, output executable and the user-data directory retain their existing identities. Standard MVVM; UI-independent code is covered by the test project.
 
 ---
 

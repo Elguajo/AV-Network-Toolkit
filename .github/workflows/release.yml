@@ -61,11 +61,11 @@ jobs:
         run: dotnet restore
 
       - name: Test
-        run: dotnet test NetworkProfileManager.Tests/NetworkProfileManager.Tests.csproj --configuration Release --logger "console;verbosity=minimal"
+        run: dotnet test test/NetworkProfileManager.Tests.csproj --configuration Release --logger "console;verbosity=minimal"
 
       - name: Publish (self-contained win-x64)
         run: >
-          dotnet publish NetworkProfileManager/NetworkProfileManager.csproj
+          dotnet publish app/NetworkProfileManager.csproj
           -c Release
           -r win-x64
           --self-contained true

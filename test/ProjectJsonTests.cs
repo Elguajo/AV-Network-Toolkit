@@ -186,7 +186,7 @@ public class ProjectJsonTests
     public void PublicExampleIsAcceptedByEmbeddedSchemaAndSemanticValidation()
     {
         var root = new DirectoryInfo(AppContext.BaseDirectory);
-        while (root != null && !File.Exists(Path.Combine(root.FullName, "NetworkProfileManager.sln"))) root = root.Parent;
+        while (root != null && !File.Exists(Path.Combine(root.FullName, "AVNetworkToolkit.sln"))) root = root.Parent;
         var example = File.ReadAllText(Path.Combine(root!.FullName, "examples", "project.avnet.json"));
         var project = ProjectJson.Parse(example);
         Assert.Equal(3, project.Profiles.Count);

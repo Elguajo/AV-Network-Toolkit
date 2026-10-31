@@ -18,6 +18,8 @@
 
 | ADR-012 | 2026-10-31 | Commit the integration handoff, merge the verified Phase 02 branch into main and push main to origin | Owner explicitly requested «Коммит и пуш в Main можно сделать Merge» after the implementation report | User-approved integration/publication of this change; ordinary push, no force; no Phase 03 or live-test authorization |
 
+| ADR-013 | 2026-10-31 | Simplify repository paths to app/ and test/, and rename solution to AVNetworkToolkit.sln | Owner selected lowercase «App и Test можно строчной» and retained the proposed solution name | User-approved structural change only; project filenames, namespaces, assembly identities and user-data paths stay unchanged |
+
 ## ADR-006 scope and consequences
 
 - Source: Phase 01 bootstrap report and subsequent user-approved documentation/plan proposal in this chat on 2026-10-31. Evidence and per-finding dispositions: [baseline/source map](../docs/architecture/BASELINE_AND_SOURCE_MAP.md).
@@ -51,3 +53,9 @@ Integrate source branch `codex/phase-02-project-json` at `da8a976409fd90fafbb8b1
 Existing code verification remains 286 isolated tests, Release build, four component renders and ten validator regression tests. No source changes in integration; no unnecessary rerun of unchanged checks. Unit OS/probe boundaries were re-inspected before allowing normal push CI; ADR-007's earlier skip-CI workaround concerned the pre-isolation documentation push and is not needed now. CI outcome must be reported separately from local PASS evidence.
 
 The user authorized integrating these results. Phase 02's previously recorded manual acceptance limitations and Phase 03 review gate remain visible; this record does not invent native-dialog, live-network, deployment or full phase-acceptance results. Execution after this commit: switch main, fast-forward merge, ordinary `git push origin main:main`, compare local HEAD with `git ls-remote origin refs/heads/main`. Report actual outcomes and resulting SHA after execution.
+
+## ADR-013 repository-path scope
+
+Rename `NetworkProfileManager/` to `app/`, `NetworkProfileManager.Tests/` to `test/`, and `NetworkProfileManager.sln` to `AVNetworkToolkit.sln`. Update solution/project references, source-root discovery in tests, CI build/release command paths and current documentation links/commands. Historical execution commands remain recorded under their original names; this is a path refactor, not retroactive execution evidence. `MANIFEST.sha256` is the original archive inventory and is excluded from this refactor; it was absent at final verification.
+
+No product, network behavior, JSON format, namespace, assembly/executable name or `%LOCALAPPDATA%/NetworkProfileManager/data` migration. SDK/build/test/smoke verification must pass on the new paths. Phase 02 review state and later-phase/live-test gates are unchanged. This authorization does not extend ADR-012's completed merge/push scope to the new change.

@@ -2,18 +2,19 @@
 
 - **Fork URL:** https://github.com/Elguajo/AV-Network-Toolkit
 - **Upstream:** https://github.com/rmzncakir/network-profile-changer
-- **Working branch / integration target:** main (ADR-012); source codex/phase-02-project-json retained
-- **Current implementation commit SHA:** 0bf1070216255c9e1411a4a96445372b6e6a45d1
+- **Working branch:** codex/simplify-project-paths (ADR-013 local follow-up); main/origin/main last verified at 4cddfcd1dad4be867d499e74a3d5213929bda7f8; prior source branch retained
+- **Phase 02 implementation commit SHA:** 0bf1070216255c9e1411a4a96445372b6e6a45d1
+- **Repository-path refactor anchor:** 4cddfcd1dad4be867d499e74a3d5213929bda7f8; resolve resulting refactor commit via `git log -1 --format=%H -- AVNetworkToolkit.sln` (this record cannot embed its own resulting SHA).
 - **Project feature commit:** eeb589cf81d8871f4243218d2e1a668829b79a2e
 - **Preparation commit:** 11a6e5cc12f0d752dcbda9160b55369233bb6c98
 - **Code baseline:** 603cf24fa0ba1819c0ec10b6a57ef5cf57c3852e
-- **Status/handoff commit (includes ADR-012 integration authorization):** resolve `git log -1 --format=%H -- STATUS.md`; this documentation-only record cannot embed its own resulting SHA. Re-read actual HEAD before resuming.
+- **Status/handoff commit (includes latest path refinement):** resolve `git log -1 --format=%H -- STATUS.md`; this documentation-only record cannot embed its own resulting SHA. Re-read actual HEAD before resuming.
 - **Active phase:** 02 — AWAITING_REVIEW; not marked complete. Phase 03 NOT STARTED / NOT AUTHORIZED.
 - **Authorization:** ADR-008 preparation/Phase 02; ADR-009 approved format; ADR-010 existing design for all new UI; ADR-011 English-only UI with legacy tr fallback. ADR-012 now authorizes this change’s main merge/push; no live tests or future-phase authorization.
 - **Completed tasks:** preparation 01-T06/01-T07/01-T08 verified, 02-T01 owner-approved. Historical Phase 01 acceptance not fabricated.
 - **In progress / evidence recorded:** 02-T02–02-T06 implemented/reviewed with evidence; checkboxes remain open pending owner acceptance. No implementation blocker known.
-- **Next action:** execute the authorized main fast-forward/push and verify remote SHA; retain manual acceptance limits and decide Phase 03 separately.
-- **Tests last executed:** SDK 8.0.427; Release build PASS (0 warnings/errors); 286 isolated xUnit PASS, 0 failed/skipped; 4 English Light/Dark WPF component renders PASS, 0 binding errors; full draft-2020-12+formats/planning validator PASS and 10 validator regression tests PASS. Exact commands/commit evidence in docs/testing/PHASE02_REVIEW.md.
+- **Next action:** review the verified ADR-013 path refactor and its local commit; decide its integration separately. Phase 03/manual acceptance gate unchanged.
+- **Tests last executed:** ADR-013 new-path restore/Release build PASS (0 warnings/errors), 286 isolated xUnit PASS/0 skipped, 4 component renders PASS/0 binding errors, full schema+formats/planning and 10 validator tests PASS. New exact commands in docs/testing/TEST_MATRIX.md; earlier Phase 02 evidence retained in docs/testing/PHASE02_REVIEW.md.
 - **Live/network/UAC/native-dialog/full-app/deployment tests:** NOT RUN. No OS network configuration changes, scans or elevation performed.
 - **Limits/side effects:** first failed component harness inadvertently reached real App startup/migration before failing on resources; marker existence/attribution uncertainty recorded below and in review packet. Final harness is isolated. No marker/customer data deleted. Earlier SDK first-run generated an untrusted development certificate; no trust command or admin install.
 - **Risks:** manual native-dialog/keyboard/AT/high-contrast/full-app acceptance, hardware/filesystem failure guarantees, conservative/incomplete URL secret detection, backup growth; baseline legacy persistence/history/apply limitations unchanged. UNC/network shares and reparse paths unsupported.
@@ -128,3 +129,19 @@ Exact evidence and reproducible adoption check: [test matrix](docs/testing/TEST_
 - Decisions requiring user approval: later phase advancement/live tests; this merge/push is already authorized.
 - Next smallest safe action: finish authorized integration, report remote equality and CI status if available.
 - Can next session proceed without clarification: integration verification yes; Phase 03/live tests require owner decision.
+
+## Session handoff — 2026-10-31, lowercase repository paths
+
+- Date and environment: 2026-10-31, Asia/Tashkent; Windows 10.0.26300 x64; same local SDK 8.0.427/runtime 8.0.33.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / codex/simplify-project-paths / starting anchor 4cddfcd1dad4be867d499e74a3d5213929bda7f8. Refactor commit is the containing commit resolved as above.
+- Current phase/tasks: Phase 02 AWAITING_REVIEW; stable task IDs and acceptance checkboxes unchanged. ADR-013 authorizes structural naming only.
+- Actually completed: renamed directories to app/ and test/, solution to AVNetworkToolkit.sln; updated references, test source-root discovery, workflow commands and current docs/links. Compared all 59 production files to starting commit: content unchanged. 25 test files moved with only three expected reference/root-discovery edits.
+- Files changed: moved app/test/solution tree, two CI workflows (paths only), harness project reference, README/CONTRIBUTING/DESIGN/source-map links, ADR/context/status/task/phase/plan/testing records. Internal namespaces/assemblies/executable/user-data paths and JSON format unchanged. The original archive manifest was not edited or included; it was absent at final verification.
+- Test commands/results: exact new-path commands in TEST_MATRIX.md; restore/build PASS (0 warnings/errors), 286 isolated xUnit PASS/0 skipped, 4 UI renders PASS/0 binding errors, full schema+format/planning validator and 10 tooling tests PASS, file-content/path checks PASS. No new behavior-mirroring tests or weakened assertions.
+- Live-network tests: NOT RUN / not authorized. No NIC/probe/app-startup/UAC/DHCP operations; corrected isolated UI harness only. CI/publish/release NOT RUN for this follow-up.
+- Known risks/workarounds: external scripts using old repository paths need the documented new commands; historical evidence retains old command spellings. Phase 02 residual risks unchanged. Existing ignored build/test output moved with its project and restore/build verified the new layout. During final staging, an unrelated deletion of 00_READ_FIRST_RU.md appeared and was initially included by git add -u; it was excluded by amending this unpublished commit. Its worktree deletion is preserved unstaged. The owner subsequently confirmed deleting this file; it remains outside the path-refactor commit. No unrelated file was restored/deleted by this task.
+- Integration evidence from prior turn: Phase 02 source was fast-forwarded and pushed successfully; main and remote both 4cddfcd1dad4be867d499e74a3d5213929bda7f8. This new path-refactor commit is local, not merged/pushed by that previous authorization.
+- Decisions requiring user approval: integration/publication of this new follow-up if desired; future phases/live tests separately. No additional naming clarification needed.
+- Remaining active-phase work: review/acceptance gate; no incomplete naming implementation or failing checks known.
+- Next smallest safe action: review the focused rename diff/commit, then decide integration. Do not advance Phase 03 automatically.
+- Can next session proceed without clarification: read-only review/fixes within ADR-013 yes; merge/push of this new change and later phases require their own scope.
