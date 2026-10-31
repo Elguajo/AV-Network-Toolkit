@@ -3,9 +3,9 @@
 ## Current publication — ADR-033, 2026-11-01
 
 - Fork / branch / preflight: https://github.com/Elguajo/AV-Network-Toolkit / main / clean HEAD `6ef8fe7230d96ce4c7a53a1b5a7677aae3d644f6`. Fresh origin/main `103b50d34c6f63d69271a03e8caf4a15494e3e43`, 0 remote-only / 7 local-only. Owner explicitly authorized commit/push; prior no-push statements below are historical for this scope.
-- Completed / in progress: implementation/evidence commits already exist, including current workspace, compact toolbar and observed Selected state. Publication handoff and ordinary push/remote verification are in progress; outcome recorded after execution. Phase 06 still AWAITING_REVIEW, no phase accepted.
-- Tests / blockers: latest runtime evidence remains 576 PASS/0 failed/0 skipped and 140 WPF captures/0 binding errors. Runtime tests not repeated for this metadata-only step. OPEN UX-R01/P05-R01 remains unresolved/release-blocking; native/live/support/credentials limits unchanged. Plan/whitespace checks run before commit.
-- Next action: ordinary push main:main and verify remote SHA, then owner UI/native review and separately scoped JSON investigation. No release, new phase or live test implied.
+- Completed / in progress: ordinary publication through `15ec8f520d71ffec841eee17eaace75cdc33f23e` succeeded; independent git ls-remote exactly matched local HEAD. All seven implementation/evidence commits and authorization are included. This metadata-only outcome record follows under the same permission. Phase 06 still AWAITING_REVIEW, no phase accepted.
+- Tests / blockers: latest runtime evidence remains 576 PASS/0 failed/0 skipped and 140 WPF captures/0 binding errors. Runtime tests not repeated for this metadata-only step. OPEN UX-R01/P05-R01 remains unresolved/release-blocking; native/live/support/credentials limits unchanged. Plan/schema/links and whitespace PASS; CI NOT VERIFIED.
+- Next action: owner UI/native review and separately scoped JSON investigation. No release, new phase or live test implied.
 
 ## Latest bounded follow-up — reference buttons/current rows (ADR-031/032), 2026-11-01
 
@@ -594,3 +594,5 @@ Implementation committed locally as **d054a61ccd2f27ebd03cc73b9acb5e03e6ecd52d**
 - Remaining tasks in active phase: owner/native review; no phase completed by publication.
 - Next smallest safe action: ordinary git push origin main:main, independently verify remote SHA, then record outcome and return to owner review.
 - Can next session proceed without clarification? Yes for this authorized publication and read-only review; no implicit phase advancement/live test/release.
+
+Publication outcome: `git push origin main:main` succeeded, advancing 103b50d → `15ec8f520d71ffec841eee17eaace75cdc33f23e`. `git ls-remote origin refs/heads/main` independently matched that exact local SHA. This outcome-only metadata commit is published under ADR-033 too, with final synchronization verified in the chat; no runtime code or test-evidence change. Safe next action is owner review, not a repeated publication request.
