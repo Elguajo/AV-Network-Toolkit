@@ -2,6 +2,8 @@
 
 2026-10-31, Asia/Tashkent. Fork https://github.com/Elguajo/AV-Network-Toolkit; main. Clean bootstrap `f160ac0986af59c7cc4357021b8ca7fe942b63e0` independently matched remote main. During work, another owner chat committed documentation `648f207` and `ed086cd` (original idea, ADR-024/IDEA-01–03); inspected and preserved, no implementation scope expansion. Resolve this implementation commit with `git log -1 --format=%H -- app/Services/MdnsDiscoverySession.cs`; subsequent handoff pins its exact SHA. No push/PR/release or phase completion.
 
+Implementation commit: **18534bef32f6b9ad52445ab04d3834be28fe9834**, local main; `git diff ed086cd..18534be` (30 paths, 1778 insertions/20 deletions). A later documentation-only handoff pins this anchor without changing runtime evidence.
+
 ## Outcome and changed paths
 
 06-T01–06-T04 have EVIDENCE_RECORDED, not accepted checkboxes. [Exact implementation/support contract](../spec/PHASE06_IMPLEMENTATION_CONTRACT.md). The authorized feature is ready for owner review with native acceptance still pending.

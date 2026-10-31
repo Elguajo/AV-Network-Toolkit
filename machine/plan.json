@@ -462,6 +462,8 @@
   "lastTests": "Release isolated-output build 0 warnings/errors; full 542 PASS/0 failed/0 skipped (79 mDNS cases); 84 WPF captures/0 binding errors; 11 fake observer fixtures; schema/plan and 10 validator regressions PASS. P05-R01 remains OPEN.",
   "phase06Authorized": true,
   "nextPhase": "07",
-  "handoffState": "Phase06 local implementation EVIDENCE_RECORDED/AWAITING_REVIEW; resolve implementation SHA through MdnsDiscoverySession.cs history and STATUS.md handoff. No automatic publication, live acceptance or next phase.",
-  "phase05ImplementationCommit": "d054a61ccd2f27ebd03cc73b9acb5e03e6ecd52d"
+  "handoffState": "Phase06 implementation 18534bef32f6b9ad52445ab04d3834be28fe9834 local on main; EVIDENCE_RECORDED/AWAITING_REVIEW. P05-R01 OPEN; no automatic publication, live acceptance or Phase07. Concurrent ADR-025/IDEA-04 documentation preserved separately.",
+  "phase05ImplementationCommit": "d054a61ccd2f27ebd03cc73b9acb5e03e6ecd52d",
+  "implementationCommit": "18534bef32f6b9ad52445ab04d3834be28fe9834",
+  "phase06ImplementationCommit": "18534bef32f6b9ad52445ab04d3834be28fe9834"
 }
