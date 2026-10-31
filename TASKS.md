@@ -1,6 +1,6 @@
 # Traceable task backlog
 
-**Current state:** Phase 04 AWAITING_REVIEW under ADR-019, directly on main (ADR-017). 04-T01–04-T07 have EVIDENCE_RECORDED in docs/testing/PHASE04_REVIEW.md; acceptance checkboxes remain open. Owner approved blocking complex/unknown state before mutation. Prior Phase 02/03 manual limitations remain historical. No new push, live tests, release or Phase 05 authorization.
+**Current state:** Phase 04 AWAITING_REVIEW under ADR-019, directly on main (ADR-017). 04-T01–04-T07 have EVIDENCE_RECORDED in docs/testing/PHASE04_REVIEW.md; acceptance checkboxes remain open. ADR-020 authorizes current commit/push including branding and Phase 04; live tests, release and Phase 05 remain unapproved. Prior Phase 02/03 manual limitations and conservative support policy remain.
 
 **Prior state:** Phase 02 implemented and verified; AWAITING_REVIEW, not marked phase complete. 02-T02–02-T06 have EVIDENCE_RECORDED with exact commits/tests in docs/testing/PHASE02_REVIEW.md; acceptance checkboxes remain open pending owner review. 01-T06–01-T08 verified, 02-T01 approved. Owner refinements ADR-010/011 require existing design and English-only UI. Historical Phase 01 review items remain open. Stable IDs unchanged. ADR-013 adds the verified structural path refinement (`app/`, `test/`, `AVNetworkToolkit.sln`), with no new feature or phase advancement.
 

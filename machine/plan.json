@@ -431,7 +431,7 @@
   "baselineCommit": "603cf24fa0ba1819c0ec10b6a57ef5cf57c3852e",
   "activePhase": "04",
   "phase02Authorized": true,
-  "authorization": "ADR-019: Phase 04 execution and conservative support boundary approved; directly on main under ADR-017. No new push/live-test/release/Phase 05 authorization",
+  "authorization": "ADR-020: current main commit/push including branding and Phase 04 authorized; ADR-019 execution/support policy and ADR-017 direct-main workflow retained. No live-test/release/Phase 05 authorization; manual acceptance pending",
   "preparationCheckpoint": [
     "01-T06",
     "01-T07",

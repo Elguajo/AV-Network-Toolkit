@@ -94,3 +94,7 @@ Owner authorized merging/committing/pushing the current Phase 03 work to main on
 ## Phase 04 execution and support boundary — ADR-019
 
 Owner explicitly requested Phase 04 in a new chat and approved blocking complex/unknown adapter state before mutation. This supersedes stale Phase 04 pending-start statements only. Apply & Open now has local implementation/review evidence in docs/testing/PHASE04_REVIEW.md; AWAITING_REVIEW, not phase acceptance. Direct work on main, existing branding/internal identities/JSON/legacy behavior preserved. No new push/live-test/release or Phase 05 permission. Static automatic DNS and /31–/32 remain storable but blocked for OS apply; full recovery is never inferred from old history.
+
+## Current publication authorization — ADR-020
+
+Owner requested «Коммит и пуш в main» after the Phase 04 report. Current main, including branding/Phase 04/handoff and the bounded authorization metadata, may be committed/pushed ordinarily. Supersedes previous no-push snapshots for this publication only. Phase 04 manual acceptance, live isolated tests, release and Phase 05 remain separate gates; no force/history rewrite or new branches.

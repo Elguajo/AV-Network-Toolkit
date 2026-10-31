@@ -54,3 +54,7 @@ Owner authorized merging/committing/pushing the current Phase 03 work to main on
 ## Phase 04 authorization and review — ADR-019
 
 Owner explicitly started Phase 04 and approved conservative blocking of complex/unknown/unrestorable state before mutation. 04-T01–04-T07 have implementation evidence in [Phase 04 review](docs/testing/PHASE04_REVIEW.md), awaiting owner acceptance. Prior manual limitations remain historical. Phase order is unchanged; proposed Phase 05 needs a new owner decision. No new publication, release or live tests authorized.
+
+## Current publication follow-up — ADR-020
+
+Owner authorized committing/pushing current main including branding and Phase 04. Ordinary push only; phase order and manual/live-test/release gates remain. This supersedes stale no-publication statements for the current changes, without marking Phase 04 complete or starting Phase 05.

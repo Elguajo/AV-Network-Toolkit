@@ -1,13 +1,13 @@
 # Current implementation status — PHASE_04_AWAITING_REVIEW
 
-- **Fork / branch / starting HEAD:** https://github.com/Elguajo/AV-Network-Toolkit / main / abdd1d1c61dd4f0d6b39adfc24ee69ff46367cbc. Local branding commit preserved; no reset, branch/worktree or push.
+- **Fork / branch / anchors:** https://github.com/Elguajo/AV-Network-Toolkit / main / Phase 04 base abdd1d1c61dd4f0d6b39adfc24ee69ff46367cbc; publication preflight HEAD 571977947adcb07015f97d81714da9252cfb9d68. Branding preserved; ordinary publication authorized under ADR-020.
 - **Implementation commit:** 3e7a0ae3f0f3ef87729fa94e2873d53e23750991, local on main; code evidence anchor. Resolve the containing documentation-only handoff commit with `git log -1 --format=%H -- STATUS.md`. No phase is marked complete.
 - **Active phase / authorization:** 04 AWAITING_REVIEW, 04-T01–04-T07 EVIDENCE_RECORDED under ADR-019. Owner approved blocking complex/unknown state and unproved static automatic DNS and /31–/32 before mutation.
 - **Completed / in progress:** implementation, isolated tests, component verification and separate legacy review recorded. Owner acceptance and live/manual integration remain pending; no unfinished authorized implementation task or known failed automated check.
 - **Blockers / risks:** owner review gate. Real Windows observation/netsh/UAC/IPC/recovery semantics UNVERIFIED; bounded identity/filesystem/policy races, restrictive support and journal retention remain. Historical limitations preserved.
-- **Next action:** owner reviews [Phase 04 packet](docs/testing/PHASE04_REVIEW.md) and diff, then decides acceptance/isolated validation. Proposed Phase 05 requires explicit decision; no automatic start.
+- **Next action:** finish ADR-020 ordinary push and verify local/remote SHA, then owner review of [Phase 04 packet](docs/testing/PHASE04_REVIEW.md)/manual acceptance. Proposed Phase 05 requires explicit decision; no automatic start.
 - **Tests last executed:** Release build PASS 0 warnings/errors; 399 isolated xUnit PASS/0 failed/0 skipped; 40 Light/Dark normal/minimum WPF captures PASS/0 binding errors, explicit selection/consent and busy close/exit guards; embedded observer parse + 6 fake OS-query fixtures PASS; schema/planning/links and 10 validator regressions PASS; whitespace/protected-path checks PASS.
-- **Limits:** no live NIC mutation/probe/UAC/browser/DHCP, publication, release or Phase 05 authorized. Existing historical manual limitations remain.
+- **Limits:** ADR-020 authorizes current commit/push only. No live NIC mutation/probe/UAC/browser/DHCP, release or Phase 05 authorized. Existing historical manual limitations remain; publication does not establish manual acceptance.
 
 The following Phase 03 header is historical; ADR-019 supersedes its Phase 04 authorization and next-action fields.
 
@@ -295,3 +295,18 @@ foreach ($brandBinary in @('NetworkProfileManager.dll', 'NetworkProfileManager.e
 ### Phase 04 commit verification
 
 Implementation committed locally as **3e7a0ae3f0f3ef87729fa94e2873d53e23750991** (`feat: add verified project Apply and Open with explicit recovery`), 41 paths / 2396 insertions / 22 deletions. Post-commit `git status --short --branch` showed clean main, ahead 2 of cached origin/main (the existing branding commit plus Phase 04); `git show --format= --check HEAD` PASS. No push or remote-state claim. This follow-up records exact anchors only; application/test code and the 399-test/40-render evidence above remain unchanged. Resulting documentation HEAD is resolved by the lookup at the top; owner acceptance/live-test/publication/Phase 05 gates remain pending.
+
+## Session handoff — 2026-10-31, Phase 04 publication (ADR-020)
+
+- Date and environment: 2026-10-31, Asia/Tashkent; same Windows workspace/local tools, no install or application launch.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / preflight 571977947adcb07015f97d81714da9252cfb9d68; freshly fetched origin/main bb506194723fb8f5c60a7e845ef69b3bc853cb41. Resolve containing publication commit with `git log -1 --format=%H -- STATUS.md`.
+- Current phase and task IDs: 04 AWAITING_REVIEW; 04-T01–04-T07 EVIDENCE_RECORDED, no acceptance checkboxes changed.
+- What was actually completed: owner authorized current commit/push; clean state, remote provenance and ancestry verified (0 remote-only/3 local-only), current scoped diff prepared. Execution after this commit: ordinary `git push origin main:main`, then independent local/remote SHA comparison; actual outcomes reported after execution, not preclaimed here.
+- Files changed: authorization/status/backlog/context/roadmap/machine-plan metadata only. Existing branding and Phase 04 commits preserved; application/test/schema/license/workflow unchanged.
+- Test commands and results: planning/schema/link validation, 10 validator regressions and whitespace/staged checks run for this documentation update; exact outcomes reported in chat. Existing Release build/399 isolated tests/40 component renders/6 fake-query fixtures retained, no runtime rerun or invented new evidence.
+- Live-network tests: NOT RUN / not authorized. CI outcome separate; normal isolated push CI allowed, no skip marker needed.
+- Known bugs, risk and workarounds: Phase 04 native Windows/UAC/IPC/browser/recovery and manual/deployment limits remain as in review packet; no new software behavior.
+- Decisions requiring user approval: manual acceptance, live isolated tests, release or Phase 05 remain separate. Current publication already authorized; no repeated permission request.
+- Remaining tasks in active phase: owner/manual acceptance; no task closed solely by publication.
+- Next smallest safe action: verify pushed main SHA and review Phase 04 evidence; no automatic next phase.
+- Can next session proceed without clarification: this publication and read-only verification yes; preserve later-phase/live-test/release gates.
