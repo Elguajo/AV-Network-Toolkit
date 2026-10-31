@@ -82,3 +82,7 @@ On 2026-10-31 the owner requested commit, merge to main and push of the verified
 ## Phase 03 authorization — ADR-015
 
 On 2026-10-31 the owner explicitly requested Phase 03 in a new chat. 03-T01–03-T05 execution is authorized, preserving JSON v1 and DESIGN.md. Supersedes stale no-Phase-03-authorization snapshots only. No live tests, merge/push, release or Phase 04 authorization.
+
+## Current integration and branch rule — ADR-017
+
+Owner authorized merging/committing/pushing the current Phase 03 work to main on 2026-10-31. Approved deferred Ping planning (ADR-016) is preserved. Future work in this repository runs directly on main without creating separate branches, as now required by AGENTS.md. Earlier focused-branch/no-publication snapshots are superseded for this integration. Phase/manual/live-test and release gates remain unchanged; no Phase 04 start implied.

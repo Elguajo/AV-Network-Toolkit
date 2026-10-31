@@ -1,15 +1,15 @@
 # Current implementation status — PHASE_03_AWAITING_REVIEW
 
 - **Fork URL:** https://github.com/Elguajo/AV-Network-Toolkit
-- **Current branch / starting HEAD:** codex/phase-03-device-web-interfaces / 17c7014ba585fe85680fcdede51ce967f238054d; remote main independently matched at bootstrap.
-- **Implementation commit SHA:** `e861c3a426f24e0103e9cc26b7e82b6e2f1e503f`; documentation-only handoff commit is resolved by `git log -1 --format=%H -- STATUS.md`. No PR/push/merge.
+- **Current branch / integration anchor:** main / 9dd249dda74d03e23856117d756a7d63f50309d0 after authorized fast-forward; preflight main/fetched origin/main both 17c7014ba585fe85680fcdede51ce967f238054d. Future work directly on main (ADR-017); no separate branches.
+- **Implementation commit SHA:** `e861c3a426f24e0103e9cc26b7e82b6e2f1e503f`; documentation-only handoff commit is resolved by `git log -1 --format=%H -- STATUS.md`. ADR-017 authorizes integration/push; exact execution record below.
 - **Active phase / authorization:** 03 AWAITING_REVIEW; 03-T01–03-T05 authorized by explicit owner request (ADR-015). No phase marked complete.
 - **Completed tasks / evidence:** prior preparation 01-T06–01-T08 and approved 02-T01 unchanged; 03-T01–03-T05 implemented with EVIDENCE_RECORDED, pending owner acceptance. Prior Phase 02 evidence/manual limits retained below.
 - **In progress / blockers:** owner review/manual acceptance remains. No known failed automated check or unfinished authorized implementation task.
 - **Next action:** owner reviews Phase 03 diff and Devices UI; then decides acceptance. Proposed Phase 04 must begin with explicit adapter/apply/verification/recovery design; not started or authorized.
 - **Tests last executed:** Release build PASS 0 warnings/errors; 308 isolated xUnit PASS/0 failed/0 skipped; 20 Light/Dark normal/minimum component renders PASS/0 binding errors, actual selected row/fake launch/cancel/focus/draft guards. Full draft-2020-12 + formats/example/planning/107 links PASS; 10 validator regressions PASS; whitespace PASS.
 - **Risks:** real default-browser navigation/TLS, native dialogs/full app/tray, manual keyboard/AT/high-contrast/zoom and large-catalog performance UNVERIFIED; prior URL-secret/backup/filesystem/legacy history/apply/migration-marker limitations unchanged.
-- **Live tests / publication:** NOT RUN / not authorized. No NIC changes, probes, scans, real browser launches, DHCP server or elevation. CI, publish/clean-machine and hardware failure tests NOT RUN. No Phase 04 authorization.
+- **Live tests:** NOT RUN / not authorized. **Publication:** current integration/commit/push authorized by ADR-017; no release authorization. No NIC changes, probes, scans, real browser launches, DHCP server or elevation. CI, publish/clean-machine and hardware failure tests NOT RUN. No Phase 04 authorization.
 - **Review packet:** [Phase 03 exact commands, artifacts, outcome and limitations](docs/testing/PHASE03_REVIEW.md).
 - **Last verification date:** 2026-10-31 (Asia/Tashkent).
 
@@ -220,3 +220,19 @@ Feature commit `e861c3a426f24e0103e9cc26b7e82b6e2f1e503f` contains the reviewed 
 - Remaining tasks in active phase: owner review/manual acceptance per Phase 03 review packet; no checkbox changed here.
 - Next smallest safe action: review Phase 03; retain deferred Ping requirements for authorized Phase 07 execution.
 - Can next session proceed without clarification: inspect/review yes; deferred Ping implementation/live testing/phase advancement no without their authorization.
+
+
+## Session handoff — 2026-10-31, owner-authorized main publication
+
+- Date and environment: Asia/Tashkent; existing Windows workspace/SDK; no installation or application execution in this step.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / pre-handoff anchor 9dd249dda74d03e23856117d756a7d63f50309d0. Resolve containing documentation commit with `git log -1 --format=%H -- STATUS.md`; verify actual remote main independently after push.
+- Current phase/task IDs: Phase 03 AWAITING_REVIEW; 03-T01–03-T05 evidence retained, no task checkbox/phase completion invented. ADR-016 future Ping requirements remain planned only.
+- Actually completed: fetched origin/main (17c7014ba585fe85680fcdede51ce967f238054d), checked clean tree/ancestry, switched main and fast-forwarded source 9dd249d (includes Phase 03 plus deferred Ping planning). Owner authorized merge/commit/push and standing main-only work (ADR-017).
+- Files changed in this follow-up: AGENTS.md, context/roadmap/status/tasks/decision log and machine plan only. No code/tests/OS/network changes; no new branch created. Existing topic branches retained.
+- Test commands/results: prior Phase 03 build PASS 0 warnings/errors, 308 isolated xUnit PASS/0 skipped, 20 WPF renders PASS/0 binding errors retained without rerunning unchanged code. This docs step: `& $py -B scripts/validate_plan.py` PASS (9 phases, 49 stable tasks, schema/formats/references/107 links); `& $py -B scripts/test_validate_plan.py` PASS (10 tests); `git diff --check` PASS. Staged whitespace check runs before commit; result reported after execution. `$py` is the existing local BuildTools Python path recorded above.
+- Live-network tests: NOT RUN / not authorized. Browser/full app/tray/UAC/native dialogs/manual AT/deployment/hardware tests unchanged. CI after push is separate, never preclaimed PASS.
+- Risks/workarounds: no conflict or divergence at preflight; existing manual/endpoint/backup/legacy limitations remain. No force push, tag/release or branch deletion.
+- Decisions requiring user approval: future phase advancement/live tests/release; this publication is already authorized. AGENTS.md now requires direct main work rather than creating branches.
+- Remaining active work: review/manual acceptance limits unchanged by publication; no new implementation task in this integration.
+- Next smallest safe action: commit this scoped documentation on main; ordinary push origin main:main; compare HEAD with remote main. After verified push, await owner's next scoped task/phase decision.
+- Can next session proceed without clarification: current commit/push and read-only verification yes; future work uses main, with phase/live-test gates retained.

@@ -431,7 +431,7 @@
   "baselineCommit": "603cf24fa0ba1819c0ec10b6a57ef5cf57c3852e",
   "activePhase": "03",
   "phase02Authorized": true,
-  "authorization": "ADR-015: Phase 03 execution; JSON v1/ADR-009 and DESIGN.md/ADR-010/011 preserved; no live tests, merge/push, release or Phase 04 authorization",
+  "authorization": "ADR-017: current Phase 03/deferred Ping planning integration, commit and push authorized; all future work directly on main without separate branches. No Phase 04/live-test/release authorization",
   "preparationCheckpoint": [
     "01-T06",
     "01-T07",
@@ -446,5 +446,7 @@
   ],
   "repositoryLayoutCommit": "b119a84ffb7a8202a1fefeb24ea58cc0a882fde4",
   "phase03Authorized": true,
-  "phase02ImplementationCommit": "0bf1070216255c9e1411a4a96445372b6e6a45d1"
+  "phase02ImplementationCommit": "0bf1070216255c9e1411a4a96445372b6e6a45d1",
+  "workingBranch": "main",
+  "branchPolicy": "Direct work on main; no separate branches unless owner explicitly changes instruction (ADR-017)"
 }

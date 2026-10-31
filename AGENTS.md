@@ -24,7 +24,7 @@ This file is the persistent contract for every agent session, regardless of chat
 - Respect base repository's MIT license/notice. AV Network Toolbag is **reference for desired behaviors only**: its repository lacks a declared license in the inspected version, so never port/copy its code, resources, images or UX assets.
 - Do not fabricate test results, support claims or implementation status. Mark unknowns `UNVERIFIED`, test skips `NOT RUN`, and record specific tool/environment limits.
 - No agent must merge its own PR or mark a phase complete without acceptance evidence and user review.
-- Work in a focused branch, commit scoped changes, produce a diff summary, and give an explicit safe next step.
+- Work directly in `main`; do not create separate branches. This is the owner's standing instruction (ADR-017), unless the owner explicitly changes it. Commit scoped changes, produce a diff summary, and give an explicit safe next step. Existing phase, review, live-test and publication authorization gates remain in effect.
 - A newly surfaced bug outside the active phase is logged as a risk or issue; it is not silently fixed in the same PR.
 
 ## Definition of Done for a task
