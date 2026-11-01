@@ -48,6 +48,13 @@ internal static partial class Program
                 Console.WriteLine("PASS: focused WPF UX walkthrough, safe fixture IO, fake NIC/apply/browser, 0 binding errors.");
                 return 0;
             }
+            if (args.Contains("--audit-fixes"))
+            {
+                RenderAuditFixes(output);
+                if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
+                Console.WriteLine("PASS: audit save-error draft retention/recovery pagination, 8 captures, fake network, 0 binding errors.");
+                return 0;
+            }
             if (args.Contains("--phase07"))
             {
                 foreach (var theme in new[] { "Dark", "Light" })

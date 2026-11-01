@@ -19,6 +19,14 @@ namespace NetworkProfileManager.ViewModels
         private readonly ProfileRepository _profileRepo = new ProfileRepository();
         private readonly HistoryRepository _historyRepo = new HistoryRepository();
         private readonly Func<List<AdapterInfo>> _getAdapters;
+        private readonly LocalProfileApplyService _apply;
+        private System.Threading.CancellationTokenSource? _applyCancellation;
+        public ProjectApplyOutcome? LastApplyOutcome { get; private set; }
+        public bool ConfirmApplicationExit()
+        {
+            if (!IsLoading) return true;
+            _applyCancellation?.Cancel(); return false;
+        }
 
         private AdapterViewModel? _selectedAdapter;
         private bool _isLoading;
@@ -28,8 +36,8 @@ namespace NetworkProfileManager.ViewModels
 
         /// <summary>
         /// Set by the view to present a Yes/No confirmation dialog for destructive
-        /// actions. Returns true when the user confirms. If null (e.g. in tests),
-        /// actions proceed without a prompt.
+        /// actions. Network changes fail closed when no handler is installed.
+        /// The existing non-network delete helper retains its prior default.
         /// </summary>
         public Func<string, string, Task<bool>>? ConfirmHandler { get; set; }
 
@@ -50,6 +58,8 @@ namespace NetworkProfileManager.ViewModels
                 OnPropertyChanged(nameof(ApplyTargetLabel));
             }
         }
+
+        public string StorageError { get; private set; } = "";
 
         public bool IsLoading
         {
@@ -79,8 +89,9 @@ namespace NetworkProfileManager.ViewModels
 
         public MainViewModel() : this(null, AdapterDiagnosticsViewModel.Create()) { }
 
-        internal MainViewModel(Func<List<AdapterInfo>>? getAdapters, AdapterDiagnosticsViewModel? diagnostics = null)
+        internal MainViewModel(Func<List<AdapterInfo>>? getAdapters, AdapterDiagnosticsViewModel? diagnostics = null, LocalProfileApplyService? apply = null)
         {
+            _apply = apply ?? LocalProfileApplyService.Create();
             Diagnostics = diagnostics ?? AdapterDiagnosticsViewModel.Create(persist: false);
             _getAdapters = getAdapters ?? _networkSvc.GetAdapters;
             RefreshCommand = new RelayCommand(_ => Refresh());
@@ -127,13 +138,30 @@ namespace NetworkProfileManager.ViewModels
                 if (existing != null)
                 {
                     existing.UpdateInfo(info);
+                    if (!IsLoading)
+                    {
+                        try
+                        {
+                            var saved = _profileRepo.Load(info.Id);
+                            existing.Profiles.Clear();
+                            foreach (var p in saved) existing.Profiles.Add(new ProfileViewModel(p));
+                            var history = _historyRepo.Load(info.Id);
+                            existing.History.Clear(); foreach (var h in history) existing.History.Add(h);
+                        }
+                        catch (Exception e) when (e is System.IO.IOException or UnauthorizedAccessException)
+                        { StorageError = Loc.Get("Storage.ReadFailed"); NotificationService.Error(StorageError); }
+                    }
                 }
                 else
                 {
-                    var profiles = _profileRepo.Load(info.Id)
-                        .Select(p => new ProfileViewModel(p))
-                        .ToList();
-                    var history = _historyRepo.Load(info.Id);
+                    var profiles = new List<ProfileViewModel>();
+                    var history = new List<HistoryEntry>();
+                    try { profiles = _profileRepo.Load(info.Id).Select(p => new ProfileViewModel(p)).ToList(); }
+                    catch (Exception e) when (e is System.IO.IOException or UnauthorizedAccessException)
+                    { StorageError = Loc.Get("Storage.ReadFailed"); NotificationService.Error(StorageError); }
+                    try { history = _historyRepo.Load(info.Id); }
+                    catch (Exception e) when (e is System.IO.IOException or UnauthorizedAccessException)
+                    { StorageError = Loc.Get("Storage.ReadFailed"); NotificationService.Error(StorageError); }
 
                     var vm = new AdapterViewModel(
                         info,
@@ -155,131 +183,76 @@ namespace NetworkProfileManager.ViewModels
 
         /// <summary>
         /// Shared apply pipeline. Captures the target adapter as a local so a
-        /// mid-apply selection change can't redirect the netsh action or record the
-        /// history entry against the wrong adapter (the previous per-command reads of
-        /// the SelectedAdapter property were racy).
+        /// mid-apply selection change cannot redirect the typed request or its history.
         /// </summary>
-        private async Task ApplyCoreAsync(
-            AdapterViewModel adapter,
-            Action netshAction,
-            Func<HistoryEntry>? buildEntry,
-            Func<string> successMsg,
-            string? errorKey = null)
+        private async Task ApplyCoreAsync(AdapterViewModel adapter, IpProfile profile, HistoryEntry? recovery = null)
         {
-            using var mutationLease = NetworkMutationLease.TryAcquire();
-            if (mutationLease == null)
-            {
-                NotificationService.Error(Helpers.Loc.Get("Apply.Busy"));
-                return;
-            }
-            IsLoading = true;
+            if (IsLoading) return;
+            IsLoading = true; LastApplyOutcome = null;
+            using var cancellation = new System.Threading.CancellationTokenSource();
+            _applyCancellation = cancellation;
+            string adapterId = adapter.Info.Id, profileName = profile.Name;
             try
             {
-                // App runs asInvoker; NetworkService elevates per apply via UAC
-                // (single prompt for the whole netsh batch) when not admin.
-                await Task.Run(netshAction);
-
-                if (buildEntry != null)
+                var result = await _apply.RunAsync(adapterId, profile, recovery,
+                    review => ConfirmHandler?.Invoke(Loc.Get(recovery == null ? "Apply.RequestReview" : "Apply.Recovery"), review)
+                        ?? Task.FromResult(false), cancellation.Token);
+                if (result.Outcome == null) return;
+                LastApplyOutcome = result.Outcome;
+                if (result.Outcome.State == ProjectApplyState.Complete)
                 {
-                    var entry = buildEntry();
-                    _historyRepo.Append(adapter.Info.Id, entry);
-                    adapter.History.Insert(0, entry);
+                    bool historyFailed = false;
+                    if (recovery == null)
+                    {
+                        var before = result.Request.Before;
+                        var address = before.Addresses.Single();
+                        int mask = unchecked((int)(uint.MaxValue << (32 - address.PrefixLength)));
+                        var entry = new HistoryEntry
+                        {
+                            AdapterId = before.Identity.Id.ToString(), AdapterName = before.Identity.Alias,
+                            OldIp = address.Address, OldSubnet = new System.Net.IPAddress(BitConverter.GetBytes(System.Net.IPAddress.HostToNetworkOrder(mask))).ToString(),
+                            OldGateway = before.Routes.SingleOrDefault(r => r.Store == "active" && r.Destination == "0.0.0.0/0")?.NextHop ?? "",
+                            NewIp = result.Request.Desired.Mode == "dhcp" ? "DHCP" : result.Request.Desired.Address!,
+                            WasDhcp = before.Dhcp, IsDhcp = result.Request.Desired.Mode == "dhcp", ProfileName = profileName,
+                            RecoveryOperationId = result.Request.OperationId
+                        };
+                        try { _historyRepo.Append(adapterId, entry); adapter.History.Insert(0, entry); }
+                        catch (Exception e) when (e is System.IO.IOException or UnauthorizedAccessException)
+                        { historyFailed = true; }
+                    }
+                    if (historyFailed || result.Outcome.JournalUpdateFailed)
+                        NotificationService.Warning(Loc.Get("LocalApply.HistoryFailed"));
+                    else NotificationService.Success(Loc.Get(recovery == null ? "LocalApply.Verified" : recovery.RecoveryOperationId == null ? "LocalApply.AddressOnlyRestored" : "Apply.Recovered"));
                 }
-
-                string msg = successMsg();
-                NotificationService.Success(msg);
+                else NotificationService.Error(ProjectApplyViewModel.StateText(result.Outcome.State) + "\n" + Loc.Get("Apply.ManualRecovery"));
                 Refresh();
             }
-            catch (Exception ex)
-            {
-                NotificationService.Error(ErrorText(errorKey, ex.Message));
-            }
-            finally
-            {
-                IsLoading = false;
-            }
+            catch (LocalApplyBlockedException error) { NotificationService.Error(Loc.Get(error.Code)); }
+            catch (OperationCanceledException) { NotificationService.Info(Loc.Get("Apply.State.Cancelled")); }
+            catch { NotificationService.Error(Loc.Get("Apply.Unsupported")); }
+            finally { _applyCancellation = null; IsLoading = false; }
         }
 
-        /// <summary>
-        /// Body of the error notification. Its title already says "Error", so the
-        /// plain message is used unless a key adds context ("Revert failed: …").
-        /// </summary>
         internal static string ErrorText(string? contextKey, string detail)
             => contextKey == null ? detail : Helpers.Loc.Format(contextKey, detail);
 
-        // ── Apply static/DHCP ────────────────────────────────────────
-        private async Task ApplyAsync()
+        internal Task ApplyAsync()
         {
             var adapter = SelectedAdapter;
-            if (adapter == null) return;
-
-            // Snapshot everything up front — the user must not be able to mutate
-            // these between the UAC prompt and the history record.
-            string name = adapter.Name;
-            bool editDhcp = adapter.EditIsDhcp;
-            string editIp = adapter.EditIp, editSubnet = adapter.EditSubnet, editGw = adapter.EditGateway;
-            string editDns1 = adapter.EditPrimaryDns, editDns2 = adapter.EditSecondaryDns;
-            string oldIp = adapter.Info.CurrentIp, oldSubnet = adapter.Info.CurrentSubnet;
-            string oldGateway = adapter.Info.CurrentGateway;
-            bool wasDhcp = adapter.Info.IsDhcp;
-
-            await ApplyCoreAsync(
-                adapter,
-                () =>
-                {
-                    if (editDhcp) _networkSvc.ApplyDhcp(name);
-                    else _networkSvc.ApplyStaticIp(name, editIp, editSubnet, editGw, editDns1, editDns2);
-                },
-                () => new HistoryEntry
-                {
-                    AdapterId = adapter.Info.Id,
-                    AdapterName = name,
-                    OldIp = oldIp,
-                    OldSubnet = oldSubnet,
-                    OldGateway = oldGateway,
-                    NewIp = editDhcp ? "DHCP" : editIp,
-                    WasDhcp = wasDhcp,
-                    IsDhcp = editDhcp,
-                    ProfileName = null
-                },
-                () => editDhcp
-                    ? Helpers.Loc.Get("Status.DhcpEnabled", "DHCP etkinleştirildi.")
-                    : Helpers.Loc.Format("Status.IpApplied", editIp));
+            return adapter == null ? Task.CompletedTask : ApplyCoreAsync(adapter, new IpProfile
+            {
+                IsDhcp = adapter.EditIsDhcp, IpAddress = adapter.EditIp, SubnetMask = adapter.EditSubnet,
+                Gateway = adapter.EditGateway, PrimaryDns = adapter.EditPrimaryDns, SecondaryDns = adapter.EditSecondaryDns
+            });
         }
-
-        // ── Apply profile ────────────────────────────────────────────
-        private async Task ApplyProfileAsync(ProfileViewModel? pvm)
+        private Task ApplyProfileAsync(ProfileViewModel? profile)
         {
             var adapter = SelectedAdapter;
-            if (pvm == null || adapter == null) return;
-
-            string name = adapter.Name;
-            var p = pvm.Model;
-            string oldIp = adapter.Info.CurrentIp, oldSubnet = adapter.Info.CurrentSubnet;
-            string oldGateway = adapter.Info.CurrentGateway;
-            bool wasDhcp = adapter.Info.IsDhcp;
-
-            await ApplyCoreAsync(
-                adapter,
-                () =>
-                {
-                    if (p.IsDhcp) _networkSvc.ApplyDhcp(name);
-                    else _networkSvc.ApplyStaticIp(
-                        name, p.IpAddress, p.SubnetMask, p.Gateway, p.PrimaryDns, p.SecondaryDns);
-                },
-                () => new HistoryEntry
-                {
-                    AdapterId = adapter.Info.Id,
-                    AdapterName = name,
-                    OldIp = oldIp,
-                    OldSubnet = oldSubnet,
-                    OldGateway = oldGateway,
-                    NewIp = p.IsDhcp ? "DHCP" : p.IpAddress,
-                    WasDhcp = wasDhcp,
-                    IsDhcp = p.IsDhcp,
-                    ProfileName = p.Name
-                },
-                () => Helpers.Loc.Format("Status.ProfileApplied", p.Name));
+            return adapter == null || profile == null ? Task.CompletedTask : ApplyCoreAsync(adapter, new IpProfile
+            {
+                Name = profile.Name, IsDhcp = profile.IsDhcp, IpAddress = profile.IpAddress, SubnetMask = profile.SubnetMask,
+                Gateway = profile.Gateway, PrimaryDns = profile.PrimaryDns, SecondaryDns = profile.SecondaryDns
+            });
         }
 
         // ── Delete profile ───────────────────────────────────────────
@@ -293,9 +266,8 @@ namespace NetworkProfileManager.ViewModels
                     Helpers.Loc.Format("Confirm.DeleteProfileMessage", pvm.Name)))
                 return;
 
+            if (!SaveProfiles(adapter, adapter.Profiles.Where(p => p != pvm).Select(p => p.Model).ToList())) return;
             adapter.Profiles.Remove(pvm);
-            _profileRepo.Save(adapter.Info.Id,
-                adapter.Profiles.Select(p => p.Model).ToList());
             NotificationService.Info(Helpers.Loc.Format("Status.ProfileDeleted", pvm.Name));
         }
 
@@ -362,22 +334,26 @@ namespace NetworkProfileManager.ViewModels
                 }
 
                 int added = 0, skipped = 0;
+                var candidate = adapter.Profiles.Select(p => p.Model).ToList();
+                var additions = new List<IpProfile>();
                 foreach (var p in incoming)
                 {
-                    if (adapter.Profiles.Count >= MaxProfilesPerAdapter) { skipped++; continue; }
-                    if (string.IsNullOrWhiteSpace(p.Name)) { skipped++; continue; }
-                    if (adapter.Profiles.Any(existing =>
+                    if (candidate.Count >= MaxProfilesPerAdapter) { skipped++; continue; }
+                    if (p == null || string.IsNullOrWhiteSpace(p.Name)) { skipped++; continue; }
+                    if (candidate.Any(existing =>
                             string.Equals(existing.Name, p.Name, StringComparison.OrdinalIgnoreCase)))
                     { skipped++; continue; }
                     if (!IsImportedProfileValid(p)) { skipped++; continue; }
 
-                    adapter.Profiles.Add(new ProfileViewModel(p));
+                    candidate.Add(p); additions.Add(p);
                     added++;
                 }
 
                 if (added > 0)
-                    _profileRepo.Save(adapter.Info.Id,
-                        adapter.Profiles.Select(p => p.Model).ToList());
+                {
+                    if (!SaveProfiles(adapter, candidate)) return;
+                    foreach (var item in additions) adapter.Profiles.Add(new ProfileViewModel(item));
+                }
 
                 string msg = Helpers.Loc.Format("Status.ProfilesImported", added, skipped);
                 if (added > 0) NotificationService.Success(msg);
@@ -451,24 +427,10 @@ namespace NetworkProfileManager.ViewModels
         private Task DoPingAsync() => Diagnostics.PingAsync();
 
         // ── Revert ───────────────────────────────────────────────────
-        private async Task RevertAsync(HistoryEntry? entry)
+        private Task RevertAsync(HistoryEntry? entry)
         {
             var adapter = SelectedAdapter;
-            if (entry == null || adapter == null) return;
-
-            string name = adapter.Name;
-            await ApplyCoreAsync(
-                adapter,
-                () =>
-                {
-                    if (entry.WasDhcp) _networkSvc.ApplyDhcp(name);
-                    else _networkSvc.ApplyStaticIp(name, entry.OldIp, entry.OldSubnet, entry.OldGateway);
-                },
-                buildEntry: null,
-                () => entry.WasDhcp
-                    ? Helpers.Loc.Get("Status.RevertedDhcp", "DHCP'ye geri alındı.")
-                    : Helpers.Loc.Format("Status.RevertedIp", entry.OldIp),
-                errorKey: "Status.RevertError");
+            return adapter == null || entry == null ? Task.CompletedTask : ApplyCoreAsync(adapter, new IpProfile(), entry);
         }
 
         // ── Clear history ────────────────────────────────────────────
@@ -490,38 +452,46 @@ namespace NetworkProfileManager.ViewModels
         }
 
         // ── Update profile ───────────────────────────────────────────
-        public void UpdateProfile(ProfileViewModel pvm, IpProfile updated)
+        public void UpdateProfile(ProfileViewModel pvm, IpProfile updated) => TryUpdateProfile(pvm, updated);
+        internal bool TryUpdateProfile(ProfileViewModel pvm, IpProfile updated, AdapterViewModel? target = null)
         {
-            if (SelectedAdapter == null) return;
-            int idx = SelectedAdapter.Profiles.IndexOf(pvm);
-            if (idx < 0) return;
-
-            SelectedAdapter.Profiles[idx] = new ProfileViewModel(updated);
-            SelectedAdapter.RefreshActiveProfiles();
-            _profileRepo.Save(SelectedAdapter.Info.Id,
-                SelectedAdapter.Profiles.Select(p => p.Model).ToList());
-
-            string msg = Helpers.Loc.Format("Status.ProfileUpdated", updated.Name);
-            NotificationService.Success(msg);
+            var adapter = target ?? SelectedAdapter;
+            if (adapter == null || IsLoading) return false;
+            int idx = adapter.Profiles.IndexOf(pvm);
+            if (idx < 0) return false;
+            var candidate = adapter.Profiles.Select(p => p.Model).ToList();
+            candidate[idx] = updated;
+            if (!SaveProfiles(adapter, candidate)) return false;
+            adapter.Profiles[idx] = new ProfileViewModel(updated);
+            adapter.RefreshActiveProfiles();
+            NotificationService.Success(Loc.Format("Status.ProfileUpdated", updated.Name));
+            return true;
         }
 
-        // ── Add profile ──────────────────────────────────────────────
-        public void AddProfile(IpProfile profile)
+        public void AddProfile(IpProfile profile) => TryAddProfile(profile);
+        internal bool TryAddProfile(IpProfile profile, AdapterViewModel? target = null)
         {
-            if (SelectedAdapter == null) return;
-            if (SelectedAdapter.Profiles.Count >= MaxProfilesPerAdapter)
+            var adapter = target ?? SelectedAdapter;
+            if (adapter == null || IsLoading) return false;
+            if (adapter.Profiles.Count >= MaxProfilesPerAdapter)
             {
-                NotificationService.Warning(Helpers.Loc.Get("Status.MaxProfilesReached",
-                    "En fazla 5 profil ekleyebilirsiniz."));
-                return;
+                StorageError = Loc.Get("Status.MaxProfilesReached");
+                NotificationService.Warning(StorageError); return false;
             }
-
-            SelectedAdapter.Profiles.Add(new ProfileViewModel(profile));
-            _profileRepo.Save(SelectedAdapter.Info.Id,
-                SelectedAdapter.Profiles.Select(p => p.Model).ToList());
-
-            string msg = Helpers.Loc.Format("Status.ProfileAdded", profile.Name);
-            NotificationService.Success(msg);
+            var candidate = adapter.Profiles.Select(p => p.Model).ToList(); candidate.Add(profile);
+            if (!SaveProfiles(adapter, candidate)) return false;
+            adapter.Profiles.Add(new ProfileViewModel(profile));
+            NotificationService.Success(Loc.Format("Status.ProfileAdded", profile.Name));
+            return true;
+        }
+        private bool SaveProfiles(AdapterViewModel adapter, List<IpProfile> candidate)
+        {
+            try { _profileRepo.Save(adapter.Info.Id, candidate); StorageError = ""; return true; }
+            catch (Exception e) when (e is System.IO.IOException or UnauthorizedAccessException or InvalidOperationException or Newtonsoft.Json.JsonException)
+            {
+                StorageError = Loc.Get("Storage.SaveFailed");
+                OnPropertyChanged(nameof(StorageError)); NotificationService.Error(StorageError); return false;
+            }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

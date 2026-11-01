@@ -12,6 +12,7 @@ namespace NetworkProfileManager.Views
     public partial class AddProfileDialog : Wpf.Ui.Controls.FluentWindow
     {
         public IpProfile? Result { get; private set; }
+        internal System.Func<IpProfile, bool>? Commit { get; set; }
 
         private DialogViewModel _vm;
 
@@ -62,6 +63,7 @@ namespace NetworkProfileManager.Views
                 IsDhcp       = _vm.IsDhcp
             };
 
+            if (Commit != null && !Commit(Result)) { _vm.SaveError = Loc.Get("Storage.SaveFailed"); return; }
             DialogResult = true;
         }
 
@@ -72,6 +74,8 @@ namespace NetworkProfileManager.Views
     // ── Dialog ViewModel ────────────────────────────────────────────
     internal class DialogViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
+        private string _saveError = "";
+        public string SaveError { get => _saveError; set { _saveError = value; OnPropertyChanged(); } }
         private string _name         = "";
         private string _ipAddress    = "";
         private string _subnetMask   = "255.255.255.0";

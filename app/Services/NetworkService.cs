@@ -103,72 +103,6 @@ namespace NetworkProfileManager.Services
         }
 
         /// <summary>Applies a static IP configuration. Optionally sets DNS servers.</summary>
-        public void ApplyStaticIp(string adapterName, string ip, string subnet, string gateway,
-                                  string primaryDns = "", string secondaryDns = "")
-        {
-            EnsureValidAdapterName(adapterName);
-            EnsureValidIp(ip,     nameof(ip));
-            EnsureValidIp(subnet, nameof(subnet));
-            if (!string.IsNullOrWhiteSpace(gateway))
-                EnsureValidIp(gateway, nameof(gateway));
-
-            var address = new List<string>
-            {
-                "interface", "ip", "set", "address",
-                $"name={adapterName}",
-                "static", ip, subnet
-            };
-            if (!string.IsNullOrWhiteSpace(gateway))
-                address.Add(gateway);
-
-            var commands = new List<List<string>> { address };
-            commands.AddRange(BuildDnsCommands(adapterName, primaryDns, secondaryDns));
-
-            RunNetshBatch(commands);
-        }
-
-        /// <summary>Switches adapter to DHCP mode and resets DNS to automatic.</summary>
-        public void ApplyDhcp(string adapterName)
-        {
-            EnsureValidAdapterName(adapterName);
-
-            RunNetshBatch(new List<List<string>>
-            {
-                new List<string> { "interface", "ip", "set", "address",
-                                   $"name={adapterName}", "source=dhcp" },
-                new List<string> { "interface", "ip", "set", "dns",
-                                   $"name={adapterName}", "source=dhcp" }
-            });
-        }
-
-        /// <summary>Sets primary and optional secondary DNS for a named adapter.</summary>
-        public void ApplyDns(string adapterName, string primary, string secondary = "")
-        {
-            if (string.IsNullOrWhiteSpace(primary)) return;
-
-            EnsureValidAdapterName(adapterName);
-            RunNetshBatch(BuildDnsCommands(adapterName, primary, secondary));
-        }
-
-        private static List<List<string>> BuildDnsCommands(string adapterName, string primary, string secondary)
-        {
-            var commands = new List<List<string>>();
-            if (string.IsNullOrWhiteSpace(primary)) return commands;
-
-            EnsureValidIp(primary, nameof(primary));
-            commands.Add(new List<string> { "interface", "ip", "set", "dns",
-                                            $"name={adapterName}", "static", primary, "primary" });
-
-            if (!string.IsNullOrWhiteSpace(secondary))
-            {
-                EnsureValidIp(secondary, nameof(secondary));
-                commands.Add(new List<string> { "interface", "ip", "add", "dns",
-                                                $"name={adapterName}", secondary, "index=2" });
-            }
-
-            return commands;
-        }
-
         // ── Validation (public for testability + defense-in-depth) ─────
 
         /// <summary>
@@ -247,63 +181,8 @@ namespace NetworkProfileManager.Services
         // ── Private helpers ────────────────────────────────────────────
 
         /// <summary>
-        /// Executes a netsh batch. If the process is already elevated the commands
-        /// run in-process; otherwise the whole batch is delegated to an elevated
-        /// worker instance so the user sees a single UAC prompt per apply.
+        /// Reads configured static IPv4 values for display when the adapter is offline.
         /// </summary>
-        private static void RunNetshBatch(List<List<string>> commands)
-        {
-            if (commands.Count == 0) return;
-
-            if (ElevationHelper.IsElevated)
-            {
-                foreach (var cmd in commands)
-                    RunNetsh(cmd);
-            }
-            else
-            {
-                ElevationHelper.RunElevated(commands);
-            }
-        }
-
-        internal static void RunNetsh(IEnumerable<string> args)
-        {
-            var psi = new ProcessStartInfo("netsh")
-            {
-                CreateNoWindow         = true,
-                UseShellExecute        = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError  = true
-            };
-            foreach (var a in args)
-                psi.ArgumentList.Add(a);
-
-            using (var p = Process.Start(psi)
-                ?? throw new Exception(Loc.Get("Error.NetshStartFailed", "netsh başlatılamadı.")))
-            {
-                // Drain both pipes asynchronously so a chatty netsh can't fill a
-                // redirected buffer and deadlock while we WaitForExit.
-                var stdout = p.StandardOutput.ReadToEndAsync();
-                var stderr = p.StandardError.ReadToEndAsync();
-
-                if (!p.WaitForExit(10_000))
-                {
-                    try { p.Kill(true); } catch { }
-                    throw new Exception(Loc.Get("Error.NetshTimeout",
-                        "netsh yanıt vermedi ve durduruldu."));
-                }
-
-                if (p.ExitCode != 0)
-                {
-                    var err = stderr.GetAwaiter().GetResult().Trim();
-                    if (string.IsNullOrEmpty(err)) err = stdout.GetAwaiter().GetResult().Trim();
-                    throw new Exception(string.IsNullOrEmpty(err)
-                        ? Loc.Format("Error.NetshExitCode", p.ExitCode)
-                        : err);
-                }
-            }
-        }
-
         private static (string ip, string subnet, string gateway, bool isDhcp) ReadRegistryIp(string adapterId)
         {
             try

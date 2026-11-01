@@ -10,23 +10,14 @@ namespace NetworkProfileManager.Services
 {
     public class ProfileRepository
     {
+        private readonly LegacyJsonFile _file;
+        public ProfileRepository() : this(null) { }
+        internal ProfileRepository(Action? beforeReplace) => _file = new(beforeReplace);
         private string DataDir => AppPaths.DataDirectory;
 
         public List<IpProfile> Load(string adapterId)
         {
-            var file = FilePath(adapterId);
-            if (!File.Exists(file)) return new List<IpProfile>();
-
-            try
-            {
-                var json = File.ReadAllText(file);
-                return JsonConvert.DeserializeObject<List<IpProfile>>(json) ?? new List<IpProfile>();
-            }
-            catch
-            {
-                BackupAndReset(file);
-                return new List<IpProfile>();
-            }
+            return _file.Read<IpProfile>(FilePath(adapterId));
         }
 
         public void Save(string adapterId, List<IpProfile> profiles)
@@ -35,8 +26,7 @@ namespace NetworkProfileManager.Services
                 throw new InvalidOperationException(
                     Loc.Get("Error.MaxProfiles", "Maksimum 5 profil kaydedilebilir."));
 
-            var json = JsonConvert.SerializeObject(profiles, Formatting.Indented);
-            File.WriteAllText(FilePath(adapterId), json);
+            _file.Save(FilePath(adapterId), profiles);
         }
 
         private string FilePath(string adapterId)
@@ -45,10 +35,5 @@ namespace NetworkProfileManager.Services
         private static string Sanitize(string id)
             => Regex.Replace(id, @"[^\w\-]", "_");
 
-        private static void BackupAndReset(string file)
-        {
-            try { File.Copy(file, file + ".bak", overwrite: true); } catch { }
-            try { File.Delete(file); } catch { }
-        }
     }
 }

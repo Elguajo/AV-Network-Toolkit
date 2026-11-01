@@ -1,5 +1,9 @@
 # Testing strategy and acceptance matrix
 
+## A26 remediation — ADR-047, 2026-11-01
+
+[Review](AUDIT_FIXES_REVIEW.md): .NET 10 Release build 0 warnings/errors; final full xUnit 687 PASS/0 failed/0 skipped; focused second run 92 PASS; 8 focused save-error/recovery-page + 128 workspace + 64 diagnostics WPF captures, 0 binding errors. Storage conflict/failed-write/corruption, failed migration retry, local typed consent/recovery/exit/final-persistence and shared DNS matching tested with temporary directories/fake OS boundaries. Old executor allowance tests retired with the executor; rejection controls replace them. Package and final planning evidence in the review/status. Native UAC/IPC/NIC/recovery/clean-client and new hosted install/runtime checks NOT RUN. Earlier red runs and DOC-R01/UX-R01/P05-R01 remain recorded; later green does not resolve their root causes.
+
 ## Ready-made network tests — ADR-041 / NT-01, 2026-11-01
 
 Main, bootstrap `2ccf8cd668ab0e27ef98f93b4db87afaf6ec4c67`. [Exact commands, failures/corrections, source/route/TCP limits and actual captures](NETWORK_TEST_PRESETS_REVIEW.md). Final Release solution/harness builds PASS/0 warnings/errors; **681 full unit PASS / 0 failed / 0 skipped**, **50 added cases**, focused 97 PASS. **64 final focused + 128 existing WPF captures / 0 binding errors**, Light/Dark normal/minimum. Fake all NIC/route/DNS/ICMP/TCP boundaries; no native socket or App startup. Counters cover attempts rather than captured packets; continuous results bounded to 100, statistics cover whole run. [Retained TRX hashes](evidence/network-test-presets.txt) include initial instrumentation/scheduling failures and final passing runs. Protected legacy/network/worker/schema/storage source comparison PASS. Planning/tooling final result is recorded in STATUS.md. Owner/native acceptance remains pending; ADR-037 safe-only, no push/release/Phase 08.

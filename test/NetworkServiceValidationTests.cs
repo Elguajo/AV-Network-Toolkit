@@ -92,61 +92,20 @@ public class NetworkServiceValidationTests
         Assert.Throws<ArgumentException>(() => NetworkService.EnsureValidIp(ip, "ip"));
     }
 
-    // ── ApplyDns short-circuit ─────────────────────────────────────
-
     [Fact]
-    public void ApplyDns_NoOpWhenPrimaryEmpty()
+    public void LocalStaticEmptyDnsExplicitlyMeansLeaveUnchanged()
     {
-        var svc = new NetworkService();
-        var ex = Record.Exception(() => svc.ApplyDns("Ethernet", "", ""));
-        Assert.Null(ex);
+        var intent = LocalProfileApplyService.Intent(new NetworkProfileManager.Models.IpProfile
+        { IpAddress = "192.0.2.10", SubnetMask = "255.255.255.0" });
+        Assert.Equal("leave-unchanged", intent.DnsMode); Assert.Empty(intent.DnsServers); Assert.Null(intent.Gateway);
     }
-
-    [Fact]
-    public void ApplyDns_ValidatesPrimaryBeforeAdapterUse()
+    [Theory]
+    [InlineData("999.0.0.1", "255.255.255.0")]
+    [InlineData("192.0.2.10", "garbage")]
+    [InlineData("192.0.2.10", "255.0.255.0")]
+    public void LocalTypedIntentRejectsInvalidAddressOrMask(string ip, string mask)
     {
-        var svc = new NetworkService();
-        Assert.Throws<ArgumentException>(() => svc.ApplyDns("Ethernet", "not-an-ip"));
-    }
-
-    // ── End-to-end argument validation (throws before netsh would run) ──
-
-    [Fact]
-    public void ApplyStaticIp_RejectsInjectedAdapterName()
-    {
-        var svc = new NetworkService();
-        Assert.Throws<ArgumentException>(() =>
-            svc.ApplyStaticIp("Eth\"\nexec C:\\bad.bat", "192.168.1.10", "255.255.255.0", "192.168.1.1"));
-    }
-
-    [Fact]
-    public void ApplyStaticIp_RejectsInvalidIp()
-    {
-        var svc = new NetworkService();
-        Assert.Throws<ArgumentException>(() =>
-            svc.ApplyStaticIp("Ethernet", "999.999.999.999", "255.255.255.0", "192.168.1.1"));
-    }
-
-    [Fact]
-    public void ApplyStaticIp_RejectsInvalidSubnet()
-    {
-        var svc = new NetworkService();
-        Assert.Throws<ArgumentException>(() =>
-            svc.ApplyStaticIp("Ethernet", "192.168.1.10", "garbage", "192.168.1.1"));
-    }
-
-    [Fact]
-    public void ApplyStaticIp_RejectsInvalidGateway()
-    {
-        var svc = new NetworkService();
-        Assert.Throws<ArgumentException>(() =>
-            svc.ApplyStaticIp("Ethernet", "192.168.1.10", "255.255.255.0", "999.0.0.0"));
-    }
-
-    [Fact]
-    public void ApplyDhcp_RejectsInjectedAdapterName()
-    {
-        var svc = new NetworkService();
-        Assert.Throws<ArgumentException>(() => svc.ApplyDhcp("Eth\nrm -rf /"));
+        Assert.ThrowsAny<Exception>(() => LocalProfileApplyService.Intent(new NetworkProfileManager.Models.IpProfile
+        { IpAddress = ip, SubnetMask = mask }));
     }
 }

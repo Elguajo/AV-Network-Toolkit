@@ -1,5 +1,7 @@
 # Repository audit and primary-source research — 2026-11-01
 
+Follow-up: owner subsequently requested all findings fixed. [Local remediation evidence](AUDIT_FIXES_REVIEW.md) and [compatibility contract](../spec/AUDIT_FIXES_CONTRACT.md) supersede the OPEN/authorization statements below for current source only. The original findings and red evidence remain historical; native acceptance and published v1.1.1 are unchanged.
+
 Fork: https://github.com/Elguajo/AV-Network-Toolkit. Inspected HEAD: `de7a97e`, main; application source unchanged from `ba44a525f51ff8a36e67f8d303178d65a29148b1`. Phase 07 remains AWAITING_REVIEW. Owner requested an audit/research, not implementation. All findings below remain OPEN; this report does not authorize compatibility/auth/storage changes, native network tests, publication or a new phase.
 
 ## Assessment

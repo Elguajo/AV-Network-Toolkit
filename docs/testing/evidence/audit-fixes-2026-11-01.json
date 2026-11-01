@@ -1,0 +1,867 @@
+{
+  "Date": "2026-11-01",
+  "Fork": "https://github.com/Elguajo/AV-Network-Toolkit",
+  "Branch": "main",
+  "ImplementationBase": "bfc978c6305a2bd5d2d09424d29d7fad4e0a4b1c",
+  "ConcurrentDocsCommit": "684a0fe",
+  "Sdk": "10.0.403",
+  "Runtime": "10.0.14",
+  "Phase": "07 AWAITING_REVIEW",
+  "UnitRuns": [
+    {
+      "File": "audit-fixes-focused-2.trx",
+      "Sha256": "1061FDC56652E21AB99ADF54A0480A187FFB4E0EEB75BE7AC0079629BE0D6725",
+      "Total": 92,
+      "Passed": 92,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    {
+      "File": "audit-fixes-focused.trx",
+      "Sha256": "569D0D503BA1D62B890A1B73A313407B43FFBCE3D1B2A5F3DFD1B3456D67BD6A",
+      "Total": 92,
+      "Passed": 89,
+      "Failed": 3,
+      "Skipped": 0
+    },
+    {
+      "File": "audit-fixes-full-final.trx",
+      "Sha256": "D836644146C461F1714C8E95F3C6D8495D697F0BEB93A291D44950FA97AA93AB",
+      "Total": 687,
+      "Passed": 687,
+      "Failed": 0,
+      "Skipped": 0
+    },
+    {
+      "File": "audit-fixes-full.trx",
+      "Sha256": "32E6D5AB76ED59B74EB195BB7BAFB3436DA83D9549CEEC1E47847A2036A6265B",
+      "Total": 685,
+      "Passed": 684,
+      "Failed": 1,
+      "Skipped": 0
+    }
+  ],
+  "SafeWpf": [
+    {
+      "Set": "Ui",
+      "Count": 8,
+      "Files": [
+        {
+          "Name": "profile-save-error-Dark-minimum.png",
+          "Sha256": "90846693D4C6341C49D8D466E6D56B0D249B990D5FDFA83CD9F1F3C0955E6980"
+        },
+        {
+          "Name": "profile-save-error-Dark-normal.png",
+          "Sha256": "C9D714BD991FB95EC00D7F8620E9BE2D3790E2FC850C1A3286347B9AA0990843"
+        },
+        {
+          "Name": "profile-save-error-Light-minimum.png",
+          "Sha256": "37D5F1938AA6D71B88568D0BA9684E29FA4DE4BA64010D5927935A657FC4C026"
+        },
+        {
+          "Name": "profile-save-error-Light-normal.png",
+          "Sha256": "4634E3D1EB9FAB620BD9551FB04FB7EBE0CC2FA2E145AE14A92BB65B4DF56279"
+        },
+        {
+          "Name": "recovery-pagination-Dark-minimum.png",
+          "Sha256": "816986E0B81BF4305D1F6BEC0033B462992BE33A2C326AB01825D5BBFFC5992A"
+        },
+        {
+          "Name": "recovery-pagination-Dark-normal.png",
+          "Sha256": "424B416CC958FB6EF4BFD512A7887AA67A057E1895B3EFB30360A13B8F502FF1"
+        },
+        {
+          "Name": "recovery-pagination-Light-minimum.png",
+          "Sha256": "CA3BF4BA9678CA9F904194EA9B7C4A642BFE43AB808EE6AA39D9357784BEC5EC"
+        },
+        {
+          "Name": "recovery-pagination-Light-normal.png",
+          "Sha256": "5E9E2ECFB786C2219546A2A4A2AE205A1139094E87AA2AC24458B4B794774084"
+        }
+      ]
+    },
+    {
+      "Set": "Workspace",
+      "Count": 128,
+      "Files": [
+        {
+          "Name": "apply-empty-Dark-620.png",
+          "Sha256": "DEB610D3DE91800EA6092A8164C6DC37D868FDFD6C35A5DAD25CCBA35873807E"
+        },
+        {
+          "Name": "apply-empty-Dark-760.png",
+          "Sha256": "43D40F7D1246E2314E8AA4374503E04B5E6A8DDF312ACAB547042440B29369F8"
+        },
+        {
+          "Name": "apply-empty-Light-620.png",
+          "Sha256": "241B0F23DA1FD88D1E58700C00A76C4A47E4D8969E6FCB3012F57D199454B848"
+        },
+        {
+          "Name": "apply-empty-Light-760.png",
+          "Sha256": "F528121775AEC6AF9042D94B0ED5A6AE4C94FC5199A0AA1C567B28F8BB2EA38A"
+        },
+        {
+          "Name": "apply-error-Dark-620.png",
+          "Sha256": "F00ABE3EAE91E3E6E3C6F9E018A1C6E376536013B126D2929A1F7C1746BC561E"
+        },
+        {
+          "Name": "apply-error-Dark-760.png",
+          "Sha256": "E477221F3D21D8A07C9877C16D2653E7DC802D67A669205626EFBD5CC6913BD8"
+        },
+        {
+          "Name": "apply-error-Light-620.png",
+          "Sha256": "864BF783A5CDDDC88DE89D11FD1EA64179FB36540C48249DE0EA872C05A3F1F8"
+        },
+        {
+          "Name": "apply-error-Light-760.png",
+          "Sha256": "0053CC606FFF8ED35F8D59F8FEEF092D9388AD5CDC2FB1ED171E7C331B9DD303"
+        },
+        {
+          "Name": "apply-recovered-Dark-620.png",
+          "Sha256": "64758560BB366B39DFFD8B20EA68BBFAEAC8C07E26D494BC4B0EFA69E2C71E08"
+        },
+        {
+          "Name": "apply-recovered-Dark-760.png",
+          "Sha256": "14FFD5F15D0BC03289B9A0A7F4F7F25550696316CB46C0B0239C698962D086EA"
+        },
+        {
+          "Name": "apply-recovered-Light-620.png",
+          "Sha256": "1B02532787BCD1D8CBB350E2AF8E13EBD3BE560FB9F93A7096439D198DB67897"
+        },
+        {
+          "Name": "apply-recovered-Light-760.png",
+          "Sha256": "46C5F84F99626434088E213798D3A35DA61D43515086B8A21B819319F7FFB7B7"
+        },
+        {
+          "Name": "apply-recovery-Dark-620.png",
+          "Sha256": "CEB62AC9BBF6172917D6C42476E3A77F3D684215A7947FFC555FAE2F8EFCB19F"
+        },
+        {
+          "Name": "apply-recovery-Dark-760.png",
+          "Sha256": "DB856D4E04EF65D7F62F7960F0C9DBFE3DAA26378065CECF0C325845E64981E0"
+        },
+        {
+          "Name": "apply-recovery-Light-620.png",
+          "Sha256": "00D70C95E7CB637FC5D91FBF117370FC314B213A665ADDC484BDE425955AA371"
+        },
+        {
+          "Name": "apply-recovery-Light-760.png",
+          "Sha256": "F6DB9842FFFB343563B7FA0513EEE7A69364F7124FF7100839A9E11A09FE19E9"
+        },
+        {
+          "Name": "apply-review-Dark-620.png",
+          "Sha256": "7F487071CA1563C3192775DE31F557B84D0B0B74930DCBFAD678EE5CFD7BBEB7"
+        },
+        {
+          "Name": "apply-review-Dark-760.png",
+          "Sha256": "D053FE842012778C40DAEBBECC818DC6F00128B09B83BE2A8D8B9225E077E238"
+        },
+        {
+          "Name": "apply-review-Light-620.png",
+          "Sha256": "68BDEB5828D891DBE755F4C82839F372C51EF3FC8486272725C47AB642DA4010"
+        },
+        {
+          "Name": "apply-review-Light-760.png",
+          "Sha256": "8DFD92D2FEDFB16C291809030DCC23885E120C31849E3AB274551D0ECF4C6C73"
+        },
+        {
+          "Name": "current-row-Dark-1200.png",
+          "Sha256": "E72F398B17E62479A1CD35E9596540F6F6DE35DCFE0942FFEEBDE2557E3D5AA3"
+        },
+        {
+          "Name": "current-row-Dark-760.png",
+          "Sha256": "9D61AE1AB4A9EB3EB209924DED7E8B5AB3F94C61A97F6F7D0080A616CCFA08CA"
+        },
+        {
+          "Name": "current-row-Light-1200.png",
+          "Sha256": "407C2D8E2391D7409A967EF5D07833ADABE180446D0CD1FD8FEECCC8DDF72449"
+        },
+        {
+          "Name": "current-row-Light-760.png",
+          "Sha256": "F84143757E591239CF70C4832109B29F901C747E0F9E223AD9834D403A0A9294"
+        },
+        {
+          "Name": "devices-details-En-Dark-700.png",
+          "Sha256": "079274B048B4F5FF6EBE2EF6814D82EDD6B60596A7186BD64AB8BC5DFF030F46"
+        },
+        {
+          "Name": "devices-details-En-Dark-900.png",
+          "Sha256": "114B9291D2458FA7476920BAB5AC21737DF360376211F27E742B39613682694D"
+        },
+        {
+          "Name": "devices-details-En-Light-700.png",
+          "Sha256": "748F417FBA3A280A14F2BA988975FB1AAA85E56E4D6FE26D2FB06D868C3292CC"
+        },
+        {
+          "Name": "devices-details-En-Light-900.png",
+          "Sha256": "F15C0392C261B0588FA8DCD4FAAAB5DCBF9C6CC25C14FAFA266BB648B4A27277"
+        },
+        {
+          "Name": "devices-empty-En-Dark-700.png",
+          "Sha256": "9C9E8CB78BC92FE954B932682342DFFEFD91FE32F8FFAF838552F6DB8DDA8A21"
+        },
+        {
+          "Name": "devices-empty-En-Dark-900.png",
+          "Sha256": "1CAA4B21D69F09649EA1FD8832044C5167E217CCEB4B6B8427A60C5F8FDD5315"
+        },
+        {
+          "Name": "devices-empty-En-Light-700.png",
+          "Sha256": "D55B6DA89BB77DB8F048AEEDAA3EC88CCD07512605F8918208D7831FBD18C6EF"
+        },
+        {
+          "Name": "devices-empty-En-Light-900.png",
+          "Sha256": "981E5A1A0689D443AAB0F15ECDAA9376E454F1F19E52D38C7046B2387694A15D"
+        },
+        {
+          "Name": "devices-error-En-Dark-700.png",
+          "Sha256": "F1A83388B9D59E00B17B3DEF6D0FF2EB36D1015EF0AFF192B3129068607C5EC7"
+        },
+        {
+          "Name": "devices-error-En-Dark-900.png",
+          "Sha256": "F3BB37711C5016DD3FDF31154204D1D5A81F38E3C7E184A5068DF46D25244D19"
+        },
+        {
+          "Name": "devices-error-En-Light-700.png",
+          "Sha256": "6012E23E13F5DBB172D6150F95275B91577F20E0F6DFD6C5B3744594BCF01789"
+        },
+        {
+          "Name": "devices-error-En-Light-900.png",
+          "Sha256": "BFA4238C3999C1F385F4A00A013619FF1AD3FD292B368FF8BB5E16772416ADEC"
+        },
+        {
+          "Name": "devices-selected-En-Dark-700.png",
+          "Sha256": "C16EF4F8AAA655AD9D03C8FF4A2D2F3684579AFA4F250E4F68F7D10E2358849F"
+        },
+        {
+          "Name": "devices-selected-En-Dark-900.png",
+          "Sha256": "331CCD3C68F36E01F9CE78DDDB61B09AB5AB2CAC7BE3FF94172830C309091C25"
+        },
+        {
+          "Name": "devices-selected-En-Light-700.png",
+          "Sha256": "13E45F6121F5415FE95F96FE4321BCC12EFEAE7EE82C7A273A0658679DE505E7"
+        },
+        {
+          "Name": "devices-selected-En-Light-900.png",
+          "Sha256": "7CF758EB745E4D13F47B39994DB6A247111848DF3CECEFE074A52D6F39CCA574"
+        },
+        {
+          "Name": "link-local-adapters-Dark-620.png",
+          "Sha256": "1811208A74D9D74E8610F3D2A0B7212BC906EFD4D548778F1815C38A74444B02"
+        },
+        {
+          "Name": "link-local-adapters-Dark-760.png",
+          "Sha256": "1811208A74D9D74E8610F3D2A0B7212BC906EFD4D548778F1815C38A74444B02"
+        },
+        {
+          "Name": "link-local-adapters-Light-620.png",
+          "Sha256": "E14BFE583C55DB466E00CB1C2F8563EF631AEF7461D026775E4B949C04A81F1F"
+        },
+        {
+          "Name": "link-local-adapters-Light-760.png",
+          "Sha256": "E14BFE583C55DB466E00CB1C2F8563EF631AEF7461D026775E4B949C04A81F1F"
+        },
+        {
+          "Name": "link-local-conflict-Dark-620.png",
+          "Sha256": "927345319895098E1A939FA880F34178791DE81AC56A9E6D52502CB2D62D27C5"
+        },
+        {
+          "Name": "link-local-conflict-Dark-760.png",
+          "Sha256": "CCC8B80C02B72F9DC2114208AE9557A8EA5A9018543C3EBB4AD67C39FFFAD40E"
+        },
+        {
+          "Name": "link-local-conflict-Light-620.png",
+          "Sha256": "259A50B655E512761B535C372FA4D1B34B7EA6CB4E7C811BA8A87625577083B0"
+        },
+        {
+          "Name": "link-local-conflict-Light-760.png",
+          "Sha256": "64314ABEB86937660DF43185F46E7BF62ECC146D3957B86CD1EF281A5D4F064F"
+        },
+        {
+          "Name": "link-local-dhcp-Dark-620.png",
+          "Sha256": "4C8D56BF4150DFE1540F0D16F3E660E61CD498B49E6B8DA623E134032A383EA3"
+        },
+        {
+          "Name": "link-local-dhcp-Dark-760.png",
+          "Sha256": "8054C153A80A827EF727F22DB04D2277964BA28F3839AC93F0472C235665FBE0"
+        },
+        {
+          "Name": "link-local-dhcp-Light-620.png",
+          "Sha256": "9B833CD4D843843B0F129EA54663ECD674D281431378A80A97F6AFFF79A0BFB9"
+        },
+        {
+          "Name": "link-local-dhcp-Light-760.png",
+          "Sha256": "844260D2E6862908EAF347FE4DAFD057F1974882C9E4BB26A37878A946D2CBD0"
+        },
+        {
+          "Name": "link-local-empty-Dark-620.png",
+          "Sha256": "42223E18856C8D5470DE85644E4E157DD0D08FA8009B701E75D0472303655CFE"
+        },
+        {
+          "Name": "link-local-empty-Dark-760.png",
+          "Sha256": "44A6ADDBF9C32FDEC48CCED72E323E68FA16B26FB8E9FDBDAA592EB9DC173B61"
+        },
+        {
+          "Name": "link-local-empty-Light-620.png",
+          "Sha256": "F2A81DB1F804666A7AB68084FC56C0D0930FCB14707D85BC9B32D1B42F347969"
+        },
+        {
+          "Name": "link-local-empty-Light-760.png",
+          "Sha256": "AE5A826B37E829CC1B5803310C979AAFEFE68FC3C12731B18435C27DF70D1390"
+        },
+        {
+          "Name": "link-local-review-Dark-620.png",
+          "Sha256": "6316BB0D542E602A6AC35AAF4EDE92C0C968FFBC746B054721EA69E93FF6A9DD"
+        },
+        {
+          "Name": "link-local-review-Dark-760.png",
+          "Sha256": "7DA50DC2484DD2088C25D3CE953108A462D7C1E47A3C2C9C642FB1D71A1784E2"
+        },
+        {
+          "Name": "link-local-review-Light-620.png",
+          "Sha256": "625080D64DD059D0400A9F6C372773B07A266CE67D1D4B83C49242C9C9B54678"
+        },
+        {
+          "Name": "link-local-review-Light-760.png",
+          "Sha256": "D07D338996A0EB54B82DF862FDE22B2BBE89B7893FBBBDDD4976A137F3E0E6B0"
+        },
+        {
+          "Name": "link-local-verified-Dark-620.png",
+          "Sha256": "ACFDF1E8118EEAA58E63ED18FE9120D3FAE52B90E6A6B82815BD5FB8D9113C21"
+        },
+        {
+          "Name": "link-local-verified-Dark-760.png",
+          "Sha256": "090E67F6FECDF1D38C7F0F9B335C1268956E40E3F99A715CE56770DEBDD59A42"
+        },
+        {
+          "Name": "link-local-verified-Light-620.png",
+          "Sha256": "3FF6BA1BE93279E9E31B26A62DEA36F5EF6ED69C02CD2C6BB0CEBD3A2D1F6245"
+        },
+        {
+          "Name": "link-local-verified-Light-760.png",
+          "Sha256": "2EC8AB696A6E3F88DBCD1F88266F742F0E56D8DCFE1D936ACA7926799BA13008"
+        },
+        {
+          "Name": "mdns-empty-Dark-620.png",
+          "Sha256": "BC6B5B878463DF78F84AA4699D0B77AF4F0B270151DCE21FAD0F35198DAF400D"
+        },
+        {
+          "Name": "mdns-empty-Dark-820.png",
+          "Sha256": "D1A51BAA459AA9771876A9CF8940846D3F3E4EFF18650D47ACA7C253086F2879"
+        },
+        {
+          "Name": "mdns-empty-Light-620.png",
+          "Sha256": "3B7E6B1334CE2E0D74261294D1709583E9E99AD773CFFCD9FFC02E4FAD3E7732"
+        },
+        {
+          "Name": "mdns-empty-Light-820.png",
+          "Sha256": "49141F7721DC7F048EF748C6CFF3BAE5EE8D83264AC50930D64449388427ABDA"
+        },
+        {
+          "Name": "mdns-error-Dark-620.png",
+          "Sha256": "92AADE5DBD499F336DC32EDAC147868BF3D646BD8D3258B0913E5EB93DEABB4E"
+        },
+        {
+          "Name": "mdns-error-Dark-820.png",
+          "Sha256": "B9D6AE086D651E3AD24540421C86B15CBEA158F7324A05C6F359754E5BB4C0C6"
+        },
+        {
+          "Name": "mdns-error-Light-620.png",
+          "Sha256": "72FD6C23EB0203C0CDAB45208BE4D11CD6E5C5A4D2FD18F5EB548A675C63BFF7"
+        },
+        {
+          "Name": "mdns-error-Light-820.png",
+          "Sha256": "B645095A5F231F0A2FEBD1A6A9E06D3424834C4B74A9E3C191548B739001D79B"
+        },
+        {
+          "Name": "mdns-filter-empty-Dark-620.png",
+          "Sha256": "881B1E2AB5B963E07957C27C503AA19410EF4B1BDC4D2C8805E7EA203FB39BCF"
+        },
+        {
+          "Name": "mdns-filter-empty-Dark-820.png",
+          "Sha256": "BD21EF410FA53ABC683492813C699BAF806ECC863081C6DE167B5E5245704CBB"
+        },
+        {
+          "Name": "mdns-filter-empty-Light-620.png",
+          "Sha256": "FFBF27C9588D831F5DFB0A5D97491B8A5530CA609363452F34F19C1324C05891"
+        },
+        {
+          "Name": "mdns-filter-empty-Light-820.png",
+          "Sha256": "14BFFB8F30E5FE02AD96C935F5335863E1AF69269F78277E5F507603C307C7F3"
+        },
+        {
+          "Name": "mdns-listening-Dark-620.png",
+          "Sha256": "E8304C862701B3F0811FA0941FA787050B004713363D77443A31BD1C7E741F89"
+        },
+        {
+          "Name": "mdns-listening-Dark-820.png",
+          "Sha256": "66751B2F3E45CBFACD2CDEF809E4879A16FF70668036E3FF7741E8550B8DDD3F"
+        },
+        {
+          "Name": "mdns-listening-Light-620.png",
+          "Sha256": "1FBCC6B2E904E70E27DFCC15932E44EA2736620C4AD415FCE71EA295D28BE0AD"
+        },
+        {
+          "Name": "mdns-listening-Light-820.png",
+          "Sha256": "C602947848CA7D6B89805BE64A3DD61192030391FFC9BB9CAA6DB629C35C0D38"
+        },
+        {
+          "Name": "mdns-stopped-Dark-620.png",
+          "Sha256": "8B16A5E36ECD7A3B264D0E7FC19746CFF9A2D3410E75334281EEF560D77C242E"
+        },
+        {
+          "Name": "mdns-stopped-Dark-820.png",
+          "Sha256": "BC3EF38AACDA230D56C8AA9490CF971A8682EA541A59E587F46FDEDED0F6B552"
+        },
+        {
+          "Name": "mdns-stopped-Light-620.png",
+          "Sha256": "0E57FF059358923EB27A6877A10A351B436928B16B7E7EC0E1EFA0652A168D2B"
+        },
+        {
+          "Name": "mdns-stopped-Light-820.png",
+          "Sha256": "E478DB9602B47911BF6836F9FE9CDF38B3A61C742B6730D9AEBB47A79187978B"
+        },
+        {
+          "Name": "project-En-Dark-700.png",
+          "Sha256": "7FECBFA407D5B3B970AAFF60104261DFDFB9B150D380683626586D448EE91572"
+        },
+        {
+          "Name": "project-En-Dark-900.png",
+          "Sha256": "9129BDEEA4F66A9DDBBCD4AF00652AAD9260F15A0E66C1DD414F15CFC3C7C997"
+        },
+        {
+          "Name": "project-En-Light-700.png",
+          "Sha256": "0412B70E51A05A7577E00C4D3AEA9450F224ED7374A716D7D711BB34BDB53A80"
+        },
+        {
+          "Name": "project-En-Light-900.png",
+          "Sha256": "5F7C4D0106457894FFC1C5F668CD5A8BD37FDB79784D25AD360B9073CC385651"
+        },
+        {
+          "Name": "toolbar-Dark-1200.png",
+          "Sha256": "F0435F650FCBD82C958C66160850951144532126593E37A9D42450BFF86D9F7E"
+        },
+        {
+          "Name": "toolbar-Dark-760.png",
+          "Sha256": "4E721AA79F48EAEB03FBA401180F58DD54A8073E79D3F2DD271DFAB1796E3FA4"
+        },
+        {
+          "Name": "toolbar-disabled-Dark-1200.png",
+          "Sha256": "85E1F46EE71589B4CE0887F9C079C0140BEE3AA5E1EA6D870FFFBD5FB5FDE70E"
+        },
+        {
+          "Name": "toolbar-disabled-Dark-760.png",
+          "Sha256": "C985023D5DDF7FD31B91A7EA2537D1B393F52CCF118E2B5E74CBECC865C0FE42"
+        },
+        {
+          "Name": "toolbar-disabled-Light-1200.png",
+          "Sha256": "0B3BD032DAE4C1046433F25C1D019FD578ED5771B6E87A5410A00E2E6F77792D"
+        },
+        {
+          "Name": "toolbar-disabled-Light-760.png",
+          "Sha256": "B6F44B08E7915045E207A5F5809E73C2A01EB9165A645E954E5B8BA44D558305"
+        },
+        {
+          "Name": "toolbar-focus-Dark-1200.png",
+          "Sha256": "B323FE0F9ED04E7EA85E842B5532775AFA570A532627A626C7F1D183923ED54E"
+        },
+        {
+          "Name": "toolbar-focus-Dark-760.png",
+          "Sha256": "1CDE427689D84A8C1F2F12C4C648F1408523EA8B1DCB866A527E26B1A392BE1D"
+        },
+        {
+          "Name": "toolbar-focus-Light-1200.png",
+          "Sha256": "087D6ECA24058D9896341CE3A1D3DE8BBCDEAB9E3816CB11715404047844B544"
+        },
+        {
+          "Name": "toolbar-focus-Light-760.png",
+          "Sha256": "FF6A4116A079B5F6E231C40BD178C675AC4A733A191B6755D44A28953C69E85D"
+        },
+        {
+          "Name": "toolbar-Light-1200.png",
+          "Sha256": "FA85EEC9095E0B6C2F56E8345E370ECD32BD296B181035E759DFAAA5D213F48E"
+        },
+        {
+          "Name": "toolbar-Light-760.png",
+          "Sha256": "F33B767430DBBB1671510434E3207D74D60865B8EE94D8D4DA8AED407A41F226"
+        },
+        {
+          "Name": "workspace-adapter-Dark-1200.png",
+          "Sha256": "B323FE0F9ED04E7EA85E842B5532775AFA570A532627A626C7F1D183923ED54E"
+        },
+        {
+          "Name": "workspace-adapter-Dark-760.png",
+          "Sha256": "48F559B1E71D0507570759B31869DFD3B00A5081C1AAE9D952289311AC88AD3A"
+        },
+        {
+          "Name": "workspace-adapter-Light-1200.png",
+          "Sha256": "087D6ECA24058D9896341CE3A1D3DE8BBCDEAB9E3816CB11715404047844B544"
+        },
+        {
+          "Name": "workspace-adapter-Light-760.png",
+          "Sha256": "DE6664EFE0EBC46B1103C21A4A77828A549657248E754B17CD0B3F9DDA6F4ABF"
+        },
+        {
+          "Name": "workspace-devices-Dark-1200.png",
+          "Sha256": "8501C9B26BC601C5FDF3C76C1E40A41BA0BEA3910702EFDE57624461793266A7"
+        },
+        {
+          "Name": "workspace-devices-Dark-760.png",
+          "Sha256": "C0EA18505FA3BF7D38F40A8BE52022D0A3FB632DE68EB3280FCF3B6E6ACD8505"
+        },
+        {
+          "Name": "workspace-devices-Light-1200.png",
+          "Sha256": "6FB116601D16A99E8C97AA44A8EFB7A6A62F8D451928063664FB4742325CDDC0"
+        },
+        {
+          "Name": "workspace-devices-Light-760.png",
+          "Sha256": "EC166E304D39389626AF556AECEEB2528771EE653137A26EBC91180A61861CE0"
+        },
+        {
+          "Name": "workspace-editor-Dark-1200.png",
+          "Sha256": "9648EA7773D858908F9A259FB018D863181F13D56C7BF65ED6025625A6DDE086"
+        },
+        {
+          "Name": "workspace-editor-Dark-760.png",
+          "Sha256": "17804AEC1A526E344D6F55C51A07B68EE0089A3B0F17DA71279343CF4BB3CAE3"
+        },
+        {
+          "Name": "workspace-editor-error-Dark-1200.png",
+          "Sha256": "B23791AAA4868D598191374162FCA50B364D924FAA4919C7175174821E85C169"
+        },
+        {
+          "Name": "workspace-editor-error-Dark-760.png",
+          "Sha256": "AE1BE43D8C34E1CCBA151A3DC96B35A906A78FF049675C259459753777FD9E3A"
+        },
+        {
+          "Name": "workspace-editor-error-Light-1200.png",
+          "Sha256": "E26B7FB758DB3147404DC49ADABDFC1DE31667D4D546582874D3345324790D25"
+        },
+        {
+          "Name": "workspace-editor-error-Light-760.png",
+          "Sha256": "3F72961DB9EFCD8793697FD37D359CD97F40D359A43A404A4164B5F7F9315786"
+        },
+        {
+          "Name": "workspace-editor-Light-1200.png",
+          "Sha256": "E96BB14145AFA89DC667F093880D4395CB3C2AC6981AC87DF8A32E65CA22791B"
+        },
+        {
+          "Name": "workspace-editor-Light-760.png",
+          "Sha256": "C8666D32039A7C14A330BBDEBA06A0C8180AA2E4A18D8035FA9C67D4ACC0646A"
+        },
+        {
+          "Name": "workspace-manual-Dark-1200.png",
+          "Sha256": "790D7992FB821924FD199A13E883684DC423918F6FC4E053C4940543E309D183"
+        },
+        {
+          "Name": "workspace-manual-Dark-760.png",
+          "Sha256": "62AE6B2A0F57CADA649CCC933CB99C37B85F4EA04D0803086C9DE6E6817AD519"
+        },
+        {
+          "Name": "workspace-manual-Light-1200.png",
+          "Sha256": "465E57278016D2F15F05099685FFB4B41C97B6594EE49D98CB3F0B7B2D2270A5"
+        },
+        {
+          "Name": "workspace-manual-Light-760.png",
+          "Sha256": "6556A219ACE85156DB8DA0FDB760B7ED6DD981B649C1AEEE268226D1E1D70D95"
+        },
+        {
+          "Name": "workspace-no-adapter-Dark-1200.png",
+          "Sha256": "B2CD39C965F2B925AF71A77E22486570838C5521AA0B1881AB51D551EC5A6636"
+        },
+        {
+          "Name": "workspace-no-adapter-Dark-760.png",
+          "Sha256": "319F5C44352752D673ACD225E8365637F625BF569ADFBBBB7D08D056F9ED714B"
+        },
+        {
+          "Name": "workspace-no-adapter-Light-1200.png",
+          "Sha256": "59A36A510660F197AA966474269618D4C0B21365860DE4243F00829D5ADBEA5A"
+        },
+        {
+          "Name": "workspace-no-adapter-Light-760.png",
+          "Sha256": "EB602E4AEFB647E5A544FE3B9C6631A32C46DCCBF21342ACC796527AD9BE1247"
+        },
+        {
+          "Name": "workspace-project-Dark-1200.png",
+          "Sha256": "706C1BF48603E60101386202277197828AAC4E7D7D199F91302C69B406BD2FB0"
+        },
+        {
+          "Name": "workspace-project-Dark-760.png",
+          "Sha256": "FB297BB6F68E3522AE976A28C7F108A9C19F44303B67E2C275EF0764E7E2764F"
+        },
+        {
+          "Name": "workspace-project-Light-1200.png",
+          "Sha256": "38FAB8BC73AC4F59F58C17D571B8FB581AB6D818268D4CF4DC5CE7083331CB23"
+        },
+        {
+          "Name": "workspace-project-Light-760.png",
+          "Sha256": "CD069F5AC444018B5442397E57701D794AEE56D67212242D2BEEE50BBF1D7674"
+        }
+      ]
+    },
+    {
+      "Set": "Diagnostics",
+      "Count": 64,
+      "Files": [
+        {
+          "Name": "diagnostics-busy-Dark-minimum.png",
+          "Sha256": "4C1196C6EB4232B01986E47E8C33B72CC0CCA4093D1F80CA12000CACE628E361"
+        },
+        {
+          "Name": "diagnostics-busy-Dark-normal.png",
+          "Sha256": "C4543BDEC74BD234287752F019914BB5801566F09DB221396CDB24C2CC5F41FF"
+        },
+        {
+          "Name": "diagnostics-busy-Light-minimum.png",
+          "Sha256": "783E692D246D6CB3B5080044D4F7F6A6A4AF249ACC8D445EFFCF0F9D183F0678"
+        },
+        {
+          "Name": "diagnostics-busy-Light-normal.png",
+          "Sha256": "E3ED7766AA38DCCB36BA5687A3486496F6C56159D5D0067C2BDABDB3EE217B62"
+        },
+        {
+          "Name": "diagnostics-empty-Dark-minimum.png",
+          "Sha256": "7A0F6BB2EAF20016D096F0E6605AE053DDAEFE2915555C3A61FC403C4DE2332F"
+        },
+        {
+          "Name": "diagnostics-empty-Dark-normal.png",
+          "Sha256": "36D8333F5E2DCA814E5D24A2EAE06D969C236D10F28D4053ECE906712BB23F1C"
+        },
+        {
+          "Name": "diagnostics-empty-Light-minimum.png",
+          "Sha256": "379080AEC69677C51975BFC4911D5A346D2C0822FD784C85FA5160B209873DD0"
+        },
+        {
+          "Name": "diagnostics-empty-Light-normal.png",
+          "Sha256": "E2B50631DA1ECCFDCA8CB8483D96A709874F7B8C3FCC6489CDAF24F80647A33D"
+        },
+        {
+          "Name": "diagnostics-facts-Dark-minimum.png",
+          "Sha256": "4A3CE82D41BAC93B5F793A32B8435E15DCF2B439E0F98E9EF7DB4333E2FB7038"
+        },
+        {
+          "Name": "diagnostics-facts-Dark-normal.png",
+          "Sha256": "0F3EC8E23A3A3B8C6664D836930636B1E8908A2C404BA3414F2B5E4B0512BB4C"
+        },
+        {
+          "Name": "diagnostics-facts-Light-minimum.png",
+          "Sha256": "0C8732A4520DE3E1945C4E208C418AD7922C886F88EEBE14A334E295C6BC9044"
+        },
+        {
+          "Name": "diagnostics-facts-Light-normal.png",
+          "Sha256": "AB93B2AE7B85F994A8E2DAFFCAD21E3615FB9D660F3725D7E71D5D3E055E5AA9"
+        },
+        {
+          "Name": "diagnostics-inline-Dark-minimum.png",
+          "Sha256": "821F66577E9AB0C4D3EB5C000A62E94D7AB05FCA4FEBAFBDBCFC1A5305A7D0F6"
+        },
+        {
+          "Name": "diagnostics-inline-Dark-normal.png",
+          "Sha256": "E1B6A5909D92E0BF08B2BD53C57922DED030B848F17D05E5F7B11FA8FA6E4597"
+        },
+        {
+          "Name": "diagnostics-inline-Light-minimum.png",
+          "Sha256": "1CFDEB9F69CA557DBD4BAF476BDABAABDE3E06DC5B9B604298B1555E7A13A8CB"
+        },
+        {
+          "Name": "diagnostics-inline-Light-normal.png",
+          "Sha256": "6C52F585102727D2B49170CB5BC9129728B5928C35CE5523EFEE4A0A0F4265DC"
+        },
+        {
+          "Name": "diagnostics-reply-Dark-minimum.png",
+          "Sha256": "A26754E2F3AA871B0313F71883925BCE4DAB825523F652332CEE3817C9374FB6"
+        },
+        {
+          "Name": "diagnostics-reply-Dark-normal.png",
+          "Sha256": "286965AC5DBC17BE5ED75B426051EE51F9DA8F117BC7BCD25E70B5BC0825CF29"
+        },
+        {
+          "Name": "diagnostics-reply-Light-minimum.png",
+          "Sha256": "A37829A22BC7BE67ED81069FFE490123CFCD41FD786070DE8E9F7222C1C3FDA3"
+        },
+        {
+          "Name": "diagnostics-reply-Light-normal.png",
+          "Sha256": "6BDBDEBC63039E7A81DFE2DDC81FE939BEB7A7F18352FE39116FFDB238A457F8"
+        },
+        {
+          "Name": "diagnostics-route-blocked-Dark-minimum.png",
+          "Sha256": "98CB31B6D76EC7CE0055BB9BD57496D30F6F574B94ACEEAF6E25DAC9975F760F"
+        },
+        {
+          "Name": "diagnostics-route-blocked-Dark-normal.png",
+          "Sha256": "FA55210F826BD8DDF32F6506B225DBAEC2D2CF3EC191DF0057EF1E7225452F8B"
+        },
+        {
+          "Name": "diagnostics-route-blocked-Light-minimum.png",
+          "Sha256": "B7586C0A42D85347287C1958A6B4886042B2855D22B5C864AD4CFA4A2A4F5F0D"
+        },
+        {
+          "Name": "diagnostics-route-blocked-Light-normal.png",
+          "Sha256": "084432F3F3AD82EB4436C36524CF707D62E6F6CE60BA3F67E252092D90AC3B5F"
+        },
+        {
+          "Name": "diagnostics-scroll-end-Dark-minimum.png",
+          "Sha256": "98CB31B6D76EC7CE0055BB9BD57496D30F6F574B94ACEEAF6E25DAC9975F760F"
+        },
+        {
+          "Name": "diagnostics-scroll-end-Dark-normal.png",
+          "Sha256": "FA55210F826BD8DDF32F6506B225DBAEC2D2CF3EC191DF0057EF1E7225452F8B"
+        },
+        {
+          "Name": "diagnostics-scroll-end-Light-minimum.png",
+          "Sha256": "B7586C0A42D85347287C1958A6B4886042B2855D22B5C864AD4CFA4A2A4F5F0D"
+        },
+        {
+          "Name": "diagnostics-scroll-end-Light-normal.png",
+          "Sha256": "084432F3F3AD82EB4436C36524CF707D62E6F6CE60BA3F67E252092D90AC3B5F"
+        },
+        {
+          "Name": "diagnostics-unavailable-Dark-minimum.png",
+          "Sha256": "9C76DDB96084225B918982690848B69B68C0766A3A6A5252FAB8E66B4AC29A31"
+        },
+        {
+          "Name": "diagnostics-unavailable-Dark-normal.png",
+          "Sha256": "4D3CD113BDC7672BB54ECE53F449F9E4CF6B12B1B1EA4A71A5DDE560414DC6AF"
+        },
+        {
+          "Name": "diagnostics-unavailable-Light-minimum.png",
+          "Sha256": "4EB69FDC06F18D21B0B580A3FDEA5860CDAF2506B5520B69A0716C26A1AFDBAB"
+        },
+        {
+          "Name": "diagnostics-unavailable-Light-normal.png",
+          "Sha256": "3C71DCE5551C4DFA7B233240ACEE9F6C55D91879AC3269C37CB3480F6B162364"
+        },
+        {
+          "Name": "network-tests-collapsed-Dark-minimum.png",
+          "Sha256": "84D53BE67FFD4E66FB1D086205DC46ADB1A94778309E26268B97D6D21B295119"
+        },
+        {
+          "Name": "network-tests-collapsed-Dark-normal.png",
+          "Sha256": "189B8E8D997C6E7298EDA34310EC1B88E8506AE55A25D68D6BEC98C73016489C"
+        },
+        {
+          "Name": "network-tests-collapsed-Light-minimum.png",
+          "Sha256": "5D48F00E3D7E583427E668A6E692D025C1B94CB196F2BE18C2FF5C781E73F660"
+        },
+        {
+          "Name": "network-tests-collapsed-Light-normal.png",
+          "Sha256": "4EEC2ED287C5E7F2A9CD60AB920E75BE4B854449F18321D27F74CF61479DD586"
+        },
+        {
+          "Name": "network-tests-continuous-stopped-Dark-minimum.png",
+          "Sha256": "07D723E521E83D531B5196F5DA5471DCBE63A2172A315FF98DC94884271A1DF6"
+        },
+        {
+          "Name": "network-tests-continuous-stopped-Dark-normal.png",
+          "Sha256": "69CA809D7D5AADE6D163E4E0427276932BC69EE52BB838AAC3001A311DAAD071"
+        },
+        {
+          "Name": "network-tests-continuous-stopped-Light-minimum.png",
+          "Sha256": "7CCBDC48AB888D32AE28ED5517EEDA3FFCB30919CBBDCA4789C0D6E51A544D0D"
+        },
+        {
+          "Name": "network-tests-continuous-stopped-Light-normal.png",
+          "Sha256": "F0852030B94E1FE02A3476FCB0D20A72EC634008BC9B08C0A62BC4C7547661F1"
+        },
+        {
+          "Name": "network-tests-inline-tcp-Dark-minimum.png",
+          "Sha256": "083D1DB1665F1AC49C951926FF99CAF22B2F5FB80206849B4F97FC4C2BA8B43F"
+        },
+        {
+          "Name": "network-tests-inline-tcp-Dark-normal.png",
+          "Sha256": "46812D7E2A8D68AAB8B92B9361D795E5A6102B2DDA1662BCE8078FBAE7D2BE6D"
+        },
+        {
+          "Name": "network-tests-inline-tcp-Light-minimum.png",
+          "Sha256": "640ACF52FA5B850230B7DF9E3C8FED0B48C7DA42FE17876DE36F0CF4467B3345"
+        },
+        {
+          "Name": "network-tests-inline-tcp-Light-normal.png",
+          "Sha256": "833DED67B182DFEBE84C0FFFF6E681FA90E5DD42C3FDD1F002BEF6580B665F53"
+        },
+        {
+          "Name": "network-tests-port-error-Dark-minimum.png",
+          "Sha256": "54DA587B280EA51585C04D37E256B441D99FD6B0FBA12F8B5462D376895B0AC6"
+        },
+        {
+          "Name": "network-tests-port-error-Dark-normal.png",
+          "Sha256": "468D344298D6CC07E73325EB05E75838961C55794A42B1C147ACD3107A98C1B9"
+        },
+        {
+          "Name": "network-tests-port-error-Light-minimum.png",
+          "Sha256": "B79F27EC77EAAAAFC0F6F6F5F84AC70FE358F381BF5468DCDA43AEE4E546EF2D"
+        },
+        {
+          "Name": "network-tests-port-error-Light-normal.png",
+          "Sha256": "FFBCA47615342BBBC2E745939401B8369F4265C4EC3CE0022785073273074B91"
+        },
+        {
+          "Name": "network-tests-tcp-accepted-Dark-minimum.png",
+          "Sha256": "84AD538CA43C277AF4671F311CBBC6A579CB37BDCB95AFF682A8E35FC2D7826A"
+        },
+        {
+          "Name": "network-tests-tcp-accepted-Dark-normal.png",
+          "Sha256": "B624CA69FB2E8654FC264168CF12B1E36A30A905B282373862D4E33870487757"
+        },
+        {
+          "Name": "network-tests-tcp-accepted-Light-minimum.png",
+          "Sha256": "4765ECB8E4F4BED650829D292081AD2F82E8B718624186FF4535BA6905EF16A1"
+        },
+        {
+          "Name": "network-tests-tcp-accepted-Light-normal.png",
+          "Sha256": "038A7D1B77AB197158E4BEBB96E32396FEE1689B5856185F10DCE79302D80AAF"
+        },
+        {
+          "Name": "network-tests-tcp-ready-Dark-minimum.png",
+          "Sha256": "918E7F37BA3EFBC531F36315857BE9FCDB0ECC4ED825B9323DC3BD7737B11C43"
+        },
+        {
+          "Name": "network-tests-tcp-ready-Dark-normal.png",
+          "Sha256": "B3FA55AE53E5A3E7C7A3E2D48E4C134E3B678767F43DC66C2429D2674874C981"
+        },
+        {
+          "Name": "network-tests-tcp-ready-Light-minimum.png",
+          "Sha256": "AE9C5189DFFD704CB0BA7088031091E301A82D02C34BB1D8305AE763040CF411"
+        },
+        {
+          "Name": "network-tests-tcp-ready-Light-normal.png",
+          "Sha256": "1C876349DA2BB56D97326CE84F965FF7CEE40506B21B5C3C6BB38A234ECC5499"
+        },
+        {
+          "Name": "network-tests-tcp-refused-Dark-minimum.png",
+          "Sha256": "1344EBB37C87126BD2E2A4C4B57994FA8F02FAA059F63C19F1ECC2CAC39B2357"
+        },
+        {
+          "Name": "network-tests-tcp-refused-Dark-normal.png",
+          "Sha256": "42F1B8DDF6385B553FCCFB24E7C808B5F7A34564FA48D5721F68F93BF92954CF"
+        },
+        {
+          "Name": "network-tests-tcp-refused-Light-minimum.png",
+          "Sha256": "ACD2255EC0E36F27C0FCF81C9A870089EBDA205DA9B0F087A804FD33D7C22F50"
+        },
+        {
+          "Name": "network-tests-tcp-refused-Light-normal.png",
+          "Sha256": "55CE2B4C733F8A93FC099BDC256985F707152FFAC40DFB381428742EC00C9C62"
+        },
+        {
+          "Name": "network-tests-tcp-timeout-Dark-minimum.png",
+          "Sha256": "7CD0CB535AFCB76D927917456D92F19DB0EB28DDFB34FE5AD2F0C33D922A6496"
+        },
+        {
+          "Name": "network-tests-tcp-timeout-Dark-normal.png",
+          "Sha256": "9CA006A279031E01C9DE180A5594C7EE9734FA8A2AA56E43CB174A23A3AFDEEA"
+        },
+        {
+          "Name": "network-tests-tcp-timeout-Light-minimum.png",
+          "Sha256": "8F30CF58D5CA39C9CFFE646628085C1D1903AC3DEC4A452D27FCCB231FB0A80D"
+        },
+        {
+          "Name": "network-tests-tcp-timeout-Light-normal.png",
+          "Sha256": "CF7BF0A206E306397476C1F95C6EC637DA0E66C79DC4517AF1B269A1B73E4F23"
+        }
+      ]
+    }
+  ],
+  "NativeNetwork": "NOT RUN",
+  "NewHostedCI": "NOT RUN",
+  "PublishedReleaseChanged": false
+}

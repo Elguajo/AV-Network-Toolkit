@@ -17,6 +17,8 @@
 Windows network profiles and project-scoped device web interfaces for AV field work. Select an adapter, review the computer's current settings, deliberately apply a saved profile, then open the equipment interface when needed.
 
 **1.1.1 Preview:** includes the fork's project/device workflows, diagnostics, new logo and self-contained Windows packages. Automated checks do not replace isolated hardware acceptance; read the [release limitations](docs/releases/v1.1.1.md#limitations) before changing a working network.
+
+**Current source after the audit:** local Apply/Revert now uses the verified typed workflow, file failures preserve saved data, and development targets .NET 10 LTS. These [local fixes and compatibility limits](docs/testing/AUDIT_FIXES_REVIEW.md) are not included in the existing v1.1.1 downloads, which remain on .NET 8. New release/native acceptance is pending.
 </div>
 
 ![AV Network Toolkit in dark theme: selected Ethernet adapter, current settings and saved network profiles](docs/screenshots/readme/main-dark.png)
@@ -102,17 +104,21 @@ Project JSON stays in the folder you explicitly choose. New-flow private recover
 
 Exit the application through its tray Exit action before replacing/installing files. The installer does not force-close a busy app or remove user data on uninstall. Portable updates replace application files only; the ZIP does not make settings USB-local. There is no automatic updater. A future move to `%USERPROFILE%\.av-network-toolkit` is approved but **not implemented in this release**.
 
-Legacy history does not snapshot every DNS/route/additional-address setting. Do not treat its Revert action as a complete restore of arbitrary adapter configurations. The new project recovery path also blocks unclassified state instead of inventing missing settings.
+In current source, local profile/history saves use atomic replacement with unique backups. Corrupt files and backups are preserved; repair/restore them before retrying. A save conflict requires refresh. Add/Edit keeps the draft open if saving fails. Private journals and backups can grow; retain them securely and manage retention manually.
+
+New local history points to the exact recovery journal, including the supported original DNS policy. Older history has an explicit incomplete-restore warning: recorded address settings or DHCP policy only, never complete restoration of unknown DNS/routes/leases. Missing journals block full recovery. Recovery lists preserve damaged files, show healthy entries and offer pages beyond 1000 files.
 
 ## Verification and limits
 
 The [packaging report](docs/testing/PACKAGING_REVIEW.md), [test matrix](docs/testing/TEST_MATRIX.md), [JSON regression evidence](docs/testing/JSON_VALIDATION_REVIEW.md) and [release notes](docs/releases/v1.1.1.md) distinguish unit/fake, WPF, packaged-host and native evidence. GitHub CI runs isolated unit tests, schema/planning checks and package installation/runtime-discovery checks on disposable Windows runners.
 
-Real NIC/DAD/UAC/IPC/multicast/route/ICMP/TCP behavior, actual packet egress, clean Windows-client deployment, cross-version installer upgrades and manual accessibility remain separate acceptance work. No temporary DHCP server or device-password storage is shipped. Static automatic DNS, /31–/32, initial DHCP without a usable lease/APIPA and complex/managed settings remain conservatively blocked for the new apply flow. Do not bypass these checks to configure a production network.
+Real NIC/DAD/UAC/IPC/multicast/route/ICMP/TCP behavior, actual packet egress, clean Windows-client deployment, cross-version installer upgrades and manual accessibility remain separate acceptance work. No temporary DHCP server or device-password storage is shipped. Current source uses the same conservative contract for local/manual/tray and project Apply: static automatic DNS, /31–/32, initial DHCP without a usable lease/APIPA and complex/managed settings are blocked. Static empty DNS means unchanged; empty gateway explicitly removes the supported default gateway after review. See the [compatibility matrix](docs/spec/AUDIT_FIXES_CONTRACT.md).
 
 ## Development
 
-Use the .NET 8 SDK selected by `global.json`; runtime is bundled only in published packages, not ordinary build output.
+Use the .NET 10 SDK selected by `global.json`; runtime is bundled only in published packages, not ordinary build output.
+
+For current .NET 10 builds, follow Microsoft's [supported OS matrix](https://github.com/dotnet/core/blob/main/release-notes/10.0/supported-os.md). It includes Windows 11 and specific Windows 10 LTSC/IoT/Enterprise versions; ordinary Windows 10 22H2 is not listed. The existing Windows 10 lab does not certify .NET 10 startup or native behavior. The x64 Windows 10/11 description in Download refers to the older published Preview.
 
 ```powershell
 git clone https://github.com/Elguajo/AV-Network-Toolkit.git
@@ -129,7 +135,7 @@ Build both packages from a clean checkout with PowerShell 7:
 
 The script downloads and verifies pinned Inno Setup 6.7.4 build tools, publishes a self-contained win-x64 payload, executes the non-network package self-test and creates installer/ZIP plus a source/hash manifest under a fresh `out/packages` directory. A repeat build needs a fresh output directory. Native DLLs stay beside the executable instead of being extracted to a user-writable temporary location. See [packaging contract](docs/spec/PACKAGING_CONTRACT.md).
 
-`app/` contains the .NET 8 WPF/MVVM application, `test/` its isolated xUnit suite, `schemas/` and `examples/` the project format, `scripts/` build/verification tools and `packaging/` installer configuration. Internal namespace/executable identities remain `NetworkProfileManager` for compatibility. [Contributing](CONTRIBUTING.md), [security reporting](SECURITY.md), [roadmap](ROADMAP.md).
+`app/` contains the .NET 10 WPF/MVVM application, `test/` its isolated xUnit suite, `schemas/` and `examples/` the project format, `scripts/` build/verification tools and `packaging/` installer configuration. Internal namespace/executable identities remain `NetworkProfileManager` for compatibility. [Contributing](CONTRIBUTING.md), [security reporting](SECURITY.md), [roadmap](ROADMAP.md).
 
 ## License and provenance
 

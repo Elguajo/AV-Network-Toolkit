@@ -45,7 +45,9 @@ namespace NetworkProfileManager.Helpers
         /// Old files are NOT deleted, they remain as a backup.
         /// Returns the number of files copied.
         /// </summary>
-        public static int MigrateLegacyDataIfPresent()
+        public static int MigrateLegacyDataIfPresent() => MigrateLegacyDataIfPresent(AppDomain.CurrentDomain.BaseDirectory);
+
+        internal static int MigrateLegacyDataIfPresent(string legacyBase)
         {
             try
             {
@@ -53,7 +55,7 @@ namespace NetworkProfileManager.Helpers
                 if (File.Exists(marker)) return 0;
 
                 int copied = 0;
-                var legacyBase = AppDomain.CurrentDomain.BaseDirectory;
+                bool complete = true;
 
                 // 1. profiles_*.json / history_*.json sit under <baseDir>/data/
                 var legacyDataDir = Path.Combine(legacyBase, "data");
@@ -65,8 +67,8 @@ namespace NetworkProfileManager.Helpers
                         var dst = Path.Combine(DataDirectory, name);
                         if (!File.Exists(dst))
                         {
-                            try { File.Copy(src, dst); copied++; }
-                            catch { /* skip locked / unreadable */ }
+                            try { CopyLegacy(src, dst); copied++; }
+                            catch { complete = false; }
                         }
                     }
                 }
@@ -78,18 +80,31 @@ namespace NetworkProfileManager.Helpers
                     var dst = Path.Combine(DataDirectory, "app_settings.json");
                     if (!File.Exists(dst))
                     {
-                        try { File.Copy(legacyAppSettings, dst); copied++; }
-                        catch { }
+                        try { CopyLegacy(legacyAppSettings, dst); copied++; }
+                        catch { complete = false; }
                     }
                 }
 
-                File.WriteAllText(marker, DateTime.UtcNow.ToString("O"));
+                if (complete) File.WriteAllText(marker, DateTime.UtcNow.ToString("O"));
                 return copied;
             }
             catch
             {
                 return 0;
             }
+        }
+
+        private static void CopyLegacy(string source, string destination)
+        {
+            var temporary = destination + "." + Guid.NewGuid().ToString("N") + ".tmp";
+            try
+            {
+                using (var input = new FileStream(source, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var output = new FileStream(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+                { input.CopyTo(output); output.Flush(true); }
+                File.Move(temporary, destination, overwrite: false);
+            }
+            finally { try { if (File.Exists(temporary)) File.Delete(temporary); } catch { } }
         }
     }
 }

@@ -51,8 +51,8 @@ public class ProfileViewModelTests
         => Assert.False(IsActiveOn(Plant(dns: "8.8.8.8"), StaticAdapter(dns: "1.1.1.1")));
 
     [Fact]
-    public void Active_WhenAdapterReportsNoDns()   // disconnected adapters read no DNS
-        => Assert.True(IsActiveOn(Plant(dns: "8.8.8.8"), StaticAdapter(dns: "")));
+    public void NotActive_WhenRequiredDnsCannotBeObserved()   // disconnected adapters read no DNS
+        => Assert.False(IsActiveOn(Plant(dns: "8.8.8.8"), StaticAdapter(dns: "")));
 
     [Fact]
     public void StaticProfile_NotActive_OnDhcpAdapterWithTheSameAddress()
@@ -63,13 +63,13 @@ public class ProfileViewModelTests
     }
 
     [Fact]
-    public void DhcpProfile_ActiveOnlyOnDhcpAdapter()
+    public void DhcpProfile_DoesNotClaimCurrentPolicyWithoutDnsSourceEvidence()
     {
         var dhcp = new IpProfile { Name = "Office", IsDhcp = true };
         var adapter = StaticAdapter();
         Assert.False(IsActiveOn(dhcp, adapter));
         adapter.IsDhcp = true;
-        Assert.True(IsActiveOn(dhcp, adapter));
+        Assert.False(IsActiveOn(dhcp, adapter));
     }
 
     [Fact]

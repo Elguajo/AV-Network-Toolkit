@@ -21,6 +21,10 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
     private readonly ProjectApplyCoordinator _coordinator;
     private readonly Func<CancellationToken, Task<IReadOnlyList<ApplyAdapterIdentity>>> _enumerate;
     private readonly Func<IReadOnlyList<ProjectApplyRequest>> _readJournals;
+    private readonly Func<int, IReadOnlyList<ProjectApplyRequest>>? _readPage;
+    private readonly Func<bool>? _hasMore;
+    private readonly Func<int>? _unreadable;
+    private int _snapshotOffset;
     private readonly IProjectApplyDialogs _dialogs;
     private readonly ApplyIntent? _intent;
     private readonly ProjectDevice? _device;
@@ -38,12 +42,14 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
         IProjectApplyBoundary boundary, IProjectApplyJournal journal, IBrowserLauncher browser,
         Func<CancellationToken, Task<IReadOnlyList<ApplyAdapterIdentity>>> enumerate,
         Func<IReadOnlyList<ProjectApplyRequest>> readJournals, IProjectApplyDialogs dialogs,
-        int verificationAttempts = 10, string projectName = "", bool linkLocalTool = false, Guid? targetAdapterId = null)
+        int verificationAttempts = 10, string projectName = "", bool linkLocalTool = false, Guid? targetAdapterId = null,
+        Func<int, IReadOnlyList<ProjectApplyRequest>>? readPage = null, Func<bool>? hasMore = null, Func<int>? unreadable = null)
     {
         _intent = profile == null ? null : ProjectApplyPolicy.FromProfile(profile);
         _device = device;
         _targetAdapterId = targetAdapterId;
         _enumerate = enumerate; _readJournals = readJournals; _dialogs = dialogs;
+        _readPage = readPage; _hasMore = hasMore; _unreadable = unreadable;
         _coordinator = new(boundary, journal, browser, verificationAttempts: verificationAttempts);
         ProfileName = profile?.Name ?? "";
         ProjectName = projectName;
@@ -56,7 +62,8 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
         ReviewRecoveryCommand = new RelayCommand(async _ => await ReviewAsync(true), _ => !IsBusy && (_recoveryTarget != null || SelectedSnapshot != null));
         ApplyCommand = new RelayCommand(async _ => await ApplyAsync(), _ => !IsBusy && _plan != null);
         CancelCommand = new RelayCommand(_ => Cancel(), _ => IsBusy || _plan != null);
-        ReadSnapshotsCommand = new RelayCommand(_ => LoadSnapshots(), _ => !IsBusy);
+        ReadSnapshotsCommand = new RelayCommand(_ => LoadSnapshots(false), _ => !IsBusy);
+        NextSnapshotsCommand = new RelayCommand(_ => LoadSnapshots(true), _ => !IsBusy && HasMoreSnapshots);
     }
     public string ProfileName { get; }
     public bool IsLinkLocalTool { get; }
@@ -106,6 +113,8 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
     public ICommand ApplyCommand { get; }
     public ICommand CancelCommand { get; }
     public ICommand ReadSnapshotsCommand { get; }
+    public ICommand NextSnapshotsCommand { get; }
+    public bool HasMoreSnapshots => _hasMore?.Invoke() == true;
     public ICommand GenerateAddressCommand { get; }
     public ICommand ReviewDhcpCommand { get; }
     public async Task RefreshAsync()
@@ -196,15 +205,19 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
         if (_plan == null) return;
         _coordinator.Discard(_plan); _plan = null; Review = "";
     }
-    private void LoadSnapshots()
+    private void LoadSnapshots(bool next)
     {
         try
         {
             DiscardPlan(); _saved = null; _recoveryTarget = null; Snapshots.Clear();
-            foreach (var request in _readJournals())
+            _snapshotOffset = next ? checked(_snapshotOffset + ProjectApplyJournal.PageSize) : 0;
+            foreach (var request in _readPage?.Invoke(_snapshotOffset) ?? _readJournals())
                 if (!_targetAdapterId.HasValue || request.Before.Identity.Id == _targetAdapterId) Snapshots.Add(request);
             Changed(nameof(SelectedSnapshot));
             Status = Loc.Get(Snapshots.Count == 0 ? "Ux.NoRecovery" : "Apply.SnapshotsRead");
+            if (_unreadable?.Invoke() is int count && count > 0) Status += "\n" + Loc.Format("Storage.UnreadableSnapshots", count);
+            if (HasMoreSnapshots) Status += "\n" + Loc.Get("Storage.MoreSnapshots");
+            Changed(nameof(HasMoreSnapshots));
         }
         catch { Status = Loc.Get("Apply.SnapshotsError"); }
     }
@@ -229,10 +242,10 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
         + (s.Dad == null ? "" : "\n" + Loc.Get("LinkLocal.DadObserved") + " " + s.Dad.Transmits + " / " + s.Dad.Connected)
         + "\n" + Loc.Get("Apply.Persistent") + " " + string.Join(", ", s.PersistentAddresses.Select(a => a.Address + "/" + a.PrefixLength))
         + "\n" + Loc.Get("Apply.Routes") + "\n" + string.Join("\n", s.Routes.Select(r => r.Destination + " → " + r.NextHop + " (" + r.Metric + ", " + r.Store + ")"));
-    private static string FormatIntent(ApplyIntent d) => (d.Mode == "dhcp" ? "DHCP" : d.Address + "/" + d.PrefixLength)
+    internal static string FormatIntent(ApplyIntent d) => (d.Mode == "dhcp" ? "DHCP" : d.Address + "/" + d.PrefixLength)
         + "\n" + Loc.Get("EditBar.Gateway") + ": " + (d.Mode == "dhcp" ? Loc.Get("Project.DnsAutomatic") : d.Gateway ?? Loc.Get("Apply.None"))
         + "\nDNS: " + d.DnsMode + " " + string.Join(", ", d.DnsServers);
-    private static string StateText(ProjectApplyState state) => state switch
+    internal static string StateText(ProjectApplyState state) => state switch
     {
         ProjectApplyState.Complete => Loc.Get("Apply.State.Complete"),
         ProjectApplyState.Cancelled => Loc.Get("Apply.State.Cancelled"),

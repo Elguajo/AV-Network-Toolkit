@@ -21,7 +21,8 @@ public partial class ProjectApplyWindow : Wpf.Ui.Controls.FluentWindow
         var journal = new ProjectApplyJournal();
         var dialogs = new ApplyDialogs();
         var vm = new ProjectApplyViewModel(profile, device, new WindowsProjectApplyBoundary(), journal,
-            new DefaultBrowserLauncher(), async token => await observation.EnumerateAsync(token), journal.ReadSnapshots, dialogs, projectName: projectName, linkLocalTool: linkLocalTool, targetAdapterId: targetAdapterId);
+            new DefaultBrowserLauncher(), async token => await observation.EnumerateAsync(token), journal.ReadSnapshots, dialogs, projectName: projectName, linkLocalTool: linkLocalTool, targetAdapterId: targetAdapterId,
+            readPage: journal.ReadSnapshots, hasMore: () => journal.HasMore, unreadable: () => journal.UnreadableCount);
         var window = new ProjectApplyWindow(vm);
         dialogs.Owner = window;
         // Enumerate only after entering this explicit action; no automatic selection.

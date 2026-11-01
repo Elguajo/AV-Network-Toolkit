@@ -162,7 +162,7 @@ public sealed class ProjectApplyBoundaryTests
             Assert.Equal(request.OperationId, Assert.Single(j.ReadSnapshots()).OperationId);
             await Assert.ThrowsAsync<IOException>(() => j.BeginAsync(request, CancellationToken.None));
             Assert.Equal(original, File.ReadAllBytes(path));
-            File.WriteAllText(path, "{}"); Assert.ThrowsAny<Exception>(() => j.ReadSnapshots());
+            File.WriteAllText(path, "{}"); Assert.Empty(j.ReadSnapshots()); Assert.Equal(1, j.UnreadableCount);
         }
         finally { if (Directory.Exists(root)) Directory.Delete(root, true); }
     }

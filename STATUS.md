@@ -1,5 +1,14 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Audit remediation — A26-01–08 / ADR-047, 2026-11-01
+
+- Fork / branch / implementation base: https://github.com/Elguajo/AV-Network-Toolkit / main / `bfc978c6305a2bd5d2d09424d29d7fad4e0a4b1c`. Concurrent documentation-only `684a0fe` preserved. Scoped implementation commit follows; resolve with `git log -1 --format=%H -- app/Services/LocalProfileApplyService.cs`. Unrelated untracked `.serena/` preserved/excluded.
+- Completed locally: all eight audited source defects/risks addressed under the [contract](docs/spec/AUDIT_FIXES_CONTRACT.md), [review](docs/testing/AUDIT_FIXES_REVIEW.md) and [retained result hashes](docs/testing/evidence/audit-fixes-2026-11-01.json). Corrupt files/backups preserved, atomic local saves, bounded independent recovery pages, shared verified local Apply/Revert and exact-journal DNS recovery, retired generic privilege worker, save-failure draft retention, migration retry, tray DNS agreement and .NET 10 LTS migration. No project v1/schema or storage-path migration.
+- Tests last executed: SDK 10.0.403/runtime 10.0.14; Release solution build **0 warnings/0 errors**, **687 full unit PASS/0 failed/0 skipped**, **92 focused PASS**, **8 focused + 128 existing + 64 diagnostic WPF captures PASS/0 binding errors**, app/test current transitive vulnerability queries clear. Initial red runs and corrections retained. Planning/schema/formats/**448 links PASS**, **12 tooling PASS**, whitespace PASS before implementation commit.
+- In progress: same-source local package creation/self-test and final evidence commit. New hosted CI/install/reinstall/uninstall/runtime-negative-control and native NIC/UAC/IPC/DAD/recovery/clean-client acceptance NOT RUN. No release/push/product install/live networking/VM changes. Phase 07 AWAITING_REVIEW; DATA-01 and Phase 08 unchanged.
+- Important limits: old history remains explicitly incomplete; unsupported complex/no-lease/APIPA/static-automatic-DNS states are now conservatively blocked across local entry points. .NET 10 official support does not list ordinary Windows 10 22H2; existing lab startup/compatibility is UNVERIFIED. Published v1.1.1 and prior lab payload remain unchanged on .NET 8. Historical DOC-R01/UX-R01/P05-R01 not closed by green runs. Stable release NO-SHIP pending owner/native acceptance.
+- Next smallest safe action: finish package diagnostics/evidence, then review this local diff and the exact isolated native baseline/recovery case before any live application test.
+
 ## README screenshots — DOC-01, 2026-11-01
 
 - Fork / branch / capture source: https://github.com/Elguajo/AV-Network-Toolkit / main / `bfc978c6305a2bd5d2d09424d29d7fad4e0a4b1c`, isolated git-archive export. Scoped documentation commit follows; resolve with `git log -1 --format=%H -- docs/screenshots/readme/README.md`. Unrelated untracked `.serena/` and concurrent app source edits preserved/excluded.

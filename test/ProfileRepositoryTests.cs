@@ -89,17 +89,16 @@ public class ProfileRepositoryTests : IDisposable
     }
 
     [Fact]
-    public void Load_BacksUpAndResets_WhenJsonCorrupted()
+    public void Load_PreservesOriginalAndExistingBackup_WhenJsonCorrupted()
     {
         var repo = new ProfileRepository();
         var id = NewId();
         var file = Path.Combine(_dir.Root, $"profiles_{id}.json");
         File.WriteAllText(file, "{ this is not valid json");
 
-        var loaded = repo.Load(id);
-
-        Assert.Empty(loaded);
-        Assert.True(File.Exists(file + ".bak"));
-        Assert.False(File.Exists(file));
+        File.WriteAllText(file + ".bak", "previous backup");
+        Assert.Throws<InvalidDataException>(() => repo.Load(id));
+        Assert.Equal("{ this is not valid json", File.ReadAllText(file));
+        Assert.Equal("previous backup", File.ReadAllText(file + ".bak"));
     }
 }

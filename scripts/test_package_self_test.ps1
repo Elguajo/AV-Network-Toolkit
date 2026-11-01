@@ -26,4 +26,17 @@ Invoke-SelfTest @('--package-self-test','relative-report.json') 2
 Invoke-SelfTest @('--package-self-test') 2
 Invoke-SelfTest @('--package-self-test',(Join-Path $results 'extra.json'),'unexpected') 2
 if (Test-Path -LiteralPath (Join-Path $results 'extra.json')) { throw 'Malformed invocation wrote a report' }
-Write-Output 'PASS: packaged WPF/JSON load, report create-only protection and three malformed-argument cases; no normal startup/network'
+# Retired privilege boundary must reject before normal startup for every arity,
+# without consuming a seemingly valid command file or overwriting its result path.
+$request = Join-Path $results 'retired-worker-request.json'
+$retiredResult = Join-Path $results 'retired-worker-result.txt'
+[IO.File]::WriteAllText($request, '[["interface","ip","set","address","name=fixture","source=dhcp"]]')
+[IO.File]::WriteAllText($retiredResult, 'preserve sentinel')
+$requestHash = (Get-FileHash -LiteralPath $request -Algorithm SHA256).Hash
+Invoke-SelfTest @('--run-netsh') 1
+Invoke-SelfTest @('--run-netsh',$request) 1
+Invoke-SelfTest @('--run-netsh',$request,$retiredResult) 1
+Invoke-SelfTest @('--run-netsh',$request,$retiredResult,'unexpected') 1
+if ((Get-FileHash -LiteralPath $request -Algorithm SHA256).Hash -ne $requestHash -or
+    [IO.File]::ReadAllText($retiredResult) -ne 'preserve sentinel') { throw 'Retired worker touched its file arguments' }
+Write-Output 'PASS: packaged WPF/JSON load, report create-only, three malformed diagnostic cases and four retired-worker rejections; no normal startup/network'

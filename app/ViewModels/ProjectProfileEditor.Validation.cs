@@ -14,7 +14,7 @@ public sealed partial class ProjectProfileEditor : IDataErrorInfo
     private bool _showValidation;
     private static readonly string[] Fields = { nameof(Name), nameof(Mode), nameof(Address), nameof(Prefix), nameof(Gateway), nameof(DnsMode), nameof(Dns1), nameof(Dns2) };
     public string? FirstInvalidField => Fields.FirstOrDefault(p => FieldError(p).Length != 0);
-    public string Error => FirstInvalidField is { } field ? FieldError(field) : "";
+    public string Error => FirstInvalidField is { } invalidField ? FieldError(invalidField) : "";
     public string this[string property] => _showValidation ? FieldError(property) : "";
     public void ShowValidation() { _showValidation = true; Changed(string.Empty); }
 

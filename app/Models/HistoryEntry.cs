@@ -14,5 +14,7 @@ namespace NetworkProfileManager.Models
         public bool     WasDhcp     { get; set; }
         public bool     IsDhcp      { get; set; }
         public string?  ProfileName { get; set; }
+        // Additive local-history extension. Old entries remain readable and explicitly address-only.
+        public Guid? RecoveryOperationId { get; set; }
     }
 }

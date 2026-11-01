@@ -54,6 +54,7 @@ namespace NetworkProfileManager
         }
         public bool ConfirmApplicationExit()
         {
+            if (DataContext is MainViewModel vm && !vm.ConfirmApplicationExit()) return false;
             if (OwnedWindows.OfType<ProjectApplyWindow>().Any(w => !w.ConfirmApplicationExit())) return false;
             if (OwnedWindows.OfType<ProjectProfileDialog>().Any(w => !w.ConfirmApplicationExit())) return false;
             return Project.CanDiscard();

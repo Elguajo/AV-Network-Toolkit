@@ -1,5 +1,7 @@
 # Project context — persistent product brief
 
+Current local source follow-up (ADR-047): owner-authorized [A26 audit fixes](docs/spec/AUDIT_FIXES_CONTRACT.md) unify local/project mutation safety, preserve damaged storage, add journal-backed local recovery and target .NET 10 LTS. [Evidence and OS/compatibility limits](docs/testing/AUDIT_FIXES_REVIEW.md). Existing published v1.1.1 remains .NET 8. Phase 07 AWAITING_REVIEW; no native acceptance, DATA-01 or Phase 08 advancement.
+
 ## Current diagnostic follow-up — ADR-041, 2026-11-01
 
 Owner approved the [expanding network-test concept](docs/design/network-tests-target.png) and explicitly requested implementation. NT-01 adds descriptive Ping four/continuous/single and one-port TCP presets through the existing diagnostics MVVM/panel, inline below profiles and in an independent separate window. [Contract](docs/spec/NETWORK_TEST_PRESETS_CONTRACT.md), [local evidence](docs/testing/NETWORK_TEST_PRESETS_REVIEW.md). Phase 07 remains AWAITING_REVIEW; ADR-037 safe-only verification, previous acceptance and publication/release gates persist. No JSON/schema/network-mutation/support/Phase 08 change.

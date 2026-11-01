@@ -23,22 +23,22 @@ namespace NetworkProfileManager.Helpers
 
         public static void Success(string message, string? title = null)
             => Show(title ?? Loc.Get("Notify.Success", "Başarılı"), message, ControlAppearance.Success,
-                   new SymbolIcon(SymbolRegular.CheckmarkCircle20));
+                   SymbolRegular.CheckmarkCircle20);
 
         public static void Info(string message, string? title = null)
             => Show(title ?? Loc.Get("Notify.Info", "Bilgi"), message, ControlAppearance.Info,
-                   new SymbolIcon(SymbolRegular.Info20));
+                   SymbolRegular.Info20);
 
         public static void Warning(string message, string? title = null)
             => Show(title ?? Loc.Get("Notify.Warning", "Uyarı"), message, ControlAppearance.Caution,
-                   new SymbolIcon(SymbolRegular.Warning20));
+                   SymbolRegular.Warning20);
 
         public static void Error(string message, string? title = null)
             => Show(title ?? Loc.Get("Notify.Error", "Hata"), message, ControlAppearance.Danger,
-                   new SymbolIcon(SymbolRegular.DismissCircle20));
+                   SymbolRegular.DismissCircle20);
 
         private static void Show(string title, string message,
-                                  ControlAppearance appearance, IconElement? icon)
+                                  ControlAppearance appearance, SymbolRegular icon)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace NetworkProfileManager.Helpers
                         TrayFallback?.Invoke(title, message);
                         return;
                     }
-                    _snackbar?.Show(title, message, appearance, icon,
+                    _snackbar?.Show(title, message, appearance, new SymbolIcon(icon),
                                     TimeSpan.FromSeconds(4));
                 });
             }

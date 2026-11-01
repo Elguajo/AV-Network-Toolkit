@@ -58,6 +58,7 @@
         <TextBlock Text="{DynamicResource Apply.Recovery}" Style="{StaticResource SectionHeaderText}"/>
         <TextBlock Text="{DynamicResource Apply.ManualRecovery}" TextWrapping="Wrap" Style="{StaticResource CaptionText}" TextTrimming="None" Margin="0,4,0,8"/>
         <ui:Button Content="{DynamicResource Apply.ReadSnapshots}" Command="{Binding ReadSnapshotsCommand}" Style="{StaticResource SubtleButton}" Padding="10,6" HorizontalAlignment="Left"/>
+         <ui:Button Content="{DynamicResource Storage.NextSnapshots}" Command="{Binding NextSnapshotsCommand}" Style="{StaticResource SubtleButton}" Padding="10,6" HorizontalAlignment="Left"/>
         <ComboBox ItemsSource="{Binding Snapshots}" SelectedItem="{Binding SelectedSnapshot}" IsEnabled="{Binding CanSelect}" Margin="0,8,0,8"
                   AutomationProperties.Name="{DynamicResource Apply.Recovery}">
           <ComboBox.ItemTemplate><DataTemplate><StackPanel>

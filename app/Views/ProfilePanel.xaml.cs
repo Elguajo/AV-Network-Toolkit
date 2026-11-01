@@ -14,13 +14,12 @@ namespace NetworkProfileManager.Views
             if (!(DataContext is MainViewModel vm)) return;
             if (vm.SelectedAdapter == null) return;
 
+            var target = vm.SelectedAdapter;
             var dialog = new AddProfileDialog
             {
-                Owner = Window.GetWindow(this)
+                Owner = Window.GetWindow(this), Commit = profile => vm.TryAddProfile(profile, target)
             };
-
-            if (dialog.ShowDialog() == true && dialog.Result != null)
-                vm.AddProfile(dialog.Result);
+            dialog.ShowDialog();
         }
 
         // The "…" button opens its menu on a normal click, under the button.
@@ -37,13 +36,12 @@ namespace NetworkProfileManager.Views
             if (!(sender is FrameworkElement fe && fe.Tag is ProfileViewModel pvm)) return;
             if (!(DataContext is MainViewModel vm) || vm.SelectedAdapter == null) return;
 
+            var target = vm.SelectedAdapter;
             var dialog = new AddProfileDialog(pvm.Model)
             {
-                Owner = Window.GetWindow(this)
+                Owner = Window.GetWindow(this), Commit = profile => vm.TryUpdateProfile(pvm, profile, target)
             };
-
-            if (dialog.ShowDialog() == true && dialog.Result != null)
-                vm.UpdateProfile(pvm, dialog.Result);
+            dialog.ShowDialog();
         }
 
         private void ApplyAgain_Click(object sender, RoutedEventArgs e)

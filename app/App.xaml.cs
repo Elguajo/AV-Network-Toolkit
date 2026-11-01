@@ -43,13 +43,10 @@ namespace NetworkProfileManager
                 Environment.Exit(code);
                 return;
             }
-            // Elevated netsh worker mode (--run-netsh <request> <result>):
-            // launched by ElevationHelper via UAC. No UI, no tray — run the
-            // batch and exit with the worker's result code.
-            if (e.Args.Length >= 3 && e.Args[0] == ElevationHelper.WorkerSwitch)
+            // The retired generic file-based worker always fails closed, including malformed invocations.
+            if (e.Args.Length > 0 && e.Args[0] == ElevationHelper.WorkerSwitch)
             {
-                int code = ElevationHelper.RunWorker(e.Args[1], e.Args[2]);
-                Environment.Exit(code);
+                Environment.Exit(1);
                 return;
             }
 

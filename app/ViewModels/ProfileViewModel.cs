@@ -62,29 +62,16 @@ namespace NetworkProfileManager.ViewModels
         /// <summary>
         /// True when the adapter already runs everything this profile would set.
         /// Address, mask and gateway must all match: a profile that only shares the
-        /// IP would still change the adapter. DNS is compared only when both sides
-        /// know it (a disconnected adapter reports none).
+        /// IP would still change the adapter. Explicit DNS requires matching evidence;
+        /// unknown DNS or DHCP policy cannot confirm an active profile.
         /// </summary>
         public bool IsActive
         {
             get
             {
-                var a = _adapter;
-                if (a == null) return false;
-                if (Model.IsDhcp) return a.IsDhcp;
-
-                return !a.IsDhcp
-                    && !string.IsNullOrEmpty(Model.IpAddress)
-                    && Same(Model.IpAddress,  a.CurrentIp)
-                    && Same(Model.SubnetMask, a.CurrentSubnet)
-                    && Same(Model.Gateway,    a.CurrentGateway)
-                    && (string.IsNullOrEmpty(Model.PrimaryDns) || string.IsNullOrEmpty(a.CurrentPrimaryDns)
-                        || Same(Model.PrimaryDns, a.CurrentPrimaryDns));
+                return _adapter != null && NetworkProfileManager.Services.ProfileCurrentState.Matches(Model, _adapter);
             }
         }
-
-        private static bool Same(string? x, string? y)
-            => string.Equals((x ?? "").Trim(), (y ?? "").Trim(), System.StringComparison.OrdinalIgnoreCase);
 
         /// <summary>Called by AdapterViewModel whenever the adapter's configuration changes.</summary>
         public void UpdateFromAdapter(AdapterInfo adapter)

@@ -27,6 +27,7 @@
          actions in the footer always stay reachable. -->
     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
       <StackPanel Margin="20,8,20,20">
+        <TextBlock Text="{Binding SaveError}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite"/>
         <TextBlock Text="{DynamicResource AddProfile.NameLabel}" Style="{StaticResource FieldLabel}"/>
         <ui:TextBox x:Name="TxtName"
                     AutomationProperties.Name="{DynamicResource AddProfile.NameLabel}"
