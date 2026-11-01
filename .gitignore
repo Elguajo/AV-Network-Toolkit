@@ -13,6 +13,8 @@
 .vs/
 .idea/
 .serena/
+__pycache__/
+*.py[cod]
 *.user
 *.suo
 *.userosscache
