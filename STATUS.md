@@ -1,5 +1,13 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Current safe review / entry-point retirement — ADR-038, 2026-11-01
+
+- Fork / branch / exact bootstrap SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / `457ace72d914883ceb2b8a2e59e46db31576ec05`. Only bootstrap working-tree change was CODEX_START.md deletion, now explicitly confirmed by its owner. This commit records that deletion; no branch/worktree/push.
+- Active / completed / in progress: Phase 07 AWAITING_REVIEW. REL-01 fix `8f9106c` reviewed again, no actionable defect in scoped self-review; owner acceptance remains pending. Approved redundant-entry retirement and real-tree planning checks verified. REL-02 native deferred by owner; REL-03/04 unchanged/deferred.
+- Tests last executed: actual working-tree `scripts/validate_plan.py` PASS (9 phases/49 tasks/schema/formats/links); `scripts/test_validate_plan.py` **12 PASS**, including required bootstrap/handoff loss and retired entry absence. Focused JSON **60 PASS/0 failed/0 skipped** (`TestResults/JsonInvestigation/json-safe-review.trx`, build 0 warnings/errors); all **10** prior TRX hashes matched committed evidence. Previous full 631 PASS/Release and 156 fake-boundary evidence retained, not unnecessarily repeated for docs/tooling changes. Exact commands in TEST_MATRIX and JSON_VALIDATION_REVIEW.
+- Blockers / risks: CODEX_START.md missing-file blocker is resolved by owner-authorized retirement with successor-document enforcement, not a temporary missing-file exception. Native Windows/isolated recovery/CI/portable evidence remains UNVERIFIED; no runtime/JSON/schema/UI/network changes in this step.
+- Next smallest safe action: owner reviews local commits/evidence. Continue safe-only scope; native execution and deferred release work retain their existing gates. No push, tag/release, phase acceptance or Phase 08/DHCP server.
+
 ## Current follow-up — ADR-036, 2026-11-01
 
 - Fork / branch / bootstrap SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / `1282fbcea2b3e88977b43373cc6ece53698e996c`; independently matched remote main using `git ls-remote`. Existing unstaged `CODEX_START.md` deletion is outside this task and preserved.
@@ -697,3 +705,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks in active phase: native/owner phase acceptance unchanged; no phase complete.
 - Next smallest safe action: owner reviews local commits and evidence; retain safe-only state until an isolated test environment exists. Do not start Phase 08, DHCP server, release work or push automatically.
 - Can next session proceed without clarification: safe review/fixes within authorized follow-ups yes; native execution, deferred release steps and publication need their existing gates resolved.
+
+## Session handoff — 2026-11-01, owner-confirmed entry retirement and safe review
+
+- Date and environment: 2026-11-01 Asia/Tashkent; existing Windows/PowerShell/SDK 8.0.427/Python; no installation.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / bootstrap `457ace72d914883ceb2b8a2e59e46db31576ec05`. Resolve this local follow-up commit with `git log -1 --format=%H -- scripts/validate_plan.py`; final SHA reported after commit.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; REL-01 repaired/scoped self-review recorded, owner review pending; REL-02 safe-only/native deferred; REL-03/04 deferred.
+- What was actually completed: owner-confirmed CODEX_START.md deletion adopted (ADR-038), redundant required-file check replaced with existing bootstrap/resume/handoff requirements and two meaningful regression tests; stale successor resume branch guidance aligned with ADR-017. Scoped JSON review and prior TRX integrity verification completed, no actionable defect found; no independent reviewer or owner acceptance claimed.
+- Files changed: owner-deleted CODEX_START.md; scripts/validate_plan.py and test_validate_plan.py; prompts/CODEX_RESUME.md; STATUS/TASKS/DECISION_LOG/TEST_MATRIX and JSON_VALIDATION_REVIEW. No app sources, C# tests, schema, examples, UI, license or CI workflow changes.
+- Test commands and results: exact commands/baseline in TEST_MATRIX ADR-038 section. Actual-tree planning PASS; 12 Python tooling tests PASS; 60 focused JSON tests PASS/0 failed/0 skipped (compile 0 warnings/errors), all 10 retained red/green TRX hashes match. Whitespace/scope checked before commit. Previous full 631/Release and 156 fake cases retained, not repeated without a runtime change.
+- Live-network tests: NOT RUN; user safe-only restriction preserved. No network settings, probes, UAC, browser, actual App startup, mDNS or DHCP.
+- Known bugs, risk and workarounds: deleted-entry planning blocker resolved through explicit owner retirement and successor enforcement. JSON queueing and native recovery limits unchanged. Historical failure records preserved.
+- Decisions requiring user approval: owner/phase acceptance, live isolated environment before native actions; deferred REL-03/04 and publication keep existing gates. This request does not authorize push/release/Phase 08.
+- Remaining tasks in active phase: owner/native acceptance unchanged; no phase/task checkbox accepted by this review.
+- Next smallest safe action: owner reviews local maintenance/JSON evidence; continue safe-only scope until the existing native/release gates are explicitly resolved.
+- Can next session proceed without clarification: safe review and scoped authorized fixes yes; native execution, deferred release steps and push no automatic permission.

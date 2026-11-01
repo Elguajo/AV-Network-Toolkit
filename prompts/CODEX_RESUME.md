@@ -6,6 +6,6 @@ Before touching any file: read AGENTS.md, PROJECT_CONTEXT.md, ROADMAP.md, STATUS
 
 Summarize: current exact phase and task IDs, approved scope, preserved behavior, last verified checks, blockers, pending decisions and safest next action. If no explicit current-phase authorization exists, stop after proposing the next action. Do not work on later phases.
 
-If authorized to implement, use a focused branch with minimal diffs. Retain original Network Profile Manager features and existing data compatibility. Do not copy AV Network Toolbag source/assets; treat that project only as a functional reference. Do not mutate production network adapters or run DHCP in CI.
+If authorized to implement, work directly on main with minimal diffs, without separate branches/worktrees (ADR-017). Retain original Network Profile Manager features and existing data compatibility. Do not copy AV Network Toolbag source/assets; treat that project only as a functional reference. Do not mutate production network adapters or run DHCP in CI.
 
 At session end, propose updates to TASKS.md and STATUS.md supported by actual evidence, note tests with exact commands/results, and provide a handoff matching templates/SESSION_HANDOFF.md. Never mark skipped tests as passed.

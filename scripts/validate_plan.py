@@ -30,7 +30,8 @@ def validate(root):
     plan = json.loads((root / "machine/plan.json").read_text(encoding="utf-8"))
     backlog = (root / "TASKS.md").read_text(encoding="utf-8")
     for name in ["AGENTS.md", "PROJECT_CONTEXT.md", "ROADMAP.md", "STATUS.md", "TASKS.md",
-                 "CODEX_START.md", "RELEASE_CHECKLIST.md", "docs/security/THREAT_MODEL.md", "docs/testing/TEST_MATRIX.md"]:
+                 "prompts/CODEX_BOOTSTRAP.md", "prompts/CODEX_RESUME.md", "templates/SESSION_HANDOFF.md",
+                 "RELEASE_CHECKLIST.md", "docs/security/THREAT_MODEL.md", "docs/testing/TEST_MATRIX.md"]:
         assert (root / name).is_file(), f"missing {name}"
     assert plan["status"] in STATES, "invalid plan status"
     assert plan["activePhase"] in {f"{i:02d}" for i in range(1, 10)}, "invalid active phase"

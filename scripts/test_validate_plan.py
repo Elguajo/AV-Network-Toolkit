@@ -13,6 +13,26 @@ class PlanValidatorTests(unittest.TestCase):
     def test_current_repository(self):
         validate(ROOT)
 
+    def test_owner_retired_entry_point_is_not_required(self):
+        original = Path.is_file
+
+        def exists(path):
+            return False if path == ROOT / "CODEX_START.md" else original(path)
+
+        with patch.object(Path, "is_file", exists):
+            validate(ROOT)
+
+    def test_bootstrap_and_handoff_documents_remain_required(self):
+        original = Path.is_file
+        for name in ["AGENTS.md", "PROJECT_CONTEXT.md", "ROADMAP.md", "STATUS.md", "TASKS.md",
+                     "prompts/CODEX_BOOTSTRAP.md", "prompts/CODEX_RESUME.md", "templates/SESSION_HANDOFF.md"]:
+            with self.subTest(document=name):
+                def exists(path):
+                    return False if path == ROOT / name else original(path)
+
+                with patch.object(Path, "is_file", exists), self.assertRaisesRegex(AssertionError, f"missing {name}"):
+                    validate(ROOT)
+
     def reject_plan_mutation(self, mutate):
         original = Path.read_text
         plan = json.loads((ROOT / "machine/plan.json").read_text(encoding="utf-8"))
