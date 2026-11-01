@@ -1,5 +1,9 @@
 # Traceable task backlog
 
+## Current publication — ADR-051, 2026-11-01
+
+- [ ] **REL-06** — Publish current navigation/layout/activity work as 1.1.5 Preview. **AC:** scoped commits and ordinary main push, exact-source build/unit/planning and disposable package/runtime/install/reinstall/uninstall gates, same-source installer/ZIP/checksums/manifest, independent public asset/source verification and accurate known limits. **State:** IN_PROGRESS; preserve published tags/assets and old local 1.1.4 candidate. [Notes](docs/releases/v1.1.5.md). No native/phase acceptance implied.
+
 ## Navigation follow-up — ADR-050, 2026-11-01
 
 - [x] **UI-PREF-01** — Remember main-window/sidebar layout across starts. **AC:** reviewed additive private versioned preference, atomic preservation/compatibility/conflict/retry, normal/max/min/tray/offscreen restoration without touching profiles. **State:** VERIFIED_LOCAL at 2356dec; 13 new storage/geometry unit cases and actual WPF restart/placement checks PASS. [Contract](docs/spec/NAVIGATION_FOLLOWUP_CONTRACT.md), [evidence](docs/testing/NAVIGATION_FOLLOWUP_REVIEW.md).

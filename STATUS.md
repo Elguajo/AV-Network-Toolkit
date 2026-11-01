@@ -1,5 +1,11 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Requested 1.1.5 Preview — REL-06 / ADR-051, 2026-11-01
+
+- Fork / branch / preflight HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `ccfbe61`. Fetched origin/main has 0 remote-only / 9 local-only commits. Working tree initially clean; latest published version 1.1.3, tags 1.1.1–1.1.3. Retain those releases and the distinct older local 1.1.4 candidate.
+- In progress: version 1.1.5/1.1.5.0, release gate/notes/changelog/README alignment; exact-source checks, ordinary push, GitHub release workflow and downloaded-asset verification. Owner explicitly authorized publication; no repeated start approval needed. [Release notes](docs/releases/v1.1.5.md).
+- Tests: preceding implementation 2356dec has 736 unit/232 WPF PASS; these are historical until current release source is checked. No new release/CI success claimed yet. Phase 07 remains AWAITING_REVIEW; native 150%/200%/mixed-monitor, other owner/native gates, DATA-01 and Phase 08 unchanged.
+
 ## Layout/activity/DPI follow-up — ADR-050, 2026-11-01
 
 - Fork / branch / exact implementation: https://github.com/Elguajo/AV-Network-Toolkit / main / `2356decf70f22a089db2a7a99339c99bc6ac956d`. This evidence-only commit follows; resolve via git log for docs/testing/NAVIGATION_FOLLOWUP_REVIEW.md.

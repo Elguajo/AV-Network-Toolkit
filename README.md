@@ -95,10 +95,10 @@ Select an image for the full-size view. These WPF component captures use invente
 
 ## Status and limitations
 
-The current source targets **1.1.3 Preview**. Read the [version notes](docs/releases/v1.1.3.md) and [changelog](CHANGELOG.md) for the changes included in each build.
+The current source targets **1.1.5 Preview**, with the icon rail, collapsible/resizable sidebar, saved window layout and actual tool-activity indicators. Read the [version notes](docs/releases/v1.1.5.md) and [changelog](CHANGELOG.md) for the changes included in each build.
 
 - **Network safety:** complex or unknown adapter configurations are blocked. Recovery is best effort and can fail; older history does not contain a complete original snapshot. Keep an independent way to restore the adapter. [Supported states and field semantics](docs/USER_GUIDE.md#applying-settings-and-recovery).
-- **Acceptance:** automated checks and hosted package tests do not certify real NIC/UAC/DAD, physical packet egress, multicast, clean-client deployment or manual accessibility. The diagnostic hide/cancellation check has an open intermittent failure; its product impact is unverified. [Known issues](docs/releases/v1.1.3.md#known-limitations).
+- **Acceptance:** automated checks and hosted package tests do not certify real NIC/UAC/DAD, physical packet egress, multicast, clean-client deployment or manual accessibility. Native DPI was checked at 100%; actual 150%/200% and mixed-monitor acceptance remain pending. DOC-R01 was resolved as a test synchronization defect. [Known issues](docs/releases/v1.1.5.md#known-limitations).
 - **Scope:** no temporary DHCP server, device-password storage, automatic login, TLS bypass or automatic updater is shipped. Data still uses LocalAppData; the planned user-home migration is not implemented.
 
 ## Documentation
@@ -106,7 +106,7 @@ The current source targets **1.1.3 Preview**. Read the [version notes](docs/rele
 | Start with | For |
 |---|---|
 | [User guide](docs/USER_GUIDE.md) | Installation, local versus project profiles, device links, diagnostics, data and recovery |
-| [Release notes](docs/releases/v1.1.3.md) · [Changelog](CHANGELOG.md) | Version changes, compatibility and known issues |
+| [Release notes](docs/releases/v1.1.5.md) · [Changelog](CHANGELOG.md) | Version changes, compatibility and known issues |
 | [Roadmap](ROADMAP.md) | Planned capabilities and acceptance status |
 | [Test matrix](docs/testing/TEST_MATRIX.md) · [Packaging report](docs/testing/PACKAGING_REVIEW.md) | What was checked and the limits of that evidence |
 | [Project schema](schemas/project.avnet.schema.json) · [Example](examples/project.avnet.json) | Project JSON format |

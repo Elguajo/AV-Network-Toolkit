@@ -97,7 +97,7 @@ DOC-R01 was traced to timing in the automated smoke check: it sampled the send c
 | Data | Location |
 |---|---|
 | Local profiles, history, scanner and theme/language settings | `%LOCALAPPDATA%\NetworkProfileManager\data` |
-| Main-window/sidebar layout (current source follow-up) | `%LOCALAPPDATA%\NetworkProfileManager\data\window_layout.json` |
+| Main-window/sidebar layout (1.1.5+) | `%LOCALAPPDATA%\NetworkProfileManager\data\window_layout.json` |
 | Private apply/recovery journals | `%LOCALAPPDATA%\NetworkProfileManager\apply-recovery` |
 | Project JSON | The file/folder you explicitly choose |
 

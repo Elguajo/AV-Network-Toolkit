@@ -6,6 +6,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.5] — 2026-11-01 (AV Network Toolkit Preview)
+
+### Added
+
+- Persistent tool rail, sidebar toggle/Ctrl+B and bounded mouse/keyboard sidebar resizing with hover-reveal divider/scrollbar.
+- Safe private versioned window/sidebar layout persistence across starts, normal/maximized/minimized/tray restoration and connected-monitor fallback.
+- Accessible activity marks for real inline/separate-window tests and mDNS listening, including cancellation-drain and overlapping-test handling.
+
+### Changed
+
+- Move Profile source above the saved-profile heading and Show all adapters into the adapter header's named More menu.
+- Declare modern PerMonitorV2 DPI awareness and use the actual monitor/DPI for maximized bounds. Native 100% checked; actual 150%/200%/mixed-monitor acceptance remains pending.
+- Publish the current completed work in a new Preview, distinct from the older local-only 1.1.4 candidate. [Changes, data compatibility and known limits](docs/releases/v1.1.5.md).
+
+### Fixed
+
+- Retain last maximized state when returning from the tray and preserve normal geometry while minimized/maximized.
+- Resolve DOC-R01 as a smoke-test synchronization defect, with deterministic Hide/Show and late-echo regression checks; no hidden test suppression or native cancellation support claim.
+
 ## [1.1.4] — 2026-11-01 (local AV Network Toolkit Preview)
 
 ### Changed
