@@ -1,0 +1,58 @@
+JSON validation investigation evidence — 2026-11-01 Asia/Tashkent
+Base: 1282fbcea2b3e88977b43373cc6ece53698e996c; JsonSchema.Net 7.4.0
+Input fixtures: public documentation addresses, generated independently of ProjectJson validation.
+No NIC, UAC, browser, probe, DHCP or application startup.
+
+TestResults/JsonInvestigation/json-baseline.trx
+SHA256 6E60FBACCD075A42A77FFFF6917800FD35B6617C2044E7D78ED83BAAB732E817
+{'total': '53', 'executed': '53', 'passed': '53', 'failed': '0', 'error': '0', 'timeout': '0', 'aborted': '0', 'inconclusive': '0', 'passedButRunAborted': '0', 'notRunnable': '0', 'notExecuted': '0', 'disconnected': '0', 'warning': '0', 'completed': '0', 'inProgress': '0', 'pending': '0'}
+
+TestResults/JsonInvestigation/json-concurrent-before.trx
+SHA256 592CD38DD108AD58AE71DC4C8B0380CB2ADFFA006EAF87A9F9ACAB184BEA1AED
+{'total': '1', 'executed': '1', 'passed': '0', 'failed': '1', 'error': '0', 'timeout': '0', 'aborted': '0', 'inconclusive': '0', 'passedButRunAborted': '0', 'notRunnable': '0', 'notExecuted': '0', 'disconnected': '0', 'warning': '0', 'completed': '0', 'inProgress': '0', 'pending': '0'}
+NetworkProfileManager.Tests.ProjectJsonConcurrencyTests.ConcurrentParse_EnforcesConditionalRulesAndAcceptsValidInput
+149 failures: emptyStaticDns accepted (worker 6, round 6); emptyStaticDns accepted (worker 7, round 5); emptyStaticDns accepted (worker 1, round 6); emptyStaticDns accepted (worker 0, round 2); emptyStaticDns accepted (worker 3, round 4); automaticServers accepted (worker 3, round 5); automaticServers accepted (worker 0, round 3); unchangedServers accepted (worker 3, round 6); unchangedServers accepted (worker 0, round 4); unchangedServers accepted (worker 5, round 4); unchangedServers accepted (worker 4, round 5); dhcpIpv4 accepted (worker 3, round 8)
+
+TestResults/JsonInvestigation/json-focused-after.trx
+SHA256 3DB781CF5E79DF98564D14B02EB5315CCD7DA0C833319E9E71441D55D93B04B0
+{'total': '60', 'executed': '60', 'passed': '60', 'failed': '0', 'error': '0', 'timeout': '0', 'aborted': '0', 'inconclusive': '0', 'passedButRunAborted': '0', 'notRunnable': '0', 'notExecuted': '0', 'disconnected': '0', 'warning': '0', 'completed': '0', 'inProgress': '0', 'pending': '0'}
+
+TestResults/JsonInvestigation/json-full-after.trx
+SHA256 1C89BC5443AA4A372624713D7BC0362CD59DEB72F4282EB05C29E8D661C7BEB4
+{'total': '631', 'executed': '631', 'passed': '631', 'failed': '0', 'error': '0', 'timeout': '0', 'aborted': '0', 'inconclusive': '0', 'passedButRunAborted': '0', 'notRunnable': '0', 'notExecuted': '0', 'disconnected': '0', 'warning': '0', 'completed': '0', 'inProgress': '0', 'pending': '0'}
+
+TestResults/JsonInvestigation/json-repro-after-1.trx
+SHA256 C9D6166625BA2831ABF0C0654BD580615A546E7D4B43A2C943B51C9F78A1342F
+{'total': '7', 'executed': '7', 'passed': '7', 'failed': '0', 'error': '0', 'timeout': '0', 'aborted': '0', 'inconclusive': '0', 'passedButRunAborted': '0', 'notRunnable': '0', 'notExecuted': '0', 'disconnected': '0', 'warning': '0', 'completed': '0', 'inProgress': '0', 'pending': '0'}
+
+TestResults/JsonInvestigation/json-repro-after-2.trx
+SHA256 9432A1811C6CA26BC36404837375730FB8470704D275C611C7769285397CD9DC
+{'total': '7', 'executed': '7', 'passed': '7', 'failed': '0', 'error': '0', 'timeout': '0', 'aborted': '0', 'inconclusive': '0', 'passedButRunAborted': '0', 'notRunnable': '0', 'notExecuted': '0', 'disconnected': '0', 'warning': '0', 'completed': '0', 'inProgress': '0', 'pending': '0'}
+
+TestResults/JsonInvestigation/json-repro-after-3.trx
+SHA256 6279CDC09BCE0D7A24C28408289E3A6CF94FE83D58D7AC61ED9825DD28415A2A
+{'total': '7', 'executed': '7', 'passed': '7', 'failed': '0', 'error': '0', 'timeout': '0', 'aborted': '0', 'inconclusive': '0', 'passedButRunAborted': '0', 'notRunnable': '0', 'notExecuted': '0', 'disconnected': '0', 'warning': '0', 'completed': '0', 'inProgress': '0', 'pending': '0'}
+
+TestResults/JsonInvestigation/json-repro-before-1.trx
+SHA256 F5CBC78E5AABD658A6A5AC00AE7C3F2339B09A4516B3D2F440F8D5D85AC7C57A
+{'total': '7', 'executed': '7', 'passed': '5', 'failed': '2', 'error': '0', 'timeout': '0', 'aborted': '0', 'inconclusive': '0', 'passedButRunAborted': '0', 'notRunnable': '0', 'notExecuted': '0', 'disconnected': '0', 'warning': '0', 'completed': '0', 'inProgress': '0', 'pending': '0'}
+NetworkProfileManager.Tests.ProjectJsonConcurrencyTests.ConcurrentValidation_EnforcesConditionalRulesAndAcceptsValidInput(includeSerialize: False)
+153 failures: unchangedServers accepted (worker 3, round 1); automaticServers accepted (worker 2, round 1); automaticServers accepted (worker 7, round 1); emptyStaticDns accepted (worker 1, round 1); dhcpIpv4 accepted (worker 0, round 1); automaticServers accepted (worker 1, round 2); emptyStaticDns accepted (worker 2, round 5); emptyStaticDns accepted (worker 5, round 7); dhcpIpv4 accepted (worker 3, round 8); automaticServers accepted (worker 0, round 8); automaticServers accepted (worker 6, round 7); unchangedServers accepted (worker 0, round 9)
+NetworkProfileManager.Tests.ProjectJsonConcurrencyTests.ConcurrentValidation_EnforcesConditionalRulesAndAcceptsValidInput(includeSerialize: True)
+155 failures: unchangedServers accepted (worker 4, round 0); dhcpIpv4 accepted (worker 6, round 0); emptyStaticDns accepted (worker 2, round 0); automaticServers accepted (worker 2, round 1); unchangedServers accepted (worker 3, round 1); automaticServers accepted (worker 7, round 1); automaticServers accepted (worker 5, round 3); dhcpIpv4 accepted (worker 3, round 3); unchangedServers accepted (worker 7, round 7); automaticServers accepted (worker 1, round 7); unchangedServers accepted (worker 2, round 7); emptyStaticDns accepted (worker 0, round 7)
+
+TestResults/JsonInvestigation/json-repro-before-2.trx
+SHA256 AA9DE6C1AAC475BC550D7BCEE8DDDF32FC0B537120E00D19AC9538EB9243065A
+{'total': '7', 'executed': '7', 'passed': '5', 'failed': '2', 'error': '0', 'timeout': '0', 'aborted': '0', 'inconclusive': '0', 'passedButRunAborted': '0', 'notRunnable': '0', 'notExecuted': '0', 'disconnected': '0', 'warning': '0', 'completed': '0', 'inProgress': '0', 'pending': '0'}
+NetworkProfileManager.Tests.ProjectJsonConcurrencyTests.ConcurrentValidation_EnforcesConditionalRulesAndAcceptsValidInput(includeSerialize: False)
+139 failures: dhcpIpv4 accepted (worker 4, round 2); automaticServers accepted (worker 4, round 4); automaticServers accepted (worker 2, round 6); dhcpIpv4 accepted (worker 4, round 7); automaticServers accepted (worker 1, round 7); emptyStaticDns accepted (worker 5, round 7); dhcpIpv4 accepted (worker 1, round 10); emptyStaticDns accepted (worker 2, round 10); unchangedServers accepted (worker 4, round 10); unchangedServers accepted (worker 0, round 9); unchangedServers accepted (worker 1, round 13); emptyStaticDns accepted (worker 4, round 13)
+NetworkProfileManager.Tests.ProjectJsonConcurrencyTests.ConcurrentValidation_EnforcesConditionalRulesAndAcceptsValidInput(includeSerialize: True)
+153 failures: dhcpIpv4 accepted (worker 6, round 0); emptyStaticDns accepted (worker 2, round 0); unchangedServers accepted (worker 4, round 0); emptyStaticDns accepted (worker 2, round 5); emptyStaticDns accepted (worker 0, round 7); emptyStaticDns accepted (worker 5, round 7); automaticServers accepted (worker 1, round 7); unchangedServers accepted (worker 7, round 7); dhcpIpv4 accepted (worker 1, round 10); dhcpIpv4 accepted (worker 7, round 9); automaticServers accepted (worker 3, round 10); dhcpIpv4 accepted (worker 0, round 11)
+
+TestResults/JsonInvestigation/json-repro-before-3.trx
+SHA256 E62F24379930F8B6A25B27E9387485862723435E95CA6AFDE5B1D0FE28C56FE5
+{'total': '7', 'executed': '7', 'passed': '5', 'failed': '2', 'error': '0', 'timeout': '0', 'aborted': '0', 'inconclusive': '0', 'passedButRunAborted': '0', 'notRunnable': '0', 'notExecuted': '0', 'disconnected': '0', 'warning': '0', 'completed': '0', 'inProgress': '0', 'pending': '0'}
+NetworkProfileManager.Tests.ProjectJsonConcurrencyTests.ConcurrentValidation_EnforcesConditionalRulesAndAcceptsValidInput(includeSerialize: True)
+159 failures: dhcpIpv4 accepted (worker 6, round 0); emptyStaticDns accepted (worker 2, round 0); unchangedServers accepted (worker 4, round 0); automaticServers accepted (worker 2, round 1); emptyStaticDns accepted (worker 6, round 1); dhcpIpv4 accepted (worker 1, round 0); emptyStaticDns accepted (worker 7, round 0); automaticServers accepted (worker 3, round 0); emptyStaticDns accepted (worker 0, round 2); emptyStaticDns accepted (worker 4, round 3); unchangedServers accepted (worker 7, round 2); unchangedServers accepted (worker 6, round 3)
+NetworkProfileManager.Tests.ProjectJsonConcurrencyTests.ConcurrentValidation_EnforcesConditionalRulesAndAcceptsValidInput(includeSerialize: False)
+173 failures: emptyStaticDns accepted (worker 6, round 1); automaticServers accepted (worker 2, round 1); dhcpIpv4 accepted (worker 7, round 4); automaticServers accepted (worker 2, round 6); emptyStaticDns accepted (worker 6, round 6); unchangedServers accepted (worker 3, round 6); automaticServers accepted (worker 0, round 8); unchangedServers accepted (worker 0, round 9); unchangedServers accepted (worker 4, round 10); dhcpIpv4 accepted (worker 6, round 10); dhcpIpv4 accepted (worker 7, round 9); automaticServers accepted (worker 2, round 11)

@@ -88,3 +88,7 @@ Use a disposable Windows VM/local console, isolated NIC/switch, no production br
 Native Windows DAD during assignment is the conflict mechanism; no separate preflight ARP engine or full RFC 3927 allocator/defender. JSON v1 is deliberately unchanged; Link-Local is transient. Conservative APIPA/unknown-state blocking remains explicit. Isolated 05-T04 execution/manual acceptance is incomplete; no phase marked complete.
 
 Safe next action: owner reviews this packet/diff and open P05-R01, decides its separate investigation/repair scope and whether to authorize isolated Windows validation. Proposed next development phase is 06 — mDNS, **only after a new owner decision**. No automatic Phase 06, push or release.
+
+## REL-01 resolution follow-up — 2026-11-01
+
+The historical P05-R01 failure above is preserved. Under ADR-036, P05-R01/UX-R01 is now FIXED_LOCALLY with reproduced concurrent invalid acceptance, a scoped shared-schema evaluation gate, seven regression cases and 631 full unit PASS. [Cause, before/after evidence and limits](JSON_VALIDATION_REVIEW.md). Owner review/native acceptance remains separate; no phase or release accepted.

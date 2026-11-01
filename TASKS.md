@@ -6,7 +6,7 @@ Separate from phase acceptance and the 49 phase tasks; execute in this order:
 
 | ID | Follow-up | State |
 |---|---|---|
-| REL-01 | Investigate/fix UX-R01/P05-R01 with causal reproduction and meaningful regression coverage | AUTHORIZED / IN_PROGRESS; no schema weakening or test suppression |
+| REL-01 | Investigate/fix UX-R01/P05-R01 with causal reproduction and meaningful regression coverage | FIXED_LOCALLY / EVIDENCE_RECORDED; [reproduction, cause, correction, 631 PASS](docs/testing/JSON_VALIDATION_REVIEW.md); owner review pending |
 | REL-02 | Prepare isolated Windows profile → observed IP/prefix/gateway/DNS → device open → restore, UAC denial, NIC disconnect and partial failure | AUTHORIZED preparation; native execution BLOCKED pending confirmed isolation, explicit test NIC, local console and recovery path |
 | REL-03 | Confirm GitHub CI and portable ZIP on clean Windows | DEFERRED until REL-01/02; CI remains UNVERIFIED |
 | REL-04 | Update first-release README/changelog/version/description/limits/checksum | DEFERRED until REL-01/02; reduced release scope not approved |

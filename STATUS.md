@@ -3,10 +3,11 @@
 ## Current follow-up — ADR-036, 2026-11-01
 
 - Fork / branch / bootstrap SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / `1282fbcea2b3e88977b43373cc6ece53698e996c`; independently matched remote main using `git ls-remote`. Existing unstaged `CODEX_START.md` deletion is outside this task and preserved.
-- Active / completed / in progress: Phase 07 AWAITING_REVIEW; REL-01 JSON investigation authorized/in progress, then REL-02 isolated Windows preparation and only gated native execution. REL-03 CI/portable and REL-04 release metadata deferred. No phase accepted.
-- Tests last executed: inherited evidence 624 PASS/0 failed/0 skipped, Release build and WPF captures; no new test result claimed at bootstrap. UX-R01/P05-R01 remains OPEN despite previous green runs.
-- Blockers / risks: JSON causal reproduction pending; native isolation, test adapter, local console and independent recovery are UNVERIFIED. No arbitrary NIC or working-network mutation authorized. CI/native evidence remains separate.
-- Next action: reproduce and minimally fix JSON validation with regression evidence, commit locally; then prepare REL-02 and request missing environment facts before live-dependent actions. No future push/tag/release, Phase 08 or DHCP server.
+- Active / completed / in progress: Phase 07 AWAITING_REVIEW; REL-01 / UX-R01 / P05-R01 FIXED_LOCALLY with [causal evidence and regression](docs/testing/JSON_VALIDATION_REVIEW.md), awaiting owner review. Authorization is `fc2589f`; repair commit resolves via `git log -1 --format=%H -- app/Services/ProjectJson.cs`. REL-02 preparation follows; REL-03 CI/portable and REL-04 release metadata deferred. No phase accepted.
+- Tests last executed: before-fix concurrent repro 3 fresh processes each 5 PASS/2 FAIL; after-fix 60 focused PASS, three 7-case repeat PASS, full **631 PASS/0 failed/0 skipped** and Release build PASS/0 warnings/errors. Working-tree planning FAIL due pre-existing CODEX_START.md deletion; tooling 9 PASS/1 FAIL for that same missing file. [Exact commands/TRX hashes](docs/testing/JSON_VALIDATION_REVIEW.md). WPF/native checks NOT RUN for this non-UI fix.
+- Blockers / risks: native isolation, test adapter, local console and independent recovery are UNVERIFIED. No arbitrary NIC or working-network mutation authorized. CI/native evidence remains separate. Existing missing CODEX_START.md blocks the working-tree planning gate; deletion is not part of this repair.
+- Isolated planning control: tracked-HEAD archive plus current task overlays, retaining tracked CODEX_START.md only in an ignored snapshot, PASS schema/formats/49 tasks/309 links + 10 tooling tests. Actual working-tree failure above remains; no branch/worktree created.
+- Next action: owner reviews local JSON repair; continue authorized REL-02 preparation and request environment facts before live-dependent actions. No future push/tag/release, Phase 08 or DHCP server.
 
 ## Current publication — ADR-035, 2026-11-01
 
@@ -664,3 +665,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks in active phase: owner/native Phase 07 acceptance unchanged.
 - Next smallest safe action: finish and commit JSON repair/evidence, then prepare REL-02 and obtain missing lab facts.
 - Can next session proceed without clarification: yes for authorized JSON/preparation; no dependent live actions before gates are established.
+
+## Session handoff — 2026-11-01, REL-01 JSON repair
+
+- Date and environment: 2026-11-01 Asia/Tashkent; Windows/PowerShell, existing SDK 8.0.427, existing Python; no dependencies installed/upgraded.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / bootstrap `1282fbcea2b3e88977b43373cc6ece53698e996c`, authorization `fc2589f`. Resolve repair commit with `git log -1 --format=%H -- app/Services/ProjectJson.cs`; final SHA reported after commit.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; REL-01 FIXED_LOCALLY/EVIDENCE_RECORDED, awaiting owner review; REL-02 preparation next; REL-03/04 deferred. No phase accepted.
+- What was actually completed: both historic invalid-acceptance variants reproduced by concurrent Parse/Serialize; three red processes and sequential controls; private gate around proven shared mutable schema evaluation, seven regression cases. No schema/options weakening or test-runner serialization. Scoped code/concurrency self-review found no remaining actionable defect.
+- Files changed: ProjectJson.cs, new ProjectJsonConcurrencyTests.cs; STATUS/TASKS, JSON_VALIDATION_REVIEW and compact failure/hash evidence; append-only resolution links in historic UX/Phase05 reviews. Legacy network/store/history/UAC/UI/schema/workflow/LICENSE untouched.
+- Test commands and results: exact commands/results/TRX hashes in docs/testing/JSON_VALIDATION_REVIEW.md and evidence/json-race-investigation.txt. Before: 3 × (5 PASS/2 FAIL). After: 60 focused PASS, 3 × 7 regression PASS, full 631 PASS/0 failed/0 skipped, Release build PASS/0 warnings/errors. Working-tree planning FAIL missing pre-existing CODEX_START.md; tooling 9 PASS/1 FAIL. Tracked archive + task overlay planning control PASS/10 tooling tests. Whitespace PASS.
+- Live-network tests: NOT RUN; no actual App, NIC changes/probes/UAC/browser/mDNS/DHCP. New evidence is unit/fake only; previous WPF evidence not rerun for this non-UI change.
+- Known bugs, risk and workarounds: overlap is reproduced; historic exact instruction schedules were not captured. Monitor can queue concurrent large evaluations; no throughput claim. Working-tree planning blocked by unrelated deletion. During authorization staging that deletion entered the local commit; immediately amended the unpublished commit to exclude it and preserve the worktree deletion. Final authorization commit has only its three planning paths.
+- Decisions requiring user approval: review repaired JSON; concrete isolation/test NIC/local console/independent recovery facts before any native action. No current push/tag/release/Phase 08 authorization.
+- Remaining tasks in active phase: owner/native acceptance unchanged. This follow-up does not accept historical phases.
+- Next smallest safe action: prepare REL-02 exact lab/evidence checklist and run existing fake apply/recovery checks; ask for the missing lab facts before live-dependent execution.
+- Can next session proceed without clarification: yes within REL-02 preparation/fake boundaries; native work waits for concrete gates. REL-03/04 remain deferred.

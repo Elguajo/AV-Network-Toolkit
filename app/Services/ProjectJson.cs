@@ -35,6 +35,7 @@ public static class ProjectJson
         using var document = JsonDocument.Parse(stream);
         return JsonSchema.FromText(document.RootElement.GetRawText());
     });
+    private static readonly object SchemaEvaluationGate = new();
     private static readonly HashSet<string> SecretKeys = new(StringComparer.OrdinalIgnoreCase)
     {
         "password", "passwd", "pwd", "token", "access_token", "refresh_token", "id_token",
@@ -53,8 +54,14 @@ public static class ProjectJson
             if (root.ValueKind == JsonValueKind.Object && root.TryGetProperty("schemaVersion", out var version)
                 && version.ValueKind == JsonValueKind.Number && version.TryGetInt32(out var number) && number != 1)
                 throw new ProjectValidationException("Version", "schemaVersion");
-            var result = Schema.Value.Evaluate(root, new EvaluationOptions
-            { EvaluateAs = SpecVersion.Draft202012, RequireFormatValidation = true });
+            // JsonSchema.Net 7.4 mutates cached constraints during Evaluate. Lazy only
+            // protects construction; overlapping evaluations can miss conditional rules.
+            EvaluationResults result;
+            lock (SchemaEvaluationGate)
+            {
+                result = Schema.Value.Evaluate(root, new EvaluationOptions
+                { EvaluateAs = SpecVersion.Draft202012, RequireFormatValidation = true });
+            }
             if (!result.IsValid) throw new ProjectValidationException("Structure");
             var project = JsonSerializer.Deserialize<NetworkProject>(root.GetRawText(), Options)!;
             ValidateSemantics(project);

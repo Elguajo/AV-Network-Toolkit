@@ -80,3 +80,7 @@ ProjectJson.cs, ProjectStore.cs, schema, existing JSON tests, apply coordinator/
 - **Native/manual NOT RUN:** full App/tray startup, native file/consent dialogs, real UAC/worker/browser/TLS, isolated NIC apply/recovery, screen reader, high contrast, Windows scaling/zoom and large catalogs. No release, push, phase acceptance or Phase 07 start.
 
 Changed areas: main/project/profile/apply XAML and their view models, English resources, safe WPF driver and focused tests, plus this evidence/planning handoff. Phase 06 remains AWAITING_REVIEW; IDEA-04 has local evidence only. Next smallest safe work is separately scoped deterministic JSON validation investigation and owner UX walkthrough; no automatic network test or phase advancement.
+
+## REL-01 resolution follow-up — 2026-11-01
+
+The historical failure above is preserved. Under ADR-036, UX-R01/P05-R01 is now FIXED_LOCALLY with reproduced concurrent invalid acceptance, a scoped shared-schema evaluation gate, seven regression cases and 631 full unit PASS. [Cause, before/after evidence and limits](JSON_VALIDATION_REVIEW.md). Owner review/native acceptance remains separate; no phase or release accepted.
