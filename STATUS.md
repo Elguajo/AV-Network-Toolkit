@@ -1,11 +1,11 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
-## Owner-requested 1.1.5 re-upload — REL-07 / ADR-052, 2026-11-01
+## Owner-requested 1.1.5 re-upload — REL-07 / ADR-052, executed 2026-11-02
 
 - Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `5d0cc3e`. Fetched origin/main has 0 remote-only / 2 local-only commits; clean initial tree. Original published v1.1.5 is 2b78f67; scoped preparation commit follows.
-- Completed: original four assets and release body/tag API backed up under ignored TestResults/Republish115/Previous; all file sizes/SHA-256 match API. Owner explicitly selected same-version re-upload rather than 1.1.6; [scope/evidence](docs/testing/RELEASE_1.1.5_REUPLOAD_REVIEW.md).
-- In progress / next action: commit/push release preparation, observe exact-source full CI/package/runtime/install checks, then replace only v1.1.5 tag/assets and verify public downloads. No replacement/publication success claimed yet.
-- Tests last executed: NOTIFY-02 focused 8 and both package diagnostics PASS; NOTIFY-01 full 744 historical. New exact-source CI pending. Native networking/tray/phase/DPI/client gates remain; Phase 07 AWAITING_REVIEW, no DATA-01/Phase 08.
+- Completed: ordinary main push including c580604/5d0cc3e and preparation **9e06c48b4b433e0463c2376ba4555c44804ea010**; original four assets/body/tag backed up and verified. [Workflow 41339102871](https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41339102871) SUCCESS at that source. Owner-selected v1.1.5 tag replaced with exact-old-SHA lease; four exact CI assets and release body/target updated. Public API digest/size/manifest/checksum/CI-byte/downloaded EXE identity and older release/tag preservation independently PASS. [Evidence](docs/testing/RELEASE_1.1.5_REUPLOAD_REVIEW.md).
+- In progress / blockers / next action: no REL-07 implementation/publication remains; evidence-only commit follows, resolvable through the review-file git log. Owner can re-download 1.1.5 and update after tray Exit; displayed version is unchanged. Existing native/tray/DPI/client/owner gates remain, Phase 07 AWAITING_REVIEW; no DATA-01/Phase 08 or local install/network action.
+- Tests last executed: exact-source local Release build 0 warnings/errors and 744 unit PASS; hosted 744 unit/12 tooling/675 source links, build 0 warnings/errors and complete package/runtime/install/retention gates PASS. Downloaded candidate/public package diagnostics PASS; all eight payload files match. Final outcome-documentation checks recorded in handoff/CLI. Actual Teredo/tray and other native acceptance NOT RUN.
 ## Corrected local executable — NOTIFY-02, 2026-11-01
 
 - Fork / branch / exact built source: https://github.com/Elguajo/AV-Network-Toolkit / main / `c580604b74b63c5f2b6e6ea5c676edc896dfae9d`. This evidence-only commit follows; resolve with `git log -1 --format=%H -- docs/testing/TUNNEL_NOTIFICATION_REVIEW.md`.
@@ -1400,3 +1400,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining active-phase tasks: owner/native acceptance unchanged; DATA-01/Phase 08 not started.
 - Next smallest safe action: owner runs out/TeredoFix-c580604/payload/NetworkProfileManager.exe for manual confirmation.
 - Can next session proceed without clarification: safe inspection within current scope yes; no automatic publication/phase/native network action.
+
+### Session handoff — REL-07 / ADR-052, 2026-11-02 (Asia/Tashkent)
+
+- Date and environment: Windows/PowerShell, private SDK 10.0.403; hosted Windows build/package runners; bundled .NET 10.0.14.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main; release source 9e06c48b4b433e0463c2376ba4555c44804ea010, initial preflight 5d0cc3e. Final evidence-only commit resolved through `git log -1 --format=%H -- docs/testing/RELEASE_1.1.5_REUPLOAD_REVIEW.md`; it does not move the tag again.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; REL-07 VERIFIED_PUBLISHED; no phase advancement.
+- Actually completed: ordinary main commit/push including c580604/5d0cc3e; owner explicitly selected same-version 1.1.5 re-upload. Original four assets/body/tag backed up and hashes verified. Exact-source CI 41339102871 SUCCESS, guarded v1.1.5 tag replacement and four exact CI-asset/body/target replacements. Independent public download/API digest/manifest/checksum/CI-byte/executable verification PASS; older releases/tags unchanged.
+- Files changed: CHANGELOG.md, README.md, RELEASE_CHECKLIST.md, PROJECT_CONTEXT.md, ROADMAP.md, STATUS.md, TASKS.md, decisions/DECISION_LOG.md, docs/releases/v1.1.5.md, docs/testing/RELEASE_1.1.5_REUPLOAD_REVIEW.md and evidence/republished-v1.1.5.json. No app/test/dependency/schema/version/workflow change during release preparation/publication. Ignored backups/downloads/TRX/logs under TestResults/Republish115.
+- Test commands and results: exact-source local Release solution build 0 warnings/errors, full unit 744 PASS/0 failed/skipped; hosted build 0 warnings/errors, downloaded TRX 744 PASS including 8 monitor cases; 12 tooling/675 source links PASS. Complete compiler integrity/runtime-negative/startup/install/locked-update/reinstall/uninstall retention checks PASS. Candidate/public portable full package diagnostics PASS, all 8 payload files identical. Markdown parsed, anchor and four direct asset links verified. Final `scripts/validate_plan.py`, `scripts/test_validate_plan.py`, JSON and whitespace checks recorded in CLI. Original WPF captures remain historical, not rerun for service/packaging-only work.
+- Live-network tests: NOT RUN. No local ordinary app startup, network mutation/probes/listeners/UAC, installer, VM/display changes or real Teredo/tray test. Hosted disposable package startup/install checks only.
+- Known risks and workarounds: Preview/native/owner/phase/clean-client/cross-source upgrade limits remain. Version stays 1.1.5.0; old downloads must be downloaded again, exit the older copy through tray Exit before replacing it. Informational source and manifest/SHA-256 identify corrected packages. Original release evidence preserved as historical; no claim that every client upgrade/native notification was tested.
+- Decisions requiring approval: none for completed explicitly requested re-upload; no additional release/native/phase authorization inferred.
+- Remaining active-phase tasks: existing owner/native acceptance unchanged; DATA-01/Phase 08 not started.
+- Next smallest safe action: owner downloads corrected 1.1.5 installer or ZIP and updates deliberately after tray Exit.
+- Can next session proceed without clarification: safe inspection yes; later publication/native/phase actions retain their gates.

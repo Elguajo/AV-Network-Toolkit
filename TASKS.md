@@ -2,7 +2,7 @@
 
 ## Owner-requested 1.1.5 re-upload — 2026-11-01
 
-- [ ] **REL-07** — Re-upload 1.1.5 with the completed tunnel notification fix. **AC:** verified original release backup, ordinary main commits/push, exact-source unit/tooling/build/package/runtime/install gates, guarded v1.1.5 tag/four-asset replacement and independent public-download verification; other releases unchanged. **State:** IN_PROGRESS — ADR-052; original four assets/body/tag backed up and hashes verified, new publication pending. [Evidence](docs/testing/RELEASE_1.1.5_REUPLOAD_REVIEW.md).
+- [x] **REL-07** — Re-upload 1.1.5 with the completed tunnel notification fix. **AC:** verified original release backup, ordinary main commits/push, exact-source unit/tooling/build/package/runtime/install gates, guarded v1.1.5 tag/four-asset replacement and independent public-download verification; other releases unchanged. **State:** VERIFIED_PUBLISHED — ADR-052; source 9e06c48, workflow 41339102871 SUCCESS, local/hosted 744 unit/12 tooling and package gates PASS, four public API digests/manifest/checksums/CI bytes/downloaded EXE verified. Only owner-selected v1.1.5 tag/assets replaced; other releases unchanged. [Evidence](docs/testing/RELEASE_1.1.5_REUPLOAD_REVIEW.md).
 
 ## Tunnel notification correction — 2026-11-01
 

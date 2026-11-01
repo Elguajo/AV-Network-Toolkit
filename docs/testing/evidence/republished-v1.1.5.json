@@ -1,0 +1,168 @@
+{
+  "version": "1.1.5",
+  "reuploadDate": "2026-11-02",
+  "timeZone": "Asia/Tashkent",
+  "authorization": "ADR-052",
+  "sourceCommit": "9e06c48b4b433e0463c2376ba4555c44804ea010",
+  "originalSourceCommit": "2b78f67cb80320c975ca18ad02677f7d0913c732",
+  "releaseUrl": "https://github.com/Elguajo/AV-Network-Toolkit/releases/tag/v1.1.5",
+  "releaseId": 430755509,
+  "prerelease": true,
+  "runId": 41339102871,
+  "runUrl": "https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41339102871",
+  "originalReleaseBackup": {
+    "assetDigests": [
+      {
+        "size": 68371011,
+        "id": 699075084,
+        "digest": "sha256:025291e4e9219c70be2a52c3f3990a15b43b68916ec555ca79b741620c999828",
+        "name": "AVNetworkToolkit-1.1.5-win-x64-portable.zip"
+      },
+      {
+        "size": 67838569,
+        "id": 699075086,
+        "digest": "sha256:c1f323f06b24a3c70dbab459de28a1d7696e64409d4271711e27ede2e932d10f",
+        "name": "AVNetworkToolkit-1.1.5-win-x64-setup.exe"
+      },
+      {
+        "size": 830,
+        "id": 699075087,
+        "digest": "sha256:6689ebcbc5554856ff1a772b6f32c4ecfafc907ad87483ab1e9a021e17328a01",
+        "name": "package-manifest.json"
+      },
+      {
+        "size": 217,
+        "id": 699075085,
+        "digest": "sha256:0a60785c5fe787b7300f7be6ff0029c9b55d33dff417484933f115e826ceadb3",
+        "name": "SHA256SUMS.txt"
+      }
+    ],
+    "location": "ignored TestResults/Republish115/Previous",
+    "allFourAssetsVerified": true,
+    "originalReleaseAndTagMetadataSaved": true
+  },
+  "tagReplacement": {
+    "method": "git push --force-with-lease for refs/tags/v1.1.5 only",
+    "mainHistoryRewritten": false,
+    "newSha": "9e06c48b4b433e0463c2376ba4555c44804ea010",
+    "expectedOldSha": "2b78f67cb80320c975ca18ad02677f7d0913c732"
+  },
+  "assets": {
+    "package-manifest.json": {
+      "id": 699233443,
+      "identicalToCI": true,
+      "sha256": "ce6f6405e80e87d1dd097f73df60bf6e0eb84b5295ce157db9d75363ffe4595b",
+      "size": 830,
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.5/package-manifest.json",
+      "apiDigestMatches": true
+    },
+    "AVNetworkToolkit-1.1.5-win-x64-setup.exe": {
+      "id": 699233429,
+      "identicalToCI": true,
+      "sha256": "1b120a432c9a0794ae8694831aad5de4dcfb651f11e3828d81ec08219f21589c",
+      "size": 67838199,
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.5/AVNetworkToolkit-1.1.5-win-x64-setup.exe",
+      "apiDigestMatches": true
+    },
+    "AVNetworkToolkit-1.1.5-win-x64-portable.zip": {
+      "id": 699233432,
+      "identicalToCI": true,
+      "sha256": "1e3b4e2552ef08bd472a783178f92a056b01d2d0754f3268e66a7109ebe153fe",
+      "size": 68371066,
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.5/AVNetworkToolkit-1.1.5-win-x64-portable.zip",
+      "apiDigestMatches": true
+    },
+    "SHA256SUMS.txt": {
+      "id": 699233426,
+      "identicalToCI": true,
+      "sha256": "3841ae64634ba575a64904ebf7979df7edd3aeee521a9822e7ef808d875eedd7",
+      "size": 219,
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.5/SHA256SUMS.txt",
+      "apiDigestMatches": true
+    }
+  },
+  "manifest": {
+    "Version": "1.1.5",
+    "RuntimeIdentifier": "win-x64",
+    "SelfContained": true,
+    "Files": [
+      {
+        "Name": "AVNetworkToolkit-1.1.5-win-x64-portable.zip",
+        "Sha256": "1E3B4E2552EF08BD472A783178F92A056B01D2D0754F3268E66A7109EBE153FE"
+      },
+      {
+        "Name": "AVNetworkToolkit-1.1.5-win-x64-setup.exe",
+        "Sha256": "1B120A432C9A0794AE8694831AAD5DE4DCFB651F11E3828D81EC08219F21589C"
+      }
+    ],
+    "SourceCommit": "9e06c48b4b433e0463c2376ba4555c44804ea010",
+    "Compiler": {
+      "Files": {
+        "ISCC.exe": "F02FA0E5F237B47D7ED1EDAE9B991866EC94FE02AF61EB6A73E94F92FE8E0604",
+        "ISCmplr.dll": "236555054CA65194C69544B4EF1D49EA345259745F5C4A2005ACA7B5674E7CFF",
+        "ISPP.dll": "140B2D822BF30ED8AA3FED64764B2D2B92A80E0B9AAFC1B8FF3E409706B9207E"
+      },
+      "PinnedRelease": "6.7.4"
+    }
+  },
+  "runner": {
+    "Success": true,
+    "Installed": "identical payload and WPF/JSON self-test passed",
+    "CrossVersionUpgrade": "NOT RUN",
+    "LockedPayloadUpdateAndUninstall": "rejected as expected",
+    "NegativeRuntimeControl": "failed as expected after runtime discovery roots were moved",
+    "Portable": "WPF/JSON self-test passed",
+    "UninstallRetainsData": "passed",
+    "Environment": "disposable hosted Windows, global .NET discovery roots temporarily unavailable; not a pristine client-OS claim",
+    "SourceCommit": "9e06c48b4b433e0463c2376ba4555c44804ea010",
+    "SameVersionReinstall": "passed",
+    "NativeNetwork": "NOT RUN",
+    "Version": "1.1.5",
+    "OrdinaryStartup": "both main window handles/titles observed; smoke processes terminated without invoking commands"
+  },
+  "downloadedSelfTest": {
+    "Success": true,
+    "Version": "1.1.5.0",
+    "InformationalVersion": "1.1.5+9e06c48b4b433e0463c2376ba4555c44804ea010",
+    "Runtime": ".NET 10.0.14",
+    "JsonValidated": true,
+    "WpfRendered": true,
+    "ErrorType": null
+  },
+  "downloadedNegativeChecks": [
+    "report create-only",
+    "3 malformed diagnostics",
+    "4 retired-worker arities"
+  ],
+  "verifiedZipFiles": 8,
+  "releaseBodyMatchesCanonicalNotes": true,
+  "localUnitTests": {
+    "skipped": 0,
+    "failed": 0,
+    "trxSha256": "b5c9bd1d3a58e91110fc41eb1917ec9208313d7d4eb9a9f183cdec54e9e502bd",
+    "passed": 744
+  },
+  "hostedUnitTests": {
+    "skipped": 0,
+    "monitorCasesPassed": 8,
+    "failed": 0,
+    "trxSha256": "db6be17d854e58651757b7779afa41e46f81a438fb703331dce6b2593a25c9e6",
+    "passed": 744
+  },
+  "localBuildWarnings": 0,
+  "localBuildErrors": 0,
+  "hostedBuildWarnings": 0,
+  "hostedBuildErrors": 0,
+  "hostedToolingTests": 12,
+  "hostedPlanningLinks": 675,
+  "olderReleasesAndTagsPreserved": [
+    "v1.1.1",
+    "v1.1.2",
+    "v1.1.3"
+  ],
+  "nativeNetworkAndTray": "NOT RUN",
+  "native150and200Dpi": "NOT RUN",
+  "mixedMonitorDpi": "NOT RUN",
+  "crossSourceClientUpgrade": "NOT RUN",
+  "phaseStatus": "PHASE_07_AWAITING_REVIEW"
+}
