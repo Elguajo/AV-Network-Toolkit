@@ -12,6 +12,7 @@
 # ── Visual Studio / Rider ────────────────────────────────────
 .vs/
 .idea/
+.serena/
 *.user
 *.suo
 *.userosscache
