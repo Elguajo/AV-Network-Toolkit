@@ -1,5 +1,13 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Current follow-up — ADR-036, 2026-11-01
+
+- Fork / branch / bootstrap SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / `1282fbcea2b3e88977b43373cc6ece53698e996c`; independently matched remote main using `git ls-remote`. Existing unstaged `CODEX_START.md` deletion is outside this task and preserved.
+- Active / completed / in progress: Phase 07 AWAITING_REVIEW; REL-01 JSON investigation authorized/in progress, then REL-02 isolated Windows preparation and only gated native execution. REL-03 CI/portable and REL-04 release metadata deferred. No phase accepted.
+- Tests last executed: inherited evidence 624 PASS/0 failed/0 skipped, Release build and WPF captures; no new test result claimed at bootstrap. UX-R01/P05-R01 remains OPEN despite previous green runs.
+- Blockers / risks: JSON causal reproduction pending; native isolation, test adapter, local console and independent recovery are UNVERIFIED. No arbitrary NIC or working-network mutation authorized. CI/native evidence remains separate.
+- Next action: reproduce and minimally fix JSON validation with regression evidence, commit locally; then prepare REL-02 and request missing environment facts before live-dependent actions. No future push/tag/release, Phase 08 or DHCP server.
+
 ## Current publication — ADR-035, 2026-11-01
 
 - Fork / branch / exact preflight: https://github.com/Elguajo/AV-Network-Toolkit / main / `28edbf59b41c4b188d47880394e63e4c0652f397`, clean. Fresh origin/main `db143aba6e4405da57acf2a85f661f3b579c279d`, 0 remote-only / 2 local-only. Owner authorized commit/push of all current work; earlier no-push statements below are historical for this publication.
@@ -641,3 +649,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks in active phase: owner/native review; no phase task checkbox closed.
 - Next smallest safe action: owner reviews Phase 07 evidence and separately scopes JSON/native work after this authorized outcome record is committed/pushed; no repeated publication request needed.
 - Can next session proceed without clarification? Yes for already authorized Phase 07 fake-boundary review/verification; no implicit new phase, live test or release.
+
+## Session handoff — 2026-11-01, ordered preparation authorization (ADR-036)
+
+- Date and environment: 2026-11-01 Asia/Tashkent; existing Windows/PowerShell/.NET 8.0.427/Python tools; no installation.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / bootstrap `1282fbcea2b3e88977b43373cc6ece53698e996c`, independently matched remote. Authorization commit resolves with `git log -1 --format=%H -- decisions/DECISION_LOG.md`.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; separate REL-01 then REL-02 authorized, REL-03/04 deferred. No existing phase checkbox changed.
+- What was actually completed: owner authorization/order/gates recorded in ADR-036 and TASKS; this commit contains planning only. JSON investigation changes remain separate in the working tree for their own evidence/commit.
+- Files changed: STATUS.md, TASKS.md, decisions/DECISION_LOG.md.
+- Test commands and results: `scripts/validate_plan.py` FAIL missing pre-existing deleted CODEX_START.md; `scripts/test_validate_plan.py` 9 PASS/1 FAIL for the same missing file. `git diff --check` PASS. Neither validator nor deletion changed. Runtime outcomes belong to the subsequent repair report.
+- Live-network tests: NOT RUN; isolation/test NIC/local console/recovery not established. No probes/mDNS/DHCP/UAC/browser/network changes.
+- Known bugs, risk and workarounds: UX-R01/P05-R01 repair and evidence remain a separate REL-01 follow-up; baseline CODEX_START.md deletion is preserved unstaged and excluded.
+- Decisions requiring user approval: concrete lab/NIC/console/recovery facts before live execution; future publication/release/Phase 08 separate. No new start confirmation needed for REL-01/02 preparation.
+- Remaining tasks in active phase: owner/native Phase 07 acceptance unchanged.
+- Next smallest safe action: finish and commit JSON repair/evidence, then prepare REL-02 and obtain missing lab facts.
+- Can next session proceed without clarification: yes for authorized JSON/preparation; no dependent live actions before gates are established.
