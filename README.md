@@ -1,9 +1,15 @@
 # AV Network Toolkit
 
-<img src="app/Assets/logo.png" width="160" alt="AV Network Toolkit cyan and blue ribbon logo">
-
-[![Build](https://github.com/Elguajo/AV-Network-Toolkit/actions/workflows/build.yml/badge.svg)](https://github.com/Elguajo/AV-Network-Toolkit/actions/workflows/build.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+<div align="center">
+  <img src="app/Assets/logo.png" width="160" alt="AV Network Toolkit cyan and blue ribbon logo">
+  <br>
+  <a href="https://github.com/Elguajo/AV-Network-Toolkit/actions/workflows/build.yml">
+    <img src="https://github.com/Elguajo/AV-Network-Toolkit/actions/workflows/build.yml/badge.svg" alt="Build">
+  </a>
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
+  </a>
+</div>
 
 Windows network profiles and project-scoped device web interfaces for AV field work. Select an adapter, review the computer's current settings, deliberately apply a saved profile, then open the equipment interface when needed.
 
