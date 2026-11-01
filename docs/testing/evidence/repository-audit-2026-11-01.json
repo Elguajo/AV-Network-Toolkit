@@ -1,0 +1,59 @@
+[
+  {
+    "Case": "profiles-backup-failure",
+    "OriginalDeleted": true,
+    "BackupFileExists": false,
+    "DefectReproduced": true
+  },
+  {
+    "Case": "history-backup-failure",
+    "OriginalDeleted": true,
+    "BackupFileExists": false,
+    "DefectReproduced": true
+  },
+  {
+    "Case": "profile-save-failure",
+    "EscapedException": "UnauthorizedAccessException",
+    "InMemoryProfiles": 1,
+    "DefectReproduced": true
+  },
+  {
+    "Case": "one-corrupt-journal",
+    "HealthySnapshotsBefore": 1,
+    "EscapedException": "JsonReaderException",
+    "HealthyFileStillExists": true,
+    "DefectReproduced": true
+  },
+  {
+    "Case": "journal-1001-files",
+    "EscapedException": "InvalidDataException",
+    "FilesRetained": 1001,
+    "LimitationConfirmed": true
+  },
+  {
+    "Case": "secondary-dns-mismatch",
+    "TrayActive": true,
+    "MainCurrent": false,
+    "DefectReproduced": true
+  },
+  {
+    "Case": "legacy-revert-empty-dns",
+    "DnsCommandCount": 0,
+    "LimitationConfirmed": true
+  },
+  {
+    "Case": "legacy-worker-semantic-binding",
+    "DifferentAdapterRequestAcceptedByValidator": true,
+    "NoWorkerOrNetshExecuted": true,
+    "BoundaryRiskConfirmed": true
+  },
+  {
+    "Case": "migration-transient-lock",
+    "FirstCopied": 0,
+    "RetryCopied": 0,
+    "CompletionMarkerExists": true,
+    "TargetFileExists": false,
+    "OriginalPreserved": true,
+    "DefectReproduced": true
+  }
+]

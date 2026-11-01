@@ -1,0 +1,128 @@
+AUDIT EVIDENCE ONLY. No product fix. All IO uses invented temporary fixtures. No App startup, network access, privileged worker or netsh execution.
+
+Recreate these files at TestResults/RepositoryAudit20261101/Repro/ relative to the repository root, then run the command in REPOSITORY_AUDIT_2026-11-01.md with a fresh fixture directory.
+
+--- AuditRepro.csproj ---
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>NetworkProfileManager.Tests</AssemblyName>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup><ProjectReference Include="../../../app/NetworkProfileManager.csproj" /></ItemGroup>
+</Project>
+
+--- Program.cs ---
+using System.Collections.Immutable;
+using System.Globalization;
+using System.IO;
+using System.Reflection;
+using System.Text.Json;
+using NetworkProfileManager.Converters;
+using NetworkProfileManager.Helpers;
+using NetworkProfileManager.Models;
+using NetworkProfileManager.Services;
+using NetworkProfileManager.ViewModels;
+
+internal static class Program
+{
+    [STAThread]
+    static int Main(string[] args)
+    {
+        // No App startup, process launch, real NIC enumeration or probes.
+        var root = Path.GetFullPath(args[0]);
+        Directory.CreateDirectory(root);
+        var results = new List<object>();
+        string Area(string name) { var p = Path.Combine(root, name); Directory.CreateDirectory(p); return p; }
+        void Check(bool condition, string name) { if (!condition) throw new Exception("Unexpected audit result: " + name); }
+        try
+        {
+            foreach (var kind in new[] { "profiles", "history" })
+            {
+                var area = Area(kind + "-backup-failure");
+                AppPaths.OverrideDataDirectory(area);
+                var file = Path.Combine(area, kind + "_audit-fixture.json");
+                File.WriteAllText(file, "{invalid-fixture-json");
+                Directory.CreateDirectory(file + ".bak"); // Deterministic backup-path collision, no ACL changes.
+                if (kind == "profiles") _ = new ProfileRepository().Load("audit-fixture");
+                else _ = new HistoryRepository().Load("audit-fixture");
+                Check(!File.Exists(file) && !File.Exists(file + ".bak"), kind);
+                results.Add(new { Case = kind + "-backup-failure", OriginalDeleted = !File.Exists(file), BackupFileExists = File.Exists(file + ".bak"), DefectReproduced = true });
+            }
+
+            AppPaths.OverrideDataDirectory(Area("profile-save-failure"));
+            var vm = new MainViewModel(() => new List<AdapterInfo> { new() { Id = "audit-fixture", Name = "Fixture Ethernet" } });
+            Directory.CreateDirectory(Path.Combine(AppPaths.DataDirectory, "profiles_audit-fixture.json"));
+            string? escaped = null;
+            try { vm.AddProfile(new IpProfile { Name = "Fixture profile", IpAddress = "192.0.2.10", SubnetMask = "255.255.255.0" }); }
+            catch (Exception e) { escaped = e.GetType().Name; }
+            Check(escaped != null && vm.SelectedAdapter!.Profiles.Count == 1, "profile save");
+            results.Add(new { Case = "profile-save-failure", EscapedException = escaped, InMemoryProfiles = vm.SelectedAdapter!.Profiles.Count, DefectReproduced = true });
+            vm.Diagnostics.Dispose();
+
+            var journalDir = Area("journal-corruption");
+            var before = new ApplyAdapterSnapshot(new(Guid.Parse("11111111-2222-4333-8444-555555555555"), 12, "Fixture Ethernet", "02-00-00-00-00-01"),
+                false, ImmutableArray.Create(new ApplyAddress("192.0.2.10", 24, "manual", "preferred")), "static",
+                ImmutableArray.Create("192.0.2.53"), ImmutableArray<ApplyRoute>.Empty, true,
+                ImmutableArray.Create(new ApplyAddress("192.0.2.10", 24, "manual", "preferred")));
+            var request = new ProjectApplyRequest(1, Guid.NewGuid(), DateTimeOffset.UtcNow.AddMinutes(1), before,
+                new("static", "192.0.2.20", 24, null, "static", ImmutableArray.Create("192.0.2.53")));
+            var validPath = Path.Combine(journalDir, request.OperationId.ToString("N") + ".request.json");
+            File.WriteAllText(validPath, ProjectApplyWire.Serialize(request));
+            var journal = new ProjectApplyJournal(journalDir);
+            Check(journal.ReadSnapshots().Count == 1, "valid journal control");
+            File.WriteAllText(Path.Combine(journalDir, Guid.NewGuid().ToString("N") + ".request.json"), "{");
+            string? journalError = null;
+            try { _ = journal.ReadSnapshots(); } catch (Exception e) { journalError = e.GetType().Name; }
+            Check(journalError != null && File.Exists(validPath), "journal corruption");
+            results.Add(new { Case = "one-corrupt-journal", HealthySnapshotsBefore = 1, EscapedException = journalError, HealthyFileStillExists = true, DefectReproduced = true });
+
+            var capDir = Area("journal-cap");
+            for (var i = 0; i < 1001; i++) File.WriteAllText(Path.Combine(capDir, Guid.NewGuid().ToString("N") + ".request.json"), "{}");
+            string? capError = null;
+            try { _ = new ProjectApplyJournal(capDir).ReadSnapshots(); } catch (Exception e) { capError = e.GetType().Name; }
+            Check(capError == nameof(InvalidDataException), "journal cap");
+            results.Add(new { Case = "journal-1001-files", EscapedException = capError, FilesRetained = Directory.GetFiles(capDir).Length, LimitationConfirmed = true });
+
+            var profile = new IpProfile { Name = "DNS fixture", IpAddress = "192.0.2.10", SubnetMask = "255.255.255.0", PrimaryDns = "192.0.2.53", SecondaryDns = "192.0.2.54" };
+            var adapter = new AdapterInfo { CurrentIp = profile.IpAddress, CurrentSubnet = profile.SubnetMask, CurrentPrimaryDns = profile.PrimaryDns,
+                CurrentSecondaryDns = "192.0.2.55", IsDhcp = false, IsDhcpKnown = true, IsCurrentIpv4Manual = true };
+            var pvm = new ProfileViewModel(profile); pvm.UpdateFromAdapter(adapter);
+            var mainCurrent = (bool)new ProfileCurrentConverter().Convert(new object[] { profile, adapter }, typeof(bool), "", CultureInfo.InvariantCulture);
+            Check(pvm.IsActive && !mainCurrent, "secondary DNS mismatch");
+            results.Add(new { Case = "secondary-dns-mismatch", TrayActive = pvm.IsActive, MainCurrent = mainCurrent, DefectReproduced = true });
+
+            var dnsBuilder = typeof(NetworkService).GetMethod("BuildDnsCommands", BindingFlags.Static | BindingFlags.NonPublic)!;
+            var dnsCommands = (List<List<string>>)dnsBuilder.Invoke(null, new object[] { "Fixture Ethernet", "", "" })!;
+            Check(dnsCommands.Count == 0, "empty legacy DNS");
+            results.Add(new { Case = "legacy-revert-empty-dns", DnsCommandCount = dnsCommands.Count, LimitationConfirmed = true });
+
+            ElevationHelper.ValidateCommand(new List<string> { "interface", "ip", "set", "address", "name=Unreviewed fixture adapter", "static", "192.0.2.99", "255.255.255.0" });
+            results.Add(new { Case = "legacy-worker-semantic-binding", DifferentAdapterRequestAcceptedByValidator = true, NoWorkerOrNetshExecuted = true, BoundaryRiskConfirmed = true });
+
+            var migrationDestination = Area("migration-transient-lock");
+            AppPaths.OverrideDataDirectory(migrationDestination);
+            var legacy = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data");
+            Directory.CreateDirectory(legacy); // Only this throwaway harness's own executable folder.
+            var legacyFile = Path.Combine(legacy, "profiles_audit-migration.json");
+            File.WriteAllText(legacyFile, "[]");
+            int first;
+            using (var locked = new FileStream(legacyFile, FileMode.Open, FileAccess.Read, FileShare.None))
+                first = AppPaths.MigrateLegacyDataIfPresent();
+            var second = AppPaths.MigrateLegacyDataIfPresent();
+            var marker = File.Exists(Path.Combine(migrationDestination, ".migrated_v1"));
+            var copied = File.Exists(Path.Combine(migrationDestination, "profiles_audit-migration.json"));
+            Check(first == 0 && second == 0 && marker && !copied, "migration lock and retry");
+            results.Add(new { Case = "migration-transient-lock", FirstCopied = first, RetryCopied = second, CompletionMarkerExists = marker, TargetFileExists = copied, OriginalPreserved = File.Exists(legacyFile), DefectReproduced = true });
+
+            var resultJson = JsonSerializer.Serialize(results, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(Path.Combine(root, "results.json"), resultJson);
+            Console.WriteLine(resultJson);
+            return 0;
+        }
+        finally { AppPaths.OverrideDataDirectory(null); }
+    }
+}

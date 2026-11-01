@@ -1,5 +1,9 @@
 # Traceable task backlog
 
+## Repository audit / research — 2026-11-01
+
+[A26-01–08 findings and proposed sequence](docs/testing/REPOSITORY_AUDIT_2026-11-01.md) recorded from current source and 9 isolated audit scenarios. Findings remain OPEN; no repair scope, roadmap reprioritization, runtime/storage/auth migration or new phase was approved by the audit request. Existing phase IDs/checkboxes and REL-02 native acceptance are unchanged. Prioritize owner review of data preservation/recovery availability and .NET 8 servicing before stable acceptance.
+
 ## Product mark — ADR-044, 2026-11-01
 
 - [x] **BRAND-01** — Use the owner's supplied logo and convert it to the Windows application icon. **Verified:** original transparent PNG retained, 10 ICO sizes, existing EXE/window/title-bar/tray/installer bindings retained; Release build, 681 unit PASS and 128 WPF captures/0 binding errors. [Evidence and limits](docs/testing/BRANDING_REVIEW.md). Phase 07 remains AWAITING_REVIEW; no new package/publication/native acceptance claim.
