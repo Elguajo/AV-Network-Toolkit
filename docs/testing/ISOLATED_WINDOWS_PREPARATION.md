@@ -1,5 +1,7 @@
 # Isolated Windows preparation — REL-02 / ADR-036
 
+Current follow-up: owner requested local prerequisite installation and selected a full independent Windows 10 VMware clone (ADR-046). [Local lab preparation and exact remaining gates](LOCAL_WINDOWS_LAB.md) supersede the historical lack-of-lab facts below; no actual application network test or phase acceptance follows from provisioning.
+
 2026-11-01 Asia/Tashkent. Fork https://github.com/Elguajo/AV-Network-Toolkit, main, JSON repair `8f9106c34481fac4f6e71ee5ee65e2bc79e0a009`; authorization `fc2589f`. Phase 07 AWAITING_REVIEW. This packet prepares the existing Phase 04/05 native plans; no production code, support policy or phase order changes.
 
 ## Owner disposition and present boundary
