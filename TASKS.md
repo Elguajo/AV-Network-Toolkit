@@ -30,7 +30,7 @@
 
 ## Left navigation planning — 2026-11-01
 
-- [ ] **UI-NAV-01** — Add an icon rail and collapsible, resizable adapter sidebar. **AC:** [Owner-intent brief and future implementation checks](docs/spec/LEFT_NAVIGATION_BRIEF.md), supplemented by [official-source research and proposed component contract](docs/spec/LEFT_NAVIGATION_RESEARCH.md). **State:** BRIEF_AND_RESEARCH_RECORDED / IMPLEMENTATION_NOT_STARTED. Owner requested documentation/research only; rail destination mapping and dimensions remain proposals, existing tool windows and network safety remain preserved. Phase 07 AWAITING_REVIEW; no implementation/publication/phase advancement from this record.
+- [x] **UI-NAV-01** — Add an icon rail and collapsible, resizable adapter sidebar. **AC:** [Brief](docs/spec/LEFT_NAVIGATION_BRIEF.md), [research/component contract](docs/spec/LEFT_NAVIGATION_RESEARCH.md) and ADR-049 hover-reveal refinement. **State:** VERIFIED_LOCAL / OWNER_REVIEW_PENDING — source 7d62a26, Release builds 0 warnings/errors, 723 unit PASS, 26 focused + 128 workspace + 20 adapter + 64 diagnostic WPF captures PASS/0 binding errors. Real hover, native caption behavior, automation/focus/tab order, resize/draft/scroll/operation preservation checked. [Evidence and limits](docs/testing/LEFT_NAVIGATION_REVIEW.md). Width is window-local; actual mixed-DPI/Narrator/native/phase acceptance remains separate. No package/publication/Phase 08 change.
 
 ## Current publication — ADR-048, 2026-11-01
 

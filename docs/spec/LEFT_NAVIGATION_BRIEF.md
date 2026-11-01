@@ -2,6 +2,8 @@
 
 Date: 2026-11-01 (Asia/Tashkent). Follow-up: **UI-NAV-01**.
 
+Current local implementation: [review and acceptance evidence](../testing/LEFT_NAVIGATION_REVIEW.md), source 7d62a26. Owner/native/phase review remains separate.
+
 Read the [source-backed research and component contract](LEFT_NAVIGATION_RESEARCH.md): it separates official Codex behavior, screenshot observations and WPF geometry, and specifies interaction/accessibility quality checks. The owner subsequently authorized implementation under ADR-049.
 
 ## Purpose and authorization

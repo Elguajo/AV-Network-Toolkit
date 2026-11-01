@@ -1,5 +1,12 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Left navigation implemented — UI-NAV-01 / ADR-049, 2026-11-01
+
+- Fork / branch / exact implementation: https://github.com/Elguajo/AV-Network-Toolkit / main / `7d62a26a376d7216f7c317d1e68759b91b10ade3`. Earlier source-selector/adapter-menu commits 3fd92a2/1b5eb5e preserved separately. This evidence-only commit follows; resolve using git log for docs/testing/LEFT_NAVIGATION_REVIEW.md.
+- Completed: persistent icon rail, accessible sidebar toggle/Ctrl+B, bounded mouse/keyboard resize and window-local preferred width, retained target/drafts/scopes/scroll/diagnostic operation, existing tool actions and bottom Settings. Owner's scrollbar/divider hidden-at-rest and accent hover/focus/drag refinement implemented. [Review, retained renders and exact checks](docs/testing/LEFT_NAVIGATION_REVIEW.md).
+- Tests last executed on immutable 7d62a26 export: solution/harness Release builds **0 warnings/errors**, **723 unit PASS/0 failed/0 skipped**, **26 navigation + 128 workspace + 20 adapter + 64 diagnostic captures PASS/0 binding errors**. Real hover/exit and native HWND caption hit/double-click checks PASS; Light/Dark/theme-switch/high-contrast and 150%/200% layout simulations checked. Documentation gates recorded below.
+- In progress / blockers / next action: no local UI-NAV-01 implementation remains; owner reviews the actual sidebar interaction/captures. Manual Narrator/actual mixed-DPI/native network/OS acceptance NOT RUN. Phase 07 remains AWAITING_REVIEW; no release/package update, push, DATA-01 or Phase 08. Existing native/UX-R01/P05-R01 gates unchanged.
+
 ## Adapter-list options placement — UI-ADAPTER-OPTIONS-01, 2026-11-01
 
 - Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `3fd92a2`. Scoped commit follows; resolve using `git log -1 --format=%H -- docs/testing/ADAPTER_OPTIONS_REVIEW.md`.
@@ -1256,3 +1263,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining active-phase tasks: owner/native acceptance unchanged, no DATA-01/Phase 08 advancement.
 - Next smallest safe action: owner reviews header/menu captures; existing EXE/packages have not been rebuilt.
 - Can next session proceed without clarification: only within existing authorized scope.
+
+## Session handoff — UI-NAV-01 implementation, 2026-11-01 (Asia/Tashkent)
+
+- Date and environment: Windows 11 / PowerShell; private SDK 10.0.403, immutable source export, fake adapter/project/probe boundaries and isolated real WPF HWNDs. Ordinary App startup and production services not used.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / implementation 7d62a26a376d7216f7c317d1e68759b91b10ade3. Scoped evidence-only commit follows; resolve with git log -1 --format=%H -- docs/testing/LEFT_NAVIGATION_REVIEW.md. Parallel 3fd92a2/1b5eb5e source-selector/menu changes preserved separately.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; UI-NAV-01 VERIFIED_LOCAL / OWNER_REVIEW_PENDING under ADR-049. No DATA-01 or Phase 08.
+- What was actually completed: persistent tool rail; stateful title-bar toggle/Ctrl+B; bounded sidebar mouse/keyboard sizing and in-memory preferred width; preserved adapter/drafts/scopes/scroll/running diagnostics; existing tool windows and bottom Settings. Owner's later hidden scrollbar/divider and accent hover/focus/drag request implemented with wheel/keyboard access retained. Actual pointer hover and HWND caption checks passed.
+- Files changed: implementation commit contains 8 app/harness paths plus DESIGN, ADR-049 and brief/research updates; evidence commit contains TASKS/STATUS/brief link, docs/testing/LEFT_NAVIGATION_REVIEW.md, structured source/TRX/PNG hashes and three unchanged synthetic WPF PNGs under docs/design/navigation. No unrelated changes discarded.
+- Test commands and results: exact 7d62a26 git-archive export: dotnet build AVNetworkToolkit.sln and scripts/ProjectUiSmoke/ProjectUiSmoke.csproj --configuration Release --nologo PASS, 0 warnings/errors; dotnet test test/NetworkProfileManager.Tests.csproj --configuration Release --no-build with retained TRX PASS 723/0 failed/0 skipped. Harness --navigation 26, default workspace 128, --adapter-visibility 20 and --phase07 64 captures PASS/0 binding errors. Exact commands, failed intermediate checks and final source hashes in review/evidence. Private validation Python -B scripts/validate_plan.py PASS (9 phases/49 stable tasks/schema/formats/607 links), -B scripts/test_validate_plan.py 12 PASS; git diff --check PASS.
+- Live-network tests: NOT RUN / not authorized. No NIC mutation, real echo/TCP/scan/mDNS/DHCP, UAC, browser/device traffic, installation or VM action. Explicit continuous test in the fixture uses fake echo/delay only. Pointer restored after hover tests.
+- Known bugs, risk and workarounds: initial new rail Tab-order defect reproduced and fixed by top-first Grid layout; exact-source gates now pass. Actual mixed-monitor DPI/touch/Narrator and native networking/OS acceptance remain NOT RUN. Layout-transform 150%/200% and library high-contrast checks do not certify OS DPI/accessibility. DOC-R01 repair retained; UX-R01/P05-R01 and prior phase gates unchanged. Preferred width is intentionally not persisted across windows/restarts.
+- Decisions requiring user approval: none for completed local UI-NAV-01; native/phase/publication gates remain. Existing installer/portable/release are not rebuilt or updated by this task.
+- Remaining tasks in active phase: prior owner/native acceptance; no phase completed or advanced.
+- Next smallest safe action: owner reviews retained idle/hover/collapsed captures and actual sidebar interaction.
+- Can next session proceed without clarification: safe local review yes; publication, native testing and later phases only with their applicable explicit authorization.

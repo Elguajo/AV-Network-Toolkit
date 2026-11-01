@@ -1,0 +1,61 @@
+{
+  "task": "UI-NAV-01",
+  "date": "2026-11-01",
+  "timezone": "Asia/Tashkent",
+  "sourceCommit": "7d62a26a376d7216f7c317d1e68759b91b10ade3",
+  "branch": "main",
+  "build": {
+    "solution": "PASS",
+    "harness": "PASS",
+    "warnings": 0,
+    "errors": 0
+  },
+  "unit": {
+    "passed": 723,
+    "failed": 0,
+    "skipped": 0,
+    "trxSha256": "69053b759ad74e28d02f02372161eb2a23e21f493c2b87e25639f1e73e07f0b0"
+  },
+  "wpf": {
+    "captures": {
+      "Navigation": 26,
+      "Workspace": 128,
+      "Adapters": 20,
+      "Diagnostics": 64
+    },
+    "total": 238,
+    "bindingErrors": 0,
+    "result": "PASS"
+  },
+  "nativeFixtureChecks": [
+    "pointer hover/exit with cursor restoration",
+    "caption/toggle HWND hit testing",
+    "caption double-click maximize/restore"
+  ],
+  "layoutScaleSimulations": [
+    1.5,
+    2.0
+  ],
+  "nativeMixedDpi": "NOT RUN",
+  "manualNarrator": "NOT RUN",
+  "liveNetworking": "NOT RUN",
+  "sourceFileSha256": {
+    "DESIGN.md": "56ea47a361c542d26c41aacc94a36903af897c85fc8ff6c80b84f80aea5e04c1",
+    "app/MainWindow.Navigation.cs": "29dbd1d8371fff4e00e6a36d3819845ec4c560f714f8b23c971ce52e04ede3ac",
+    "app/MainWindow.xaml": "e5696a47d23cf6afab066c574f8a6ef5553cb0f86a4d3e7d020485e0775ef554",
+    "app/MainWindow.xaml.cs": "ab88a3021915d112b29a4c0b04e88ba11e611897c934e4a2aac9257b54155b93",
+    "app/Strings/En.xaml": "71bb28b305ad79a6c5cd7fbbd76e33074a6dd1af79ab9c1541c5af043e792116",
+    "app/Themes/Styles.xaml": "49b85448af7dee70c45aa570561bfb72c8ddf9f5683ca1f6385d6b9930d24be5",
+    "app/Views/AdapterListPanel.xaml": "7c4ad44f19decaf561f8e427d4756f85c46b9485d2df5c48d77e39861ab233f0",
+    "decisions/DECISION_LOG.md": "436a7089e0ca1a1ba2ed03cf125404c457b5e63be1ea3a967a792505739313f4",
+    "docs/spec/LEFT_NAVIGATION_BRIEF.md": "819193996776f32d5f12af64e4d3c9bbe7630fdb31822373ab0a0a44540dac3e",
+    "docs/spec/LEFT_NAVIGATION_RESEARCH.md": "b2bc3fe2e4c165552223285fd74cf223ab6a19a5945895e71e51edc9369b56c3",
+    "scripts/ProjectUiSmoke/NavigationSmoke.cs": "fc0fd228d5eab2fd95a07e90246c6c7b0d9957720991d742a3fb7d03479f2224",
+    "scripts/ProjectUiSmoke/Program.cs": "98a663c84b2cbe0d9363952304206401f0b3296c9f0815d6679e69cbe1faea7f"
+  },
+  "retainedPngSha256": {
+    "docs/design/navigation/idle-dark.png": "910f33e2b69dd92b4b993f0d74ee4b4d3ae26c8cda0e57482937878970bf47eb",
+    "docs/design/navigation/hover-dark.png": "d8097590979dbb98bb1e134825b756013a570fcd77d4b3433ae3cbfe8ad43a9c",
+    "docs/design/navigation/collapsed-light.png": "520ba927f86acc95a62764b45e2d042b7db02a385037e58997cbe841d9f56d2b"
+  }
+}
