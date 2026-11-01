@@ -11,6 +11,7 @@
   </a>
 </div>
 
+
 <div>
 Windows network profiles and project-scoped device web interfaces for AV field work. Select an adapter, review the computer's current settings, deliberately apply a saved profile, then open the equipment interface when needed.
 
