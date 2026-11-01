@@ -4,6 +4,15 @@
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
 
   <StackPanel>
+    <WrapPanel Margin="0,12,0,0">
+      <TextBlock x:Name="ProfileSourceLabel" Text="{DynamicResource Workspace.ProfileSource}" Style="{StaticResource CaptionText}" VerticalAlignment="Center" Margin="0,0,12,4"/>
+      <ComboBox SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource AncestorType=TabControl}, Mode=TwoWay}" MinWidth="154" Margin="0,0,0,4"
+                ToolTip="{DynamicResource Ux.LocalScopeHint}" AutomationProperties.Name="{DynamicResource Workspace.ProfileSource}"
+                AutomationProperties.LabeledBy="{Binding ElementName=ProfileSourceLabel}">
+        <ComboBoxItem Content="{DynamicResource Workspace.LocalSource}"/>
+        <ComboBoxItem Content="{DynamicResource Workspace.ProjectProfiles}"/>
+      </ComboBox>
+    </WrapPanel>
     <Grid Margin="0,12,0,4" KeyboardNavigation.TabNavigation="Local">
       <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
       <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
@@ -46,11 +55,6 @@
       </StackPanel>
       <WrapPanel Style="{StaticResource ProfileToolbarHeading}" Margin="0,0,12,0">
        <TextBlock Text="{Binding SelectedAdapter.Name, StringFormat={StaticResource Workspace.SavedFor}}" Style="{StaticResource SectionHeaderText}" TextWrapping="Wrap" Margin="0,0,12,4"/>
-       <ComboBox SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource AncestorType=TabControl}, Mode=TwoWay}" MaxWidth="154" Margin="0,0,0,4" KeyboardNavigation.TabIndex="0"
-                 ToolTip="{DynamicResource Ux.LocalScopeHint}" AutomationProperties.Name="{DynamicResource Workspace.ProfileSource}">
-        <ComboBoxItem Content="{DynamicResource Workspace.LocalSource}"/>
-        <ComboBoxItem Content="{DynamicResource Workspace.ProjectProfiles}"/>
-       </ComboBox>
       </WrapPanel>
     </Grid>
     <TextBlock Text="{DynamicResource Workspace.LocalProfileHint}" Style="{StaticResource CaptionText}" TextWrapping="Wrap" Margin="0,0,0,12"/>

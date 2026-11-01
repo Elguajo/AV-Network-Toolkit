@@ -41,6 +41,18 @@ internal static partial class Program
         ApplyRenderTheme("Dark");
         try
         {
+            if (args.Contains("--workspace"))
+            {
+                foreach (var theme in new[] { "Dark", "Light" })
+                {
+                    ApplyRenderTheme(theme);
+                    RenderWorkspace(output, theme, 1200, 850);
+                    RenderWorkspace(output, theme, 760, 520);
+                }
+                if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
+                Console.WriteLine("PASS: workspace Light/Dark normal/minimum, source round trip, keyboard order and existing action/draft guards; 0 binding errors.");
+                return 0;
+            }
             if (args.Contains("--diagnostic-hide"))
             {
                 CheckDiagnosticHide(output);

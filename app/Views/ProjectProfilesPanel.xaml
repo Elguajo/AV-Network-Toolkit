@@ -5,6 +5,15 @@
  xmlns:converters="clr-namespace:NetworkProfileManager.Converters">
  <UserControl.Resources><converters:ProjectProfileSummaryConverter x:Key="ProfileSummary"/></UserControl.Resources>
  <StackPanel>
+  <WrapPanel Margin="0,12,0,0">
+   <TextBlock x:Name="ProfileSourceLabel" Text="{DynamicResource Workspace.ProfileSource}" Style="{StaticResource CaptionText}" VerticalAlignment="Center" Margin="0,0,12,4"/>
+   <ComboBox SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource AncestorType=TabControl}, Mode=TwoWay}" MinWidth="154" Margin="0,0,0,4"
+             AutomationProperties.Name="{DynamicResource Workspace.ProfileSource}"
+             AutomationProperties.LabeledBy="{Binding ElementName=ProfileSourceLabel}">
+    <ComboBoxItem Content="{DynamicResource Workspace.LocalSource}"/>
+    <ComboBoxItem Content="{DynamicResource Workspace.ProjectProfiles}"/>
+   </ComboBox>
+  </WrapPanel>
   <Grid Margin="0,12,0,4" KeyboardNavigation.TabNavigation="Local">
    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
@@ -15,11 +24,6 @@
    </StackPanel>
    <WrapPanel Style="{StaticResource ProfileToolbarHeading}">
     <TextBlock Text="{Binding TargetName, ElementName=PanelRoot, StringFormat={StaticResource Workspace.SavedFor}}" Style="{StaticResource SectionHeaderText}" TextWrapping="Wrap" Margin="0,0,12,4"/>
-    <ComboBox SelectedIndex="{Binding SelectedIndex, RelativeSource={RelativeSource AncestorType=TabControl}, Mode=TwoWay}" MaxWidth="154" Margin="0,0,0,4" KeyboardNavigation.TabIndex="0"
-              AutomationProperties.Name="{DynamicResource Workspace.ProfileSource}">
-     <ComboBoxItem Content="{DynamicResource Workspace.LocalSource}"/>
-     <ComboBoxItem Content="{DynamicResource Workspace.ProjectProfiles}"/>
-    </ComboBox>
    </WrapPanel>
   </Grid>
   <TextBlock Text="{DynamicResource Workspace.ProjectScopeHint}" Style="{StaticResource CaptionText}" TextWrapping="Wrap" Margin="0,0,0,12"/>

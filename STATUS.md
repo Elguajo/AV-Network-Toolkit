@@ -1,5 +1,12 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Profile-source placement — UI-SOURCE-01, 2026-11-01
+
+- Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `57ff73fe47b98aaccfa4941da88bbdc9e4da13d8`. Scoped commit follows; resolve with `git log -1 --format=%H -- docs/testing/PROFILE_SOURCE_REVIEW.md`.
+- Completed: visibly labelled Profile source row above saved-profile heading/actions in both scopes; existing selection/stores/network behavior preserved. [Review, actual captures and retained failures](docs/testing/PROFILE_SOURCE_REVIEW.md).
+- Tests last executed: isolated Release harness build 0 warnings/errors, 44 focused + 128 full component captures PASS/0 binding errors, 723 unit PASS/0 failed/0 skipped. Final documentation gates in handoff below.
+- In progress / blockers / next action: no UI-SOURCE-01 implementation remains; owner reviews captures. Concurrent uncommitted navigation work preserved separately. Existing executable/packages unchanged. Phase 07 AWAITING_REVIEW; native/owner acceptance pending, DATA-01/Phase 08 not started. No live-network/UAC/install/push/release action.
+
 ## Local 1.1.4 Preview verified — BUILD-01, 2026-11-01
 
 - Fork / branch / exact candidate source: https://github.com/Elguajo/AV-Network-Toolkit / main / `629c2ae2d56800693ce1683a1464e177fcc0238a`. Owner requested version bump and executable for manual testing; later evidence-only commit follows without rebuilding/reidentifying packages.
@@ -1212,3 +1219,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks in active phase: owner/native acceptance unchanged; no phase checkbox completed.
 - Next smallest safe action: owner can run D:\01_DEV\AV-Network-Toolkit\out\LocalPreview-1.1.4\payload\NetworkProfileManager.exe; keep its DLLs beside it, exit older copy first to avoid confusion. Current LocalAppData/project stores remain shared with older copies; no new portable-local storage policy.
 - Can next session proceed without clarification: safe local review yes; new feature/publication/native boundaries remain. Published v1.1.3 and previous assets unchanged.
+
+### Session handoff — UI-SOURCE-01, 2026-11-01 (Asia/Tashkent)
+
+- Date and environment: Windows/PowerShell, private SDK 10.0.403; safe injected WPF fixtures.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / inspected 57ff73fe47b98aaccfa4941da88bbdc9e4da13d8; implementation commit resolved via `git log -1 --format=%H -- docs/testing/PROFILE_SOURCE_REVIEW.md`.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; bounded UI-SOURCE-01 VERIFIED_LOCAL.
+- Actually completed: separate visibly labelled Profile source row in local/project scopes; existing bindings, keyboard order, stores/actions preserved; scoped harness --workspace entry. Review and exact commands in docs/testing/PROFILE_SOURCE_REVIEW.md.
+- Files changed: app/Views/ProfilePanel.xaml, app/Views/ProjectProfilesPanel.xaml, only --workspace hunk in scripts/ProjectUiSmoke/Program.cs; DESIGN.md, docs/spec/MAIN_WORKSPACE_CONTRACT.md, TASKS.md, STATUS.md, decisions/DECISION_LOG.md, docs/testing/PROFILE_SOURCE_REVIEW.md, two synthetic actual layout captures in docs/design/profile-source/.
+- Tests: isolated Release harness build PASS/0 warnings/errors; --workspace PASS/44 captures; full harness final PASS/128 captures; 723 unit PASS/0 failed/0 skipped. Private Python `-B scripts/validate_plan.py` PASS/584 links and `-B scripts/test_validate_plan.py` PASS/12; git diff --check PASS (line-ending notices only). Failed initial SDK/shared-obj/UX/focus attempts retained in review, no assertion removed.
+- Live-network tests: NOT RUN / not authorized; no ordinary App startup, NIC/traffic/UAC/browser/installation/publication action.
+- Known risks: first full after-run ProjectWindow focus traversal failed, unchanged final rerun passed; cause UNVERIFIED. Pre-change --ux-after adapter-refresh failure remains outside scope. Native screen-reader/scaling/owner acceptance NOT RUN. Concurrent navigation work remains independently uncommitted and appears in combined-tree captures.
+- Decisions requiring user approval: none for this completed bounded placement correction; publication/native/phase gates remain separate.
+- Remaining active-phase tasks: existing owner/native acceptance unchanged; DATA-01/Phase 08 not started.
+- Next smallest safe action: owner reviews actual placement captures; existing EXE/packages have not been rebuilt by this task.
+- Can next session proceed without clarification: only within already authorized scope; no phase advancement inferred.

@@ -39,6 +39,8 @@ Provenance: generated in this chat using built-in imagegen from the owner's Netw
 
 ## Reuse rules
 
+Profile-source placement refinement (UI-SOURCE-01, 2026-11-01): show the existing This computer / Project profiles ComboBox in a separate, visibly labelled Profile source row above the saved-profile heading/actions in both scopes. Associate the visible label with the control for automation. This supersedes the beside-heading placement below only; retain the single main tab row, independent stores and existing action hierarchy.
+
 Local implementation of the selected workspace has [initial review evidence](docs/testing/MAIN_WORKSPACE_REVIEW.md). The owner's newer compact-block correction, ADR-030, is the current placement target: [reference crop and actual renders](docs/testing/COMPACT_WORKSPACE_REVIEW.md). Use a one-row project identity/file + Open/Save bar, with Save as/Manage in its named overflow menu. Keep one Network profiles / Device interfaces tab row with an accent underline; show the saved-profile heading and right-aligned Add, plus local Import/Export. A compact source selector retains This computer / Project profiles: selected-adapter/five-slot local storage versus portable project-wide profiles, without copying stores. This replaces only the second visible tab row despite earlier positive feedback about tabs. Add/Edit stays modal; manual/Ping/history stay expandable. No pixel-identity, credentials, full-flow or native acceptance claim.
 
 | Element | Existing contract |

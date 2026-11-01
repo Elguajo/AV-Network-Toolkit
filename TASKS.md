@@ -1,5 +1,9 @@
 # Traceable task backlog
 
+## Profile-source placement — 2026-11-01
+
+- [x] **UI-SOURCE-01** — Separate the profile-source selector from the saved-profile heading. **AC:** visibly labelled source row in both scopes; existing stores/actions/style preserved; Light/Dark normal/minimum renders, keyboard/source round trip and regression checks. **State:** VERIFIED_LOCAL — 44 focused + 128 full WPF captures/0 binding errors, 723 unit PASS, build 0 warnings/errors. [Evidence and retained failures](docs/testing/PROFILE_SOURCE_REVIEW.md). Concurrent navigation changes independent; packages unchanged, Phase 07 AWAITING_REVIEW.
+
 ## Local application for owner testing — 2026-11-01
 
 - [x] **BUILD-01** — Bump to 1.1.4 and provide current self-contained application for owner manual testing. **AC:** synchronized version metadata/notes, pinned committed source, Release build/unit/planning checks, both local packages and extracted payload identity/WPF/JSON/self-test rejection evidence, exact executable path. **State:** VERIFIED_LOCAL — source 629c2ae, Release build 0 warnings/errors, 723 unit PASS, both packages generated, source/runtime/version and 8 extracted payload hashes plus positive/negative package checks PASS; [local review and EXE path](docs/testing/LOCAL_PREVIEW_1.1.4_REVIEW.md). No GitHub publication, installation, agent live-network test or phase advancement.
