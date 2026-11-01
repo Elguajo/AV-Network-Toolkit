@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Re-upload the owner-requested 1.1.5 packages with the tunnel notification correction: repeated Teredo up/down/IP changes stay silent while Ethernet/Wi-Fi/ordinary virtual Ethernet notifications remain. Display version and data formats/locations are unchanged; earlier 1.1.5 downloads must be downloaded again.
 - Retain last maximized state when returning from the tray and preserve normal geometry while minimized/maximized.
 - Resolve DOC-R01 as a smoke-test synchronization defect, with deterministic Hide/Show and late-echo regression checks; no hidden test suppression or native cancellation support claim.
 

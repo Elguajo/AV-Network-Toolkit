@@ -1,5 +1,9 @@
 # Traceable task backlog
 
+## Owner-requested 1.1.5 re-upload — 2026-11-01
+
+- [ ] **REL-07** — Re-upload 1.1.5 with the completed tunnel notification fix. **AC:** verified original release backup, ordinary main commits/push, exact-source unit/tooling/build/package/runtime/install gates, guarded v1.1.5 tag/four-asset replacement and independent public-download verification; other releases unchanged. **State:** IN_PROGRESS — ADR-052; original four assets/body/tag backed up and hashes verified, new publication pending. [Evidence](docs/testing/RELEASE_1.1.5_REUPLOAD_REVIEW.md).
+
 ## Tunnel notification correction — 2026-11-01
 
 - [x] **NOTIFY-02** — Prepare a local corrected executable after the owner reported continuing Teredo Connection lost messages. **AC:** exact NOTIFY-01 source in a self-contained local EXE/ZIP, focused monitor regression and payload/ZIP diagnostics verified, explicit launch handoff without installing or publishing. **State:** VERIFIED_LOCAL — source c580604, 8 focused PASS, both package diagnostics PASS and 8 ZIP files hash-identical. [Evidence](docs/testing/TUNNEL_NOTIFICATION_REVIEW.md#local-corrected-build-after-continuing-notifications). Published 1.1.5 and installed files unchanged.

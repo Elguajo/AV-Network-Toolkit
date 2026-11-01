@@ -1,5 +1,11 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Owner-requested 1.1.5 re-upload — REL-07 / ADR-052, 2026-11-01
+
+- Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `5d0cc3e`. Fetched origin/main has 0 remote-only / 2 local-only commits; clean initial tree. Original published v1.1.5 is 2b78f67; scoped preparation commit follows.
+- Completed: original four assets and release body/tag API backed up under ignored TestResults/Republish115/Previous; all file sizes/SHA-256 match API. Owner explicitly selected same-version re-upload rather than 1.1.6; [scope/evidence](docs/testing/RELEASE_1.1.5_REUPLOAD_REVIEW.md).
+- In progress / next action: commit/push release preparation, observe exact-source full CI/package/runtime/install checks, then replace only v1.1.5 tag/assets and verify public downloads. No replacement/publication success claimed yet.
+- Tests last executed: NOTIFY-02 focused 8 and both package diagnostics PASS; NOTIFY-01 full 744 historical. New exact-source CI pending. Native networking/tray/phase/DPI/client gates remain; Phase 07 AWAITING_REVIEW, no DATA-01/Phase 08.
 ## Corrected local executable — NOTIFY-02, 2026-11-01
 
 - Fork / branch / exact built source: https://github.com/Elguajo/AV-Network-Toolkit / main / `c580604b74b63c5f2b6e6ea5c676edc896dfae9d`. This evidence-only commit follows; resolve with `git log -1 --format=%H -- docs/testing/TUNNEL_NOTIFICATION_REVIEW.md`.

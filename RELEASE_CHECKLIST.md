@@ -1,5 +1,9 @@
 # Release checklist — v1.1.5 Preview published; native acceptance pending
 
+## Owner-requested 1.1.5 re-upload — ADR-052 / REL-07
+
+Owner explicitly requested re-uploading **1.1.5**, superseding the prior no-tag-replacement limit for this release only. Preserve the original 2b78f67 release metadata/tag/assets and verify backups before replacement; ordinary main commit/push, exact-source build/unit/tooling/package/runtime/install gates, then guarded replacement of only v1.1.5's source tag and four assets. No branch-history rewrite, version bump, other release mutation, local install or native-network action. Keep Preview and all acceptance limits. [Re-upload evidence](docs/testing/RELEASE_1.1.5_REUPLOAD_REVIEW.md); preparation is not publication.
+
 ## Current requested release — 1.1.5 Preview / ADR-051
 
 Owner authorized commit/push and a new GitHub version after navigation/layout/activity work. Prepare 1.1.5 to distinguish it from the older local-only 1.1.4 candidate; retain all existing tags/assets. [Notes](docs/releases/v1.1.5.md). Publish only after the exact source passes the release workflow's build/unit/planning/package/runtime/install/reinstall/uninstall gates and verify the resulting public assets/source independently. Native 150%/200%/mixed-monitor, other native/owner/phase and clean-client gates remain unpassed; Preview publication is not stable acceptance. Outcome/evidence follows in STATUS.

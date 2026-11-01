@@ -95,7 +95,7 @@ Select an image for the full-size view. These WPF component captures use invente
 
 ## Status and limitations
 
-The current source targets **1.1.5 Preview**, with the icon rail, collapsible/resizable sidebar, saved window layout and actual tool-activity indicators. Read the [version notes](docs/releases/v1.1.5.md) and [changelog](CHANGELOG.md) for the changes included in each build.
+The current source targets **1.1.5 Preview**, with the icon rail, collapsible/resizable sidebar, saved window layout, actual tool-activity indicators and corrected Teredo connection notifications. The owner-requested corrected packages retain version 1.1.5; re-download if you used the original packages. Read the [version notes](docs/releases/v1.1.5.md) and [changelog](CHANGELOG.md) for the changes included in each build.
 
 - **Network safety:** complex or unknown adapter configurations are blocked. Recovery is best effort and can fail; older history does not contain a complete original snapshot. Keep an independent way to restore the adapter. [Supported states and field semantics](docs/USER_GUIDE.md#applying-settings-and-recovery).
 - **Acceptance:** automated checks and hosted package tests do not certify real NIC/UAC/DAD, physical packet egress, multicast, clean-client deployment or manual accessibility. Native DPI was checked at 100%; actual 150%/200% and mixed-monitor acceptance remain pending. DOC-R01 was resolved as a test synchronization defect. [Known issues](docs/releases/v1.1.5.md#known-limitations).
