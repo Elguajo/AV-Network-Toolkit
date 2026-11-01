@@ -1,10 +1,11 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
-## Local 1.1.4 Preview preparation — BUILD-01, 2026-11-01
+## Local 1.1.4 Preview verified — BUILD-01, 2026-11-01
 
-- Fork / branch / inspected base: https://github.com/Elguajo/AV-Network-Toolkit / main / `4c0a3aa`. Owner requested current version bump and executable for manual testing. Source commit follows; resolve through git log for app/NetworkProfileManager.csproj.
-- In progress: version/file/assembly 1.1.4/1.1.4.0, synchronized local notes/changelog/manual-release version gate; build both local self-contained packages from a committed source to out/LocalPreview-1.1.4, then verify and give the payload EXE path. [Evidence](docs/testing/LOCAL_PREVIEW_1.1.4_REVIEW.md). No success claimed before commands complete; last executed tests remain the DOC-R01 evidence below.
-- Blockers / next action: no blocker known; run exact-source Release build/full unit/planning and safe package self-tests. Phase 07 AWAITING_REVIEW, owner/native acceptance and previous limits persist. No application behavior/data-path/schema change, agent native probes/NIC/UAC/VM/install/push/release action.
+- Fork / branch / exact candidate source: https://github.com/Elguajo/AV-Network-Toolkit / main / `629c2ae2d56800693ce1683a1464e177fcc0238a`. Owner requested version bump and executable for manual testing; later evidence-only commit follows without rebuilding/reidentifying packages.
+- Completed: version/file/assembly 1.1.4/1.1.4.0, notes/changelog/manual-release version gate synchronized; both self-contained local packages at out/LocalPreview-1.1.4. EXE: `D:\01_DEV\AV-Network-Toolkit\out\LocalPreview-1.1.4\payload\NetworkProfileManager.exe`. [Review](docs/testing/LOCAL_PREVIEW_1.1.4_REVIEW.md), [identity/hashes](docs/testing/evidence/local-preview-1.1.4.json).
+- Tests last executed: Release solution build 0 warnings/errors, 723 unit PASS/0 failed/0 skipped; pinned compiler/publish/installer/ZIP PASS; original and extracted EXE WPF/JSON/create-only/malformed/retired-worker rejection checks PASS; both package hashes and all 8 extracted payload files identical, EXE 1.1.4.0/source 629c2ae/runtime .NET 10.0.14 verified. Final documentation checks in handoff below.
+- In progress / blockers / next action: no BUILD-01 local work remains; owner can run the EXE directly for manual testing. Phase 07 AWAITING_REVIEW, owner/native/hosted-1.1.4/install/OS acceptance pending. No application behavior/data-path/schema change, ordinary product startup, native probes/NIC/UAC/VM/install/push/release action. Published v1.1.3 unchanged; DATA-01/Phase 08 not started.
 
 ## Diagnostic hide smoke resolved — DOC-R01, 2026-11-01
 
@@ -1196,3 +1197,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks in active phase: owner/native acceptance unchanged; no phase task checkbox completed.
 - Next smallest safe action: owner manual hide/reopen check against the current Preview; no application reinstall required by this harness-only correction.
 - Can next session proceed without clarification: safe local review yes; native execution/phase/publication/new feature boundaries remain.
+
+## Session handoff — 2026-11-01, local 1.1.4 Preview for owner testing
+
+- Date and environment: 2026-11-01 Asia/Tashkent; Windows 11, private .NET SDK 10.0.403/runtime 10.0.14, verified existing Inno Setup 6.7.4, validation Python venv.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / package source 629c2ae2d56800693ce1683a1464e177fcc0238a; evidence-only commit follows. Source version commit remains separately scoped.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; BUILD-01 VERIFIED_LOCAL. Owner requested new version and current local executable for manual testing, not GitHub publication or agent native execution.
+- What was actually completed: version/file/assembly 1.1.4/1.1.4.0; synchronized notes/changelog/manual release-workflow guard; same-source self-contained installer/ZIP and ready-to-run payload. Verified extracted ZIP bytes, package hashes, source identity, bundled runtime and positive/negative package diagnostics. Explorer launch requested with payload EXE selected; no ordinary app startup by agent.
+- Files changed: app/NetworkProfileManager.csproj; .github/workflows/release.yml; CHANGELOG.md; docs/releases/v1.1.4.md; docs/testing/LOCAL_PREVIEW_1.1.4_REVIEW.md and evidence/local-preview-1.1.4.json; TASKS.md, PROJECT_CONTEXT.md, STATUS.md. No functional/schema/data-path/dependency change. Generated output ignored under out/LocalPreview-1.1.4 and TestResults/LocalPreview114.
+- Test commands and results: exact commands in review. Release solution build 0 warnings/errors; 723 unit PASS/0 failed/0 skipped; pinned compiler reuse/integrity/publish/installer/ZIP PASS. Original and extracted EXE WPF/JSON/create-only/malformed/retired-worker checks PASS; both package hashes and all 8 payload file hashes identical, EXE 1.1.4.0/source 629c2ae/runtime .NET 10.0.14. Planning/schema/formats/578 links and 12 tooling PASS; whitespace PASS. Final metadata gates repeated before evidence commit.
+- Live-network tests: NOT RUN. No ordinary App startup, real probe/listener/NIC/UAC/VM/product installation or remote push/tag/release. Self-tests route before App startup and use safe embedded fixtures/offscreen WPF.
+- Known bugs, risk and workarounds: native/manual/clean-client/install/hosted-1.1.4/phase acceptance and existing OS/unsigned/recovery limits remain. Local candidate verified for owner testing; stable/native release NO-SHIP. DOC-R01 remains resolved as a harness defect; no new application behavior since 1.1.3.
+- Decisions requiring user approval: none for completed local build; future external publication/native execution retain their gates.
+- Remaining tasks in active phase: owner/native acceptance unchanged; no phase checkbox completed.
+- Next smallest safe action: owner can run D:\01_DEV\AV-Network-Toolkit\out\LocalPreview-1.1.4\payload\NetworkProfileManager.exe; keep its DLLs beside it, exit older copy first to avoid confusion. Current LocalAppData/project stores remain shared with older copies; no new portable-local storage policy.
+- Can next session proceed without clarification: safe local review yes; new feature/publication/native boundaries remain. Published v1.1.3 and previous assets unchanged.

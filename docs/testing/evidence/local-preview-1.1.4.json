@@ -1,0 +1,60 @@
+{
+  "date": "2026-11-01",
+  "timezone": "Asia/Tashkent",
+  "status": "VERIFIED_LOCAL_MANUAL_TEST_CANDIDATE",
+  "sourceCommit": "629c2ae2d56800693ce1683a1464e177fcc0238a",
+  "version": "1.1.4",
+  "executable": "D:\\01_DEV\\AV-Network-Toolkit\\out\\LocalPreview-1.1.4\\payload\\NetworkProfileManager.exe",
+  "selfContained": true,
+  "packages": [
+    {
+      "Sha256": "129916B323AF6BD0E2BB3CCD70A9F65B62ADB948D74351849796B2555A26B7C0",
+      "Name": "AVNetworkToolkit-1.1.4-win-x64-portable.zip"
+    },
+    {
+      "Sha256": "607EE558AA6EF414C92F96CED10479B8D270CC8D38E374538C89DE5A799060C8",
+      "Name": "AVNetworkToolkit-1.1.4-win-x64-setup.exe"
+    }
+  ],
+  "payloadSelfTest": {
+    "Success": true,
+    "Version": "1.1.4.0",
+    "InformationalVersion": "1.1.4+629c2ae2d56800693ce1683a1464e177fcc0238a",
+    "Runtime": ".NET 10.0.14",
+    "JsonValidated": true,
+    "WpfRendered": true,
+    "ErrorType": null
+  },
+  "unit": {
+    "passed": 723,
+    "failed": 0,
+    "skipped": 0
+  },
+  "build": {
+    "warnings": 0,
+    "errors": 0
+  },
+  "payloadFileHashes": {
+    "D3DCompiler_47_cor3.dll": "a05f99734f7c4822fefc12b367af21fd0976ed6608752fb1e1e80b6ece7ecbbb",
+    "LICENSE": "e782b973ec2fff35326a454c83a05fd23aa08c341c4b61e849ae9958daec56c9",
+    "NetworkProfileManager.exe": "20e3b46cae3d2a6813484b48b702609400bff5a9cd7f6b60c4ba37bf41d6dae2",
+    "PenImc_cor3.dll": "2f0962a6475578924087f1de7b2849a1d5be1b830fc3374acbd9cce7f024a98e",
+    "PresentationNative_cor3.dll": "091609705a031d5832f21548291c2670f06eadd781d465d3e1a5fad3772adc91",
+    "THIRD_PARTY_NOTICES.md": "f3a1558c9734ea7f8ea40e22f7ad5d370180bdab3d200fbdbf52123039208ed4",
+    "vcruntime140_cor3.dll": "d5e4d9a3e835fa679450145d6a7d94e36573a509317111904d9b3712c30d9066",
+    "wpfgfx_cor3.dll": "48a8e8100fd38183a0fabfe7fad0bf9e9d28d65a0827298ef0910b31e6e94cbd"
+  },
+  "verificationHashes": {
+    "TestResults/LocalPreview114/Unit/local-preview-1.1.4.trx": "6b74837ae6f0ac92fc476212a0a22c68e721524b9aa12e7f96f552b2b4e63d1a",
+    "TestResults/LocalPreview114/PayloadSelfTest/success.json": "a8f8ebe06f18e5ca86129af06193e2ee04b00be6ddb3b6777ca375b932784fd8",
+    "TestResults/LocalPreview114/ZipSelfTest/success.json": "a8f8ebe06f18e5ca86129af06193e2ee04b00be6ddb3b6777ca375b932784fd8",
+    "TestResults/LocalPreview114/packages-build.log": "437f6075b9befd2d74cc62bd3e6129ebf372c48897e0a893b8f9a55e9c1a970d"
+  },
+  "zipPayload": "8_FILES_HASH_IDENTICAL",
+  "nativeNetwork": "NOT RUN",
+  "ordinaryStartup": "NOT RUN",
+  "productInstall": "NOT RUN",
+  "hostedCi": "NOT RUN",
+  "gitHubPublication": "NOT RUN",
+  "ownerManualAcceptance": "PENDING"
+}

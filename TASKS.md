@@ -2,7 +2,7 @@
 
 ## Local application for owner testing — 2026-11-01
 
-- [ ] **BUILD-01** — Bump to 1.1.4 and provide current self-contained application for owner manual testing. **AC:** synchronized version metadata/notes, pinned committed source, Release build/unit/planning checks, both local packages and extracted payload identity/WPF/JSON/self-test rejection evidence, exact executable path. **State:** IN_PROGRESS — [local review](docs/testing/LOCAL_PREVIEW_1.1.4_REVIEW.md). No GitHub publication, installation, agent live-network test or phase advancement.
+- [x] **BUILD-01** — Bump to 1.1.4 and provide current self-contained application for owner manual testing. **AC:** synchronized version metadata/notes, pinned committed source, Release build/unit/planning checks, both local packages and extracted payload identity/WPF/JSON/self-test rejection evidence, exact executable path. **State:** VERIFIED_LOCAL — source 629c2ae, Release build 0 warnings/errors, 723 unit PASS, both packages generated, source/runtime/version and 8 extracted payload hashes plus positive/negative package checks PASS; [local review and EXE path](docs/testing/LOCAL_PREVIEW_1.1.4_REVIEW.md). No GitHub publication, installation, agent live-network test or phase advancement.
 
 ## Diagnostic hide smoke investigation — 2026-11-01
 
