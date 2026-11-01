@@ -31,6 +31,11 @@ namespace NetworkProfileManager
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            if (e.Args.Length > 0 && e.Args[0] == PackageSelfTest.Switch)
+            {
+                Environment.Exit(PackageSelfTest.Run(e.Args));
+                return;
+            }
             if (e.Args.Length > 0 && e.Args[0] == ProjectApplyElevation.WorkerSwitch)
             {
                 int code = e.Args.Length == 3

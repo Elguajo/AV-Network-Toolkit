@@ -5,6 +5,10 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build-and-test:
@@ -25,4 +29,50 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test test/NetworkProfileManager.Tests.csproj --configuration Release --no-build --logger "console;verbosity=minimal"
+        run: dotnet test test/NetworkProfileManager.Tests.csproj --configuration Release --no-build --logger "trx;LogFileName=ci-unit.trx" --results-directory TestResults/CI
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate durable planning and schema
+        shell: pwsh
+        run: |
+          python -m pip install -r scripts/requirements-validation.txt
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -B scripts/validate_plan.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -B scripts/test_validate_plan.py
+      - name: Retain unit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-results-${{ github.sha }}
+          path: TestResults/CI/*.trx
+          if-no-files-found: error
+
+  packages:
+    needs: build-and-test
+    runs-on: windows-2022
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Build self-contained installer and portable ZIP
+        shell: pwsh
+        run: ./scripts/build_packages.ps1
+      - name: Verify packages with global .NET unavailable
+        shell: pwsh
+        run: ./scripts/test_packages_on_runner.ps1 -PackageDirectory out/packages
+      - name: Retain package candidates and verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: AVNetworkToolkit-package-candidates-${{ github.sha }}
+          path: |
+            out/packages/*.zip
+            out/packages/*-setup.exe
+            out/packages/package-manifest.json
+            out/packages/payload-self-test.json
+            out/packages/runner-verification/**/*.json
+          if-no-files-found: error

@@ -45,6 +45,8 @@ Ship two packages of the same application version: an installer as the primary d
 
 This approves delivery requirements, not completed artifacts or release publication. Installer technology/integration details remain implementation choices for the packaging follow-up. Preserve current LocalAppData identities/settings and explicit project files; ZIP distribution does not imply a new USB-local settings mode, automatic updater or storage migration. Verify both packages on clean Windows without preinstalled .NET before claiming readiness. Existing phase/native/release/publication gates remain.
 
+ADR-042 owner refinement: after packaging, migrate shared user data to `%USERPROFILE%\.av-network-toolkit` through a separate reviewed backup/compatibility/recovery change (DATA-01). Current implementation and candidate packages still use LocalAppData. This approves the future destination, not completed migration or data deletion.
+
 ## Non-goals / unapproved changes
 
 - No rewrite to Flutter/Electron/other toolkit.

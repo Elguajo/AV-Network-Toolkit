@@ -16,7 +16,7 @@ Separate from phase acceptance and the 49 phase tasks; execute in this order:
 |---|---|---|
 | REL-01 | Investigate/fix UX-R01/P05-R01 with causal reproduction and meaningful regression coverage | FIXED_LOCALLY / EVIDENCE_RECORDED; [reproduction, cause, correction, 631 PASS](docs/testing/JSON_VALIDATION_REVIEW.md); owner review pending |
 | REL-02 | Prepare isolated Windows profile → observed IP/prefix/gateway/DNS → device open → restore, UAC denial, NIC disconnect and partial failure | PREPARATION_EVIDENCE_RECORDED; [156 fake tests + 11 observer fixtures in two shells](docs/testing/ISOLATED_WINDOWS_PREPARATION.md). Owner chose safe checks only; native NOT RUN/deferred pending lab |
-| REL-03 | Confirm GitHub CI and same-version installer + portable ZIP on clean Windows without preinstalled .NET (ADR-039) | Distribution formats OWNER_APPROVED; implementation/clean-machine evidence pending. Execution remains DEFERRED under ADR-036/037; CI UNVERIFIED |
+| REL-03 | Confirm GitHub CI and same-version installer + portable ZIP on clean Windows without preinstalled .NET (ADR-039) | AUTHORIZED / IN_PROGRESS under ADR-040; inspect CI, implement/build both packages and safe isolated package verification. New push/publication gate and REL-02 native restriction remain |
 | REL-04 | Update first-release README/changelog/version/description/limits/checksum | DEFERRED until REL-01/02; reduced release scope not approved |
 
 Phase 07 remains AWAITING_REVIEW. No push, tag/release, Phase 08 or DHCP server authorization.
@@ -24,6 +24,8 @@ Phase 07 remains AWAITING_REVIEW. No push, tag/release, Phase 08 or DHCP server 
 ADR-038 maintenance follow-up: owner confirmed CODEX_START.md deletion; retired redundant entry and enforced existing AGENTS/bootstrap/resume/handoff documents instead. Real-tree planning/schema/links PASS, 12 tooling regressions PASS; JSON scoped self-review found no new actionable defect, 60 focused PASS and 10 retained TRX hashes verified. Phase/task acceptance and native/deferred release gates unchanged.
 
 ADR-039: owner accepted primary installer + additional portable ZIP with bundled .NET, same application version/features/UAC boundary. Requirements recorded in PROJECT_CONTEXT and RELEASE_CHECKLIST; neither package is claimed implemented/verified. No USB-local storage mode, automatic updates, new native permission or release publication implied.
+
+**DATA-01 — ADR-042, after packaging:** owner selected `%USERPROFILE%\.av-network-toolkit` as future shared per-user storage. Migration NOT STARTED; review all existing data/settings/history/recovery locations, backup/copy/conflicts/repeated-run/failure/recovery compatibility before changing paths. Current packages retain LocalAppData; this is not a USB-local mode.
 
 **Current state:** Phase 07 AWAITING_REVIEW under ADR-034 (2026-11-01), directly on main, implementation `87d02ce7ba7eaaee18b45825270953081f4f69de`. 07-T01–07-T04 EVIDENCE_RECORDED: explicit diagnostic identities/types/facts/routes, opt-in saved Hyper-V uplink filter and shared adapter/source IPv4 Ping. [Review packet](docs/testing/PHASE07_REVIEW.md): 624 full unit PASS (48 added), 15 fake Windows-query fixtures, 32 focused + 128 existing WPF captures/0 binding errors. Acceptance checkboxes remain open; native OS/network acceptance NOT RUN. Earlier owner/native limits and OPEN UX-R01/P05-R01 remain; no push/release or Phase 08.
 
