@@ -1415,3 +1415,10 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d â†
 - Remaining active-phase tasks: existing owner/native acceptance unchanged; DATA-01/Phase 08 not started.
 - Next smallest safe action: owner downloads corrected 1.1.5 installer or ZIP and updates deliberately after tray Exit.
 - Can next session proceed without clarification: safe inspection yes; later publication/native/phase actions retain their gates.
+
+## Session handoff â€” 2026-11-02, duplicate release heading removed
+
+- Date/environment/fork/branch/source: 2026-11-02 Asia/Tashkent, Windows; https://github.com/Elguajo/AV-Network-Toolkit / main / inspected 5fdb62e. Phase 07 AWAITING_REVIEW; DOC-03 bounded follow-up.
+- Completed/files: removed only the redundant H1 and following blank line from docs/releases/v1.1.5.md; synchronized the published v1.1.5 body. The GitHub release header remains. STATUS.md records this handoff.
+- Verification: fetched API body matches the file and equals the previous body minus exactly that heading; release title/channel/tag/target and all four asset IDs/names/digests/sizes/timestamps unchanged. Tag commit independently checked before/after. Final documentation/whitespace checks run before commit. App build/unit/native tests NOT RUN for this two-line editorial change.
+- Live-network tests: NOT RUN; no application/settings/network actions. Existing native/owner risks and phase tasks unchanged; no new decisions or remaining implementation. No rebuild, asset upload or retag. Next safe action: view the corrected release page; no phase advancement.
