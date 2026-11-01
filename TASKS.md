@@ -133,7 +133,7 @@ These stable follow-up IDs are separate from the 49 phase tasks; no phase task i
 |---|---|---|
 | IDEA-01 | Apply a project profile without a device or browser URL; retain explicit NIC/review/UAC/verification/recovery | EVIDENCE_RECORDED (ADR-028); standalone typed apply with selected GUID, tests in MAIN_WORKSPACE_REVIEW; owner/native acceptance pending |
 | IDEA-02 | Define/test the real DHCP → isolated Static workflow, including DNS/no-lease/APIPA boundaries; preserve conservative blocking until supported | GAP RECORDED; support refinement needs scoped design/review |
-| IDEA-03 | FR-13: optional device-password storage in project JSON; version/compatibility, explicit UI, redaction and backups | OWNER PERMISSION RECORDED (ADR-024); format/UI implementation not started |
+| IDEA-03 | FR-13: optional device-password storage in project JSON; version/compatibility, explicit UI, redaction and backups | INVESTIGATION_RECORDED / OWNER_REVIEW_PENDING — owner requested local work; [v2 transition/UI/clipboard proposal](docs/spec/DEVICE_PASSWORD_PROPOSAL.md) ready for format review. ADR-024 storage permission is granted; working schema/UI unchanged, implementation not started |
 | IDEA-04 | FR-14: coherent main-screen adapter → current state → profile/manual settings → explicit apply → observed result, with optional device Open/Apply & Open; reuse IDEA-01/02 and DESIGN.md | EVIDENCE_RECORDED (ADR-028–032); [reference actions/current state](docs/testing/PROFILE_VISUAL_STATES_REVIEW.md), 140 WPF captures/0 binding errors, 576 unit PASS. Current-state Selected confirmed by owner, full task/native acceptance pending. OPEN UX-R01/P05-R01 remains unresolved despite green run; IDEA-02/03 separate |
 
 ## Phase 01: Baseline audit (P0)

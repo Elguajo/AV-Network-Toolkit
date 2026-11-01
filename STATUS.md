@@ -1,5 +1,13 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Device-password contract review — IDEA-03 / FR-13, 2026-11-02
+
+- Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `a75a3acb4c533570ba3ce705e012011681d6e63e`; clean at bootstrap. Concurrent updater files, NetworkMutationLease.cs and OPEN-01 documentation edits appeared during inspection and are excluded from this work. Scoped proposal commit is resolvable with `git log -1 --format=%H -- docs/spec/DEVICE_PASSWORD_PROPOSAL.md` after commit.
+- Completed: bootstrap, current v1 DTO/schema/parser/store/editor/browser/apply/test consumer inspection; [concrete proposal and acceptance matrix](docs/spec/DEVICE_PASSWORD_PROPOSAL.md). No working format, password functionality or network behavior changed. ADR-024 permission is not reopened.
+- In progress / blockers: IDEA-03 OWNER_REVIEW_PENDING for v2/separate initial save/no downgrade/empty-value/clipboard contract; implementation NOT_STARTED. Phase 07 remains AWAITING_REVIEW, no DATA-01/Phase 08 advancement; existing owner/native/publication gates remain.
+- Next action: owner reviews the concrete proposal, then implement only the selected contract with synthetic tests. No auth behavior, real-file migration, install, live network/UAC, push or publication authorized.
+- Tests last executed: private validation Python, `-B scripts/validate_plan.py` PASS (9 phases, 49 stable tasks, schema/formats/references, 729 links before final handoff); `-B scripts/test_validate_plan.py` PASS (12 tests); `git diff --check` PASS. Final metadata checks recorded in the handoff below. App build/unit/WPF/native/clipboard/package checks NOT RUN for the proposal. Global PATH Python lacks jsonschema and global dotnet lacks SDK; existing private tools were located, no installation/settings change.
+
 ## Project/device opening invariant — OPEN-01, 2026-11-02
 
 - Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `a75a3acb4c533570ba3ce705e012011681d6e63e`; clean bootstrap. Containing evidence commit: `git log -1 --format=%H -- docs/testing/OPENING_NETWORK_INVARIANT_REVIEW.md`.
@@ -1467,3 +1475,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks in active phase: existing owner/native/DPI and unrelated risk gates unchanged; no DATA-01/Phase 08 advancement or acceptance.
 - Next smallest safe action: owner reviews the recorded evidence; separately scope/approve isolated native baseline and recovery before live acceptance.
 - Can next session proceed without clarification: read-only review/safe regression yes; no new phase, mutation, updater/data/password implementation or publication authorized by OPEN-01.
+
+### Session handoff — IDEA-03 / FR-13 format review, 2026-11-02 (Asia/Tashkent)
+
+- Date and environment: Windows/PowerShell; read-only application-source inspection and existing private Python validation tools, no tool installation.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / inspected `a75a3acb4c533570ba3ce705e012011681d6e63e`, initially clean; proposal commit resolves via `git log -1 --format=%H -- docs/spec/DEVICE_PASSWORD_PROPOSAL.md`.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; IDEA-03 INVESTIGATION_RECORDED / OWNER_REVIEW_PENDING. Working password support NOT_IMPLEMENTED.
+- Actually completed: mandatory bootstrap, FR-13/ADR-024 requirements inspection; traced DTO/schema/parser/atomic writer/project and device draft/editor/search/browser/apply/journal/test consumers. Prepared concrete strict-v2, separate-first-save, no-downgrade, exact-value, UI consent/show/copy/remove and clipboard contract with compatibility/failure/security acceptance matrix. No real credentials used.
+- Files changed by this work: docs/spec/DEVICE_PASSWORD_PROPOSAL.md, PROJECT_CONTEXT.md, TASKS.md (IDEA-03 row only), decisions/DECISION_LOG.md (named follow-up entry), STATUS.md (password section and this handoff). Concurrent OPEN-01 documentation, updater sources and NetworkMutationLease.cs preserved/excluded.
+- Test commands and results: `& "$env:LOCALAPPDATA/AVNetworkToolkit.BuildTools/python/Scripts/python.exe" -B scripts/validate_plan.py` PASS (9 phases, 49 stable tasks, schema/formats/references, 736 links before this handoff); same interpreter `-B scripts/test_validate_plan.py` PASS (12 tests); final metadata/whitespace checks run before commit. Application build/unit/WPF/package/native clipboard checks NOT RUN for this documentation-only work. Initial global Python/dotnet discovery found missing jsonschema/SDK; used existing private validation Python, no settings/dependency changes.
+- Live-network tests: NOT RUN / not authorized; no ordinary App startup, network settings, probes/scans, mDNS/DHCP, device/browser traffic, UAC, install, VM, push or publication.
+- Known risks and workarounds: plaintext project/temp/backup/copy exposure and clipboard history cannot be erased by this feature; v1-only builds reject v2 but explicit old-build Save As can overwrite it. Proposal preserves original v1 and forbids silent downgrade. New behavior/compatibility/native clipboard acceptance remains UNVERIFIED until implementation/tests.
+- Decisions requiring user approval: review the concrete v2/separate-first-save/no-downgrade/invalid-empty/30-second conditional-clipboard packet. Request sent; no decision inferred from elapsed time. ADR-024 storage permission itself is already granted. Repository AGENTS.md requires the reviewed versioned extension before support; no additional skill permission gate.
+- Remaining tasks in active phase: prior owner/native/DPI and phase tasks unchanged; no DATA-01/Phase 08 advancement or phase acceptance.
+- Next smallest safe action: adopt the reviewed password contract and implement with synthetic unit/storage/security/WPF checks; later native/release gates remain separate.
+- Can next session proceed without clarification: source inspection/proposal refinement yes; dependent format/code work waits for the concrete contract review.

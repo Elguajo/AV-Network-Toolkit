@@ -1,5 +1,9 @@
 # Project context — persistent product brief
 
+## Device-password follow-up — FR-13 / IDEA-03, 2026-11-02
+
+Owner requested starting bounded local work on optional device passwords with explicit show/copy. ADR-024 storage permission is already granted. [Concrete v2 proposal](docs/spec/DEVICE_PASSWORD_PROPOSAL.md) records current v1 consumers, compatibility/transition, exact password states, plaintext/backup consent, clipboard ownership and acceptance checks. OWNER_REVIEW_PENDING before working format/code changes; no login field, automatic login, token/TLS behavior, real-file migration or support claim. Phase 07 remains AWAITING_REVIEW; updater/DATA-01/native/publication gates and concurrent work remain separate.
+
 ## Application update investigation — 2026-11-02, ADR-053
 
 Owner selected automatic application updates as a separate direction. UPD-01 records current packaging/data/exit/release evidence and a [concrete minimal proposal](docs/spec/APPLICATION_UPDATE_PROPOSAL.md). Owner selected signed-manifest verification; portable strategy remains OWNER_DECISION_PENDING before implementation. No updater implemented. Existing exclusions are superseded only within this bounded direction. No keys/secrets/shared resources, installation, publication, DATA-01, Phase 08 or phase acceptance authorized.
