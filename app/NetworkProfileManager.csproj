@@ -35,6 +35,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\icon.ico" />
+    <Resource Include="Assets\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="NetworkProfileManager.Tests" />

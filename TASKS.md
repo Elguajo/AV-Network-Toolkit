@@ -1,5 +1,9 @@
 # Traceable task backlog
 
+## Product mark — ADR-044, 2026-11-01
+
+- [x] **BRAND-01** — Use the owner's supplied logo and convert it to the Windows application icon. **Verified:** original transparent PNG retained, 10 ICO sizes, existing EXE/window/title-bar/tray/installer bindings retained; Release build, 681 unit PASS and 128 WPF captures/0 binding errors. [Evidence and limits](docs/testing/BRANDING_REVIEW.md). Phase 07 remains AWAITING_REVIEW; no new package/publication/native acceptance claim.
+
 ## Network-test presets — ADR-041, 2026-11-01
 
 Separate follow-up ID; preserve the existing 49 phase task IDs/order.

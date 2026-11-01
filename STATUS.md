@@ -1,5 +1,13 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Product logo / Windows icon — BRAND-01 / ADR-044, 2026-11-01
+
+- Fork / branch / bootstrap SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / `e4bd0cbe152a581ab0a315f90801e42de344439f`. Concurrent packaging records/publication through `0a27b9fc2efd8c762ae189ca0c841b1a3e10f888` preserved. Branding commit resolves via `git log -1 --format=%H -- app/Assets/logo.png`.
+- Active / completed / in progress: Phase 07 AWAITING_REVIEW. BRAND-01 verified locally: owner's unchanged transparent PNG, 10-size Windows ICO and reproducible conversion; existing EXE/main title-bar/tray/installer paths reuse the new mark. [Evidence](docs/testing/BRANDING_REVIEW.md). No phase accepted; REL-03 independently in progress.
+- Tests last executed: Release solution/harness builds PASS, 0 warnings/errors; **681 unit PASS / 0 failed / 0 skipped**; **128 actual WPF captures / 0 binding errors**. All 10 ICO frames decode with correct dimensions/nonempty alpha/transparent corners, unchanged PNG hash, repeat ICO hash and actual EXE icon extraction PASS. Planning/schema/links, **12 tooling regressions** and whitespace PASS.
+- Blockers / risks: full App/tray/Explorer cache/high-DPI/manual native acceptance NOT RUN. Earlier installer/ZIP candidates predate the icon change and require rebuild to include it. Existing owner/native/release gates retained; no real NIC/probe/UAC/browser action.
+- Next action: review the logo/icon and actual main-window capture; incorporate the asset in subsequent authorized package builds. No branding push/release or Phase 08 authorized by this request.
+
 ## Latest REL-03 candidates — hosted execution pending, 2026-11-01
 
 ADR-043 update: owner explicitly approved ordinary main push through evidence `a206b8e`, plus this authorization, and hosted REL-03 CI. The pending-push statements below are historical for this now-authorized chain; actual CI outcome remains pending. No tag/release/native-network action or phase acceptance.
@@ -815,3 +823,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks in active phase: owner/native acceptance unchanged. REL-03 not complete until actual hosted evidence/limitations reviewed; release NO-SHIP.
 - Next smallest safe action: authorize ordinary main push + CI (no release); observe run/log/artifacts and fix any reproduced packaging errors. Then separately handle DATA-01 and REL-04 under their gates.
 - Can next session proceed without clarification: safe local review/fixes yes; new push/hosted publication needs existing gate resolved. Real network/working-PC elevated install/runtime moves/Phase 08 remain outside authorization.
+
+## Session handoff — 2026-11-01, BRAND-01 logo/icon
+
+- Date and environment: Windows, Asia/Tashkent; existing local SDK 8.0.427 and System.Drawing; no installation.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / bootstrap e4bd0cbe152a581ab0a315f90801e42de344439f; concurrent packaging commits through 0a27b9fc2efd8c762ae189ca0c841b1a3e10f888 preserved. Exact branding commit: `git log -1 --format=%H -- app/Assets/logo.png`.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; BRAND-01 locally verified/checked, no phase completion.
+- Actually completed: owner's transparent source retained byte-for-byte, 10-resolution ICO generated, PNG embedded; existing EXE/window/title-bar/tray/installer paths reused; actual EXE icon and main WPF capture inspected. Scoped local commit follows.
+- Files changed: app/Assets/logo.png, app/Assets/icon.ico, app/NetworkProfileManager.csproj, scripts/update_brand_icon.ps1, DESIGN.md, TASKS.md, STATUS.md, decisions/DECISION_LOG.md, docs/testing/BRANDING_REVIEW.md.
+- Tests: exact commands/hashes in branding review. Release builds PASS/0 warnings/errors; 681 unit PASS/0 failed/0 skipped; 128 WPF captures/0 binding errors; 10 ICO frame decodes, original PNG/rebuild hashes and actual EXE icon PASS. Plan/schema/links, 12 tooling regressions and whitespace PASS.
+- Live-network tests: NOT RUN/not authorized; no App startup, actual network queries/probes/settings, UAC or browser launch.
+- Known bugs, risk and workarounds: full App/tray/cache/scaling acceptance NOT RUN. Older installer/ZIP candidates retain their previous icon until rebuilt; no package verification claim for this change.
+- Decisions requiring user approval: owner review/native/release gates remain; logo use and ICO conversion already explicitly approved. Branding push not requested.
+- Remaining tasks in active phase: previous Phase 07/native/owner review unchanged; independent REL-03/package work continues separately.
+- Next smallest safe action: review logo/icon and actual captures, then consume the new asset in an authorized subsequent package build.
+- Can next session proceed without clarification: read-only review yes; package/publication/native work follows its own existing authorization.

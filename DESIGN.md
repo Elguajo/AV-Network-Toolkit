@@ -1,5 +1,9 @@
 # Existing interface contract
 
+## Product logo and application icon — ADR-044
+
+Owner supplied and approved the cyan/blue ribbon lettermark on 2026-11-01. Canonical unchanged transparent source: [logo.png](app/Assets/logo.png), SHA-256 `795e9f3ac900bd3ba1c93b244502a1c125500d521897efd3593ba2be5833cd72`. This replaces the previous product mark only; control symbols and layout retain the existing design system. [icon.ico](app/Assets/icon.ico) contains transparent, centered 16/20/24/32/40/48/64/96/128/256 px frames with original aspect ratio. Rebuild with `scripts/update_brand_icon.ps1` on Windows. Existing EXE, main window/title-bar, tray and installer bindings reuse this ICO. [Verification](docs/testing/BRANDING_REVIEW.md).
+
 ## Network-test preset refinement — ADR-041
 
 Owner approved the expanding settings-style [network-test concept](docs/design/network-tests-target.png), SHA-256 `9cb65b42b118d9adf77b0aa5a056f4c1c37d14c0d50d9b8a3d7a49c8240b8024`, then requested implementation. Reuse the existing main diagnostics expander below profiles/manual settings; title Network tests, with a running suffix during a test. Compact named preset ComboBox/descriptions inline, secondary Open test window action, independent separate-window peer with selectable descriptive cards. Keep explicit adapter/source, destination and conditional TCP-port fields. Single-request Ping remains an additional preset alongside the approved three.
