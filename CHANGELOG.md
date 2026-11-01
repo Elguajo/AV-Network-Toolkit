@@ -6,6 +6,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.2] — 2026-11-01 (AV Network Toolkit Preview)
+
+### Fixed
+
+- Preserve damaged local profiles/history and existing backups; atomic replacement, conflict detection and retained drafts on save failure.
+- Isolate damaged recovery journals, paginate large recovery directories and retry incomplete legacy copies.
+- Route local/manual/hotkey/tray Apply and Revert through typed confirmation, pre-mutation journaling and observed verification; journal-backed new history restores supported DNS policy.
+- Retire the generic mutable-file privileged command worker; align tray/main active-profile DNS matching.
+- Refresh Light/Dark backgrounds in owned/nested windows and synchronize native/render theme state.
+
+### Changed
+
+- .NET 10 LTS runtime/SDK targets across application, tests, publishing and CI. Current packages bundle the runtime; OS edition/version support limits apply.
+- Publish a new Preview, preserving 1.1.1 assets/tag. [Release notes](docs/releases/v1.1.2.md) document conservative local Apply compatibility, old-history limits, known DOC-R01 smoke failure and pending native/phase acceptance.
+
 ## [1.1.1] — 2026-11-01 (AV Network Toolkit Preview)
 
 ### Added

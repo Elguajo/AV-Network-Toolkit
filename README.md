@@ -16,9 +16,9 @@
 <div>
 Windows network profiles and project-scoped device web interfaces for AV field work. Select an adapter, review the computer's current settings, deliberately apply a saved profile, then open the equipment interface when needed.
 
-**1.1.1 Preview:** includes the fork's project/device workflows, diagnostics, new logo and self-contained Windows packages. Automated checks do not replace isolated hardware acceptance; read the [release limitations](docs/releases/v1.1.1.md#limitations) before changing a working network.
+**1.1.2 Preview:** includes the audit safety/storage fixes, consistent Light/Dark windows and self-contained .NET 10 packages. Automated checks do not replace isolated hardware acceptance; read the [release limitations](docs/releases/v1.1.2.md#verification-and-remaining-limits) before changing a working network.
 
-**Current source after the audit:** local Apply/Revert now uses the verified typed workflow, file failures preserve saved data, and development targets .NET 10 LTS. These [local fixes and compatibility limits](docs/testing/AUDIT_FIXES_REVIEW.md) are not included in the existing v1.1.1 downloads, which remain on .NET 8. New release/native acceptance is pending.
+**Since 1.1.1:** local Apply/Revert uses the verified typed workflow, file failures preserve saved data, and development targets .NET 10 LTS. [Compatibility limits and evidence](docs/testing/AUDIT_FIXES_REVIEW.md). The earlier v1.1.1 downloads remain unchanged on .NET 8. Native/phase acceptance and the known diagnostic-stop smoke issue remain open.
 </div>
 
 ![AV Network Toolkit in dark theme: selected Ethernet adapter, current settings and saved network profiles](docs/screenshots/readme/main-dark.png)
@@ -31,10 +31,10 @@ Get both formats from [Releases](https://github.com/Elguajo/AV-Network-Toolkit/r
 
 | Package | Use |
 |---|---|
-| `AVNetworkToolkit-1.1.1-win-x64-setup.exe` | Primary installer: Program Files, Start menu shortcut and uninstaller. Installation requests administrator permission. |
-| `AVNetworkToolkit-1.1.1-win-x64-portable.zip` | Additional option: extract the entire ZIP into a dedicated folder, then run `NetworkProfileManager.exe`. Keep all five WPF DLLs beside it. |
+| `AVNetworkToolkit-1.1.2-win-x64-setup.exe` | Primary installer: Program Files, Start menu shortcut and uninstaller. Installation requests administrator permission. |
+| `AVNetworkToolkit-1.1.2-win-x64-portable.zip` | Additional option: extract the entire ZIP into a dedicated folder, then run `NetworkProfileManager.exe`. Keep all five WPF DLLs beside it. |
 
-Both include .NET: users do not need to install .NET or the SDK separately. Target platform is x64 Windows 10/11; hosted package verification uses Windows Server 2022 with global .NET discovery disabled and a negative control, not a complete Windows-client/hardware certification. Binaries are currently unsigned; Windows may show an unknown-publisher warning. Download only artifacts whose source and SHA-256 you trust. Check `SHA256SUMS.txt` with PowerShell `Get-FileHash`.
+Both include .NET 10: users do not need to install .NET or the SDK separately. Target is x64 Windows under Microsoft's [.NET 10 OS matrix](https://github.com/dotnet/core/blob/main/release-notes/10.0/supported-os.md): Windows 11 and listed Windows 10 LTSC/IoT/Enterprise versions; ordinary Windows 10 22H2 is not listed. Hosted package verification uses Windows Server 2022 with global .NET discovery disabled and a negative control, not a complete Windows-client/hardware certification. Binaries are currently unsigned; Windows may show an unknown-publisher warning. Download only artifacts whose source and SHA-256 you trust. Check `SHA256SUMS.txt` with PowerShell `Get-FileHash`.
 
 The application runs unelevated by default. Applying network changes is a separate deliberate operation that requests administrator rights through UAC. Opening a project or selecting a device does not apply settings.
 
@@ -110,7 +110,7 @@ New local history points to the exact recovery journal, including the supported 
 
 ## Verification and limits
 
-The [packaging report](docs/testing/PACKAGING_REVIEW.md), [test matrix](docs/testing/TEST_MATRIX.md), [JSON regression evidence](docs/testing/JSON_VALIDATION_REVIEW.md) and [release notes](docs/releases/v1.1.1.md) distinguish unit/fake, WPF, packaged-host and native evidence. GitHub CI runs isolated unit tests, schema/planning checks and package installation/runtime-discovery checks on disposable Windows runners.
+The [packaging report](docs/testing/PACKAGING_REVIEW.md), [test matrix](docs/testing/TEST_MATRIX.md), [JSON regression evidence](docs/testing/JSON_VALIDATION_REVIEW.md) and [release notes](docs/releases/v1.1.2.md) distinguish unit/fake, WPF, packaged-host and native evidence. GitHub CI runs isolated unit tests, schema/planning checks and package installation/runtime-discovery checks on disposable Windows runners.
 
 Real NIC/DAD/UAC/IPC/multicast/route/ICMP/TCP behavior, actual packet egress, clean Windows-client deployment, cross-version installer upgrades and manual accessibility remain separate acceptance work. No temporary DHCP server or device-password storage is shipped. Current source uses the same conservative contract for local/manual/tray and project Apply: static automatic DNS, /31–/32, initial DHCP without a usable lease/APIPA and complex/managed settings are blocked. Static empty DNS means unchanged; empty gateway explicitly removes the supported default gateway after review. See the [compatibility matrix](docs/spec/AUDIT_FIXES_CONTRACT.md).
 
@@ -118,7 +118,7 @@ Real NIC/DAD/UAC/IPC/multicast/route/ICMP/TCP behavior, actual packet egress, cl
 
 Use the .NET 10 SDK selected by `global.json`; runtime is bundled only in published packages, not ordinary build output.
 
-For current .NET 10 builds, follow Microsoft's [supported OS matrix](https://github.com/dotnet/core/blob/main/release-notes/10.0/supported-os.md). It includes Windows 11 and specific Windows 10 LTSC/IoT/Enterprise versions; ordinary Windows 10 22H2 is not listed. The existing Windows 10 lab does not certify .NET 10 startup or native behavior. The x64 Windows 10/11 description in Download refers to the older published Preview.
+For current .NET 10 builds, follow Microsoft's [supported OS matrix](https://github.com/dotnet/core/blob/main/release-notes/10.0/supported-os.md). The existing Windows 10 lab does not certify .NET 10 startup or native behavior.
 
 ```powershell
 git clone https://github.com/Elguajo/AV-Network-Toolkit.git

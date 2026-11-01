@@ -1,5 +1,13 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## New release preparation — v1.1.2 Preview / ADR-048, 2026-11-01
+
+- Fork / branch / preflight HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `02dd92c`; fetched origin/main is 0 commits ahead / 6 behind before preparation. Six existing topical commits (lab, audit, screenshots, audit fix, theme fix, evidence) remain separate. Local agent metadata excluded via `.gitignore`, not deleted.
+- Owner now authorizes scoped commits, ordinary push and a new GitHub release. Prepare **v1.1.2 Preview**, retaining v1.1.1 tag/assets. Include both audit fixes and theme repair, .NET 10 packages, current screenshots and honest compatibility/known-issue notes. [Release notes](docs/releases/v1.1.2.md). Phase 07 AWAITING_REVIEW; no DATA-01/Phase 08/native-network permission.
+- In progress: release-version/workflow/docs preparation, exact-source validation, push, release workflow and independent asset/source verification. Hosted package installation/runtime-discovery tests are disposable-runner only; no working-PC install, traffic, UAC or VM changes. No CI/release success claimed yet.
+- Tests last executed: preparation plan/schema/formats/468 links and 12 tooling PASS; working-tree Release build **FAIL**, MSB3027/MSB3021 after 10 retries because running NetworkProfileManager.exe PID 49356 locks the apphost. Unit command NOT RUN after build failure. Leave process intact; repeat build/full tests from immutable source export. Prior verified 687-test runs are historical, not evidence for the new release source.
+- Risks / next action: DOC-R01 intermittent diagnostic hide/cancel smoke and UX-R01/P05-R01 remain open; native/clean-client/ordinary Windows 10 22H2 compatibility unverified. Publish only the requested Preview after exact-source CI/package checks pass; do not imply stable/phase acceptance.
+
 ## Window theme repair — UI-THEME-01, 2026-11-01
 
 - Fork / branch / source base: https://github.com/Elguajo/AV-Network-Toolkit / main / `e35971ad5f80721064e082cfb97de646b5672b30`. Resolve scoped fix commit with `git log -1 --format=%H -- scripts/ProjectUiSmoke/WindowThemeSmoke.cs`. Concurrent audit remediation/runtime migration preserved; untracked .serena/ excluded.

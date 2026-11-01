@@ -1,4 +1,8 @@
-# Release checklist — v1.1.1 Preview published; native acceptance pending
+# Release checklist — v1.1.2 Preview preparation; native acceptance pending
+
+ADR-048: owner requested scoped commits/push of all current project changes and a new GitHub release. Prepare v1.1.2 Preview with both .NET 10 packages, all A26 fixes and the separate theme repair. Preserve v1.1.1 tag/assets; no force push, phase acceptance or native-network permission. Publication requires the exact new source to pass the existing release workflow. DOC-R01 intermittent diagnostics hide/cancel smoke failure remains disclosed, not silently suppressed. Record current source/CI/download hashes in STATUS; the checked results below belong to the historical 1.1.1 release until explicitly repeated for 1.1.2.
+
+## Historical v1.1.1 evidence and remaining native gates
 
 ADR-045: owner explicitly requested publishing fork v1.1.1 with the new logo/current changes. Publish as Preview while the unchecked native/phase acceptance gates below remain visible; no claim that those gates are passed. Exact source/artifacts must pass the release workflow's unit/planning/package/runtime-isolation checks. First hosted run 41272961614 passed but predates the logo; repeat at the branded release source.
 
