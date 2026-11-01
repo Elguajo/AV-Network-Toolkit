@@ -1,4 +1,6 @@
-# Release checklist — v1.1.2 Preview preparation; native acceptance pending
+# Release checklist — v1.1.3 Preview preparation; native acceptance pending
+
+Execution refinement under ADR-048: v1.1.2 was published and independently verified from d634a80918b429d11411d7c3afc8348d9a1d70a8. The concurrent tray/adapter fixes finished afterward; prepare v1.1.3 to include those completed changes without rewriting v1.1.2. Its exact source must repeat the release workflow gates. Native/phase acceptance remains pending; source and all published checks/hashes are recorded in STATUS.
 
 ADR-048: owner requested scoped commits/push of all current project changes and a new GitHub release. Prepare v1.1.2 Preview with both .NET 10 packages, all A26 fixes and the separate theme repair. Preserve v1.1.1 tag/assets; no force push, phase acceptance or native-network permission. Publication requires the exact new source to pass the existing release workflow. DOC-R01 intermittent diagnostics hide/cancel smoke failure remains disclosed, not silently suppressed. Record current source/CI/download hashes in STATUS; the checked results below belong to the historical 1.1.1 release until explicitly repeated for 1.1.2.
 

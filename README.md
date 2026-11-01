@@ -16,7 +16,7 @@
 <div>
 Windows network profiles and project-scoped device web interfaces for AV field work. Select an adapter, review the computer's current settings, deliberately apply a saved profile, then open the equipment interface when needed.
 
-**1.1.2 Preview:** includes the audit safety/storage fixes, consistent Light/Dark windows and self-contained .NET 10 packages. Automated checks do not replace isolated hardware acceptance; read the [release limitations](docs/releases/v1.1.2.md#verification-and-remaining-limits) before changing a working network.
+**1.1.3 Preview:** includes audit safety/storage fixes, consistent Light/Dark windows, corrected tray placement, a cleaner adapter list with Show all and self-contained .NET 10 packages. Automated checks do not replace isolated hardware acceptance; read the [release limitations](docs/releases/v1.1.3.md#known-limitations) before changing a working network.
 
 **Since 1.1.1:** local Apply/Revert uses the verified typed workflow, file failures preserve saved data, and development targets .NET 10 LTS. [Compatibility limits and evidence](docs/testing/AUDIT_FIXES_REVIEW.md). The earlier v1.1.1 downloads remain unchanged on .NET 8. Native/phase acceptance and the known diagnostic-stop smoke issue remain open.
 </div>
@@ -31,8 +31,8 @@ Get both formats from [Releases](https://github.com/Elguajo/AV-Network-Toolkit/r
 
 | Package | Use |
 |---|---|
-| `AVNetworkToolkit-1.1.2-win-x64-setup.exe` | Primary installer: Program Files, Start menu shortcut and uninstaller. Installation requests administrator permission. |
-| `AVNetworkToolkit-1.1.2-win-x64-portable.zip` | Additional option: extract the entire ZIP into a dedicated folder, then run `NetworkProfileManager.exe`. Keep all five WPF DLLs beside it. |
+| `AVNetworkToolkit-1.1.3-win-x64-setup.exe` | Primary installer: Program Files, Start menu shortcut and uninstaller. Installation requests administrator permission. |
+| `AVNetworkToolkit-1.1.3-win-x64-portable.zip` | Additional option: extract the entire ZIP into a dedicated folder, then run `NetworkProfileManager.exe`. Keep all five WPF DLLs beside it. |
 
 Both include .NET 10: users do not need to install .NET or the SDK separately. Target is x64 Windows under Microsoft's [.NET 10 OS matrix](https://github.com/dotnet/core/blob/main/release-notes/10.0/supported-os.md): Windows 11 and listed Windows 10 LTSC/IoT/Enterprise versions; ordinary Windows 10 22H2 is not listed. Hosted package verification uses Windows Server 2022 with global .NET discovery disabled and a negative control, not a complete Windows-client/hardware certification. Binaries are currently unsigned; Windows may show an unknown-publisher warning. Download only artifacts whose source and SHA-256 you trust. Check `SHA256SUMS.txt` with PowerShell `Get-FileHash`.
 
@@ -110,7 +110,7 @@ New local history points to the exact recovery journal, including the supported 
 
 ## Verification and limits
 
-The [packaging report](docs/testing/PACKAGING_REVIEW.md), [test matrix](docs/testing/TEST_MATRIX.md), [JSON regression evidence](docs/testing/JSON_VALIDATION_REVIEW.md) and [release notes](docs/releases/v1.1.2.md) distinguish unit/fake, WPF, packaged-host and native evidence. GitHub CI runs isolated unit tests, schema/planning checks and package installation/runtime-discovery checks on disposable Windows runners.
+The [packaging report](docs/testing/PACKAGING_REVIEW.md), [test matrix](docs/testing/TEST_MATRIX.md), [JSON regression evidence](docs/testing/JSON_VALIDATION_REVIEW.md) and [release notes](docs/releases/v1.1.3.md) distinguish unit/fake, WPF, packaged-host and native evidence. GitHub CI runs isolated unit tests, schema/planning checks and package installation/runtime-discovery checks on disposable Windows runners.
 
 Real NIC/DAD/UAC/IPC/multicast/route/ICMP/TCP behavior, actual packet egress, clean Windows-client deployment, cross-version installer upgrades and manual accessibility remain separate acceptance work. No temporary DHCP server or device-password storage is shipped. Current source uses the same conservative contract for local/manual/tray and project Apply: static automatic DNS, /31–/32, initial DHCP without a usable lease/APIPA and complex/managed settings are blocked. Static empty DNS means unchanged; empty gateway explicitly removes the supported default gateway after review. See the [compatibility matrix](docs/spec/AUDIT_FIXES_CONTRACT.md).
 

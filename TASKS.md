@@ -14,7 +14,7 @@
 
 ## Current publication — ADR-048, 2026-11-01
 
-- [ ] **REL-05** — Commit/push all current project changes in scoped commits and publish new v1.1.2 Preview. **AC:** Preserve the existing six topical commits and v1.1.1 tag/assets; include audit + theme fixes in one exact new source, version/README/changelog/notes synchronized, full build/unit/planning and disposable Windows package workflow PASS, published source/tag/checksum/payload independently verified. **State:** IN_PROGRESS; local .serena metadata excluded, real-tree build blocked by an existing running EXE; immutable-source validation next. No phase/native/clean-client acceptance implied; DOC-R01 and other known issues remain disclosed. [Notes](docs/releases/v1.1.2.md).
+- [ ] **REL-05** — Commit/push all completed current project changes in scoped commits and publish the new Preview. **AC:** Preserve existing topical commits and old tags/assets; include audit + theme and now-completed tray/adapter fixes in one exact source, version/README/changelog/notes synchronized, full build/unit/planning and disposable Windows package workflow PASS, published source/tag/checksum/payload independently verified. **State:** IN_PROGRESS — v1.1.2 published/verified from d634a80; final v1.1.3 includes the two concurrent fixes without rewriting that release. Local agent/Python caches excluded. No phase/native/clean-client acceptance implied; DOC-R01 and other known issues remain disclosed. [Final notes](docs/releases/v1.1.3.md).
 
 ## Window appearance follow-up — 2026-11-01
 

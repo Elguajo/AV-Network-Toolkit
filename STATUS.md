@@ -1,5 +1,12 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Current release execution — v1.1.3 Preview / REL-05 / ADR-048, 2026-11-01
+
+- Fork / branch / completed follow-up source: https://github.com/Elguajo/AV-Network-Toolkit / main / adapter fix `ea7ca7af08d80df54815be7791a05be128e4e5f7`, including tray fix 06d3728. Final version/docs commit follows; later independent work is outside this frozen release. All existing scoped commits preserved; generated agent/Python caches ignored, not deleted.
+- Already completed: first v1.1.2 Preview published from **d634a80918b429d11411d7c3afc8348d9a1d70a8**, [release workflow 41299176436](https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41299176436) PASS. 687 CI unit PASS, build 0 warnings/errors, 494 links/12 tooling PASS, all hosted package checks PASS. Downloaded four assets: API/manifest/SHA256SUMS/CI byte identity and exact tag/source, EXE .NET 10.0.14 WPF/JSON/create-only/old-worker rejection verified; v1.1.1 metadata/assets unchanged. Earlier run 41298688041 failed reinstall exit 7; diagnostics added, instrumented rerun passed, original transient cause unverified.
+- In progress: package **v1.1.3 Preview** with the two tray/adapter fixes completed during v1.1.2 preparation; retain both prior releases/tags, repeat exact-source CI and downloaded-asset verification. [Notes](docs/releases/v1.1.3.md). Source changes inspected; local isolated build/full tests and safe tray/adapter WPF checks next. Current preparation planning/schema/formats/510 links and 12 tooling PASS; no new-source build/CI success claimed yet.
+- Limits: Phase 07 AWAITING_REVIEW; no native NIC/UAC/IPC/traffic/VM or working-PC product install. Clean-client/ordinary Win10 22H2 and mixed-DPI/driver acceptance unverified. DOC-R01/UX-R01/P05-R01 remain open; Preview only, not stable/phase acceptance. The running development EXE remains untouched; source exports avoid its file lock.
+
 ## Tray menu placement — UI-TRAY-01, 2026-11-01
 
 - Fork / branch / inspected source base: https://github.com/Elguajo/AV-Network-Toolkit / main / `f7720e9`. Scoped fix commit follows; resolve through `git log -1 --format=%H -- app/Helpers/TrayPopupPlacement.cs`.

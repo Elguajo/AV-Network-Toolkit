@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.3] — 2026-11-01 (AV Network Toolkit Preview)
+
+### Fixed
+
+- Position the tray menu above the clicked icon with monitor bounds, DPI conversion and edge clamping.
+- Hide confirmed system filters/idle native plumbing by default, retain useful/unknown adapters and all saved data/drafts, and provide Show all.
+- Retain adapter selection by GUID; clear a hidden/removed target without silently switching interfaces.
+
+### Changed
+
+- Include the completed concurrent tray/adapter fixes in a new exact-source package rather than rewriting v1.1.2. [Notes and remaining limits](docs/releases/v1.1.3.md).
+- Retain per-process package-check exit codes and installer logs for diagnosing the first 1.1.2 reinstall CI failure; the instrumented rerun passed all original checks.
+
 ## [1.1.2] — 2026-11-01 (AV Network Toolkit Preview)
 
 ### Fixed
