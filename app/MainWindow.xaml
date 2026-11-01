@@ -42,42 +42,100 @@
       </ui:TitleBar.Icon>
       <ui:TitleBar.TrailingContent>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,6,0">
-          <ui:Button Style="{StaticResource SubtleButton}" Padding="10,6" Margin="0,0,2,0"
-                     Content="{DynamicResource Project.Title}" Click="OpenProjectClick"/>
-          <ui:Button Style="{StaticResource SubtleButton}" Padding="10,6" Margin="0,0,2,0"
-                     Content="{DynamicResource LinkLocal.Title}" Click="OpenLinkLocalClick"/>
-          <ui:Button Style="{StaticResource SubtleButton}" Padding="10,6" Margin="0,0,2,0"
-                     Icon="{ui:SymbolIcon SearchInfo20}"
-                     Content="{DynamicResource MainWindow.IpScannerButton}"
-                     ToolTip="{DynamicResource MainWindow.IpScannerTooltip}"
-                     Click="OpenScannerClick"/>
-          <ui:Button Style="{StaticResource SubtleButton}" Padding="8,6"
-                     Icon="{ui:SymbolIcon Globe20}"
-                     ToolTip="{DynamicResource Mdns.Title}" AutomationProperties.Name="{DynamicResource Mdns.Title}"
-                     Click="OpenMdnsClick"/>
-          <ui:Button Style="{StaticResource SubtleButton}" Padding="8,6"
-                     Icon="{ui:SymbolIcon Settings20}"
-                     ToolTip="{DynamicResource MainWindow.SettingsTooltip}"
-                     AutomationProperties.Name="{DynamicResource MainWindow.SettingsTooltip}"
-                     Click="OpenThemeClick"/>
+          <ToggleButton x:Name="SidebarToggle" Style="{StaticResource SidebarToggle}"
+                        IsChecked="{Binding IsSidebarExpanded, ElementName=MainRoot, Mode=TwoWay}">
+            <ui:SymbolIcon Symbol="PanelLeft20" FontSize="20"/>
+          </ToggleButton>
         </StackPanel>
       </ui:TitleBar.TrailingContent>
     </ui:TitleBar>
 
-    <Grid Grid.Row="1">
+    <Grid x:Name="NavigationLayout" Grid.Row="1" SizeChanged="NavigationSizeChanged" UseLayoutRounding="True">
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="240"/>
+        <ColumnDefinition x:Name="RailColumn" Width="52"/>
+        <ColumnDefinition x:Name="SidebarColumn" Width="240"/>
+        <ColumnDefinition x:Name="SplitterColumn" Width="6"/>
         <ColumnDefinition Width="*"/>
       </Grid.ColumnDefinitions>
 
+      <Border x:Name="NavigationRail" Grid.Column="0" BorderThickness="0,0,1,0"
+              BorderBrush="{DynamicResource DividerStrokeColorDefaultBrush}"
+              KeyboardNavigation.TabNavigation="Local"
+              AutomationProperties.Name="{DynamicResource Navigation.Tools}">
+        <Grid Margin="8,8,7,8">
+          <Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+          <ScrollViewer x:Name="RailScroll" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled"
+                        Focusable="False">
+            <StackPanel>
+              <RadioButton x:Name="RailAdapters" IsChecked="True" GroupName="MainLocation" Style="{StaticResource RailToggle}" Margin="0,0,0,8"
+                           ToolTip="{DynamicResource Adapters.Header}" AutomationProperties.Name="{DynamicResource Adapters.Header}" Click="RevealAdaptersClick">
+                <ui:SymbolIcon Symbol="PlugConnected24" FontSize="20"/>
+              </RadioButton>
+              <ui:Button x:Name="RailProjects" Style="{StaticResource RailButton}"
+                         ToolTip="{DynamicResource Project.Title}" AutomationProperties.Name="{DynamicResource Project.Title}" Click="OpenProjectClick">
+                <ui:Button.Icon><ui:SymbolIcon Symbol="Folder20" FontSize="20"/></ui:Button.Icon>
+              </ui:Button>
+              <Border Height="1" Margin="4,0,4,8" Background="{DynamicResource DividerStrokeColorDefaultBrush}"/>
+              <ui:Button x:Name="RailLinkLocal" Style="{StaticResource RailButton}"
+                         ToolTip="{DynamicResource LinkLocal.Title}" AutomationProperties.Name="{DynamicResource LinkLocal.Title}" Click="OpenLinkLocalClick">
+                <ui:Button.Icon><ui:SymbolIcon Symbol="Link20" FontSize="20"/></ui:Button.Icon>
+              </ui:Button>
+              <ui:Button x:Name="RailScanner" Style="{StaticResource RailButton}"
+                         ToolTip="{DynamicResource MainWindow.IpScannerTooltip}" AutomationProperties.Name="{DynamicResource MainWindow.IpScannerTooltip}" Click="OpenScannerClick">
+                <ui:Button.Icon><ui:SymbolIcon Symbol="SearchInfo20" FontSize="20"/></ui:Button.Icon>
+              </ui:Button>
+              <ui:Button x:Name="RailMdns" Style="{StaticResource RailButton}"
+                         ToolTip="{DynamicResource Mdns.Title}" AutomationProperties.Name="{DynamicResource Mdns.Title}" Click="OpenMdnsClick">
+                <ui:Button.Icon><ui:SymbolIcon Symbol="Globe20" FontSize="20"/></ui:Button.Icon>
+              </ui:Button>
+              <ui:Button x:Name="RailTests" AutomationProperties.Name="{DynamicResource NetworkTests.Title}" Click="OpenPingWindowClick">
+                <ui:Button.Icon><ui:SymbolIcon Symbol="Pulse20" FontSize="20"/></ui:Button.Icon>
+                <ui:Button.Style>
+                  <Style TargetType="ui:Button" BasedOn="{StaticResource RailButton}">
+                    <Setter Property="ToolTip" Value="{DynamicResource NetworkTests.Title}"/>
+                    <Style.Triggers><DataTrigger Binding="{Binding SelectedAdapter}" Value="{x:Null}">
+                      <Setter Property="IsEnabled" Value="False"/>
+                      <Setter Property="ToolTip" Value="{DynamicResource Navigation.TestsUnavailable}"/>
+                    </DataTrigger></Style.Triggers>
+                  </Style>
+                </ui:Button.Style>
+              </ui:Button>
+            </StackPanel>
+          </ScrollViewer>
+          <ui:Button x:Name="RailSettings" Grid.Row="1" Style="{StaticResource RailButton}" Margin="0"
+                     ToolTip="{DynamicResource MainWindow.SettingsTooltip}"
+                     AutomationProperties.Name="{DynamicResource MainWindow.SettingsTooltip}" Click="OpenThemeClick">
+            <ui:Button.Icon><ui:SymbolIcon Symbol="Settings20" FontSize="20"/></ui:Button.Icon>
+          </ui:Button>
+        </Grid>
+      </Border>
+
       <!-- Adapters sit directly on Mica, like a navigation pane -->
-      <views:AdapterListPanel Grid.Column="0"/>
+      <views:AdapterListPanel x:Name="AdapterSidebar" Grid.Column="1">
+        <views:AdapterListPanel.Resources>
+          <Style TargetType="ScrollBar" BasedOn="{StaticResource {x:Type ScrollBar}}">
+            <Setter Property="Opacity" Value="0"/>
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ListBox}}" Value="True">
+                <Setter Property="Opacity" Value="1"/>
+              </DataTrigger>
+              <DataTrigger Binding="{Binding IsKeyboardFocusWithin, RelativeSource={RelativeSource AncestorType=ListBox}}" Value="True">
+                <Setter Property="Opacity" Value="1"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </views:AdapterListPanel.Resources>
+      </views:AdapterListPanel>
+      <GridSplitter x:Name="AdapterSplitter" Grid.Column="2" Style="{StaticResource SidebarSplitter}"
+                    ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" KeyboardIncrement="10" Cursor="SizeWE"
+                    DragCompleted="SidebarResizeCompleted" KeyUp="SidebarResizeKeyUp"
+                    ToolTip="{DynamicResource Navigation.ResizeSidebar}" AutomationProperties.Name="{DynamicResource Navigation.ResizeSidebar}"/>
 
       <!-- Selected adapter page: the content layer over Mica -->
-      <Border Grid.Column="1"
+      <Border x:Name="WorkspaceSurface" Grid.Column="3"
               Background="{DynamicResource LayerFillColorDefaultBrush}"
               BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
-              BorderThickness="1,1,0,0"
+              BorderThickness="0,1,0,0"
               CornerRadius="8,0,0,0">
         <Grid>
           <Grid.RowDefinitions>

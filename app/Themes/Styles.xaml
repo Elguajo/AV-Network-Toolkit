@@ -23,6 +23,82 @@
         <Setter Property="MouseOverBackground" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
         <Setter Property="PressedBackground" Value="{DynamicResource SubtleFillColorTertiaryBrush}" />
     </Style>
+    <!-- Compact command rail; ToggleButton/RadioButton retain their native automation peers. -->
+    <Style x:Key="RailButton" TargetType="ui:Button" BasedOn="{StaticResource SubtleButton}">
+      <Setter Property="Width" Value="36"/>
+      <Setter Property="Height" Value="36"/>
+      <Setter Property="Padding" Value="0"/>
+      <Setter Property="Margin" Value="0,0,0,8"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}"/>
+      <Setter Property="FocusVisualStyle" Value="{DynamicResource DefaultControlFocusVisualStyle}"/>
+      <Setter Property="ToolTipService.ShowOnDisabled" Value="True"/>
+    </Style>
+    <Style x:Key="RailToggle" TargetType="ToggleButton">
+      <Setter Property="Width" Value="36"/>
+      <Setter Property="Height" Value="36"/>
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}"/>
+      <Setter Property="FocusVisualStyle" Value="{DynamicResource DefaultControlFocusVisualStyle}"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ToggleButton">
+            <Grid Background="Transparent">
+              <Border x:Name="Surface" Background="Transparent" BorderThickness="1" BorderBrush="Transparent" CornerRadius="{DynamicResource ControlCornerRadius}"/>
+              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+              <Border x:Name="CurrentMark" HorizontalAlignment="Left" Width="3" Height="16" CornerRadius="1.5"
+                      Background="{DynamicResource AccentFillColorDefaultBrush}" Visibility="Collapsed"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="Surface" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/>
+                <Setter TargetName="CurrentMark" Property="Visibility" Value="Visible"/>
+                <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
+              </Trigger>
+              <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Surface" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/></Trigger>
+              <Trigger Property="IsPressed" Value="True"><Setter TargetName="Surface" Property="Background" Value="{DynamicResource SubtleFillColorTertiaryBrush}"/></Trigger>
+              <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Surface" Property="BorderBrush" Value="{DynamicResource TextFillColorPrimaryBrush}"/></Trigger>
+              <Trigger Property="IsEnabled" Value="False"><Setter Property="Foreground" Value="{DynamicResource TextFillColorDisabledBrush}"/></Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style x:Key="SidebarToggle" TargetType="ToggleButton" BasedOn="{StaticResource RailToggle}">
+      <Setter Property="ToolTip" Value="{DynamicResource Navigation.ShowSidebar}"/>
+      <Setter Property="AutomationProperties.Name" Value="{DynamicResource Navigation.ShowSidebar}"/>
+      <Setter Property="AutomationProperties.AcceleratorKey" Value="Ctrl+B"/>
+      <Style.Triggers>
+        <Trigger Property="IsChecked" Value="True">
+          <Setter Property="ToolTip" Value="{DynamicResource Navigation.HideSidebar}"/>
+          <Setter Property="AutomationProperties.Name" Value="{DynamicResource Navigation.HideSidebar}"/>
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+    <Style x:Key="SidebarSplitter" TargetType="GridSplitter">
+      <Setter Property="Width" Value="6"/>
+      <Setter Property="HorizontalAlignment" Value="Stretch"/>
+      <Setter Property="VerticalAlignment" Value="Stretch"/>
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="Focusable" Value="True"/>
+      <Setter Property="FocusVisualStyle" Value="{DynamicResource DefaultControlFocusVisualStyle}"/>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="GridSplitter">
+            <Grid Background="{TemplateBinding Background}">
+              <Border x:Name="Divider" Width="2" HorizontalAlignment="Center" Opacity="0"
+                      Background="{DynamicResource AccentFillColorDefaultBrush}"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Divider" Property="Opacity" Value="1"/></Trigger>
+              <Trigger Property="IsKeyboardFocusWithin" Value="True"><Setter TargetName="Divider" Property="Opacity" Value="1"/></Trigger>
+              <Trigger Property="IsDragging" Value="True">
+                <Setter TargetName="Divider" Property="Opacity" Value="1"/>
+                <Setter TargetName="Divider" Property="Width" Value="3"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
     <conv:ToolbarNarrowConverter x:Key="ToolbarNarrow"/>
     <conv:ProfileCurrentConverter x:Key="ProfileCurrent"/>
     <Style x:Key="ProfileToolbarLink" TargetType="ui:Button" BasedOn="{StaticResource SubtleButton}">

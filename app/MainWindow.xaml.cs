@@ -116,6 +116,7 @@ namespace NetworkProfileManager
             ProjectProfiles.ApplyRequested += profile => ShowProjectApply(profile, null);
             Project.ApplyAndOpenRequested += (profile, device) => ShowProjectApply(profile, device);
             RegisterProfileHotkeys();
+            InitializeNavigation();
 
             // Fix maximized window overlapping the taskbar
             StateChanged += (s, e) =>

@@ -1,5 +1,13 @@
 # Existing interface contract
 
+## Left navigation rail — UI-NAV-01 / ADR-049
+
+Owner authorized the [brief](docs/spec/LEFT_NAVIGATION_BRIEF.md) and [research contract](docs/spec/LEFT_NAVIGATION_RESEARCH.md) for local implementation. Main window uses a persistent 52-unit icon rail (36-unit targets, explicit 20-unit SymbolIcons), adapter sidebar and workspace. Adapters remains the selected main location; Project, Link-Local, Scanner, mDNS and Network tests reuse existing separate-window actions. Settings stays at the rail footer. Tool actions do not falsely select a main page. Existing title-bar actions moved to the rail; the title bar retains its native window controls and a stateful sidebar toggle. Ctrl+B toggles; Ctrl+1..5 remains unchanged.
+
+The sidebar starts at 240, resizes within 200–420 units and clamps to leave 500 units for content at the existing 760x520 minimum. Preferred width is retained only during the window lifetime. No settings IO, view-model reconstruction, implicit adapter selection or operation cancellation on sidebar collapse. Native ToggleButton/RadioButton peers expose checked/current state; focused collapse returns focus to the toggle, workspace focus is retained. Reuse SubtleButton/NavigationListItem semantic fill, accent pill, ControlCornerRadius and focus conventions. Long adapter names retain name/description tooltips.
+
+Owner's hover refinement: the 6-unit resize hit region and the list scrollbar remain functional but visually hidden at rest; the separator reveals a 2-unit accent line on hover/keyboard focus and 3 units during drag, with SizeWE cursor and localized drag/arrow-key guidance. The workspace has no competing permanent left stroke. Scrollbar reveals on list hover/focus without shifting layout; wheel/keyboard scrolling remains available. No new animation or palette. Verify Light/Dark/high contrast, theme switching, native caption hit testing/double-click, focus/tab order, minimum size and scaled layouts using safe fixtures; actual per-monitor DPI/Narrator/owner acceptance remains separate.
+
 ## Product logo and application icon — ADR-044
 
 Owner supplied and approved the cyan/blue ribbon lettermark on 2026-11-01. Canonical unchanged transparent source: [logo.png](app/Assets/logo.png), SHA-256 `795e9f3ac900bd3ba1c93b244502a1c125500d521897efd3593ba2be5833cd72`. This replaces the previous product mark only; control symbols and layout retain the existing design system. [icon.ico](app/Assets/icon.ico) contains transparent, centered 16/20/24/32/40/48/64/96/128/256 px frames with original aspect ratio. Rebuild with `scripts/update_brand_icon.ps1` on Windows. Existing EXE, main window/title-bar, tray and installer bindings reuse this ICO. [Verification](docs/testing/BRANDING_REVIEW.md).

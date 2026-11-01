@@ -53,6 +53,13 @@ internal static partial class Program
                 Console.WriteLine("PASS: workspace Light/Dark normal/minimum, source round trip, keyboard order and existing action/draft guards; 0 binding errors.");
                 return 0;
             }
+            if (args.Contains("--navigation"))
+            {
+                CheckNavigation(output);
+                if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
+                Console.WriteLine("PASS: navigation rail, toggle/automation/focus, drag/keyboard resize, preserved drafts/scroll, window limits, fake tool windows and scaled layouts; 0 binding errors.");
+                return 0;
+            }
             if (args.Contains("--diagnostic-hide"))
             {
                 CheckDiagnosticHide(output);

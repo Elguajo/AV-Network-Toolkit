@@ -552,4 +552,9 @@
   <sys:String x:Key="LocalApply.HistoryFailed">Network configuration was verified, but its history or final journal update could not be saved. The original recovery snapshot was retained. Use Network recovery; do not repeat apply blindly.</sys:String>
   <sys:String x:Key="LocalApply.Verified">Requested network configuration verified. The original supported configuration is saved for explicit recovery.</sys:String>
   <sys:String x:Key="LocalApply.AddressOnlyRestored">Recorded address settings or DHCP policy verified. Older DNS and route settings were not available; this is not a complete historical restore.</sys:String>
+  <sys:String x:Key="Navigation.Tools">Navigation and tools</sys:String>
+  <sys:String x:Key="Navigation.ShowSidebar">Show adapter sidebar</sys:String>
+  <sys:String x:Key="Navigation.HideSidebar">Hide adapter sidebar</sys:String>
+  <sys:String x:Key="Navigation.ResizeSidebar">Drag to resize adapter sidebar. Left / Right arrow keys also resize.</sys:String>
+  <sys:String x:Key="Navigation.TestsUnavailable">Select an adapter to open Network tests.</sys:String>
 </ResourceDictionary>

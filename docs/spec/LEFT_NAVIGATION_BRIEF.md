@@ -2,11 +2,13 @@
 
 Date: 2026-11-01 (Asia/Tashkent). Follow-up: **UI-NAV-01**.
 
-Read the [source-backed research and component contract](LEFT_NAVIGATION_RESEARCH.md) before implementation: it separates official Codex behavior, screenshot observations and proposed WPF geometry, and specifies interaction/accessibility quality checks. It supplements this brief without authorizing execution.
+Read the [source-backed research and component contract](LEFT_NAVIGATION_RESEARCH.md): it separates official Codex behavior, screenshot observations and WPF geometry, and specifies interaction/accessibility quality checks. The owner subsequently authorized implementation under ADR-049.
 
 ## Purpose and authorization
 
-Give a future AI agent enough context to implement the navigation discussed with the owner without needing this chat. The owner requested a Codex-like sidebar toggle, adjustable sidebar width and an additional narrow icon bar at the far left, then requested this file. The immediate authorized deliverable is documentation only. No UI implementation has been performed or authorized by creating this file; implement when the owner explicitly delegates UI-NAV-01 or asks to implement this brief.
+Give an AI agent enough context to implement the navigation discussed with the owner without needing this chat. Originally authorized as documentation/research only; on 2026-11-01 the owner explicitly delegated UI-NAV-01 with “Внедряем”. ADR-049 authorizes this bounded local implementation, preserving existing tool windows, main branch and safety/phase/publication gates.
+
+Owner's subsequent refinement: hide the adapter scrollbar and resize line at rest. Reveal the scrollbar when its list is hovered or keyboard-focused, and highlight the resize line on pointer hover, keyboard focus or active drag, with a horizontal resize cursor and explanatory tooltip. Wheel/keyboard scrolling continues to work; keep the hit target available without a permanently drawn line.
 
 Follow [AGENTS.md](../../AGENTS.md) and its bootstrap before work. Read current [STATUS](../../STATUS.md), [TASKS](../../TASKS.md) and [DESIGN](../../DESIGN.md). Phase 07 remains AWAITING_REVIEW; this brief does not complete a phase, start Phase 08 or grant publication/live-network permission. Work on main under ADR-017 and preserve unrelated edits.
 
@@ -75,7 +77,7 @@ Stay with the repository's WPF/MVVM and WPF-UI stack, existing semantic brushes 
 
 No network mutation, automatic adapter switching, probes, scans, listener startup or profile application from navigation, toggle, resize or opening a tool. Preserve existing deliberate Start/Run/Apply controls, UAC, diagnostics cancellation and ownership behavior. Preserve profiles, DHCP, IP/mask/gateway/DNS, JSON import/export, project/device links, history/revert, tray and localization. No schema/storage migration, dependency upgrade, full redesign, telemetry, account rail, downloads menu, release or deployment work.
 
-Do not opportunistically fix existing diagnostic cancellation risk DOC-R01 or unrelated defects. Record their effect on verification separately and do not suppress failing checks. Existing owner/native acceptance gates remain.
+Do not opportunistically fix unrelated defects. Historical DOC-R01 was resolved as a smoke synchronization defect in 4c0a3aa; preserve that regression coverage. Record any existing failure's effect on verification separately and do not suppress checks. Existing owner/native acceptance gates remain.
 
 ## Acceptance and verification for future implementation
 

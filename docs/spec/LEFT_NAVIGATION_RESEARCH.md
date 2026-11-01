@@ -2,7 +2,7 @@
 
 Research date: 2026-11-01 (Asia/Tashkent). Task: UI-NAV-01. Read with the [implementation brief](LEFT_NAVIGATION_BRIEF.md) and [DESIGN.md](../../DESIGN.md).
 
-This is documentation and a proposed design contract, not a product implementation, owner acceptance or permission to start UI work. It refines the brief's quality criteria without changing its authorization boundary. No new dependency, tool-page architecture or phase is approved here.
+This research was originally documentation and a proposed design contract. The owner subsequently authorized UI-NAV-01 implementation with “Внедряем” (ADR-049); the brief records the later hover-reveal refinement. Research claims below retain their original evidence boundaries. No new dependency, tool-page architecture or phase is approved here.
 
 ## Evidence and confidence
 
@@ -84,4 +84,4 @@ Check Light, Dark, runtime theme switching and high contrast with semantic resou
 
 Extend the brief's acceptance checks with: mouse hover/pressed/current/focus/disabled states; top-group overflow and fixed Settings at minimum height; native title-bar drag/double-click behavior; a wide-sidebar then window-shrink/reveal sequence; scaling checks; theme changes on an existing window; UI Automation state checks; and no fake operation calls from navigation/toggle/resize.
 
-Use synthetic adapters, long names and fake services. Compare actual WPF renders against the owner reference for structure/rhythm, and against DESIGN.md for styling. Treat geometry above as provisional until those checks pass. No implementation, rendering, native accessibility or interaction validation was performed during this research.
+Use synthetic adapters, long names and fake services. Compare actual WPF renders against the owner reference for structure/rhythm, and against DESIGN.md for styling. Treat geometry above as provisional until those checks pass. No implementation, rendering, native accessibility or interaction validation was performed at the research checkpoint; subsequent implementation evidence must be recorded separately.
