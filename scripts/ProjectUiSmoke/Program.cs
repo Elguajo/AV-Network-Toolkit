@@ -41,6 +41,13 @@ internal static partial class Program
         ApplyRenderTheme("Dark");
         try
         {
+            if (args.Contains("--navigation-followup"))
+            {
+                CheckNavigationFollowup(output);
+                if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
+                Console.WriteLine("PASS: layout persistence, diagnostic/mDNS activity and available-monitor native DPI checks; 0 binding errors.");
+                return 0;
+            }
             if (args.Contains("--workspace"))
             {
                 foreach (var theme in new[] { "Dark", "Light" })

@@ -557,4 +557,6 @@
   <sys:String x:Key="Navigation.HideSidebar">Hide adapter sidebar</sys:String>
   <sys:String x:Key="Navigation.ResizeSidebar">Drag to resize adapter sidebar. Left / Right arrow keys also resize.</sys:String>
   <sys:String x:Key="Navigation.TestsUnavailable">Select an adapter to open Network tests.</sys:String>
+  <sys:String x:Key="Navigation.TestsRunning">Network tests — running</sys:String>
+  <sys:String x:Key="Navigation.MdnsListening">mDNS Discovery — listening</sys:String>
 </ResourceDictionary>

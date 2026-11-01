@@ -85,14 +85,29 @@
                 <ui:Button.Icon><ui:SymbolIcon Symbol="SearchInfo20" FontSize="20"/></ui:Button.Icon>
               </ui:Button>
               <ui:Button x:Name="RailMdns" Style="{StaticResource RailButton}"
-                         ToolTip="{DynamicResource Mdns.Title}" AutomationProperties.Name="{DynamicResource Mdns.Title}" Click="OpenMdnsClick">
-                <ui:Button.Icon><ui:SymbolIcon Symbol="Globe20" FontSize="20"/></ui:Button.Icon>
+                         ToolTip="{Binding IsMdnsListening, ElementName=MainRoot, Converter={StaticResource MdnsActivityText}}"
+                         AutomationProperties.Name="{DynamicResource Mdns.Title}"
+                         AutomationProperties.HelpText="{Binding IsMdnsListening, ElementName=MainRoot, Converter={StaticResource MdnsActivityText}}" Click="OpenMdnsClick">
+                <ui:Button.Content>
+                  <Grid Width="24" Height="24">
+                    <ui:SymbolIcon Symbol="Globe20" FontSize="20"/>
+                    <Border x:Name="MdnsActivityBadge" Style="{StaticResource RailActivityBadge}"
+                            Visibility="{Binding IsMdnsListening, ElementName=MainRoot, Converter={StaticResource BoolToVis}}"/>
+                  </Grid>
+                </ui:Button.Content>
               </ui:Button>
-              <ui:Button x:Name="RailTests" AutomationProperties.Name="{DynamicResource NetworkTests.Title}" Click="OpenPingWindowClick">
-                <ui:Button.Icon><ui:SymbolIcon Symbol="Pulse20" FontSize="20"/></ui:Button.Icon>
+              <ui:Button x:Name="RailTests" AutomationProperties.Name="{DynamicResource NetworkTests.Title}"
+                         AutomationProperties.HelpText="{Binding AreTestsRunning, ElementName=MainRoot, Converter={StaticResource TestsActivityText}}" Click="OpenPingWindowClick">
+                <ui:Button.Content>
+                  <Grid Width="24" Height="24">
+                    <ui:SymbolIcon Symbol="Pulse20" FontSize="20"/>
+                    <Border x:Name="TestsActivityBadge" Style="{StaticResource RailActivityBadge}"
+                            Visibility="{Binding AreTestsRunning, ElementName=MainRoot, Converter={StaticResource BoolToVis}}"/>
+                  </Grid>
+                </ui:Button.Content>
                 <ui:Button.Style>
                   <Style TargetType="ui:Button" BasedOn="{StaticResource RailButton}">
-                    <Setter Property="ToolTip" Value="{DynamicResource NetworkTests.Title}"/>
+                    <Setter Property="ToolTip" Value="{Binding AreTestsRunning, ElementName=MainRoot, Converter={StaticResource TestsActivityText}}"/>
                     <Style.Triggers><DataTrigger Binding="{Binding SelectedAdapter}" Value="{x:Null}">
                       <Setter Property="IsEnabled" Value="False"/>
                       <Setter Property="ToolTip" Value="{DynamicResource Navigation.TestsUnavailable}"/>

@@ -8,6 +8,7 @@ using NetworkProfileManager.Helpers;
 using NetworkProfileManager.ViewModels;
 using NetworkProfileManager.Views;
 using NetworkProfileManager.Models;
+using NetworkProfileManager.Services;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
 
@@ -65,6 +66,7 @@ namespace NetworkProfileManager
             if (_mdnsWindow != null) { _mdnsWindow.Activate(); return; }
             _mdnsWindow = MdnsDiscoveryWindow.Create();
             _mdnsWindow.Owner = this;
+            TrackMdnsWindow(_mdnsWindow);
             _mdnsWindow.Closed += (_, _) => _mdnsWindow = null;
             _mdnsWindow.Show();
         }
@@ -98,10 +100,11 @@ namespace NetworkProfileManager
             button.ContextMenu.IsOpen = true;
         }
 
-        public MainWindow() : this(new MainViewModel(), null) { }
+        public MainWindow() : this(new MainViewModel(), null, layoutStore: new WindowLayoutStore()) { }
 
         // Component harness supplies fake NIC enumeration and isolated project IO.
-        internal MainWindow(MainViewModel main, ProjectViewModel? project, Action<ProjectProfile, ProjectDevice?, Guid>? applyRequest = null)
+        internal MainWindow(MainViewModel main, ProjectViewModel? project, Action<ProjectProfile, ProjectDevice?, Guid>? applyRequest = null,
+            WindowLayoutStore? layoutStore = null)
         {
             _applyRequest = applyRequest;
             Project = project ?? new ProjectViewModel(new ProjectDialogs(this));
@@ -117,15 +120,20 @@ namespace NetworkProfileManager
             Project.ApplyAndOpenRequested += (profile, device) => ShowProjectApply(profile, device);
             RegisterProfileHotkeys();
             InitializeNavigation();
+            InitializeLayout(layoutStore);
+            InitializeToolActivity(main.Diagnostics);
 
             // Fix maximized window overlapping the taskbar
             StateChanged += (s, e) =>
             {
                 if (WindowState == WindowState.Maximized)
                 {
-                    var area = SystemParameters.WorkArea;
-                    MaxWidth  = area.Width;
-                    MaxHeight = area.Height;
+                    var screen = WindowScreenPlacement.CurrentMonitor(this);
+                    var area = WindowScreenPlacement.WorkArea(screen);
+                    var dpi = WindowScreenPlacement.WindowDpi(this);
+                    var scale = dpi > 0 ? dpi / 96 : 1;
+                    MaxWidth = area.Width / scale;
+                    MaxHeight = area.Height / scale;
                 }
                 else
                 {
@@ -173,7 +181,9 @@ namespace NetworkProfileManager
             var diagnostics = vm.Diagnostics.CreatePeer();
             if (string.IsNullOrWhiteSpace(diagnostics.Target))
                 diagnostics.Target = vm.SelectedAdapter.PingTarget.Trim();
-            new PingWindow(diagnostics) { Owner = this }.Show();
+            var window = new PingWindow(diagnostics) { Owner = this };
+            TrackDiagnosticWindow(window, diagnostics);
+            window.Show();
         }
 
         // ── IP Scanner window ────────────────────────────────────────

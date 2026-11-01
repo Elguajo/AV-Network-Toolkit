@@ -54,6 +54,7 @@ public sealed class MdnsDiscoveryViewModel : INotifyPropertyChanged, IDisposable
         set { if (!CanSelect) return; _selected = value; Changed(); }
     }
     public bool CanSelect => !_disposed && !_busy && !_session.IsActive;
+    public bool IsListening => !_disposed && _session.IsActive && _snapshot.State == MdnsState.Listening;
     public string Scope => _snapshot.Scope?.Display ?? Loc.Get("Mdns.NoScope");
     public string Status { get => _status; private set { _status = value; Changed(); } }
     public string Notice { get => _notice; private set { _notice = value; Changed(); Changed(nameof(HasNotice)); } }
@@ -101,7 +102,7 @@ public sealed class MdnsDiscoveryViewModel : INotifyPropertyChanged, IDisposable
             _ => Loc.Get("Mdns.Failed")
         };
         if (_snapshot.State == MdnsState.InterfaceChanged) SelectedReset();
-        UpdateRows(); Changed(nameof(Scope)); Changed(nameof(CanSelect));
+        UpdateRows(); Changed(nameof(Scope)); Changed(nameof(CanSelect)); Changed(nameof(IsListening));
         CommandManager.InvalidateRequerySuggested();
     }
     private void SelectedReset() { _selected = null; Changed(nameof(SelectedInterface)); }
@@ -124,7 +125,7 @@ public sealed class MdnsDiscoveryViewModel : INotifyPropertyChanged, IDisposable
         try { if (_export.Save(MdnsCsv.Export(_snapshot, Rows.Select(r => r.Service)))) Notice = Loc.Get("Mdns.Exported"); }
         catch { Notice = Loc.Get("Mdns.ExportFailed"); }
     }
-    public void Dispose() { _disposed = true; _session.Dispose(); }
+    public void Dispose() { _disposed = true; _session.Dispose(); Changed(nameof(IsListening)); }
     public event PropertyChangedEventHandler? PropertyChanged;
     private void Changed([CallerMemberName] string? name = null) => PropertyChanged?.Invoke(this, new(name));
 }

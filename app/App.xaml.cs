@@ -336,9 +336,7 @@ namespace NetworkProfileManager
         internal void ShowMainWindow()
         {
             if (_mainWindow == null) return;
-            _mainWindow.Show();
-            _mainWindow.WindowState = WindowState.Normal;
-            _mainWindow.Activate();
+            _mainWindow.ShowFromTray();
         }
 
         private static Icon GetIcon()

@@ -8,7 +8,7 @@ namespace NetworkProfileManager
 {
     public partial class MainWindow
     {
-        // View-only state: no settings IO, adapter selection or operation lifecycle changes.
+        // View-only navigation state; optional layout persistence is handled separately.
         private const double SidebarMinimum = 200;
         private const double SidebarMaximum = 420;
         private const double WorkspaceMinimum = 500;

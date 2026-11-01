@@ -23,6 +23,19 @@
         <Setter Property="MouseOverBackground" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
         <Setter Property="PressedBackground" Value="{DynamicResource SubtleFillColorTertiaryBrush}" />
     </Style>
+    <conv:ToolActivityTextConverter x:Key="MdnsActivityText" IdleKey="Mdns.Title" ActiveKey="Navigation.MdnsListening"/>
+    <conv:ToolActivityTextConverter x:Key="TestsActivityText" IdleKey="NetworkTests.Title" ActiveKey="Navigation.TestsRunning"/>
+    <Style x:Key="RailActivityBadge" TargetType="Border">
+      <Setter Property="Width" Value="7"/>
+      <Setter Property="Height" Value="7"/>
+      <Setter Property="CornerRadius" Value="3.5"/>
+      <Setter Property="HorizontalAlignment" Value="Right"/>
+      <Setter Property="VerticalAlignment" Value="Top"/>
+      <Setter Property="Background" Value="{DynamicResource AccentFillColorDefaultBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="IsHitTestVisible" Value="False"/>
+    </Style>
     <!-- Compact command rail; ToggleButton/RadioButton retain their native automation peers. -->
     <Style x:Key="RailButton" TargetType="ui:Button" BasedOn="{StaticResource SubtleButton}">
       <Setter Property="Width" Value="36"/>

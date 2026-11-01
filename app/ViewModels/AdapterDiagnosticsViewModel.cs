@@ -118,6 +118,7 @@ public sealed class AdapterDiagnosticsViewModel : INotifyPropertyChanged, IDispo
     public bool CanPing => CanSelect && _selected != null && _source != null && DiagnosticPingService.ValidTarget(_target.Trim());
     public bool CanRun => CanPing && (!IsTcp || (_tcp != null && ValidPort));
     public bool CanStop => !_disposed && _pingCancellation != null && !_pingCancellation.IsCancellationRequested;
+    public bool IsTestRunning => _pingCancellation != null;
     public string SectionTitle => Loc.Get(_pingCancellation != null ? "NetworkTests.RunningTitle" : "Diagnostics.Title");
     public string Status { get => _status; private set { _status = value; Changed(); } }
     public string Details => _selected == null ? Loc.Get("Diagnostics.Select")
@@ -210,6 +211,7 @@ public sealed class AdapterDiagnosticsViewModel : INotifyPropertyChanged, IDispo
     private void SetBusy(bool value)
     {
         _busy = value;
+        Changed(nameof(IsTestRunning)); // Also notify completion of a cancelled in-flight call after disposal.
         if (_disposed) return;
         Changed(nameof(CanSelect)); Changed(nameof(CanPing)); Changed(nameof(CanStop)); Changed(nameof(SectionTitle)); CommandManager.InvalidateRequerySuggested();
     }
