@@ -81,4 +81,5 @@ jobs:
             out/packages/package-manifest.json
             out/packages/payload-self-test.json
             out/packages/runner-verification/**/*.json
+            out/packages/runner-verification/**/*.log
           if-no-files-found: error

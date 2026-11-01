@@ -14,7 +14,9 @@ foreach ($file in $manifest.Files) {
 $results = Join-Path $packages 'runner-verification'
 if (Test-Path -LiteralPath $results) { throw 'Use fresh verification output' }
 New-Item -ItemType Directory -Path $results | Out-Null
-function Invoke-Checked([string]$Executable, [string[]]$Arguments, [bool]$MustSucceed = $true) {
+$checks = [Collections.Generic.List[object]]::new()
+function Invoke-Checked([string]$Executable, [string[]]$Arguments, [bool]$MustSucceed = $true, [string]$Check = 'Process') {
+    Write-Host "CHECK: $Check ($([IO.Path]::GetFileName($Executable)))"
     $start = [Diagnostics.ProcessStartInfo]::new($Executable)
     $start.UseShellExecute = $false; $start.CreateNoWindow = $true
     $start.RedirectStandardError = $true; $start.RedirectStandardOutput = $true
@@ -24,7 +26,9 @@ function Invoke-Checked([string]$Executable, [string[]]$Arguments, [bool]$MustSu
     try {
         if (-not $process.WaitForExit(120000)) { $process.Kill(); throw 'Package check timed out' }
         $errorText = $stderr.GetAwaiter().GetResult(); $null = $stdout.GetAwaiter().GetResult()
-        if ($MustSucceed -and $process.ExitCode -ne 0) { throw "Package process failed with exit $($process.ExitCode)" }
+        $checks.Add(@{ Check = $Check; ExitCode = $process.ExitCode; MustSucceed = $MustSucceed })
+        $checks | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $results 'process-checks.json') -Encoding utf8
+        if ($MustSucceed -and $process.ExitCode -ne 0) { throw "$Check failed ($([IO.Path]::GetFileName($Executable))) with exit $($process.ExitCode)" }
         if (-not $MustSucceed) {
             if ($process.ExitCode -eq 0) { throw 'Expected rejection did not occur' }
             return $errorText
@@ -57,7 +61,7 @@ function Test-OrdinaryStartup([string]$Executable) {
 $control = Join-Path $results 'control'
 & dotnet publish (Join-Path $PSScriptRoot 'RuntimeControl/RuntimeControl.csproj') -c Release -r win-x64 --self-contained false -o $control
 if ($LASTEXITCODE -ne 0) { throw 'Runtime negative-control build failed' }
-Invoke-Checked (Join-Path $control 'RuntimeControl.exe') @()
+Invoke-Checked (Join-Path $control 'RuntimeControl.exe') @() $true 'RuntimeAvailable'
 & dotnet build-server shutdown
 if ($LASTEXITCODE -ne 0) { throw 'Cannot stop build servers before runtime isolation' }
 $roots = @((Join-Path $env:ProgramFiles 'dotnet'), (Join-Path ${env:ProgramFiles(x86)} 'dotnet'),
@@ -89,7 +93,7 @@ try {
     }
     foreach ($variable in $globalVariables) { [Environment]::SetEnvironmentVariable($variable.Name, $null, 'Process') }
     $env:DOTNET_DISABLE_GUI_ERRORS = '1'
-    $runtimeError = Invoke-Checked (Join-Path $control 'RuntimeControl.exe') @() $false
+    $runtimeError = Invoke-Checked (Join-Path $control 'RuntimeControl.exe') @() $false 'RuntimeUnavailable'
     if ($runtimeError -notmatch '\.NET|hostfxr') { throw 'Negative control did not demonstrate unavailable runtime' }
     $zip = Join-Path $packages "AVNetworkToolkit-$($manifest.Version)-win-x64-portable.zip"
     $portable = Join-Path $results 'portable'
@@ -98,7 +102,7 @@ try {
     Test-OrdinaryStartup (Join-Path $portable 'NetworkProfileManager.exe')
     $setup = Join-Path $packages "AVNetworkToolkit-$($manifest.Version)-win-x64-setup.exe"
     $setupArguments = @('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART','/SP-',"/DIR=$installPath")
-    Invoke-Checked $setup $setupArguments
+    Invoke-Checked $setup ($setupArguments + "/LOG=$(Join-Path $results 'initial-install.log')") $true 'InitialInstall'
     $installed = Join-Path $installPath 'NetworkProfileManager.exe'
     foreach ($payload in Get-ChildItem -LiteralPath $portable -File) {
         if ((Get-FileHash -LiteralPath $payload.FullName -Algorithm SHA256).Hash -ne
@@ -108,14 +112,14 @@ try {
     Test-OrdinaryStartup $installed
     $locked = [IO.File]::Open($installed, [IO.FileMode]::Open, [IO.FileAccess]::Read, [IO.FileShare]::Read)
     try {
-        $null = Invoke-Checked $setup $setupArguments $false
-        $null = Invoke-Checked (Join-Path $installPath 'unins000.exe') @('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART') $false
+        $null = Invoke-Checked $setup ($setupArguments + "/LOG=$(Join-Path $results 'locked-update.log')") $false 'LockedUpdate'
+        $null = Invoke-Checked (Join-Path $installPath 'unins000.exe') @('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART',"/LOG=$(Join-Path $results 'locked-uninstall.log')") $false 'LockedUninstall'
         if (-not (Test-Path -LiteralPath $installed)) { throw 'Blocked uninstall removed the executable' }
     } finally { $locked.Dispose() }
     # Same-version reinstall is checked explicitly; this is not a cross-version upgrade claim.
-    Invoke-Checked $setup $setupArguments
+    Invoke-Checked $setup ($setupArguments + "/LOG=$(Join-Path $results 'same-version-reinstall.log')") $true 'SameVersionReinstall'
     if ((Get-FileHash -LiteralPath $sentinel -Algorithm SHA256).Hash -ne $sentinelHash) { throw 'Reinstall changed original user data' }
-    Invoke-Checked (Join-Path $installPath 'unins000.exe') @('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART')
+    Invoke-Checked (Join-Path $installPath 'unins000.exe') @('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART',"/LOG=$(Join-Path $results 'uninstall.log')") $true 'Uninstall'
     if (Test-Path -LiteralPath $installed) { throw 'Uninstall left the program executable' }
     if ((Get-FileHash -LiteralPath $sentinel -Algorithm SHA256).Hash -ne $sentinelHash) { throw 'Uninstall changed original user data' }
     @{
