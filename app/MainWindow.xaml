@@ -300,60 +300,12 @@
             </StackPanel>
                   </Border>
                  </Expander>
-                 <Expander Header="{DynamicResource EditBar.PingHeader}" Margin="0,8,0,0" Expanded="ToolExpanded">
-              <Border Style="{StaticResource Card}">
-                <StackPanel>
-                  <Grid>
-                    <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="*"/>
-                      <ColumnDefinition Width="Auto"/>
-                      <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <ui:TextBox Grid.Column="0"
-                                PlaceholderText="{DynamicResource EditBar.PingPlaceholder}"
-                                AutomationProperties.Name="{DynamicResource EditBar.PingPlaceholder}"
-                                Text="{Binding SelectedAdapter.PingTarget, UpdateSourceTrigger=PropertyChanged, FallbackValue=''}"/>
-                    <ui:Button Grid.Column="1" Margin="8,0,0,0" MinWidth="80"
-                               Content="{DynamicResource EditBar.PingButton}"
-                               Command="{Binding PingCommand}"/>
-                    <ui:Button Grid.Column="2" Margin="4,0,0,0" Padding="8,6"
-                               Style="{StaticResource SubtleButton}"
-                               Icon="{ui:SymbolIcon Open20}"
-                               ToolTip="{DynamicResource EditBar.PingWindowTooltip}"
-                               AutomationProperties.Name="{DynamicResource EditBar.PingWindowTooltip}"
-                               Click="OpenPingWindowClick"/>
-                  </Grid>
-
-                  <!-- Result: the dot carries the colour, the text stays neutral -->
-                  <StackPanel Orientation="Horizontal" Margin="2,10,0,0">
-                    <StackPanel.Style>
-                      <Style TargetType="StackPanel">
-                        <Style.Triggers>
-                          <DataTrigger Binding="{Binding SelectedAdapter.PingResult}" Value="">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                          </DataTrigger>
-                        </Style.Triggers>
-                      </Style>
-                    </StackPanel.Style>
-                    <Ellipse Width="8" Height="8" VerticalAlignment="Center" Margin="0,0,8,0">
-                      <Ellipse.Style>
-                        <Style TargetType="Ellipse">
-                          <Setter Property="Fill" Value="{DynamicResource SystemFillColorCriticalBrush}"/>
-                          <Style.Triggers>
-                            <DataTrigger Binding="{Binding SelectedAdapter.PingSuccess}" Value="True">
-                              <Setter Property="Fill" Value="{DynamicResource SystemFillColorSuccessBrush}"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding SelectedAdapter.IsPinging}" Value="True">
-                              <Setter Property="Fill" Value="{DynamicResource TextFillColorTertiaryBrush}"/>
-                            </DataTrigger>
-                          </Style.Triggers>
-                        </Style>
-                      </Ellipse.Style>
-                    </Ellipse>
-                    <TextBlock Text="{Binding SelectedAdapter.PingResult}" TextTrimming="CharacterEllipsis"/>
-                  </StackPanel>
-                </StackPanel>
-              </Border>
+                 <Expander Header="{DynamicResource Diagnostics.Title}" Margin="0,8,0,0" Expanded="ToolExpanded">
+                  <Border Style="{StaticResource Card}"><StackPanel>
+                   <ui:Button Content="{DynamicResource EditBar.PingWindowTooltip}" Click="OpenPingWindowClick"
+                    Style="{StaticResource SubtleButton}" HorizontalAlignment="Right" Margin="0,0,0,8"/>
+                   <views:AdapterDiagnosticsPanel DataContext="{Binding Diagnostics}"/>
+                  </StackPanel></Border>
                  </Expander>
                  <Expander Header="{DynamicResource Workspace.History}" Margin="0,8,0,0" Expanded="ToolExpanded">
                   <StackPanel>

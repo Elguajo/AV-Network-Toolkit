@@ -2,9 +2,13 @@
 
 - **Priority:** P1
 - **Dependencies:** Phase 01, Phase 04
-- **Current status:** NOT STARTED
+- **Current status:** AWAITING_REVIEW; 07-T01–07-T04 EVIDENCE_RECORDED under ADR-034 (2026-11-01)
 - **Scope:** Extend diagnostics and clear Hyper-V adapter enumeration without implicit adapter changes.
 - **Read first:** docs/spec/NETWORK_DISCOVERY_AND_DHCP.md
+
+Owner explicitly started 07-T01–07-T04; no repeated start permission. [Contract](../docs/spec/PHASE07_IMPLEMENTATION_CONTRACT.md). Earlier manual acceptance and OPEN UX-R01/P05-R01 remain; no live tests, new push/release or Phase 08.
+
+[Review/evidence](../docs/testing/PHASE07_REVIEW.md): 624 full unit PASS, 15 fake OS-query fixtures, 32 focused and 128 existing WPF captures/0 binding errors. Native/owner acceptance pending; checkboxes remain open.
 
 ## Tasks and acceptance criteria
 

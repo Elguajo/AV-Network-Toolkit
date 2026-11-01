@@ -48,6 +48,18 @@ internal static partial class Program
                 Console.WriteLine("PASS: focused WPF UX walkthrough, safe fixture IO, fake NIC/apply/browser, 0 binding errors.");
                 return 0;
             }
+            if (args.Contains("--phase07"))
+            {
+                foreach (var theme in new[] { "Dark", "Light" })
+                {
+                    app.Resources.MergedDictionaries[0] = new Wpf.Ui.Markup.ThemesDictionary
+                    { Theme = theme == "Dark" ? Wpf.Ui.Appearance.ApplicationTheme.Dark : Wpf.Ui.Appearance.ApplicationTheme.Light };
+                    foreach (var minimum in new[] { false, true }) RenderDiagnostics(output, theme, minimum);
+                }
+                if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
+                Console.WriteLine("PASS: Phase07 inline/window WPF controls, fake diagnostics/routes/DNS/ICMP; no probes; 0 binding errors.");
+                return 0;
+            }
             foreach (var (language, theme, width, height) in new[]
             {
                 ("En", "Dark", 900, 780), ("En", "Light", 700, 540), ("En", "Dark", 700, 540), ("En", "Light", 900, 780)

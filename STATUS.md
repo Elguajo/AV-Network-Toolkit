@@ -1,4 +1,12 @@
-# Current implementation status — PHASE_06_AWAITING_REVIEW
+# Current implementation status — PHASE_07_AWAITING_REVIEW
+
+## Phase 07 implementation — ADR-034, 2026-11-01
+
+- Fork / branch / exact bootstrap: https://github.com/Elguajo/AV-Network-Toolkit / main / `db143aba6e4405da57acf2a85f661f3b579c279d`, clean bootstrap. No branch/worktree/push. Implementation SHA: resolve `git log -1 --format=%H -- app/Services/DiagnosticPingService.cs`; evidence pin follows the scoped implementation commit.
+- Active / completed / in progress: 07-T01–07-T04 EVIDENCE_RECORDED, Phase 07 AWAITING_REVIEW. Explicit adapter identities/types/facts/routes, optional persisted Hyper-V uplink diagnostic filter, source-specific shared inline/window Ping with route checks, RTT/TTL/summary/Stop and immutable results. [Contract](docs/spec/PHASE07_IMPLEMENTATION_CONTRACT.md), [review/diff/tests](docs/testing/PHASE07_REVIEW.md). No task or phase accepted.
+- Tests last executed: Release solution/harness builds PASS 0 warnings/errors; focused 51 PASS (48 new + 3 resource checks), final full **624 PASS/0 failed/0 skipped** (`TestResults/Phase07/phase07-final-reviewed.trx`); **32 focused + 128 existing WPF captures/0 binding errors**, Light/Dark normal/minimum. New embedded-query allowlist/parser + 15 fake OS fixtures PASS in PowerShell 7 and Windows PowerShell 5.1; existing 11 fake apply-observer fixtures PASS. Full planning/schema/10 tooling regressions/whitespace and protected-source comparison PASS; exact commands in review.
+- Blockers / risks: OPEN UX-R01/P05-R01 unresolved/release-blocking despite this PASS. Native NIC/PowerShell/ICMP/route/Hyper-V/TTL/packet egress acceptance UNVERIFIED. Source/route pre/post checks do not prove egress or eliminate races; hostname lookup uses OS DNS and may query another NIC. Earlier owner/native/legacy-storage limits remain; no support/credential/JSON repair.
+- Next action: owner reviews the Phase 07 diff/contract/captures; separately scope JSON investigation and isolated native acceptance. Proposed Phase 08 requires a new owner decision and DHCP safety design before implementation. No real network settings/probes/elevation, push/release or next-phase start.
 
 ## Current publication — ADR-033, 2026-11-01
 
@@ -596,3 +604,18 @@ Implementation committed locally as **d054a61ccd2f27ebd03cc73b9acb5e03e6ecd52d**
 - Can next session proceed without clarification? Yes for this authorized publication and read-only review; no implicit phase advancement/live test/release.
 
 Publication outcome: `git push origin main:main` succeeded, advancing 103b50d → `15ec8f520d71ffec841eee17eaace75cdc33f23e`. `git ls-remote origin refs/heads/main` independently matched that exact local SHA. This outcome-only metadata commit is published under ADR-033 too, with final synchronization verified in the chat; no runtime code or test-evidence change. Safe next action is owner review, not a repeated publication request.
+
+## Session handoff — Phase 07 implementation, 2026-11-01
+
+- Date and environment: 2026-11-01, Asia/Tashkent; Windows / PowerShell 7 + fixture validation in Windows PowerShell 5.1, .NET SDK 8.0.427.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / bootstrap `db143aba6e4405da57acf2a85f661f3b579c279d`; implementation resolves with `git log -1 --format=%H -- app/Services/DiagnosticPingService.cs`, pinned by following metadata handoff.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW, 07-T01–07-T04 EVIDENCE_RECORDED; no phase accepted.
+- What was actually completed (evidence/commits): diagnostics snapshots/types/identity/routes, opt-in saved diagnostic Hyper-V filter, shared inline/window explicit-source Ping/route check/TTL/RTT/summary/Stop/cancellation and fake-boundary tests; [review/diff/checks](docs/testing/PHASE07_REVIEW.md). ADR-034 records owner's start permission. Direct scoped local commit, no branch/worktree/push.
+- Files changed: new diagnostic model/services/VM/panel, bounded Main/Ping integration and English resources, two unit test files, new fake-query script/component harness, phase/contract/review/design/testing/planning/handoff records. Full list in review packet and git diff.
+- Test commands and results: exact commands in review; Release solution/harness builds PASS 0 warnings/errors; focused 51 PASS, full 624 PASS/0 failed/0 skipped (48 new). 15 fake query fixtures under PowerShell 7 and 5.1, 11 existing apply-observer fixtures PASS; 32 focused plus 128 existing WPF captures/0 binding errors; schema/plan/10 validator regressions/whitespace/protected-source checks PASS. Initial failed builds/render/fixture corrections retained in report.
+- Live-network tests: NOT RUN / not authorized; no real NIC queries/configuration, probes, multicast, UAC/browser/DHCP or App startup in automated checks.
+- Known bugs, risk and workarounds: OPEN UX-R01/P05-R01 unresolved/release-blocking; no JSON changes or suppression. Native diagnostic/query/ICMP/route/TTL/topology/egress UNVERIFIED; source-specific call plus predicted route is not egress proof. OS DNS may query another NIC; literal avoids lookup. Stop cannot interrupt a native echo already entered; synchronous native enumeration/route stalls may outlast cancellation budget. Earlier owner/native/legacy-storage/credential/support limits remain.
+- Decisions requiring user approval: owner acceptance, separately scoped native isolated tests/JSON repair/publication/release/Phase 08. Do not re-ask Phase 07 start.
+- Remaining tasks in active phase: owner/native acceptance and recorded limitations, no checkboxes closed.
+- Next smallest safe action: owner reviews the concrete Phase 07 diff/contract/captures; separately scope JSON investigation and isolated native acceptance. Proposed next phase is 08 with a written DHCP safety design before implementation.
+- Can next session proceed without clarification? Yes for already authorized Phase 07 review/verification within fake boundaries; no automatic Phase 08/live tests/push/release or unrelated JSON repair.

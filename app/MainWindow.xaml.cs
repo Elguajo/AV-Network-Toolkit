@@ -107,6 +107,7 @@ namespace NetworkProfileManager
             InitializeComponent();
             DataContextChanged += OnDataContextChanged;
             DataContext = main;
+            Closed += (_, _) => main.Diagnostics.Dispose();
             ProjectProfiles.ApplyRequested += profile => ShowProjectApply(profile, null);
             Project.ApplyAndOpenRequested += (profile, device) => ShowProjectApply(profile, device);
             RegisterProfileHotkeys();
@@ -163,11 +164,10 @@ namespace NetworkProfileManager
             var vm = DataContext as MainViewModel;
             if (vm?.SelectedAdapter == null) return;
 
-            string target = vm.SelectedAdapter.PingTarget.Trim();
-            if (string.IsNullOrEmpty(target)) target = vm.SelectedAdapter.Info.CurrentGateway;
-            if (string.IsNullOrEmpty(target)) return;
-
-            new PingWindow(target) { Owner = this }.Show();
+            var diagnostics = vm.Diagnostics.CreatePeer();
+            if (string.IsNullOrWhiteSpace(diagnostics.Target))
+                diagnostics.Target = vm.SelectedAdapter.PingTarget.Trim();
+            new PingWindow(diagnostics) { Owner = this }.Show();
         }
 
         // ── IP Scanner window ────────────────────────────────────────

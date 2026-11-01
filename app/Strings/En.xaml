@@ -451,4 +451,48 @@
     <sys:String x:Key="Profiles.Current">Current configuration</sys:String>
     <sys:String x:Key="Profiles.CurrentHint">Matches this adapter's reported static IPv4 settings. To apply again, use the profile menu.</sys:String>
     <sys:String x:Key="Profiles.ApplyAgain">Apply profile again…</sys:String>
+
+  <!-- Phase 07: local diagnostics and explicit-source Ping -->
+  <sys:String x:Key="Diagnostics.Title">Adapter diagnostics &amp; Ping</sys:String>
+  <sys:String x:Key="Diagnostics.Adapter">Diagnostic adapter (name · index · GUID)</sys:String>
+  <sys:String x:Key="Diagnostics.Source">Source IPv4 — select explicitly</sys:String>
+  <sys:String x:Key="Diagnostics.Target">Destination IPv4 or hostname</sys:String>
+  <sys:String x:Key="Diagnostics.Hide">Hide confirmed Hyper-V uplinks</sys:String>
+  <sys:String x:Key="Diagnostics.FilterScope">Saved for this diagnostic list only. Unknown adapters stay visible. No interface is disabled.</sys:String>
+  <sys:String x:Key="Diagnostics.FilterUnsaved">The filter changed for this session; saving the preference failed.</sys:String>
+  <sys:String x:Key="Diagnostics.FactsHeader">Reported adapter facts and active IPv4 routes</sys:String>
+  <sys:String x:Key="Diagnostics.RefreshHint">Refresh to read adapter facts. Opening this tool sends no probes.</sys:String>
+  <sys:String x:Key="Diagnostics.Select">Select an adapter and source IPv4. Refresh clears the source selection.</sys:String>
+  <sys:String x:Key="Diagnostics.Loading">Reading local adapter facts…</sys:String>
+  <sys:String x:Key="Diagnostics.Empty">No adapters were reported. Refresh after connecting an adapter.</sys:String>
+  <sys:String x:Key="Diagnostics.Unknown">Unknown</sys:String>
+  <sys:String x:Key="Diagnostics.Yes">Yes</sys:String>
+  <sys:String x:Key="Diagnostics.No">No</sys:String>
+  <sys:String x:Key="Diagnostics.Facts" xml:space="preserve">Reported GUID: {0}&#10;Index: {1} · MAC: {2}&#10;Type: {3}&#10;Link: {4} · Speed: {5}&#10;IPv4 DHCP: {6} · Hyper-V uplink binding: {7}</sys:String>
+  <sys:String x:Key="Diagnostics.Addresses">Reported IPv4: {0}</sys:String>
+  <sys:String x:Key="Diagnostics.Dns">Reported DNS servers (source policy not inferred): {0}</sys:String>
+  <sys:String x:Key="Diagnostics.Routes">Reported active routes: destination → next hop · route metric (excludes interface metric)</sys:String>
+  <sys:String x:Key="Diagnostics.Kind.unknown">Unknown (no name-based classification)</sys:String>
+  <sys:String x:Key="Diagnostics.Kind.hyperv">Hyper-V virtual (reported driver)</sys:String>
+  <sys:String x:Key="Diagnostics.Kind.virtual">Virtual (reported by Windows)</sys:String>
+  <sys:String x:Key="Diagnostics.Kind.physical">Physical (reported by Windows)</sys:String>
+  <sys:String x:Key="Diagnostics.Kind.ethernet">Physical Ethernet</sys:String>
+  <sys:String x:Key="Diagnostics.Kind.usb">USB (hardware PnP identity)</sys:String>
+  <sys:String x:Key="Diagnostics.Kind.wifi">Physical Wi-Fi</sys:String>
+  <sys:String x:Key="Diagnostics.DnsNotice">Hostnames use Windows DNS and may query another interface. Use a literal IPv4 to avoid DNS lookup. Ping does not change network settings.</sys:String>
+  <sys:String x:Key="Diagnostics.EgressNotice">Route = OS prediction. ICMP = observed reply or error. Actual packet egress is unverified; no reply does not establish that a device is offline.</sys:String>
+  <sys:String x:Key="Diagnostics.Stop">Stop Ping</sys:String>
+  <sys:String x:Key="Diagnostics.Pinging">Checking the selected source and route, then sending Ping…</sys:String>
+  <sys:String x:Key="Diagnostics.Request" xml:space="preserve">Requested: {0} · {1}&#10;Source {2} → {3}</sys:String>
+  <sys:String x:Key="Diagnostics.Predicted">OS-predicted interface {0}: {1}/{2} → next hop {3} · route metric {4}</sys:String>
+  <sys:String x:Key="Diagnostics.NoRoute">OS route unavailable; no fallback interface is used.</sys:String>
+  <sys:String x:Key="Diagnostics.Observed">Resolved destination: {0} · ICMP responder: {1} · status: {2} · RTT: {3} ms · TTL: {4}</sys:String>
+  <sys:String x:Key="Diagnostics.Summary">Replies: {0}/{1} · RTT min/max/avg: {2}/{3}/{4:0.0} ms</sys:String>
+  <sys:String x:Key="Diagnostics.NoReplies">No ICMP replies. See the request result below; this does not establish that the device is offline.</sys:String>
+  <sys:String x:Key="Diagnostics.Error.Input">Select a valid adapter, source IPv4 and destination.</sys:String>
+  <sys:String x:Key="Diagnostics.Error.Changed">The adapter, source or route changed or is ambiguous. Result is unverified; refresh and select again.</sys:String>
+  <sys:String x:Key="Diagnostics.Error.Route">The OS route is unavailable or selects another adapter. No Ping was sent; no fallback was attempted.</sys:String>
+  <sys:String x:Key="Diagnostics.Error.Resolve">No usable destination IPv4 was resolved. No Ping was sent.</sys:String>
+  <sys:String x:Key="Diagnostics.Error.Cancelled">Ping stopped. An in-flight request can finish within its two-second timeout.</sys:String>
+  <sys:String x:Key="Diagnostics.Error.Unavailable">Diagnostic data or Ping is unavailable. Refresh and check the selected adapter; no network settings were changed.</sys:String>
 </ResourceDictionary>

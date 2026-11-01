@@ -74,3 +74,9 @@ Owner requested current commit/push and next-phase execution in a new chat. Publ
 Bounded owner-authorized follow-up ADR-028 implements IDEA-01/04 using the selected second-concept workspace; [review packet](docs/testing/MAIN_WORKSPACE_REVIEW.md). This is a scoped follow-up to existing profile/device/apply work, not Phase 07 or a reordering of the nine phases. Project/legacy storage stays separate; IDEA-02/03 remain pending. Phase 06 owner/native review and later-phase/live-test/release gates remain.
 
 06-T01–06-T04 now have [local implementation evidence](docs/testing/PHASE06_REVIEW.md), AWAITING_REVIEW. Passive IPv4 only; IPv6 advertisements displayed when received over IPv4, optional Add-to-device omitted. No schema, password or legacy mutation changes. Native isolated acceptance and owner review remain pending. Proposed next phase is 07 (including ADR-016 Ping), requiring a new owner decision; IDEA-01–03 scheduling remains separate and the fixed order is unchanged.
+
+## Phase 07 execution — ADR-034, 2026-11-01
+
+Owner explicitly started 07-T01–07-T04 directly on main, including ADR-016 Ping. [Contract](docs/spec/PHASE07_IMPLEMENTATION_CONTRACT.md). This supersedes prior Phase 07 pending-start snapshots only; earlier owner/native acceptance and OPEN UX-R01/P05-R01 remain. No live tests, new publication/release or Phase 08 implied.
+
+Phase 07 now has [implementation/evidence](docs/testing/PHASE07_REVIEW.md), AWAITING_REVIEW: 624 full unit PASS, 15 fake query fixtures and 160 WPF captures across focused/existing checks. Native/owner acceptance remains pending; no phase completed, live test, publication/release or Phase 08 implied.

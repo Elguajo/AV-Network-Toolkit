@@ -24,6 +24,7 @@ namespace NetworkProfileManager.ViewModels
         private bool _isLoading;
 
         public ObservableCollection<AdapterViewModel> Adapters { get; } = new ObservableCollection<AdapterViewModel>();
+        public AdapterDiagnosticsViewModel Diagnostics { get; }
 
         /// <summary>
         /// Set by the view to present a Yes/No confirmation dialog for destructive
@@ -76,10 +77,11 @@ namespace NetworkProfileManager.ViewModels
         /// <summary>Vendor subnet shortcuts shown in the edit bar's preset menu.</summary>
         public IReadOnlyList<VendorPreset> VendorPresets => VendorPreset.All;
 
-        public MainViewModel() : this(null) { }
+        public MainViewModel() : this(null, AdapterDiagnosticsViewModel.Create()) { }
 
-        internal MainViewModel(Func<List<AdapterInfo>>? getAdapters)
+        internal MainViewModel(Func<List<AdapterInfo>>? getAdapters, AdapterDiagnosticsViewModel? diagnostics = null)
         {
+            Diagnostics = diagnostics ?? AdapterDiagnosticsViewModel.Create(persist: false);
             _getAdapters = getAdapters ?? _networkSvc.GetAdapters;
             RefreshCommand = new RelayCommand(_ => Refresh());
             ApplyCommand = new RelayCommand(
@@ -87,7 +89,7 @@ namespace NetworkProfileManager.ViewModels
                 _ => SelectedAdapter != null && SelectedAdapter.IsEditValid && !IsLoading);
             PingCommand = new RelayCommand(
                 async _ => await DoPingAsync(),
-                _ => SelectedAdapter != null && !SelectedAdapter.IsPinging);
+                _ => Diagnostics.CanPing);
             ApplyProfileCommand = new RelayCommand(
                 async p => await ApplyProfileAsync(p as ProfileViewModel),
                 p => p is ProfileViewModel && !IsLoading);
@@ -446,30 +448,7 @@ namespace NetworkProfileManager.ViewModels
         }
 
         // ── Ping ─────────────────────────────────────────────────────
-        private async Task DoPingAsync()
-        {
-            if (SelectedAdapter == null) return;
-
-            string target = SelectedAdapter.PingTarget.Trim();
-            if (string.IsNullOrEmpty(target))
-            {
-                SelectedAdapter.PingResult = Helpers.Loc.Get("Status.PingTargetMissing", "Hedef girilmedi.");
-                SelectedAdapter.PingSuccess = false;
-                return;
-            }
-
-            SelectedAdapter.IsPinging = true;
-            SelectedAdapter.PingResult = Helpers.Loc.Format("Ping.Pinging", target);
-            SelectedAdapter.PingSuccess = false;
-
-            var (reachable, ms) = await _networkSvc.PingAsync(target);
-
-            SelectedAdapter.IsPinging = false;
-            SelectedAdapter.PingSuccess = reachable;
-            SelectedAdapter.PingResult = reachable
-                ? Helpers.Loc.Format("Status.PingResultMs", target, ms)
-                : Helpers.Loc.Format("Status.PingTimeout", target);
-        }
+        private Task DoPingAsync() => Diagnostics.PingAsync();
 
         // ── Revert ───────────────────────────────────────────────────
         private async Task RevertAsync(HistoryEntry? entry)

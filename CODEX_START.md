@@ -8,4 +8,4 @@
 
 This package does not claim Codex has persistent memory; continuity comes from repository files, commit history and evidence-backed status updates.
 
-Current handoff: Phase 04 AWAITING_REVIEW under ADR-019; use STATUS.md and docs/testing/PHASE04_REVIEW.md, independently inspect git and run the required AGENTS.md bootstrap. 399 isolated tests/40 component renders recorded; actual NIC/UAC/browser integration NOT RUN. No Phase 05, push or live-test authorization.
+Current handoff: Phase 07 AWAITING_REVIEW under ADR-034; use STATUS.md, docs/spec/PHASE07_IMPLEMENTATION_CONTRACT.md and docs/testing/PHASE07_REVIEW.md, independently inspect git and run the required AGENTS.md bootstrap. 624 isolated tests, 15 fake Windows-query fixtures and 160 WPF captures across focused/existing checks recorded. Native NIC/ICMP/route/Hyper-V and actual egress NOT RUN / UNVERIFIED. OPEN UX-R01/P05-R01 and earlier owner/native limits remain. No Phase 08, push/release or live-test authorization.

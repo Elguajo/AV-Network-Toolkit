@@ -299,13 +299,13 @@
         "04"
       ],
       "file": "phases/07-adapter-hyperv-diagnostics.md",
-      "status": "NOT_STARTED",
+      "status": "AWAITING_REVIEW",
       "tasks": [
         {
           "id": "07-T01",
           "title": "Map physical, USB, Wi-Fi, virtual and Hyper-V adapters without false binding",
           "acceptance": "Unambiguous selection and stable hints; never choose adapter silently",
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         },
         {
           "id": "07-T02",
@@ -315,13 +315,13 @@
             "ADR-016: Explicit adapter/source IPv4 selection for inline Ping and Ping window; no silent interface fallback or network configuration changes",
             "Show adapter identity, source IPv4 and route/next hop; distinguish requested, OS-predicted and observed values"
           ],
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         },
         {
           "id": "07-T03",
           "title": "Add opt-in Hyper-V uplink filtering and persistence",
           "acceptance": "Adapter hiding affects UI only, never silently disables interfaces",
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         },
         {
           "id": "07-T04",
@@ -331,7 +331,7 @@
             "ADR-016: Fake-probe/routing tests for Ethernet plus Wi-Fi, overlapping subnets, missing routes, multiple sources, adapter removal and selection changes during Ping; preserve result attribution",
             "Real traffic validation remains separately authorized and isolated"
           ],
-          "status": "NOT_STARTED"
+          "status": "EVIDENCE_RECORDED"
         }
       ]
     },
@@ -429,15 +429,15 @@
   ],
   "forkRepository": "https://github.com/Elguajo/AV-Network-Toolkit",
   "baselineCommit": "603cf24fa0ba1819c0ec10b6a57ef5cf57c3852e",
-  "activePhase": "06",
+  "activePhase": "07",
   "phase02Authorized": true,
-  "authorization": "ADR-023: publish current Phase 05/main and start 06-T01\u201306-T04 in a new local project chat, directly on main. Existing manual acceptance/P05-R01 remain; no live tests/release/later phases or automatic future Phase06 publication.",
+  "authorization": "ADR-034: owner explicitly started 07-T01-07-T04, including ADR-016 Ping, directly on main. Earlier acceptance and OPEN UX-R01/P05-R01 remain; no live tests, push/release or Phase08.",
   "preparationCheckpoint": [
     "01-T06",
     "01-T07",
     "01-T08"
   ],
-  "implementationBaseCommit": "f160ac0986af59c7cc4357021b8ca7fe942b63e0",
+  "implementationBaseCommit": "db143aba6e4405da57acf2a85f661f3b579c279d",
   "scopeRefinements": [
     "ADR-010: all new UI reuses existing design (DESIGN.md)",
     "ADR-011: retire Turkish UI, English fallback without startup settings rewrite",
@@ -452,18 +452,18 @@
   "branchPolicy": "Direct work on main; no separate branches unless owner explicitly changes instruction (ADR-017)",
   "phase05Authorized": true,
   "phase04ImplementationCommit": "3e7a0ae3f0f3ef87729fa94e2873d53e23750991",
-  "implementationContract": "docs/spec/PHASE06_IMPLEMENTATION_CONTRACT.md",
-  "reviewPacket": "docs/testing/PHASE06_REVIEW.md",
+  "implementationContract": "docs/spec/PHASE07_IMPLEMENTATION_CONTRACT.md",
+  "reviewPacket": "docs/testing/PHASE07_REVIEW.md",
   "risks": [
-    "P05-R01 OPEN: intermittent existing empty-static-DNS JSON rejection failure; cause/baseline attribution UNVERIFIED, separate scope. Final 542 PASS does not resolve.",
-    "Native mDNS IFLIST/membership/packet metadata/shared-port/driver isolation and synchronous OS enumeration stalls UNVERIFIED; no live tests/push/release/Phase07.",
-    "Prior phase native/manual/legacy/migration-marker limits and separate ADR-024 / IDEA-01-03 follow-ups remain."
+    "OPEN UX-R01/P05-R01: unsafe JSON rejection instability remains unresolved/release-blocking despite final 624 PASS; no JSON repair or gate weakening in Phase07.",
+    "Native NIC/PowerShell/USB/Hyper-V/ICMP/route/TTL and actual egress UNVERIFIED. Source and OS route checks do not prove egress or eliminate races; OS DNS may use another NIC.",
+    "Earlier owner/native/legacy-storage limits and separate support/credentials follow-ups remain; no live test, publication/release or Phase08."
   ],
-  "lastTests": "Release isolated-output build 0 warnings/errors; full 542 PASS/0 failed/0 skipped (79 mDNS cases); 84 WPF captures/0 binding errors; 11 fake observer fixtures; schema/plan and 10 validator regressions PASS. P05-R01 remains OPEN.",
+  "lastTests": "Release solution/harness builds PASS, 0 warnings/errors; final full 624 PASS/0 failed/0 skipped, 48 added cases; focused 51 PASS. 32 focused and 128 existing WPF captures/0 binding errors. 15 fake OS-query fixtures in PowerShell 7/5.1, 11 existing fake apply-observer fixtures, schema/plan/10 validator regressions/whitespace/protected-source checks PASS. Native acceptance NOT RUN; OPEN UX-R01/P05-R01 remains.",
   "phase06Authorized": true,
-  "nextPhase": "07",
-  "handoffState": "Phase06 implementation 18534bef32f6b9ad52445ab04d3834be28fe9834 local on main; EVIDENCE_RECORDED/AWAITING_REVIEW. P05-R01 OPEN; no automatic publication, live acceptance or Phase07. Concurrent ADR-025/IDEA-04 documentation preserved separately.",
+  "nextPhase": "08",
+  "handoffState": "Phase07 local main implementation EVIDENCE_RECORDED/AWAITING_REVIEW under ADR-034. Owner/native acceptance pending; OPEN UX-R01/P05-R01 remains. No push/release, live tests or Phase08 authorization. Resolve implementation SHA through app/Services/DiagnosticPingService.cs history; evidence pin follows commit.",
   "phase05ImplementationCommit": "d054a61ccd2f27ebd03cc73b9acb5e03e6ecd52d",
-  "implementationCommit": "18534bef32f6b9ad52445ab04d3834be28fe9834",
+  "phase07Authorized": true,
   "phase06ImplementationCommit": "18534bef32f6b9ad52445ab04d3834be28fe9834"
 }
