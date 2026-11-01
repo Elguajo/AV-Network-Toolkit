@@ -41,6 +41,12 @@ internal static partial class Program
         ApplyRenderTheme("Dark");
         try
         {
+            if (args.Contains("--diagnostic-hide"))
+            {
+                CheckDiagnosticHide(output);
+                if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
+                return 0;
+            }
             if (args.Contains("--tray-placement"))
             {
                 CheckTrayPlacement(output);

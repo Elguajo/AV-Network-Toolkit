@@ -14,10 +14,78 @@ using NetworkProfileManager.Views;
 
 internal static partial class Program
 {
+    private static void CheckDiagnosticHide(string output)
+    {
+        foreach (bool main in new[] { false, true })
+        {
+            var root = Path.Combine(output, "isolated-" + (main ? "main-" : "separate-") + Guid.NewGuid());
+            AppPaths.OverrideDataDirectory(root);
+            try
+            {
+                var fake = new DiagnosticsSurface { Gate = null };
+                var delay = new DiagnosticDelay();
+                using var vm = new AdapterDiagnosticsViewModel(fake, new(fake), delay: delay.WaitAsync);
+                Window window = main
+                    ? new MainWindow(new MainViewModel(() => new(), vm), new ProjectViewModel(new FakeDialogs(), new FakeBrowser()))
+                    : new PingWindow(vm);
+                window.Show(); Pump();
+                var refresh = vm.RefreshAsync(); Until(() => refresh.IsCompleted); refresh.GetAwaiter().GetResult();
+                vm.SelectedAdapter = vm.Adapters[0]; vm.Source = vm.Sources[0]; vm.Target = "192.0.2.229";
+                vm.SelectedTest = vm.Presets.Single(p => p.Kind == DiagnosticTestKind.ContinuousPing);
+                for (int i = 0; i < 10; i++) AssertDiagnosticHide(window, vm, fake, delay);
+
+                // A native echo may finish after cancellation. It must not schedule another one.
+                fake.Gate = new(TaskCreationOptions.RunContinuationsAsynchronously);
+                int before = fake.Sends;
+                var run = vm.RunSelectedTestAsync(); Until(() => fake.Sends == before + 1);
+                window.Hide();
+                fake.Gate.SetResult(new(0, "192.0.2.229", 2));
+                Until(() => run.IsCompleted); run.GetAwaiter().GetResult();
+                if (vm.CanStop || !vm.CanSelect || fake.Sends != before + 1 || vm.Results.Single().Error != "Cancelled")
+                    throw new Exception("Hide failed to drain a late echo without scheduling another.");
+                window.Show(); SettleDiagnostics();
+                if (fake.Sends != before + 1 || vm.CanStop) throw new Exception("Show restarted a cancelled echo.");
+                window.Close(); Pump();
+                Console.WriteLine($"PASS: {(main ? "main" : "separate")} diagnostic window: 10 gated Hide/Show cycles and in-flight echo cancellation.");
+            }
+            finally { AppPaths.OverrideDataDirectory(null); }
+        }
+    }
+
+    private sealed class DiagnosticDelay
+    {
+        public bool Pause, Entered;
+        public CancellationToken Token;
+        public Task WaitAsync(TimeSpan interval, CancellationToken token)
+        {
+            if (!Pause) return Task.Delay(10, token);
+            Token = token; Entered = true;
+            return Task.Delay(Timeout.Infinite, token);
+        }
+    }
+
+    private static void AssertDiagnosticHide(Window window, AdapterDiagnosticsViewModel vm, DiagnosticsSurface fake, DiagnosticDelay delay)
+    {
+        delay.Entered = false; delay.Pause = true;
+        int before = fake.Sends;
+        var run = vm.RunSelectedTestAsync(); Until(() => delay.Entered);
+        if (fake.Sends != before + 1 || !vm.CanStop) throw new Exception("Hide fixture did not pause after exactly one echo.");
+        window.Hide();
+        if (window.IsVisible || !delay.Token.IsCancellationRequested)
+            throw new Exception("Hiding diagnostic owner did not cancel its active delay.");
+        Until(() => run.IsCompleted); run.GetAwaiter().GetResult();
+        if (vm.CanStop || !vm.CanSelect || fake.Sends != before + 1)
+            throw new Exception("Hidden diagnostic owner continued sending or stayed busy.");
+        window.Show(); SettleDiagnostics();
+        if (fake.Sends != before + 1 || vm.CanStop) throw new Exception("Showing diagnostic owner restarted its test.");
+        delay.Pause = false;
+    }
+
     private static void RenderDiagnostics(string output, string theme, bool minimum)
     {
         var fake = new DiagnosticsSurface();
-        using var vm = new AdapterDiagnosticsViewModel(fake, new(fake), tcp: new(fake, fake), delay: (_, token) => Task.Delay(10, token));
+        var delay = new DiagnosticDelay();
+        using var vm = new AdapterDiagnosticsViewModel(fake, new(fake), tcp: new(fake, fake), delay: delay.WaitAsync);
         var window = new PingWindow(vm) { Width = minimum ? 480 : 700, Height = minimum ? 440 : 860 };
         window.Show(); Pump();
         if (fake.Reads != 1 || vm.SelectedAdapter != null || fake.Sends != 0) throw new Exception("Ping window sent or guessed adapter on open.");
@@ -52,7 +120,7 @@ internal static partial class Program
         if (vm.Results.Count != 1 || !vm.Results[0].Success) throw new Exception("Successful diagnostic result missing.");
         Descendants(window).OfType<ScrollViewer>().First().ScrollToEnd(); SettleDiagnostics();
         Capture(window, Path.Combine(output, $"diagnostics-reply-{suffix}.png"));
-        ExerciseReadyMadeTests(window, vm, fake, output, suffix);
+        ExerciseReadyMadeTests(window, vm, fake, delay, output, suffix);
         fake.Route = new(8, "192.0.2.0", 24, "198.51.100.1", 1);
         int sends = fake.Sends;
         var blocked = vm.PingAsync(); Until(() => blocked.IsCompleted); blocked.GetAwaiter().GetResult(); Pump();
@@ -69,7 +137,8 @@ internal static partial class Program
         try
         {
             var inlineFake = new DiagnosticsSurface { Gate = null };
-            var inline = new AdapterDiagnosticsViewModel(inlineFake, new(inlineFake), tcp: new(inlineFake, inlineFake));
+            var inlineDelay = new DiagnosticDelay();
+            var inline = new AdapterDiagnosticsViewModel(inlineFake, new(inlineFake), tcp: new(inlineFake, inlineFake), delay: inlineDelay.WaitAsync);
             var main = new MainViewModel(() => new() { new() { Id = inlineFake.Adapters[0].Id.ToString(), Name = "Ethernet fixture", IsConnected = true } }, inline);
             var mainWindow = new MainWindow(main, new ProjectViewModel(new FakeDialogs(), new FakeBrowser()))
                 { Width = minimum ? 760 : 1200, Height = minimum ? 520 : 850 };
@@ -96,11 +165,7 @@ internal static partial class Program
             section.IsExpanded = false; SettleDiagnostics(); section.IsExpanded = true; SettleDiagnostics();
             if (inline.SelectedTest != selected || inlineFake.Connects != 0) throw new Exception("Expansion lost a draft or started a test.");
             inline.SelectedTest = inline.Presets.Single(p => p.Kind == DiagnosticTestKind.ContinuousPing);
-            int beforeHide = inlineFake.Sends;
-            var hiddenRun = inline.RunSelectedTestAsync(); Until(() => inline.AttemptCount >= 1);
-            mainWindow.Hide(); Until(() => hiddenRun.IsCompleted); hiddenRun.GetAwaiter().GetResult();
-            if (inline.CanStop || inlineFake.Sends != beforeHide + 1) throw new Exception("Hiding main left an invisible active test.");
-            mainWindow.Show(); Pump();
+            AssertDiagnosticHide(mainWindow, inline, inlineFake, inlineDelay);
             inline.HideHyperVUplinks = true; Pump();
             if (inline.Adapters.Count != 1 || main.Adapters.Count != 1) throw new Exception("Filter affected legacy adapter list.");
             inlineFake.ReadError = true;
@@ -152,7 +217,7 @@ internal static partial class Program
         { Interlocked.Increment(ref Connects); return Task.FromResult(TcpObservation); }
     }
 
-    private static void ExerciseReadyMadeTests(Window window, AdapterDiagnosticsViewModel vm, DiagnosticsSurface fake, string output, string suffix)
+    private static void ExerciseReadyMadeTests(Window window, AdapterDiagnosticsViewModel vm, DiagnosticsSurface fake, DiagnosticDelay delay, string output, string suffix)
     {
         var scroll = Descendants(window).OfType<ScrollViewer>().First();
         var cards = Descendants(window).OfType<ListBox>().Single(c => c.Name == "PresetCards");
@@ -196,10 +261,7 @@ internal static partial class Program
         int sent = fake.Sends; var continuous = vm.RunSelectedTestAsync(); Until(() => vm.AttemptCount >= 3);
         vm.StopCommand.Execute(null); Until(() => continuous.IsCompleted); continuous.GetAwaiter().GetResult();
         if (fake.Sends <= sent || vm.CanStop || !vm.CanSelect) throw new Exception("Continuous Ping stop failed.");
-        var hiddenRun = vm.RunSelectedTestAsync(); Until(() => vm.AttemptCount >= 1);
-        int beforeHide = fake.Sends; window.Hide(); Until(() => hiddenRun.IsCompleted); hiddenRun.GetAwaiter().GetResult();
-        if (vm.CanStop || fake.Sends != beforeHide) throw new Exception("Hidden diagnostic window continued sending.");
-        window.Show(); Pump();
+        AssertDiagnosticHide(window, vm, fake, delay);
         scroll.ScrollToEnd(); SettleDiagnostics(); Capture(window, Path.Combine(output, $"network-tests-continuous-stopped-{suffix}.png"));
         vm.SelectedTest = vm.Presets[0];
     }

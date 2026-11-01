@@ -1,5 +1,12 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Diagnostic hide smoke resolved — DOC-R01, 2026-11-01
+
+- Fork / branch / inspected source: https://github.com/Elguajo/AV-Network-Toolkit / main / `386aef8f3a9d5d9345213a3a7c6eca77ca74a2ed`. Scoped local commit follows; resolve with `git log -1 --format=%H -- docs/testing/DIAGNOSTIC_HIDE_REVIEW.md`.
+- Completed: reproduced the intermittent failure and established a send-count sampling race before actual Hide; replaced both checks with an injected delay gate, added repeated main/separate Hide/Show and late-echo checks. [Review](docs/testing/DIAGNOSTIC_HIDE_REVIEW.md), [hashes and results](docs/testing/evidence/diagnostic-hide-2026-11-01.json). DOC-R01 RESOLVED as a harness defect; historical OPEN mentions below are superseded for this issue only. Product sources and published packages unchanged.
+- Tests last executed: solution/harness Release builds 0 warnings/errors; 723 unit PASS/0 failed/0 skipped; 64 diagnostic + 128 workspace WPF captures PASS/0 binding errors; focused 20 Hide/Show cycles + 2 late-echo cases PASS. Removing each actual window hide handler separately in exported-source negative controls causes the expected cancellation assertion failure/exit 1. Final documentation checks recorded in the handoff below.
+- In progress / blockers / next action: no local DOC-R01 implementation remains. Owner performs manual acceptance; Phase 07 AWAITING_REVIEW and other native/UX-R01/P05-R01/OS limits persist. No real probes/listeners, network mutation/UAC/VM/installation/push/release or DATA-01/Phase 08 action. Manual check: explicitly start Continuous Ping, hide its owner, reopen and check stopped/no automatic restart; native acceptance remains NOT RUN by this task.
+
 ## Published v1.1.3 Preview — REL-05 / ADR-048, 2026-11-01
 
 - Fork / branch / exact release source: https://github.com/Elguajo/AV-Network-Toolkit / main / **2847ff6baaee59c813dbecb0688ffad62324b968**. [Release](https://github.com/Elguajo/AV-Network-Toolkit/releases/tag/v1.1.3), [successful exact-source CI](https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41300112524). Source contains all completed audit/theme/tray/adapter changes and navigation planning only. Existing topical commits preserved; evidence-only commit follows, without retagging/rebuilding. Later independent documentation work may follow on main.
@@ -1168,3 +1175,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks in active phase: existing owner/native acceptance unchanged.
 - Next smallest safe action: use the published README; personal product-readme can be invoked for another repository.
 - Can next session proceed without clarification: safe documentation work yes; other publication/native/implementation work retains its existing gates.
+
+## Session handoff — 2026-11-01, diagnostic hide/cancellation smoke
+
+- Date and environment: 2026-11-01 Asia/Tashkent; Windows 11, private .NET SDK 10.0.403 and validation Python venv.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / inspected 386aef8f3a9d5d9345213a3a7c6eca77ca74a2ed; scoped local commit resolved via git log for docs/testing/DIAGNOSTIC_HIDE_REVIEW.md.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; DOC-R01 RESOLVED_TEST_SYNCHRONIZATION_DEFECT. Owner requested item 1 and will perform manual verification; no phase acceptance inferred.
+- What was actually completed: causal reproduction (send count 2 before Hide, 3 at visibility handler, 3 after completion, CanStop false); deterministic gated cancellation checks in both real owner windows, 10 repeated cycles each and two late-echo scenarios; exported-source negative controls for both actual handler statements. Existing test sampled a different lifecycle boundary; no product correction was justified.
+- Files changed: scripts/ProjectUiSmoke/DiagnosticsSmoke.cs and Program.cs; current context/tasks/status/release checklist/user guide; docs/testing/DIAGNOSTIC_HIDE_REVIEW.md and evidence/diagnostic-hide-2026-11-01.json. Product/test-library/schema/dependency/package/version sources unchanged.
+- Test commands and results: exact commands in review; Release solution/harness 0 warnings/errors, 723 unit PASS/0 failed/0 skipped, 64 diagnostic + 128 workspace captures PASS/0 binding errors, 20 gated cycles + 2 late echoes PASS; each removed-handler negative control intentionally FAIL exit 1. Initial obsolete SDK path failed selection before compile; corrected to existing dotnet10 tool, no installation/global.json change. Planning/schema/formats/568 links PASS, 12 tooling PASS, whitespace PASS; final metadata gate repeated before commit.
+- Live-network tests: NOT RUN; fake readers/probes/routes/browser only, isolated storage. No ordinary product startup, network settings/probes/listeners/UAC/VM/product install or external publication.
+- Known bugs, risk and workarounds: DOC-R01 resolved locally as a harness defect; manual/native/physical packet cancellation remains unverified, in-flight echoes may finish cooperatively. Historical UX-R01/P05-R01/OS/phase limits unchanged. Negative copies/results retained under ignored TestResults/DocR01; working-tree product files untouched.
+- Decisions requiring user approval: none for completed local investigation/test correction; no new publication/native permission inferred.
+- Remaining tasks in active phase: owner/native acceptance unchanged; no phase task checkbox completed.
+- Next smallest safe action: owner manual hide/reopen check against the current Preview; no application reinstall required by this harness-only correction.
+- Can next session proceed without clarification: safe local review yes; native execution/phase/publication/new feature boundaries remain.

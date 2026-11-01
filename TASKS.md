@@ -1,5 +1,9 @@
 # Traceable task backlog
 
+## Diagnostic hide smoke investigation — 2026-11-01
+
+- [x] **DOC-R01** — Reproduce and resolve intermittent diagnostic hide/cancellation smoke failure. **AC:** Causal ordering evidence, deterministic main/separate-window cancellation checks, late-echo completion/no restart, negative controls with each actual handler removed, relevant regression results. **State:** VERIFIED — test synchronization defect; no product change. [Review and limits](docs/testing/DIAGNOSTIC_HIDE_REVIEW.md). Historical OPEN mentions below and in release evidence are superseded for this issue only. Owner performs manual acceptance; Phase 07 remains AWAITING_REVIEW, no live-network/publication/Phase 08 action.
+
 ## README product documentation — 2026-11-01
 
 - [x] **DOC-02** — Rewrite the README as a product entry point with an actionable user guide. **AC:** clear AV use case, download choice/quick start, factual feature matrix, retained seven-image gallery, discoverable documentation/contribution links, existing compatibility/security/recovery/Preview limits retained. **State:** VERIFIED — local Markdig/browser preview checked at 1280x1000 and 390x844, images/anchors/tables checked; planning/schema/links and 12 tooling tests PASS. [User guide](docs/USER_GUIDE.md). Documentation only; source/release publication and Phase 07 acceptance unchanged.

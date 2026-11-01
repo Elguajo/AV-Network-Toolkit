@@ -90,7 +90,7 @@ Source binding and Windows route prediction do not prove physical packet egress.
 
 Confirmed system filters and idle built-in WAN/debug entries are hidden from the main/tray adapter list by default. **Show all adapters** reveals the existing underlying list; it does not disable, remove or configure a Windows interface. Working virtual, disconnected and unknown adapters remain available. If a selected adapter disappears or is hidden, choose its replacement explicitly.
 
-The diagnostic hide/cancellation smoke check has an open intermittent failure, DOC-R01; root cause and product impact remain unverified. Passing fixture runs do not close it. See [known release limitations](releases/v1.1.3.md#known-limitations) before relying on continuous diagnostics.
+DOC-R01 was traced to timing in the automated smoke check: it sampled the send count before WPF finished hiding the window. The synchronized check now verifies cancellation, completion and no restart on Show for both windows; application code is unchanged. [Investigation and limits](testing/DIAGNOSTIC_HIDE_REVIEW.md). Real-network/manual acceptance remains pending; see the [release limitations](releases/v1.1.3.md#known-limitations).
 
 ## Data and backups
 

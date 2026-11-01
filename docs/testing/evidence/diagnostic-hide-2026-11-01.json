@@ -1,0 +1,47 @@
+{
+  "date": "2026-11-01",
+  "timezone": "Asia/Tashkent",
+  "baseCommit": "386aef8f3a9d5d9345213a3a7c6eca77ca74a2ed",
+  "task": "DOC-R01",
+  "disposition": "RESOLVED_TEST_SYNCHRONIZATION_DEFECT",
+  "productSourceChanged": false,
+  "nativeTests": "NOT RUN",
+  "manualAcceptance": "OWNER_PENDING",
+  "observedTrace": {
+    "beforeHide": 2,
+    "atHidden": 3,
+    "afterHide": 3,
+    "afterRun": 3,
+    "canStop": false
+  },
+  "unit": {
+    "passed": 723,
+    "failed": 0,
+    "skipped": 0
+  },
+  "focused": {
+    "hideShowCycles": 20,
+    "inFlightEchoCases": 2,
+    "result": "PASS"
+  },
+  "wpf": {
+    "diagnosticCaptures": 64,
+    "workspaceCaptures": 128,
+    "bindingErrors": 0
+  },
+  "negativeControls": {
+    "separateHandlerRemoved": "EXPECTED_FAIL_EXIT_1",
+    "mainHandlerRemoved": "EXPECTED_FAIL_EXIT_1"
+  },
+  "sha256": {
+    "scripts/ProjectUiSmoke/DiagnosticsSmoke.cs": "3f5415b4f92fc1ddb36cc88e84c4f5d763a6d0487210de447dc130ac0cf400e0",
+    "scripts/ProjectUiSmoke/Program.cs": "d5abd8f644ca1c176c1e07ef2200617daaf1414301df519ef39d72c931dce046",
+    "TestResults/DocR01/hide-trace.log": "9795e228053c6ddfcf1fe8b98b8c4f591a75d93aaa15c7db9e40d85fdd6a85e8",
+    "TestResults/DocR01/focused-final.log": "2b80ef737d864edd3325b666c7e34f1cff63b2b4f5fef6708b1445c7ce9209cf",
+    "TestResults/DocR01/phase07.log": "744ff4c9afd405b61fe0239204e0a06ebefad41ce3aff5340ae36ba2df4e3fc0",
+    "TestResults/DocR01/workspace.log": "d1eb09310a4d812adea7dc5b0a726bb9d3d2c663a4d1d4ab39b47739009297ab",
+    "TestResults/DocR01/negative-separate.log": "2b00092875765da4721554148074659ec456eafb5fe64a3328f09047987f37da",
+    "TestResults/DocR01/negative-main.log": "c2444012e400b0d2c7e691061e97bf2ea8653f37ce8021cd741a05cc17336148",
+    "TestResults/DocR01/Unit/doc-r01.trx": "9d72cc6da939be08fbc78a5f19569c1c12aea4d782ec30cd563933ad5cb7a460"
+  }
+}
