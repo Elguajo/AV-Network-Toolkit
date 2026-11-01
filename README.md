@@ -2,7 +2,7 @@
 
 <div align="center">
   <img src="app/Assets/logo.png" width="160" alt="AV Network Toolkit cyan and blue ribbon logo">
-  <br>
+  <br><br>
   <a href="https://github.com/Elguajo/AV-Network-Toolkit/actions/workflows/build.yml">
     <img src="https://github.com/Elguajo/AV-Network-Toolkit/actions/workflows/build.yml/badge.svg" alt="Build">
   </a>
