@@ -1,6 +1,7 @@
 using System;
 using System.Windows;
 using System.Windows.Shapes;
+using NetworkProfileManager.Helpers;
 using NetworkProfileManager.ViewModels;
 using Wpf.Ui.Controls;
 using SWC = System.Windows.Controls;
@@ -11,11 +12,25 @@ namespace NetworkProfileManager.Views
     {
         public Action? OnBeforeClose { get; set; }
         private bool _isClosing;
+        private readonly System.Drawing.Point _anchor;
+        private readonly System.Drawing.Rectangle _workArea;
 
-        public TrayPopupWindow()
+        public TrayPopupWindow() : this(System.Windows.Forms.Cursor.Position) { }
+
+        internal TrayPopupWindow(System.Drawing.Point anchor)
         {
+            _anchor = anchor;
+            _workArea = System.Windows.Forms.Screen.FromPoint(anchor).WorkingArea;
             InitializeComponent();
-            ContentRendered += (s, e) => PositionNearTaskbar();
+            SourceInitialized += (s, e) =>
+            {
+                var transform = PresentationSource.FromVisual(this)!.CompositionTarget!.TransformFromDevice;
+                var point = transform.Transform(new Point(_anchor.X, _anchor.Y));
+                Left = point.X;
+                Top = point.Y;
+                MaxHeight = transform.Transform(new Vector(0, _workArea.Height)).Y * 0.80;
+            };
+            ContentRendered += (s, e) => PositionNearIcon();
             Deactivated += (s, e) => ClosePopup();
         }
 
@@ -168,14 +183,17 @@ namespace NetworkProfileManager.Views
         }
 
         // ── Positioning ──────────────────────────────────────────────
-        private void PositionNearTaskbar()
+        private void PositionNearIcon()
         {
-            var area = SystemParameters.WorkArea;
-
+            // Cursor/Screen use screen pixels; WPF window coordinates use DIPs.
+            var transform = PresentationSource.FromVisual(this)!.CompositionTarget!.TransformFromDevice;
+            var anchor = transform.Transform(new Point(_anchor.X, _anchor.Y));
+            var area = Rect.Transform(new Rect(_workArea.X, _workArea.Y, _workArea.Width, _workArea.Height), transform);
             MaxHeight = area.Height * 0.80;
-
-            Left = area.Right - ActualWidth - 4;
-            Top = area.Bottom - ActualHeight + 6;
+            UpdateLayout();
+            var position = TrayPopupPlacement.Calculate(anchor, area, new Size(ActualWidth, ActualHeight));
+            Left = position.X;
+            Top = position.Y;
         }
     }
 }

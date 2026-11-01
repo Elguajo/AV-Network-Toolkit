@@ -1,5 +1,12 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Tray menu placement — UI-TRAY-01, 2026-11-01
+
+- Fork / branch / inspected source base: https://github.com/Elguajo/AV-Network-Toolkit / main / `f7720e9`. Scoped fix commit follows; resolve through `git log -1 --format=%H -- app/Helpers/TrayPopupPlacement.cs`.
+- Completed: menu opens above the clicked tray-icon location instead of the primary screen corner, with selected-monitor bounds and pixel-to-DIP conversion. [Cause, changes, verification and limits](docs/testing/TRAY_PLACEMENT_REVIEW.md). Exit behavior and existing styling are preserved.
+- Tests last executed: 9 focused unit PASS; 6 Light/Dark WPF captures, actual HWND placement/action callbacks PASS, 0 binding errors; 723 full unit PASS on the combined working tree including concurrent adapter filtering. No network actions. Documentation validation recorded in the handoff below.
+- In progress / blockers / next action: no local UI-TRAY-01 implementation remains; check the rebuilt menu from the actual Windows tray. Physical mixed-DPI/Explorer/auto-hidden taskbar acceptance UNVERIFIED. Concurrent adapter/navigation/release work remains independent; no installed-binary update, push, release or Phase 08 authorization. Phase 07 AWAITING_REVIEW.
+
 ## Left navigation research — UI-NAV-01, 2026-11-01
 
 - Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `b8120d3`. Source-backed [research/component contract](docs/spec/LEFT_NAVIGATION_RESEARCH.md) supplements the [brief](docs/spec/LEFT_NAVIGATION_BRIEF.md); resolve this documentation commit through git log for the research path.
@@ -1055,3 +1062,17 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks in active phase: unchanged; no phase completion.
 - Next smallest safe action: use linked brief and research together for future authorized UI implementation.
 - Can next session proceed without clarification: document review yes; UI/native/network/publication only under applicable explicit authorization.
+
+## Session handoff — UI-TRAY-01, 2026-11-01
+
+- Date/environment: 2026-11-01 Asia/Tashkent, Windows 11 build 26100, private SDK 10.0.403.
+- Fork/branch/source base: https://github.com/Elguajo/AV-Network-Toolkit / main / f7720e93d35e20722bf6d6d7d37cda106266d2ae; resolve fix SHA via git log for app/Helpers/TrayPopupPlacement.cs.
+- Current phase/task: Phase 07 AWAITING_REVIEW, UI-TRAY-01 locally verified.
+- Actually completed: tray popup anchored above clicked icon location, monitor/DIP conversion and edge fallback; existing menu style/actions retained. Concurrent adapter/navigation/release edits preserved.
+- Files changed: app/Helpers/TrayPopupPlacement.cs; position-only hunks in app/Views/TrayPopupWindow.xaml.cs; test/TrayPopupPlacementTests.cs; scripts/ProjectUiSmoke/TrayPlacementSmoke.cs and tray-only mode in Program.cs; docs/testing/TRAY_PLACEMENT_REVIEW.md; scoped TASKS/STATUS/TEST_MATRIX entries.
+- Tests: 9 focused unit PASS; 6 WPF Light/Dark captures/native HWND position/action checks PASS, zero binding errors; 723 full combined-tree unit PASS/0 failed/skipped. Private Python plan/schema/formats/506 links PASS, 12 tooling PASS, whitespace PASS. Exact commands and limits in the review.
+- Live-network tests: NOT RUN / not authorized. No App startup/user-data/OS network activity in the focused harness.
+- Risks/workaround: actual Explorer overflow clicks, physical mixed-DPI monitors and auto-hidden/relocated taskbars UNVERIFIED. Installed app/release unchanged. Prior unrelated acceptance risks remain.
+- Decisions requiring approval: none for this bounded local fix; no push/release/next phase implied.
+- Remaining phase tasks: existing owner/native acceptance. Next smallest safe action: check the rebuilt menu above the actual tray icon.
+- Next session may inspect/recheck without clarification; no broader execution authorization inferred.

@@ -1,5 +1,9 @@
 # Testing strategy and acceptance matrix
 
+## Tray menu placement — UI-TRAY-01, 2026-11-01
+
+[Review and exact commands](TRAY_PLACEMENT_REVIEW.md): 9 focused placement tests PASS, 6 Light/Dark WPF captures PASS/0 binding errors with actual HWND position and all three action callbacks checked. Full combined working-tree unit suite 723 PASS/0 failed/skipped, including concurrent adapter filtering. Physical mixed-DPI/Explorer/native taskbar acceptance UNVERIFIED; no networking or installed-app changes.
+
 ## A26 remediation — ADR-047, 2026-11-01
 
 [Review](AUDIT_FIXES_REVIEW.md): .NET 10 Release build 0 warnings/errors; final full xUnit 687 PASS/0 failed/0 skipped; focused second run 92 PASS; 8 focused save-error/recovery-page + 128 workspace + 64 diagnostics WPF captures, 0 binding errors. Storage conflict/failed-write/corruption, failed migration retry, local typed consent/recovery/exit/final-persistence and shared DNS matching tested with temporary directories/fake OS boundaries. Old executor allowance tests retired with the executor; rejection controls replace them. Package and final planning evidence in the review/status. Native UAC/IPC/NIC/recovery/clean-client and new hosted install/runtime checks NOT RUN. Earlier red runs and DOC-R01/UX-R01/P05-R01 remain recorded; later green does not resolve their root causes.

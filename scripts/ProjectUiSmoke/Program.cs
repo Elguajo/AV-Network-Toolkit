@@ -41,6 +41,13 @@ internal static partial class Program
         ApplyRenderTheme("Dark");
         try
         {
+            if (args.Contains("--tray-placement"))
+            {
+                CheckTrayPlacement(output);
+                if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
+                Console.WriteLine("PASS: tray menu anchored to screen click, edges clamped, 6 Light/Dark captures, action callbacks, 0 binding errors.");
+                return 0;
+            }
             if (args.Contains("--themes"))
             {
                 RenderWindowThemes(output);
