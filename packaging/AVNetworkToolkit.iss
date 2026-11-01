@@ -46,17 +46,18 @@ Name: "{group}\AV Network Toolkit"; Filename: "{app}\NetworkProfileManager.exe";
 function AppFilesAvailable: Boolean;
 var
   Executable: String;
-  Handle: Integer;
+  Stream: TFileStream;
 begin
   Result := True;
   Executable := ExpandConstant('{app}\NetworkProfileManager.exe');
   if FileExists(Executable) then
   begin
-    Handle := FileOpen(Executable, fmOpenReadWrite or fmShareExclusive);
-    if Handle = -1 then
-      Result := False
-    else
-      FileClose(Handle);
+    try
+      Stream := TFileStream.Create(Executable, fmOpenReadWrite or fmShareExclusive);
+      Stream.Free;
+    except
+      Result := False;
+    end;
   end;
 end;
 

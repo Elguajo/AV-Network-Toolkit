@@ -31,6 +31,29 @@ function Invoke-Checked([string]$Executable, [string[]]$Arguments, [bool]$MustSu
         }
     } finally { $process.Dispose() }
 }
+function Test-OrdinaryStartup([string]$Executable) {
+    # Disposable runner only: normal startup reads local adapter facts, but no UI command is invoked.
+    $start = [Diagnostics.ProcessStartInfo]::new($Executable)
+    $start.UseShellExecute = $false; $start.WindowStyle = [Diagnostics.ProcessWindowStyle]::Hidden
+    $process = [Diagnostics.Process]::Start($start)
+    try {
+        if (-not $process.WaitForInputIdle(30000)) { throw 'Ordinary startup did not reach an idle UI' }
+        $deadline = [DateTime]::UtcNow.AddSeconds(30)
+        do {
+            if ($process.HasExited) { throw "Ordinary startup exited: $($process.ExitCode)" }
+            $process.Refresh()
+            if ($process.MainWindowHandle -ne [IntPtr]::Zero) { break }
+            Start-Sleep -Milliseconds 200
+        } while ([DateTime]::UtcNow -lt $deadline)
+        if ($process.MainWindowHandle -eq [IntPtr]::Zero -or $process.MainWindowTitle -notlike '*AV Network Toolkit*') {
+            throw 'Ordinary startup did not expose the expected main window'
+        }
+    } finally {
+        # Never drive Apply/Run/Open or synthesize clicks. Terminate only this smoke process.
+        if (-not $process.HasExited) { $process.Kill($true); $null = $process.WaitForExit(10000) }
+        $process.Dispose()
+    }
+}
 $control = Join-Path $results 'control'
 & dotnet publish (Join-Path $PSScriptRoot 'RuntimeControl/RuntimeControl.csproj') -c Release -r win-x64 --self-contained false -o $control
 if ($LASTEXITCODE -ne 0) { throw 'Runtime negative-control build failed' }
@@ -72,6 +95,7 @@ try {
     $portable = Join-Path $results 'portable'
     Expand-Archive -LiteralPath $zip -DestinationPath $portable
     & (Join-Path $PSScriptRoot 'test_package_self_test.ps1') -Executable (Join-Path $portable 'NetworkProfileManager.exe') -ResultsDirectory (Join-Path $results 'portable-tests')
+    Test-OrdinaryStartup (Join-Path $portable 'NetworkProfileManager.exe')
     $setup = Join-Path $packages "AVNetworkToolkit-$($manifest.Version)-win-x64-setup.exe"
     $setupArguments = @('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART','/SP-',"/DIR=$installPath")
     Invoke-Checked $setup $setupArguments
@@ -81,6 +105,7 @@ try {
             (Get-FileHash -LiteralPath (Join-Path $installPath $payload.Name) -Algorithm SHA256).Hash) { throw 'Installed payload differs from ZIP' }
     }
     & (Join-Path $PSScriptRoot 'test_package_self_test.ps1') -Executable $installed -ResultsDirectory (Join-Path $results 'installed-tests')
+    Test-OrdinaryStartup $installed
     $locked = [IO.File]::Open($installed, [IO.FileMode]::Open, [IO.FileAccess]::Read, [IO.FileShare]::Read)
     try {
         $null = Invoke-Checked $setup $setupArguments $false
@@ -99,7 +124,8 @@ try {
         Portable = 'WPF/JSON self-test passed'; Installed = 'identical payload and WPF/JSON self-test passed'
         SameVersionReinstall = 'passed'; UninstallRetainsData = 'passed'
         LockedPayloadUpdateAndUninstall = 'rejected as expected'
-        OrdinaryStartup = 'NOT RUN'; CrossVersionUpgrade = 'NOT RUN'; NativeNetwork = 'NOT RUN'
+        OrdinaryStartup = 'both main window handles/titles observed; smoke processes terminated without invoking commands'
+        CrossVersionUpgrade = 'NOT RUN'; NativeNetwork = 'NOT RUN'
         Environment = 'disposable hosted Windows, global .NET discovery roots temporarily unavailable; not a pristine client-OS claim'
     } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $results 'result.json') -Encoding utf8
 } finally {
