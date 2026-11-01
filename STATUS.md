@@ -1,5 +1,12 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Tunnel notification correction — NOTIFY-01, 2026-11-01
+
+- Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `0507357`. Scoped commit follows; resolve using `git log -1 --format=%H -- docs/testing/TUNNEL_NOTIFICATION_REVIEW.md`.
+- Completed: monitor excludes NetworkInterfaceType.Tunnel before IP/status projection, matching the existing profile-adapter list exclusion. No name-based blacklist, timer suppression, OS/network setting, UI, persistence or dependency change. [Review](docs/testing/TUNNEL_NOTIFICATION_REVIEW.md).
+- Tests last executed: Release solution build 0 warnings/errors; 8 focused and 744 full unit PASS/0 failed/skipped. Independent exported-source negative control with only the tunnel exclusion removed: expected 3 FAIL/5 PASS, duplicate Teredo/renamed-tunnel messages reproduced. Final documentation checks in handoff below.
+- In progress / blockers / next action: no local NOTIFY-01 implementation remains; use a newly packaged build when separately requested. Installed/running EXE and published 1.1.5 remain unchanged. Actual host Teredo transition cause/native tray delivery NOT RUN; Phase 07 AWAITING_REVIEW, DATA-01/Phase 08 unchanged. No native network/UAC/install/push/release action.
+
 ## Published release-note refinement — DOC-03, 2026-11-01
 
 - Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `15b5453`. Exact binary/tag source remains `2b78f67cb80320c975ca18ad02677f7d0913c732`. Scoped notes commit follows; resolve with `git log -1 --format=%H -- docs/releases/v1.1.5.md`.
@@ -1350,3 +1357,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks in active phase: existing owner/native acceptance unchanged.
 - Next smallest safe action: read the updated published 1.1.5 release notes. No automatic next phase.
 - Can next session proceed without clarification: safe editorial work yes; product/native/phase work retains its existing gates.
+
+### Session handoff — NOTIFY-01, 2026-11-01 (Asia/Tashkent)
+
+- Date and environment: Windows/PowerShell, private SDK 10.0.403, injected interface/notification boundaries.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / inspected 0507357; scoped commit resolved via `git log -1 --format=%H -- docs/testing/TUNNEL_NOTIFICATION_REVIEW.md`.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; NOTIFY-01 VERIFIED_LOCAL.
+- Actually completed: Tunnel exclusion before monitor projection; original Ethernet/Wi-Fi/ordinary virtual notifications retained; eight regression cases and independent mutation negative control.
+- Files changed: app/Services/NetworkMonitorService.cs, test/NetworkMonitorServiceTests.cs, docs/testing/TUNNEL_NOTIFICATION_REVIEW.md, TASKS.md, STATUS.md, decisions/DECISION_LOG.md.
+- Test commands and results: exact commands in review; Release solution build PASS/0 warnings/errors, 8 focused/744 full unit PASS/0 failed/skipped; exported-source negative control expected exit 1/3 FAIL/5 PASS reproduces unwanted tunnel messages. Private Python `-B scripts/validate_plan.py` PASS/666 links, `-B scripts/test_validate_plan.py` PASS/12, git diff --check PASS (line-ending notices only). Initial fixture compile errors corrected, no assertion removed. UI rendering NOT RUN/service-only change.
+- Live-network tests: NOT RUN / not authorized; no host interface enumeration/events, NotifyIcon/UI, traffic/NIC/IPv6/Teredo setting, App startup, UAC/install/push/release action.
+- Known risks and workarounds: actual host Teredo cycling cause/native notification delivery UNVERIFIED. Existing broader monitor concurrency/error/lifecycle behavior unchanged. Installed/running app and published 1.1.5 do not yet contain this fix.
+- Decisions requiring approval: none for completed local fix; new publication/native testing remains separately gated.
+- Remaining active-phase tasks: owner/native acceptance unchanged; DATA-01/Phase 08 not started.
+- Next smallest safe action: include the verified fix in the next separately requested package; restarting the old released EXE does not incorporate source changes.
+- Can next session proceed without clarification: only within already authorized scope.

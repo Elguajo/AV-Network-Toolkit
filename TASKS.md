@@ -1,5 +1,9 @@
 # Traceable task backlog
 
+## Tunnel notification correction — 2026-11-01
+
+- [x] **NOTIFY-01** — Exclude tunnel lifecycle changes from tray connection notifications. **AC:** repeated Teredo/renamed-tunnel transitions stay silent; loopback exclusion and Ethernet/Wi-Fi/ordinary virtual up/down/IP notifications remain; fake-only regression reproduction and validation. **State:** VERIFIED_LOCAL — 8 focused / 744 full unit PASS, Release build 0 warnings/errors; removing only the tunnel exclusion reproduces 3 failures. [Evidence](docs/testing/TUNNEL_NOTIFICATION_REVIEW.md). Published 1.1.5 unchanged; native/phase gates remain.
+
 ## Release-note editorial follow-up — 2026-11-01
 
 - [x] **DOC-03** — Present the latest published release as reader-oriented release notes. **AC:** outcome-led highlights, accurate changes relative to prior published version, package links/update instructions, preserved compatibility/data/recovery/Preview limits and observed verification; published body matches tracked notes without changing source/tag/assets. **State:** VERIFIED — [1.1.5 notes](docs/releases/v1.1.5.md) updated on GitHub, all four assets and exact tag source unchanged, local wide/narrow preview and documentation gates PASS. Earlier release notes and application behavior unchanged.

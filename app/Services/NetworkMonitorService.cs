@@ -13,7 +13,8 @@ namespace NetworkProfileManager.Services
     /// </summary>
     public sealed class NetworkMonitorService : IDisposable
     {
-        private readonly NotifyIcon _trayIcon;
+        private readonly Func<IEnumerable<NetworkInterface>> _readInterfaces;
+        private readonly Action<string, string, ToolTipIcon> _showNotification;
         private readonly object _gate = new();
         private Dictionary<string, AdapterSnapshot> _snapshot;
         private bool _disposed;
@@ -25,13 +26,24 @@ namespace NetworkProfileManager.Services
 
         /// <param name="trayIcon">The tray icon used to show balloon tips.</param>
         public NetworkMonitorService(NotifyIcon trayIcon)
+            : this(NetworkInterface.GetAllNetworkInterfaces,
+                   (title, message, icon) => trayIcon.ShowBalloonTip(4000, title, message, icon))
         {
-            _trayIcon = trayIcon;
-            _snapshot = TakeSnapshot();
             NetworkChange.NetworkAddressChanged += OnAddressChanged;
         }
 
-        private void OnAddressChanged(object? sender, EventArgs e)
+        // Tests supply interfaces/notification capture without native enumeration or tray UI.
+        internal NetworkMonitorService(Func<IEnumerable<NetworkInterface>> readInterfaces,
+                                       Action<string, string, ToolTipIcon> showNotification)
+        {
+            _readInterfaces = readInterfaces;
+            _showNotification = showNotification;
+            _snapshot = TakeSnapshot();
+        }
+
+        private void OnAddressChanged(object? sender, EventArgs e) => CheckForChanges();
+
+        internal void CheckForChanges()
         {
             var current = TakeSnapshot();
 
@@ -75,14 +87,16 @@ namespace NetworkProfileManager.Services
             }
         }
 
-        private static Dictionary<string, AdapterSnapshot> TakeSnapshot()
+        private Dictionary<string, AdapterSnapshot> TakeSnapshot()
         {
             var dict = new Dictionary<string, AdapterSnapshot>(StringComparer.Ordinal);
             try
             {
-                foreach (var nic in NetworkInterface.GetAllNetworkInterfaces())
+                foreach (var nic in _readInterfaces())
                 {
                     if (nic.NetworkInterfaceType == NetworkInterfaceType.Loopback) continue;
+                    // Match the profile-adapter list: OS tunnel lifecycle is not a user connection.
+                    if (nic.NetworkInterfaceType == NetworkInterfaceType.Tunnel) continue;
 
                     var ip = nic.GetIPProperties()
                                 .UnicastAddresses
@@ -102,7 +116,7 @@ namespace NetworkProfileManager.Services
         {
             try
             {
-                _trayIcon.ShowBalloonTip(4000, title, message, icon);
+                _showNotification(title, message, icon);
             }
             catch { /* tray icon may have been disposed */ }
         }
