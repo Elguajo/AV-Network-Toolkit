@@ -1,5 +1,12 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Current publication — ADR-035, 2026-11-01
+
+- Fork / branch / exact preflight: https://github.com/Elguajo/AV-Network-Toolkit / main / `28edbf59b41c4b188d47880394e63e4c0652f397`, clean. Fresh origin/main `db143aba6e4405da57acf2a85f661f3b579c279d`, 0 remote-only / 2 local-only. Owner authorized commit/push of all current work; earlier no-push statements below are historical for this publication.
+- Completed / in progress: Phase 07 implementation `87d02ce` and evidence pin `28edbf5` are committed locally; authorization/outcome handoff and publication in progress. No phase accepted; Phase 07 AWAITING_REVIEW.
+- Tests last executed / risks: retain 624 PASS/0 failed/0 skipped, Release builds, 32 focused + 128 existing WPF captures/0 binding errors, 15 new fake OS-query fixtures and 11 existing fake observer fixtures. Runtime checks NOT RUN again for metadata-only publication. OPEN UX-R01/P05-R01 and native/manual limits remain release-blocking; CI UNVERIFIED.
+- Next action: validate planning/whitespace, commit authorization/handoff, ordinary push and compare local/remote main; record actual outcome. Then owner review and separately scoped JSON/native acceptance; no release or Phase 08.
+
 ## Phase 07 implementation — ADR-034, 2026-11-01
 
 - Fork / branch / exact bootstrap: https://github.com/Elguajo/AV-Network-Toolkit / main / `db143aba6e4405da57acf2a85f661f3b579c279d`, clean bootstrap. Implementation commit **`87d02ce7ba7eaaee18b45825270953081f4f69de`**, 32 paths, 1353 insertions/315 deletions. This metadata-only evidence pin follows; resolve its HEAD with `git log -1 --format=%H -- STATUS.md`. No branch/worktree/push.
@@ -619,3 +626,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks in active phase: owner/native acceptance and recorded limitations, no checkboxes closed.
 - Next smallest safe action: owner reviews the concrete Phase 07 diff/contract/captures; separately scope JSON investigation and isolated native acceptance. Proposed next phase is 08 with a written DHCP safety design before implementation.
 - Can next session proceed without clarification? Yes for already authorized Phase 07 review/verification within fake boundaries; no automatic Phase 08/live tests/push/release or unrelated JSON repair.
+
+## Session handoff — Phase 07 publication, 2026-11-01
+
+- Date and environment: 2026-11-01, Asia/Tashkent; Windows/PowerShell/git, existing Python tooling.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / preflight `28edbf59b41c4b188d47880394e63e4c0652f397`; fresh origin/main `db143aba6e4405da57acf2a85f661f3b579c279d`, ancestor, 0 remote-only / 2 local-only.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW, 07-T01–07-T04 EVIDENCE_RECORDED; no acceptance changes.
+- What was actually completed: verified clean local/remote ancestry and recorded owner's current commit/push authorization ADR-035; push outcome recorded after execution. No application/runtime change.
+- Files changed: STATUS.md and decisions/DECISION_LOG.md publication metadata only, plus any execution-outcome update to these records.
+- Test commands and results: planning/schema and 10 validator regressions, whitespace checks for metadata; actual outcomes reported after execution. Prior 624 unit PASS and UI/script/build evidence retained, runtime checks not repeated.
+- Live-network tests: NOT RUN / not authorized; no real NIC/probe/UAC/browser/DHCP activity.
+- Known bugs, risk and workarounds: OPEN UX-R01/P05-R01 unresolved; native/owner acceptance and release limits unchanged. CI outcome UNVERIFIED.
+- Decisions requiring user approval: Phase 07 acceptance, native isolated tests, JSON repair, release and Phase 08; current publication already authorized.
+- Remaining tasks in active phase: owner/native review; no phase task checkbox closed.
+- Next smallest safe action: finish ordinary push and independent SHA verification, then owner reviews Phase 07 evidence and separately scopes JSON/native work.
+- Can next session proceed without clarification? Yes for already authorized Phase 07 fake-boundary review/verification; no implicit new phase, live test or release.
