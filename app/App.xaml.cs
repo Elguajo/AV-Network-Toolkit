@@ -180,13 +180,19 @@ namespace NetworkProfileManager
                     WindowBackdropType.Mica,
                     updateAccent: true);
 
-            // WPF-UI re-tints the main window and the windows it owns. Windows
-            // opened from the tray have no owner, so refresh their Mica here.
+            RefreshWindowThemes();
+        }
+
+        internal static void RefreshWindowThemes()
+        {
+            // Update every window, including nested dialogs and tray-owned windows.
+            // WPF-UI's owner traversal updates native backdrops only one level deep
+            // and does not reset an owned window's previous opaque fallback brush.
             var theme = ApplicationThemeManager.GetAppTheme();
             ProfileToolbarAppearance.Apply(theme);
             foreach (Window w in Current.Windows)
             {
-                if (w is FluentWindow fw && w != Current.MainWindow && w.Owner == null)
+                if (w is FluentWindow fw)
                     WindowBackgroundManager.UpdateBackground(fw, theme, fw.WindowBackdropType);
             }
         }

@@ -38,9 +38,16 @@ internal static partial class Program
         { Source = new Uri("pack://application:,,,/NetworkProfileManager;component/Strings/En.xaml") });
         app.Resources.Add("BoolToVis", new NetworkProfileManager.Converters.BoolToVisibilityConverter());
         app.Resources.Add("AdapterTypeToSymbol", new NetworkProfileManager.Converters.AdapterTypeToSymbolConverter());
-        NetworkProfileManager.Helpers.ProfileToolbarAppearance.Apply(Wpf.Ui.Appearance.ApplicationTheme.Dark);
+        ApplyRenderTheme("Dark");
         try
         {
+            if (args.Contains("--themes"))
+            {
+                RenderWindowThemes(output);
+                if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
+                Console.WriteLine("PASS: window theme transitions, native backdrop/text agreement, 0 binding errors.");
+                return 0;
+            }
             if (args.Contains("--ux-before") || args.Contains("--ux-after"))
             {
                 RenderUxWalkthrough(output, args.Contains("--ux-before"));
@@ -59,8 +66,7 @@ internal static partial class Program
             {
                 foreach (var theme in new[] { "Dark", "Light" })
                 {
-                    app.Resources.MergedDictionaries[0] = new Wpf.Ui.Markup.ThemesDictionary
-                    { Theme = theme == "Dark" ? Wpf.Ui.Appearance.ApplicationTheme.Dark : Wpf.Ui.Appearance.ApplicationTheme.Light };
+                    ApplyRenderTheme(theme);
                     foreach (var minimum in new[] { false, true }) RenderDiagnostics(output, theme, minimum);
                 }
                 if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
@@ -73,9 +79,7 @@ internal static partial class Program
             })
             {
                 var dictionaries = app.Resources.MergedDictionaries;
-                dictionaries[0] = new Wpf.Ui.Markup.ThemesDictionary
-                { Theme = theme == "Dark" ? Wpf.Ui.Appearance.ApplicationTheme.Dark : Wpf.Ui.Appearance.ApplicationTheme.Light };
-                NetworkProfileManager.Helpers.ProfileToolbarAppearance.Apply(theme == "Dark" ? Wpf.Ui.Appearance.ApplicationTheme.Dark : Wpf.Ui.Appearance.ApplicationTheme.Light);
+                ApplyRenderTheme(theme);
                 dictionaries[dictionaries.Count - 1] = new ResourceDictionary
                 { Source = new Uri($"pack://application:,,,/NetworkProfileManager;component/Strings/{language}.xaml") };
                 var dialogs = new FakeDialogs();

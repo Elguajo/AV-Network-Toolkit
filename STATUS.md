@@ -1,5 +1,13 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Window theme repair — UI-THEME-01, 2026-11-01
+
+- Fork / branch / source base: https://github.com/Elguajo/AV-Network-Toolkit / main / `e35971ad5f80721064e082cfb97de646b5672b30`. Resolve scoped fix commit with `git log -1 --format=%H -- scripts/ProjectUiSmoke/WindowThemeSmoke.cs`. Concurrent audit remediation/runtime migration preserved; untracked .serena/ excluded.
+- Completed: refresh every FluentWindow, including nested owned dialogs and stale opaque fallbacks; render theme changes now synchronize WPF-UI's native cache. [Cause, red/green evidence, commands and retained Light/Dark captures](docs/testing/WINDOW_THEME_REVIEW.md). No layout/network/data/UAC/dependency change in this follow-up.
+- Tests last executed: Release build PASS/no warnings or errors observed, **687 unit PASS/0 failed/0 skipped**, **8 focused + 128 existing + 8 audit WPF captures PASS/0 binding errors**. Focused checks read real Windows 11 HWND theme attributes and verify both theme directions/new windows. Old ownership predicate independently FAILS the new regression. Diagnostics `--phase07` FAIL after 9 captures at DiagnosticsSmoke.cs:201 (`Hidden diagnostic window continued sending`), existing DOC-R01; not suppressed or fixed here.
+- In progress / blockers / next action: no UI-THEME-01 implementation work remains; review the local fix/captures. DOC-R01 and prior owner/native acceptance remain open. System-event/high-contrast/other-Windows/manual full-app acceptance UNVERIFIED; live networking NOT RUN. Phase 07 remains AWAITING_REVIEW; no push/release/Phase 08.
+- Final documentation checks: planning/schema/formats/458 local links PASS, 12 tooling PASS, whitespace PASS.
+
 ## Audit remediation — A26-01–08 / ADR-047, 2026-11-01
 
 - Fork / branch / implementation base: https://github.com/Elguajo/AV-Network-Toolkit / main / `bfc978c6305a2bd5d2d09424d29d7fad4e0a4b1c`. Concurrent documentation-only `684a0fe` preserved. Scoped implementation commit follows; resolve with `git log -1 --format=%H -- app/Services/LocalProfileApplyService.cs`. Unrelated untracked `.serena/` preserved/excluded.
@@ -965,3 +973,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks in active phase: unchanged owner/native acceptance; no phase checkbox completed.
 - Next smallest safe action: view the README gallery; separately investigate DOC-R01 if authorized. No automatic phase advancement or publication.
 - Can next session proceed without clarification: safe read-only review yes; new publication, native actions and material repairs retain their existing gates.
+
+## Session handoff — UI-THEME-01, 2026-11-01 (Asia/Tashkent)
+
+- Date and environment: Windows 11 build 26100, SDK 10.0.403/current .NET 10 target; safe isolated WPF windows/fake service boundaries.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / implementation base e35971ad5f80721064e082cfb97de646b5672b30; scoped commit follows, resolve via git log -1 --format=%H -- scripts/ProjectUiSmoke/WindowThemeSmoke.cs.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; UI-THEME-01 locally verified; original phase tasks unchanged.
+- What was actually completed: fixed skipped owned/nested window background refresh and render-harness native/color cache disagreement; native HWND checks, causal red control and Light/Dark visual evidence retained in docs/testing/WINDOW_THEME_REVIEW.md.
+- Files changed: app/App.xaml.cs; scripts/ProjectUiSmoke/{Program.cs,AuditFixesSmoke.cs,WindowThemeSmoke.cs}; TASKS.md; STATUS.md; docs/testing/WINDOW_THEME_REVIEW.md; two evidence PNGs. Preserved concurrent audit source/runtime changes and .serena/.
+- Test commands and results: exact commands in review; Release build PASS/no warnings/errors observed; solution tests 687 PASS/0 failed/0 skipped; --themes 8 captures PASS/native attributes agree/0 binding errors; standard UI 128 captures PASS; --audit-fixes 8 captures PASS. Isolated old-predicate control FAILS stale Settings background as expected. --phase07 FAIL after 9 captures, existing DiagnosticsSmoke.cs:201 hidden-window cancellation assertion. Final plan/tooling/whitespace checks recorded with commit report.
+- Live-network tests: NOT RUN / not authorized. No NIC, probe, receiver, UAC, browser/device traffic, install or VM change.
+- Known bugs, risk and workarounds: DOC-R01 remains OPEN. Manual Windows theme events/high contrast/other builds/full installed-app scenario UNVERIFIED; PNGs composite Mica while HWND attributes are independently checked. Installed/released binaries unchanged.
+- Decisions requiring user approval: none for this local bounded fix; future push/release/native actions retain existing gates.
+- Remaining tasks in active phase: previous owner/native acceptance and unrelated known issues; no phase completion.
+- Next smallest safe action: review this scoped commit and readable Light/Dark captures; no automatic publication or phase advancement.
+- Can next session proceed without clarification: safe local review yes; publication/native actions require their existing authorization.

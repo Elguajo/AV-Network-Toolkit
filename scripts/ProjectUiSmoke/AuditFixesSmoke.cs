@@ -13,8 +13,7 @@ internal static partial class Program
         foreach (var theme in new[] { "Dark", "Light" })
         foreach (var minimum in new[] { false, true })
         {
-            Application.Current.Resources.MergedDictionaries[0] = new Wpf.Ui.Markup.ThemesDictionary
-            { Theme = theme == "Dark" ? Wpf.Ui.Appearance.ApplicationTheme.Dark : Wpf.Ui.Appearance.ApplicationTheme.Light };
+            ApplyRenderTheme(theme);
             var suffix = $"{theme}-{(minimum ? "minimum" : "normal")}";
             var dialog = new AddProfileDialog(new IpProfile { Name = "Draft retained after save failure", IsDhcp = true })
             { Width = minimum ? 380 : 440, Height = minimum ? 400 : 560, Commit = _ => false };

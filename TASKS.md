@@ -1,5 +1,9 @@
 # Traceable task backlog
 
+## Window appearance follow-up — 2026-11-01
+
+- [x] **UI-THEME-01** — Fix light controls/text on a dark window background. **AC:** Existing/new and nested windows agree with Light/Dark, opaque fallback resets, native HWND agreement is checked separately from composited captures. **State:** VERIFIED locally — causal red control fails with the old ownership filter; fixed transitions PASS, 8 focused/128 existing/8 audit captures PASS, 687 unit PASS. [Evidence and limits](docs/testing/WINDOW_THEME_REVIEW.md). DOC-R01 diagnostics hide/cancellation still FAIL; no phase/native acceptance or published binary update.
+
 ## Audit remediation — ADR-047, 2026-11-01
 
 Owner requested “Исправь все что нашел” and delegated the complex-state design choice. [Contract](docs/spec/AUDIT_FIXES_CONTRACT.md), [review](docs/testing/AUDIT_FIXES_REVIEW.md). A26-01–08 are LOCALLY_VERIFIED: atomic preservation/backup/conflict handling, independent paged recovery, typed local Apply/Revert with DNS snapshots, retired generic worker, failed-save draft retention, migration retry, shared tray DNS matching and .NET 10 migration. Release build 0 warnings/errors, 687 full unit PASS, 8 focused + 128 existing + 64 diagnostic WPF captures/0 binding errors. Package/final documentation evidence follows in STATUS. Native/owner acceptance pending; these are separate follow-up IDs, not completion of any of the 49 phase tasks. Phase 07 remains AWAITING_REVIEW, DATA-01/Phase 08 unchanged. Historical DOC-R01/UX-R01/P05-R01 remain open.
