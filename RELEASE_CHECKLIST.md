@@ -1,4 +1,4 @@
-# Release checklist — nothing approved yet
+# Release checklist — release approval pending
 
 - [ ] All required phase acceptance gates complete and signed off.
 - [ ] Base MIT license and attribution included.
@@ -11,7 +11,10 @@
 - [ ] mDNS tests done; DHCP isolated test done if DHCP feature included.
 - [ ] No secrets or real private device URLs in public release artifacts.
 - [ ] Signed/unsigned binary, SmartScreen and update policy documented.
-- [ ] Installer/portable artifact verified on clean Windows machine.
+- [ ] ADR-039: primary installer and additional portable ZIP produced from the same application version/code, each bundling the required .NET runtime.
+- [ ] Both artifacts verified on clean supported Windows without preinstalled .NET/SDK; no runtime-install prompt or external runtime download required.
+- [ ] Installer install/launch/upgrade/uninstall checked with existing user data preserved; shortcuts/integration and scope documented. Portable full-folder extraction/launch checked separately.
+- [ ] Both packages retain the same functional and UAC/network permission boundaries; no settings migration or USB-local storage claim without separate review.
 - [ ] Changelog, known limitations and checksum attached.
 - [ ] Release approved by user, not by autonomous agent.
 

@@ -35,6 +35,12 @@ P0: baseline audit, project JSON, Device Web Interfaces, Apply & Open, regressio
 P1: Link-Local, mDNS, adapter/Hyper-V diagnostics.
 P2: temporary DHCP server (higher operational risk).
 
+## Approved distribution formats — ADR-039, 2026-11-01
+
+Ship two packages of the same application version: an installer as the primary download for regular use, and a portable ZIP as the additional option for field work/quick launch. Both include the required .NET runtime; users must not separately install .NET/SDK to run the supported Windows package. Same features and deliberate UAC/network controls in both; installation does not grant additional application privileges.
+
+This approves delivery requirements, not completed artifacts or release publication. Installer technology/integration details remain implementation choices for the packaging follow-up. Preserve current LocalAppData identities/settings and explicit project files; ZIP distribution does not imply a new USB-local settings mode, automatic updater or storage migration. Verify both packages on clean Windows without preinstalled .NET before claiming readiness. Existing phase/native/release/publication gates remain.
+
 ## Non-goals / unapproved changes
 
 - No rewrite to Flutter/Electron/other toolkit.

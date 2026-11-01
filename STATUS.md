@@ -1,5 +1,12 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Current distribution decision — ADR-039, 2026-11-01
+
+- Fork / branch / exact bootstrap: https://github.com/Elguajo/AV-Network-Toolkit / main / `2ccf8cd668ab0e27ef98f93b4db87afaf6ec4c67`. Concurrent diagnostics source/test/UI changes and new contract/assets exist in the working tree; preserve and exclude them from this documentation-only decision commit.
+- Active / completed / in progress: Phase 07 AWAITING_REVIEW. Owner approved primary installer + additional portable ZIP, same application version and bundled .NET. Delivery requirements/checklist adopted; installer implementation and both clean-Windows checks remain pending. REL-01 review evidence retained, REL-02 native deferred/safe-only; REL-03/04 order unchanged.
+- Tests last executed / limits: this documentation decision passed offline plan/schema/formats/49-task/315-link validation, 12 tooling tests and whitespace checks. Retain 60 focused JSON PASS and 10 retained TRX hash matches (ADR-038); earlier 631 full/Release and 156 fake-boundary results are historical, not certification of concurrent diagnostics edits. No runtime/package/native checks performed here.
+- Risks / next action: establish actual artifact evidence before advertising no-runtime-install readiness. Preserve LocalAppData/project behavior and UAC boundaries. Next packaging work must follow existing deferred-task gates; no push, tag/release, phase acceptance, native test or Phase 08 implied by the delivery decision.
+
 ## Current safe review / entry-point retirement — ADR-038, 2026-11-01
 
 - Fork / branch / exact bootstrap SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / `457ace72d914883ceb2b8a2e59e46db31576ec05`. Only bootstrap working-tree change was CODEX_START.md deletion, now explicitly confirmed by its owner. This commit records that deletion; no branch/worktree/push.
@@ -720,3 +727,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks in active phase: owner/native acceptance unchanged; no phase/task checkbox accepted by this review.
 - Next smallest safe action: owner reviews local maintenance/JSON evidence; continue safe-only scope until the existing native/release gates are explicitly resolved.
 - Can next session proceed without clarification: safe review and scoped authorized fixes yes; native execution, deferred release steps and push no automatic permission.
+
+## Session handoff — 2026-11-01, approved delivery formats (ADR-039)
+
+- Date and environment: 2026-11-01 Asia/Tashkent; existing Windows/PowerShell/Python tools, no installation.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / bootstrap `2ccf8cd668ab0e27ef98f93b4db87afaf6ec4c67`; resolve adoption commit with `git log -1 --format=%H -- RELEASE_CHECKLIST.md`.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; delivery target added to REL-03, execution/deferred gates and all 49 phase IDs/checks unchanged.
+- What was actually completed: owner accepted primary installer + additional portable ZIP of one version with bundled .NET; recorded requirements and clean-Windows/no-runtime/install-update-uninstall/data-preservation acceptance checks. No package implemented or published by this adoption.
+- Files changed: PROJECT_CONTEXT.md, ROADMAP.md, TASKS.md, STATUS.md, RELEASE_CHECKLIST.md, decisions/DECISION_LOG.md. Concurrent diagnostics source/tests/UI/contract/assets remain outside this commit.
+- Test commands and results: existing `$py` path; `& $py -B scripts/validate_plan.py` PASS 9 phases/49 tasks/schema/formats/315 links; `& $py -B scripts/test_validate_plan.py` 12 PASS; `git diff --check` PASS. Runtime/build/installer/portable checks NOT RUN for documentation-only change; previous counts not recertified against concurrent edits.
+- Live-network tests: NOT RUN; safe-only restriction preserved, no actual App/NIC/UAC/browser/probe/mDNS/DHCP.
+- Known bugs, risk and workarounds: self-contained declaration is not artifact evidence; installer technology and clean-Windows verification pending. ZIP retains existing LocalAppData behavior; no full USB-local settings claim.
+- Decisions requiring user approval: later deferred execution/publication/native gates remain; selected delivery formats need no repeated confirmation.
+- Remaining tasks in active phase: owner/native acceptance unchanged, no phase complete.
+- Next smallest safe action: use ADR-039 for packaging once existing REL-03/04 gates are resolved; keep concurrent diagnostics work independently scoped.
+- Can next session proceed without clarification: decision maintenance yes; no automatic native tests, deferred-task start, push/tag/release or Phase 08 from this approval.

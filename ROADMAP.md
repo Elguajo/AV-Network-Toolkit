@@ -16,6 +16,8 @@
 
 ## Stable deliverables
 
+- ADR-039: primary installer and additional portable ZIP of the same version, both including .NET runtime. Clean-Windows/no-preinstalled-.NET verification required for each; packaging and release gates remain separate.
+
 Original-outcome review: [product fit and pending IDEA-01–03](docs/PRODUCT_FIT_REVIEW_RU.md). ADR-024 permits optional device passwords in project JSON; FR-13 implementation/versioning is pending. Standalone project Apply Profile and practical isolated-network transitions need separate follow-up scope. This records gaps/permission without changing the nine-phase order or expanding the concurrent Phase 06 implementation.
 
 - A versioned project JSON schema and migrator/reader in addition to current profile stores.
