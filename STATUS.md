@@ -1,5 +1,12 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Left navigation brief — UI-NAV-01, 2026-11-01
+
+- Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `8daf4d7eecc0610eabbc82092d2e7646bf33a6a9`. Scoped documentation commit follows; resolve with `git log -1 --format=%H -- docs/spec/LEFT_NAVIGATION_BRIEF.md`.
+- Completed: [durable agent brief](docs/spec/LEFT_NAVIGATION_BRIEF.md) for the requested icon rail, sidebar toggle and adjustable adapter sidebar width. Owner request is documentation only; implementation NOT STARTED. Proposed destinations are distinguished from approved owner intent.
+- In progress / blockers / next action: no brief-writing work remains; future UI implementation needs explicit delegation. Preserve current tools, selection/drafts and DESIGN.md. Phase 07 AWAITING_REVIEW and prior native/owner gates remain.
+- Validation for this documentation change is recorded in the session handoff below. No application build, UI test, live-network action or release claimed by this brief. Concurrent release edits are excluded.
+
 ## New release preparation — v1.1.2 Preview / ADR-048, 2026-11-01
 
 - Fork / branch / preflight HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `02dd92c`; fetched origin/main is 0 commits ahead / 6 behind before preparation. Six existing topical commits (lab, audit, screenshots, audit fix, theme fix, evidence) remain separate. Local agent metadata excluded via `.gitignore`, not deleted.
@@ -1011,3 +1018,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks in active phase: prior owner/native acceptance and separately recorded issues; no phase completed. These packages pin e35971a, not subsequent theme changes.
 - Next smallest safe action: review this diff/compatibility matrix and concrete isolated native baseline/recovery plan; no automatic networking, publication or phase advancement.
 - Can next session proceed without clarification: safe local review yes; native/network/publication actions require their existing concrete authorization.
+
+## Session handoff — UI-NAV-01 brief, 2026-11-01 (Asia/Tashkent)
+
+- Date and environment: Windows / PowerShell; documentation-only task, no application startup.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / initially 8daf4d7eecc0610eabbc82092d2e7646bf33a6a9; concurrent release preparation advanced HEAD to 9ee974d before this scoped commit. Resolve the brief commit with git log -1 --format=%H -- docs/spec/LEFT_NAVIGATION_BRIEF.md.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; UI-NAV-01 BRIEF_RECORDED, implementation NOT STARTED.
+- What was actually completed: durable future-agent brief, owner-intent/proposal distinction, source map, behavior and acceptance checks; discoverable TASKS/STATUS links.
+- Files changed: docs/spec/LEFT_NAVIGATION_BRIEF.md, TASKS.md, STATUS.md only. Concurrent release work preserved and excluded from this task.
+- Test commands and results: private validation venv Python with -B scripts/validate_plan.py PASS (9 phases, 49 stable tasks, schema/formats/references and 482 links); -B scripts/test_validate_plan.py PASS (12 tests); git diff --check PASS. Application build, unit and WPF checks NOT RUN for this documentation-only request.
+- Live-network tests: NOT RUN / not authorized.
+- Known bugs, risk and workarounds: existing DOC-R01 and phase/native limits unchanged. Icon destination mapping is a proposal; embedding tools and restart persistence are outside this first increment.
+- Decisions requiring user approval: actual UI implementation needs a future explicit request; this file alone is not execution permission.
+- Remaining tasks in active phase: unchanged; no phase completion or advancement.
+- Next smallest safe action: use the brief as the future implementation reference after delegation.
+- Can next session proceed without clarification: reading/review yes; UI implementation only when explicitly delegated. No push/release authorized by this documentation request.

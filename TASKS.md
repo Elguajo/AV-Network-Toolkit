@@ -1,5 +1,9 @@
 # Traceable task backlog
 
+## Left navigation planning — 2026-11-01
+
+- [ ] **UI-NAV-01** — Add an icon rail and collapsible, resizable adapter sidebar. **AC:** [Owner-intent brief and future implementation checks](docs/spec/LEFT_NAVIGATION_BRIEF.md). **State:** BRIEF_RECORDED / IMPLEMENTATION_NOT_STARTED. Owner requested this handoff file only; rail destination mapping remains a proposal, existing tool windows and network safety remain preserved. Phase 07 AWAITING_REVIEW; no implementation/publication/phase advancement from this record.
+
 ## Current publication — ADR-048, 2026-11-01
 
 - [ ] **REL-05** — Commit/push all current project changes in scoped commits and publish new v1.1.2 Preview. **AC:** Preserve the existing six topical commits and v1.1.1 tag/assets; include audit + theme fixes in one exact new source, version/README/changelog/notes synchronized, full build/unit/planning and disposable Windows package workflow PASS, published source/tag/checksum/payload independently verified. **State:** IN_PROGRESS; local .serena metadata excluded, real-tree build blocked by an existing running EXE; immutable-source validation next. No phase/native/clean-client acceptance implied; DOC-R01 and other known issues remain disclosed. [Notes](docs/releases/v1.1.2.md).
