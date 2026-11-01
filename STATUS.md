@@ -1,5 +1,13 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## User-home storage investigation — DATA-01, 2026-11-02
+
+- Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `a75a3acb4c533570ba3ce705e012011681d6e63e`; clean at bootstrap. Concurrent OPEN-01/password documentation commits 6e4b075/e729f3d and updater source edits appeared later and are preserved/excluded. Containing proposal commit is resolvable with `git log -1 --format=%H -- docs/spec/DATA_STORAGE_MIGRATION_CONTRACT.md`.
+- Completed: required bootstrap; source inventory of profile/settings/scanner/history/layout, separate recovery journals/backups, legacy EXE import, explicit projects/exports, startup registry and test overrides; [concrete draft contract and acceptance matrix](docs/spec/DATA_STORAGE_MIGRATION_CONTRACT.md). Context7/official .NET references inspected. No personal data root inspected, copied, deleted or overwritten; no application code changed by DATA-01.
+- In progress / blockers: DATA-01 CONTRACT_REVIEW_PENDING; migration NOT IMPLEMENTED. ADR-042 destination is approved, copy/snapshot/cutover/failure/old-build policy awaits concrete review. USB-local mode remains separate. Phase 07 AWAITING_REVIEW; owner/native/DPI and publication gates unchanged.
+- Next action: owner approves or refines the home-only contract; then implement with isolated synthetic data and re-inventory accepted concurrent updater preferences/cache. No personal-data migration, local install, live NIC/UAC, push/publication or Phase 08 is authorized by this investigation.
+- Tests last executed: documentation planning/schema/references, validator regressions and whitespace results recorded in the DATA-01 session handoff below. App build/unit/WPF/package/native/storage-migration tests NOT RUN for this documentation-only work; historical release unit results do not validate DATA-01.
+
 ## Device-password contract review — IDEA-03 / FR-13, 2026-11-02
 
 - Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `a75a3acb4c533570ba3ce705e012011681d6e63e`; clean at bootstrap. Concurrent updater files, NetworkMutationLease.cs and OPEN-01 documentation edits appeared during inspection and are excluded from this work. Scoped proposal commit is resolvable with `git log -1 --format=%H -- docs/spec/DEVICE_PASSWORD_PROPOSAL.md` after commit.
@@ -1490,3 +1498,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks in active phase: prior owner/native/DPI and phase tasks unchanged; no DATA-01/Phase 08 advancement or phase acceptance.
 - Next smallest safe action: adopt the reviewed password contract and implement with synthetic unit/storage/security/WPF checks; later native/release gates remain separate.
 - Can next session proceed without clarification: source inspection/proposal refinement yes; dependent format/code work waits for the concrete contract review.
+
+### Session handoff — DATA-01 storage contract, 2026-11-02 (Asia/Tashkent)
+
+- Date and environment: Windows workspace D:\01_DEV\AV-Network-Toolkit; existing private validation Python. Investigation/source review only, no ordinary app startup.
+- Fork URL / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / a75a3acb4c533570ba3ce705e012011681d6e63e. Concurrent OPEN-01/password commits 6e4b075/e729f3d arrived during investigation; updater changes preserved/excluded. Proposal commit: resolve with git log -1 --format=%H -- docs/spec/DATA_STORAGE_MIGRATION_CONTRACT.md.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; DATA-01 INVESTIGATION_RECORDED / CONTRACT_REVIEW_PENDING, migration NOT IMPLEMENTED. USB separate/unapproved.
+- Actually completed: mandatory bootstrap; all current durable data, recovery, backup, explicit-project/export and registry locations mapped from source; adapter identity/history-journal link/old-new package behavior traced. Concrete byte-preserving snapshot/staging/cutover, both-root conflict, corruption, permission, interruption, retry/downgrade and separate USB proposal prepared. Context7 and official .NET 10 IO/folder references inspected. No personal data contents or root inspected/copied/modified.
+- Files changed: docs/spec/DATA_STORAGE_MIGRATION_CONTRACT.md; TASKS.md DATA-01 paragraph; STATUS.md DATA-01 section and this handoff. No DATA-01 application/schema/packaging/dependency edits.
+- Test commands and results: & "$env:LOCALAPPDATA/AVNetworkToolkit.BuildTools/python/Scripts/python.exe" -B scripts/validate_plan.py PASS (9 phases, 49 stable tasks, schema/formats/references, 775 links); same interpreter -B scripts/test_validate_plan.py PASS (12 tests). git diff --check -- docs/spec/DATA_STORAGE_MIGRATION_CONTRACT.md STATUS.md TASKS.md PASS (LF/CRLF notices only); final staged whitespace/scope checks before commit. Build/unit/WPF/package/native/migration fault tests NOT RUN for this draft; historical 744 unit results do not validate it.
+- Live-network tests: NOT RUN / not authorized. No real settings, scans, DHCP, mDNS, browser traffic, elevation, install, push or publication.
+- Risks/workarounds: old versions can keep writing LocalAppData; no reverse-sync/downgrade equivalence. Journals are outside AppPaths and must move with history. Direct app/scanner settings writers need bounded preservation hardening in the approved implementation. ACL protection limits future USB filesystems; no FAT/exFAT or cross-PC identity support claimed. Parallel updater preferences/cache require re-inventory at implementation start.
+- Decisions requiring user approval: home-only copy/snapshot/explicit-cutover contract, retained originals, fail-closed conflicts/unavailability, no automatic sync/merge/reverse migration and bounded settings-writer hardening. AGENTS.md requires a reviewed risky migration; ADR-042 approves destination only. USB not bundled into that decision.
+- Remaining tasks in active phase: existing owner/native/DPI acceptance unchanged; no phase marked complete and no Phase 08 start.
+- Next smallest safe action: owner reviews the concrete DATA-01 packet; after approval, implement on main using isolated injected roots and required failure/recovery acceptance checks. Runtime first-use consent still precedes copying personal data.
+- Can next session proceed without clarification: read-only inspection/proposal refinement yes; dependent migration implementation waits for contract approval.
