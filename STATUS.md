@@ -1,5 +1,13 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Ready-made network tests — ADR-041 / NT-01, 2026-11-01
+
+- Fork / branch / exact bootstrap SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / `2ccf8cd668ab0e27ef98f93b4db87afaf6ec4c67`, clean bootstrap. Scoped local implementation commit is pinned after creation; no new branch/worktree/push.
+- Active / completed / in progress: Phase 07 AWAITING_REVIEW. NT-01 implementation and local evidence recorded: expanding Network tests, four/continuous/single Ping, one-port TCP, descriptions, independent window cards and Run/Stop/Close, bounded history/whole-run statistics. [Contract](docs/spec/NETWORK_TEST_PRESETS_CONTRACT.md), [review/diff/captures](docs/testing/NETWORK_TEST_PRESETS_REVIEW.md). Owner/native acceptance pending; no phase accepted. Earlier JSON repair and safe-only release preparation preserved.
+- Tests last executed: final Release solution/harness builds PASS, 0 warnings/errors; **681 full PASS / 0 failed / 0 skipped**, repeated on the isolated final feature tree (`TestResults/NetworkTests/presets-scoped-final.trx`, tree `6257ca7552e7ed8e34f20a14a232d9579defaa81`), 50 added cases; focused 97 PASS. **64 final focused + 128 existing actual WPF captures / 0 binding errors**, including actual fake-boundary Hide→Show stopping for both windows. Failed fixture runs, final source tree hashes and TRX SHA-256 retained in [evidence](docs/testing/evidence/network-test-presets.txt); causes/corrections in review. Protected mutation/store/schema/Ping-platform sources unchanged by NT-01. Scoped plan PASS 9 phases/49 tasks/schema/formats/343 links, tooling **12 PASS**, whitespace PASS. Concurrent REL-03 startup/package changes are preserved/excluded, not certified by this evidence.
+- Blockers / risks: owner/native/full App/tray/AT/high-contrast/scaling/actual NIC/DNS/ICMP/TCP/route/packet-egress/UAC/browser acceptance NOT RUN. Source binding and route predictions do not certify physical egress; TCP acceptance does not verify HTTP/TLS. ADR-037 safe-only restriction and earlier phase/release gates persist. No real network action/elevation/external launch performed.
+- Next action: commit local evidence, then owner reviews actual expanding section/cards and diff. Independent REL-03/ADR-040 work is preserved/excluded from this commit. No automatic push/release, Phase 08 or DHCP start.
+
 ## Current distribution decision — ADR-039, 2026-11-01
 
 - Fork / branch / exact bootstrap: https://github.com/Elguajo/AV-Network-Toolkit / main / `2ccf8cd668ab0e27ef98f93b4db87afaf6ec4c67`. Concurrent diagnostics source/test/UI changes and new contract/assets exist in the working tree; preserve and exclude them from this documentation-only decision commit.
@@ -742,3 +750,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks in active phase: owner/native acceptance unchanged, no phase complete.
 - Next smallest safe action: use ADR-039 for packaging once existing REL-03/04 gates are resolved; keep concurrent diagnostics work independently scoped.
 - Can next session proceed without clarification: decision maintenance yes; no automatic native tests, deferred-task start, push/tag/release or Phase 08 from this approval.
+
+## Session handoff — 2026-11-01, ready-made network tests (ADR-041)
+
+- Date and environment: 2026-11-01 Asia/Tashkent, Windows/PowerShell 7, existing local .NET SDK 8.0.427/Python; no installation/elevation.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / bootstrap `2ccf8cd668ab0e27ef98f93b4db87afaf6ec4c67`; concurrent distribution decision commit `a81f7d5a4b3a5c8514ef8e76d3ce14d99a831df2` preserved. Implementation commit pinned after creation.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW, NT-01 EVIDENCE_RECORDED, owner/native acceptance pending. Existing 49 phase IDs unchanged.
+- What was actually completed: expanding Network tests and preset descriptions, four/continuous/single Ping, one-port source-bound TCP, independent window/cards, fixed window Run/Stop/Close, 100-row history and whole-run summary, Stop on hiding either window including main close-to-tray; [contract](docs/spec/NETWORK_TEST_PRESETS_CONTRACT.md), [review](docs/testing/NETWORK_TEST_PRESETS_REVIEW.md).
+- Files changed: diagnostic model/service/view model/panel/window/main labels, English resources, focused tests and WPF harness, scoped ADR/design/task/context/roadmap/status/test evidence and original concept/actual captures. Concurrent REL-03 App startup, PackageSelfTest, packaging/scripts and its planning hunks excluded from this commit; preserved in working tree. ADR-041 resolves the concurrently occupied ADR-039/040 identifiers.
+- Test commands and results: exact [commands/failure corrections/hashes](docs/testing/NETWORK_TEST_PRESETS_REVIEW.md); final Release builds PASS/0 warnings/errors, 681 full unit PASS/0 failed/0 skipped on isolated staged source including final hide integration, 50 added cases, 97 focused PASS; 64 final focused + 128 existing WPF captures/0 bindings. Scoped plan schema/formats/49 tasks/343 links PASS, 12 validator regressions PASS, whitespace/protected network/store/schema/Ping sources PASS.
+- Live-network tests: NOT RUN / ADR-037 safe-only. No NIC/DNS/ICMP/TCP/socket/UAC/browser/full App/tray actions during verification.
+- Known bugs, risk and workarounds: actual Windows TCP/source routing/cancellation/physical egress, manual AT/high contrast/scaling and earlier owner/native acceptance remain UNVERIFIED. Two failed new fixture runs were corrected using truthful counters/explicit scheduling barriers, not suppression; retained hashes in evidence. No unrelated production repair.
+- Decisions requiring user approval: owner review and separately authorized isolated native acceptance/publication/release; preset direction/execution is already authorized. Other chat's REL-03 follows its independent ADR-040.
+- Remaining tasks in active phase: owner/native acceptance, existing phase gates; no phase marked complete or Phase 08 started.
+- Next smallest safe action: review actual expanding section/cards and local diff, preserve independent package work. No automatic push or live test.
+- Can next session proceed without clarification: local review/fake verification yes; no new phase/live test/publication inferred.

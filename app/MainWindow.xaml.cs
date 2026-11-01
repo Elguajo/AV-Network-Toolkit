@@ -108,6 +108,10 @@ namespace NetworkProfileManager
             DataContextChanged += OnDataContextChanged;
             DataContext = main;
             Closed += (_, _) => main.Diagnostics.Dispose();
+            IsVisibleChanged += (_, _) =>
+            {
+                if (!IsVisible && main.Diagnostics.CanStop) main.Diagnostics.StopCommand.Execute(null);
+            };
             ProjectProfiles.ApplyRequested += profile => ShowProjectApply(profile, null);
             Project.ApplyAndOpenRequested += (profile, device) => ShowProjectApply(profile, device);
             RegisterProfileHotkeys();

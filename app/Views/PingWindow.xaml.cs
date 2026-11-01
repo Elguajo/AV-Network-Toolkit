@@ -9,9 +9,15 @@ public partial class PingWindow : Wpf.Ui.Controls.FluentWindow
     private readonly AdapterDiagnosticsViewModel _viewModel;
     public PingWindow(AdapterDiagnosticsViewModel viewModel)
     {
-        InitializeComponent(); DataContext = _viewModel = viewModel;
+        InitializeComponent();
+        viewModel.ShowPresetCards = true;
+        DataContext = _viewModel = viewModel;
         _viewModel.ProbeCount = 4;
         Loaded += async (_, _) => await _viewModel.RefreshAsync();
+        IsVisibleChanged += (_, _) =>
+        {
+            if (!IsVisible && _viewModel.CanStop) _viewModel.StopCommand.Execute(null);
+        };
         Closed += (_, _) => _viewModel.Dispose();
     }
     // Retained destination constructor; opening only reads facts, never sends traffic.

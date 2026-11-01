@@ -1,5 +1,9 @@
 # Roadmap — fixed phase order
 
+## Bounded diagnostics addition — ADR-041, 2026-11-01
+
+Owner approved the expanding Network tests concept and explicitly requested implementation. Separate follow-up NT-01 adds described Ping four/continuous/single and one-port TCP presets inline and in the existing separate window; [contract](docs/spec/NETWORK_TEST_PRESETS_CONTRACT.md), [local review/evidence](docs/testing/NETWORK_TEST_PRESETS_REVIEW.md). This is a Phase 07 diagnostic follow-up, not a new numbered phase. Independent REL-03 authorization belongs to ADR-040; this addition does not change it. Phase 07 AWAITING_REVIEW, native/owner acceptance, ADR-037 safe-only execution and no automatic push/release/Phase 08 remain.
+
 | Phase | Title | Priority | Depends on | Primary deliverable |
 |---|---|---|---|---|
 | 01 | Baseline audit | P0 | fork available | Read-only audit + separately authorized documentation adoption; preparation checkpoint before Phase 02 |

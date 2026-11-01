@@ -1,5 +1,9 @@
 # Testing strategy and acceptance matrix
 
+## Ready-made network tests — ADR-041 / NT-01, 2026-11-01
+
+Main, bootstrap `2ccf8cd668ab0e27ef98f93b4db87afaf6ec4c67`. [Exact commands, failures/corrections, source/route/TCP limits and actual captures](NETWORK_TEST_PRESETS_REVIEW.md). Final Release solution/harness builds PASS/0 warnings/errors; **681 full unit PASS / 0 failed / 0 skipped**, **50 added cases**, focused 97 PASS. **64 final focused + 128 existing WPF captures / 0 binding errors**, Light/Dark normal/minimum. Fake all NIC/route/DNS/ICMP/TCP boundaries; no native socket or App startup. Counters cover attempts rather than captured packets; continuous results bounded to 100, statistics cover whole run. [Retained TRX hashes](evidence/network-test-presets.txt) include initial instrumentation/scheduling failures and final passing runs. Protected legacy/network/worker/schema/storage source comparison PASS. Planning/tooling final result is recorded in STATUS.md. Owner/native acceptance remains pending; ADR-037 safe-only, no push/release/Phase 08.
+
 ## Phase 05 current local evidence — 2026-10-31
 
 Main, base `48913b21b7a4ddf62a9f58663fbfcde79d630a29`, ADR-021/022. [Complete review packet](PHASE05_REVIEW.md) records changed paths, exact commands, artifacts, failures/corrections, focused reviews and separate isolated Windows plan. Implementation commit is pinned by the subsequent STATUS handoff. Local SDK/Python paths remain those below.

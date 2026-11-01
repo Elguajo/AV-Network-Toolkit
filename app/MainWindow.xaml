@@ -300,9 +300,9 @@
             </StackPanel>
                   </Border>
                  </Expander>
-                 <Expander Header="{DynamicResource Diagnostics.Title}" Margin="0,8,0,0" Expanded="ToolExpanded">
+                 <Expander Header="{Binding Diagnostics.SectionTitle}" Margin="0,8,0,0" Expanded="ToolExpanded">
                   <Border Style="{StaticResource Card}"><StackPanel>
-                   <ui:Button Content="{DynamicResource EditBar.PingWindowTooltip}" Click="OpenPingWindowClick"
+                   <ui:Button Content="{DynamicResource NetworkTests.OpenWindow}" Click="OpenPingWindowClick"
                     Style="{StaticResource SubtleButton}" HorizontalAlignment="Right" Margin="0,0,0,8"/>
                    <views:AdapterDiagnosticsPanel DataContext="{Binding Diagnostics}"/>
                   </StackPanel></Border>

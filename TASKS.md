@@ -1,5 +1,13 @@
 # Traceable task backlog
 
+## Network-test presets — ADR-041, 2026-11-01
+
+Separate follow-up ID; preserve the existing 49 phase task IDs/order.
+
+- [ ] **NT-01** — Implement the approved expanding Network tests section and ready-made diagnostic presets. **AC:** [contract](docs/spec/NETWORK_TEST_PRESETS_CONTRACT.md): explicit source/run, Ping four/continuous/single, one TCP port, descriptions, Stop/close, bounded results and independent peers; fake-boundary tests and actual Light/Dark normal/minimum WPF evidence. **State:** EVIDENCE_RECORDED — 681 full unit PASS, 50 added cases, Release builds and 64 focused + 128 existing WPF captures/0 binding errors; owner/native acceptance remains separate. [Review](docs/testing/NETWORK_TEST_PRESETS_REVIEW.md).
+
+This diagnostic addition does not change independently authorized REL-03 (ADR-040) or start Phase 08. Phase 07 remains AWAITING_REVIEW; ADR-037 safe-only execution persists.
+
 ## Release preparation follow-ups — ADR-036, 2026-11-01
 
 Separate from phase acceptance and the 49 phase tasks; execute in this order:

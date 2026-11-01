@@ -187,9 +187,9 @@ internal sealed class DiagnosticFake : IAdapterDiagnostics, IDiagnosticPingPlatf
     internal DiagnosticEcho Echo = new(0, "192.0.2.229", 2);
     public Task<IReadOnlyList<DiagnosticAdapter>> ReadAsync(CancellationToken token)
     { Reads++; if (ReadError) throw new IOException(); return Task.FromResult(Adapters); }
-    public IReadOnlyList<PingBinding> ReadBindings() { OnRead?.Invoke(++BindingReads); return Bindings; }
+    public IReadOnlyList<PingBinding> ReadBindings() { BindingReads++; OnRead?.Invoke(BindingReads); return Bindings; }
     public Task<IPAddress[]> ResolveAsync(string host, CancellationToken token) { Resolves++; return Task.FromResult(Resolved); }
-    public PredictedRoute? Predict(IPAddress source, IPAddress target) { OnPredict?.Invoke(++Predictions); return Route; }
+    public PredictedRoute? Predict(IPAddress source, IPAddress target) { Predictions++; OnPredict?.Invoke(Predictions); return Route; }
     public Task<DiagnosticEcho> EchoAsync(IPAddress source, IPAddress target, CancellationToken token)
     { Sends++; Entered.TrySetResult(); if (ThrowSend) throw new IOException(); return Gate?.Task ?? Task.FromResult(Echo); }
 }

@@ -2,31 +2,101 @@
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
+ <UserControl.Resources>
+  <Style x:Key="InlineOnly" TargetType="FrameworkElement">
+   <Style.Triggers><DataTrigger Binding="{Binding ShowPresetCards}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers>
+  </Style>
+  <Style x:Key="WindowOnly" TargetType="FrameworkElement">
+   <Setter Property="Visibility" Value="Collapsed"/>
+   <Style.Triggers><DataTrigger Binding="{Binding ShowPresetCards}" Value="True"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers>
+  </Style>
+ </UserControl.Resources>
  <StackPanel>
   <WrapPanel Margin="0,0,0,12">
    <ui:Button Content="{DynamicResource Common.Refresh}" Command="{Binding RefreshCommand}" Margin="0,0,12,8"/>
    <CheckBox Content="{DynamicResource Diagnostics.Hide}" ToolTip="{DynamicResource Diagnostics.FilterScope}"
     IsChecked="{Binding HideHyperVUplinks}" IsEnabled="{Binding CanSelect}" Margin="0,0,0,8"/>
   </WrapPanel>
-  <TextBlock Text="{DynamicResource Diagnostics.Adapter}" Style="{StaticResource FieldLabel}"/>
-  <ComboBox ItemsSource="{Binding Adapters}" SelectedItem="{Binding SelectedAdapter}" DisplayMemberPath="Display"
-   AutomationProperties.Name="{DynamicResource Diagnostics.Adapter}" ToolTip="{Binding SelectedAdapter.Display}"
-   IsEnabled="{Binding CanSelect}" HorizontalContentAlignment="Stretch"/>
-  <Expander Header="{DynamicResource Diagnostics.FactsHeader}" Margin="0,12,0,12">
-   <TextBlock Text="{Binding Details}" TextWrapping="Wrap" Margin="0,12,0,0"/>
-  </Expander>
-  <TextBlock Text="{DynamicResource Diagnostics.Source}" Style="{StaticResource FieldLabel}"/>
-  <ComboBox ItemsSource="{Binding Sources}" SelectedItem="{Binding Source}" IsEnabled="{Binding CanSelect}"
-   AutomationProperties.Name="{DynamicResource Diagnostics.Source}"/>
+  <Grid>
+   <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="12"/><ColumnDefinition/></Grid.ColumnDefinitions>
+   <StackPanel>
+    <TextBlock Text="{DynamicResource NetworkTests.Adapter}" Style="{StaticResource FieldLabel}"/>
+    <ComboBox x:Name="AdapterSelector" ItemsSource="{Binding Adapters}" SelectedItem="{Binding SelectedAdapter}" DisplayMemberPath="Name"
+     AutomationProperties.Name="{DynamicResource Diagnostics.Adapter}" ToolTip="{Binding SelectedAdapter.Display}"
+     IsEnabled="{Binding CanSelect}" HorizontalContentAlignment="Stretch"/>
+   </StackPanel>
+   <StackPanel Grid.Column="2">
+    <TextBlock Text="{DynamicResource NetworkTests.Source}" Style="{StaticResource FieldLabel}"/>
+    <ComboBox x:Name="SourceSelector" ItemsSource="{Binding Sources}" SelectedItem="{Binding Source}" IsEnabled="{Binding CanSelect}"
+     AutomationProperties.Name="{DynamicResource Diagnostics.Source}"/>
+   </StackPanel>
+  </Grid>
+  <TextBlock Text="{DynamicResource NetworkTests.Presets}" Style="{StaticResource FieldLabel}" Margin="0,16,0,4"/>
+  <StackPanel Style="{StaticResource InlineOnly}">
+   <ComboBox x:Name="PresetSelector" ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedTest}" DisplayMemberPath="Name"
+    IsEnabled="{Binding CanSelect}" AutomationProperties.Name="{DynamicResource NetworkTests.Presets}"/>
+   <TextBlock Text="{Binding SelectedTest.Description}" Style="{StaticResource CaptionText}" TextWrapping="Wrap" TextTrimming="None" Margin="0,8,0,0"/>
+  </StackPanel>
+  <ListBox x:Name="PresetCards" ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedTest}"
+   IsEnabled="{Binding CanSelect}" Style="{StaticResource WindowOnly}" Background="Transparent" BorderThickness="0"
+   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+   ScrollViewer.VerticalScrollBarVisibility="Disabled" AutomationProperties.Name="{DynamicResource NetworkTests.Presets}">
+   <ListBox.ItemContainerStyle><Style TargetType="ListBoxItem" BasedOn="{StaticResource NavigationListItem}">
+    <Setter Property="Margin" Value="0,0,0,8"/>
+    <Setter Property="AutomationProperties.Name" Value="{Binding Name}"/>
+    <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBoxItem">
+     <Border x:Name="Surface" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+      BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1"
+      CornerRadius="{DynamicResource ControlCornerRadius}" Padding="{TemplateBinding Padding}">
+      <Grid>
+       <Grid.ColumnDefinitions><ColumnDefinition Width="24"/><ColumnDefinition/></Grid.ColumnDefinitions>
+       <ui:SymbolIcon Symbol="Checkmark20" FontSize="16" VerticalAlignment="Center"
+        Visibility="{Binding IsSelected, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVis}}"/>
+       <ContentPresenter Grid.Column="1"/>
+      </Grid>
+     </Border>
+     <ControlTemplate.Triggers>
+      <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Surface" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/></Trigger>
+      <Trigger Property="IsSelected" Value="True"><Setter TargetName="Surface" Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}"/></Trigger>
+     </ControlTemplate.Triggers>
+    </ControlTemplate></Setter.Value></Setter>
+   </Style></ListBox.ItemContainerStyle>
+   <ListBox.ItemTemplate><DataTemplate>
+    <StackPanel>
+     <TextBlock Text="{Binding Name}" Style="{StaticResource SectionHeaderText}" TextWrapping="Wrap"/>
+     <TextBlock Text="{Binding Description}" Style="{StaticResource CaptionText}" TextWrapping="Wrap" TextTrimming="None" Margin="0,4,0,0"/>
+    </StackPanel>
+   </DataTemplate></ListBox.ItemTemplate>
+  </ListBox>
   <TextBlock Text="{DynamicResource Diagnostics.Target}" Style="{StaticResource FieldLabel}" Margin="0,12,0,4"/>
-  <ui:TextBox Text="{Binding Target, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding CanSelect}" MaxLength="253"
+  <ui:TextBox x:Name="TargetInput" Text="{Binding Target, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding CanSelect}" MaxLength="253"
    AutomationProperties.Name="{DynamicResource Diagnostics.Target}"/>
+  <StackPanel Visibility="{Binding IsTcp, Converter={StaticResource BoolToVis}}" Margin="0,12,0,0">
+   <TextBlock Text="{DynamicResource NetworkTests.Port}" Style="{StaticResource FieldLabel}"/>
+   <TextBlock x:Name="PortValidation" Text="{Binding PortError}" Foreground="{DynamicResource SystemFillColorCriticalBrush}" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite">
+    <TextBlock.Style><Style TargetType="TextBlock">
+     <Style.Triggers><DataTrigger Binding="{Binding PortError}" Value=""><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers>
+    </Style></TextBlock.Style>
+   </TextBlock>
+   <ui:TextBox x:Name="PortInput" Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}" MaxLength="5" IsEnabled="{Binding CanSelect}"
+    AutomationProperties.Name="{DynamicResource NetworkTests.Port}" AutomationProperties.HelpText="{Binding PortError}"/>
+   <WrapPanel Margin="0,4,0,0">
+    <ui:Button Content="80" Command="{Binding QuickPortCommand}" CommandParameter="80" Margin="0,0,8,0" AutomationProperties.Name="{DynamicResource NetworkTests.Port80}"/>
+    <ui:Button Content="443" Command="{Binding QuickPortCommand}" CommandParameter="443" AutomationProperties.Name="{DynamicResource NetworkTests.Port443}"/>
+   </WrapPanel>
+  </StackPanel>
   <TextBlock Text="{DynamicResource Diagnostics.DnsNotice}" Style="{StaticResource CaptionText}" TextWrapping="Wrap" Margin="0,8,0,12"/>
-  <StackPanel Orientation="Horizontal">
-   <ui:Button Content="{DynamicResource EditBar.PingButton}" Command="{Binding PingCommand}" MinWidth="96" Margin="0,0,8,0"/>
+  <StackPanel Orientation="Horizontal" Style="{StaticResource InlineOnly}">
+   <ui:Button Content="{DynamicResource NetworkTests.Run}" Command="{Binding RunTestCommand}" Appearance="Primary" MinWidth="96" Margin="0,0,8,0"/>
    <ui:Button Content="{DynamicResource Diagnostics.Stop}" Command="{Binding StopCommand}" MinWidth="96"/>
   </StackPanel>
   <TextBlock Text="{Binding Status}" TextWrapping="Wrap" Margin="0,12,0,8" AutomationProperties.LiveSetting="Polite"/>
+  <Border Margin="0,0,0,8">
+   <Border.Style><Style TargetType="Border" BasedOn="{StaticResource Card}">
+    <Style.Triggers><DataTrigger Binding="{Binding TcpResult}" Value="{x:Null}"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers>
+   </Style></Border.Style>
+   <TextBlock Text="{Binding TcpResult.Display}" TextWrapping="Wrap"/>
+  </Border>
   <ItemsControl ItemsSource="{Binding Results}">
    <ItemsControl.ItemTemplate><DataTemplate>
     <Border Style="{StaticResource Card}" Margin="0,0,0,8">
@@ -34,6 +104,14 @@
     </Border>
    </DataTemplate></ItemsControl.ItemTemplate>
   </ItemsControl>
+  <TextBlock Text="{DynamicResource NetworkTests.ResultLimit}" TextWrapping="Wrap" TextTrimming="None" Margin="0,0,0,8">
+   <TextBlock.Style><Style TargetType="TextBlock" BasedOn="{StaticResource CaptionText}">
+    <Style.Triggers><DataTrigger Binding="{Binding Results.Count}" Value="0"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers>
+   </Style></TextBlock.Style>
+  </TextBlock>
+  <Expander Header="{DynamicResource Diagnostics.FactsHeader}" Margin="0,0,0,12">
+   <TextBlock Text="{Binding Details}" TextWrapping="Wrap" Margin="0,12,0,0"/>
+  </Expander>
   <TextBlock Text="{DynamicResource Diagnostics.EgressNotice}" Style="{StaticResource CaptionText}" TextWrapping="Wrap"/>
  </StackPanel>
 </UserControl>

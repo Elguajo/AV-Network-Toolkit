@@ -17,13 +17,13 @@ internal static partial class Program
     private static void RenderDiagnostics(string output, string theme, bool minimum)
     {
         var fake = new DiagnosticsSurface();
-        using var vm = new AdapterDiagnosticsViewModel(fake, new(fake));
-        var window = new PingWindow(vm) { Width = minimum ? 480 : 700, Height = minimum ? 440 : 780 };
+        using var vm = new AdapterDiagnosticsViewModel(fake, new(fake), tcp: new(fake, fake), delay: (_, token) => Task.Delay(10, token));
+        var window = new PingWindow(vm) { Width = minimum ? 480 : 700, Height = minimum ? 440 : 860 };
         window.Show(); Pump();
         if (fake.Reads != 1 || vm.SelectedAdapter != null || fake.Sends != 0) throw new Exception("Ping window sent or guessed adapter on open.");
         var suffix = theme + (minimum ? "-minimum" : "-normal");
         Capture(window, Path.Combine(output, $"diagnostics-empty-{suffix}.png"));
-        var selectors = Descendants(window).OfType<ComboBox>().Where(c => c.TemplatedParent == null).ToArray();
+        var selectors = Descendants(window).OfType<ComboBox>().Where(c => c.Name is "AdapterSelector" or "SourceSelector").ToArray();
         if (selectors.Length != 2) throw new Exception("Missing diagnostic/source selectors.");
         selectors[0].SelectedItem = vm.Adapters[0]; Pump();
         if (selectors[1].SelectedItem != null || vm.CanPing) throw new Exception("Source was implicit.");
@@ -34,11 +34,11 @@ internal static partial class Program
         facts.IsExpanded = false; SettleDiagnostics();
         foreach (var input in Descendants(window).OfType<Control>().Where(c => c is ComboBox or Wpf.Ui.Controls.TextBox))
             if (string.IsNullOrWhiteSpace(AutomationProperties.GetName(input))) throw new Exception("Unnamed diagnostic input.");
-        var ping = Descendants(window).OfType<Wpf.Ui.Controls.Button>().Single(b => ReferenceEquals(b.Command, vm.PingCommand));
+        var ping = Descendants(window).OfType<Wpf.Ui.Controls.Button>().Single(b => b.IsVisible && ReferenceEquals(b.Command, vm.RunTestCommand));
         if (!ping.IsEnabled) throw new Exception("Ping not enabled after explicit source.");
         if (!selectors[0].Focus()) throw new Exception("Diagnostic adapter cannot receive keyboard focus.");
         selectors[0].MoveFocus(new(System.Windows.Input.FocusNavigationDirection.Next)); Pump();
-        if (!facts.IsKeyboardFocusWithin) throw new Exception("Diagnostic keyboard order skipped facts.");
+        if (!selectors[1].IsKeyboardFocusWithin) throw new Exception("Diagnostic keyboard order skipped source IPv4.");
         // Explicit four-echo command uses only fake platform. Observe busy/Stop with delayed fake echo.
         var run = vm.PingAsync(4); Until(() => fake.Sends == 1);
         Pump();
@@ -52,6 +52,7 @@ internal static partial class Program
         if (vm.Results.Count != 1 || !vm.Results[0].Success) throw new Exception("Successful diagnostic result missing.");
         Descendants(window).OfType<ScrollViewer>().First().ScrollToEnd(); SettleDiagnostics();
         Capture(window, Path.Combine(output, $"diagnostics-reply-{suffix}.png"));
+        ExerciseReadyMadeTests(window, vm, fake, output, suffix);
         fake.Route = new(8, "192.0.2.0", 24, "198.51.100.1", 1);
         int sends = fake.Sends;
         var blocked = vm.PingAsync(); Until(() => blocked.IsCompleted); blocked.GetAwaiter().GetResult(); Pump();
@@ -68,12 +69,14 @@ internal static partial class Program
         try
         {
             var inlineFake = new DiagnosticsSurface { Gate = null };
-            var inline = new AdapterDiagnosticsViewModel(inlineFake, new(inlineFake));
+            var inline = new AdapterDiagnosticsViewModel(inlineFake, new(inlineFake), tcp: new(inlineFake, inlineFake));
             var main = new MainViewModel(() => new() { new() { Id = inlineFake.Adapters[0].Id.ToString(), Name = "Ethernet fixture", IsConnected = true } }, inline);
             var mainWindow = new MainWindow(main, new ProjectViewModel(new FakeDialogs(), new FakeBrowser()))
                 { Width = minimum ? 760 : 1200, Height = minimum ? 520 : 850 };
             mainWindow.Show(); Pump();
             var section = Descendants(mainWindow).OfType<Expander>().Single(e => e.Header?.ToString() == Loc.Get("Diagnostics.Title"));
+            if (section.IsExpanded) throw new Exception("Network tests should start collapsed.");
+            Capture(mainWindow, Path.Combine(output, $"network-tests-collapsed-{suffix}.png"));
             section.IsExpanded = true; SettleDiagnostics(); section.BringIntoView(); Pump();
             var refresh = inline.RefreshAsync(); Until(() => refresh.IsCompleted); refresh.GetAwaiter().GetResult();
             if (inline.SelectedAdapter != null || inline.Source != null || inlineFake.Sends != 0)
@@ -82,6 +85,22 @@ internal static partial class Program
             inline.Source = inline.Sources[0]; inline.Target = "192.0.2.229";
             var probe = inline.PingAsync(); Until(() => probe.IsCompleted); probe.GetAwaiter().GetResult(); Pump();
             Capture(mainWindow, Path.Combine(output, $"diagnostics-inline-{suffix}.png"));
+            var selected = inline.Presets.Single(p => p.Kind == DiagnosticTestKind.TcpPort);
+            var preset = Descendants(mainWindow).OfType<ComboBox>().Single(c => c.Name == "PresetSelector");
+            preset.SelectedItem = selected; Pump();
+            if (!inline.IsTcp || !inline.CanRun || !preset.IsVisible || inlineFake.Connects != 0)
+                throw new Exception("Inline preset selection did not reveal TCP fields, or sent traffic.");
+            var portInput = Descendants(mainWindow).OfType<Wpf.Ui.Controls.TextBox>().Single(c => c.Name == "PortInput");
+            portInput.BringIntoView(); SettleDiagnostics();
+            Capture(mainWindow, Path.Combine(output, $"network-tests-inline-tcp-{suffix}.png"));
+            section.IsExpanded = false; SettleDiagnostics(); section.IsExpanded = true; SettleDiagnostics();
+            if (inline.SelectedTest != selected || inlineFake.Connects != 0) throw new Exception("Expansion lost a draft or started a test.");
+            inline.SelectedTest = inline.Presets.Single(p => p.Kind == DiagnosticTestKind.ContinuousPing);
+            int beforeHide = inlineFake.Sends;
+            var hiddenRun = inline.RunSelectedTestAsync(); Until(() => inline.AttemptCount >= 1);
+            mainWindow.Hide(); Until(() => hiddenRun.IsCompleted); hiddenRun.GetAwaiter().GetResult();
+            if (inline.CanStop || inlineFake.Sends != beforeHide + 1) throw new Exception("Hiding main left an invisible active test.");
+            mainWindow.Show(); Pump();
             inline.HideHyperVUplinks = true; Pump();
             if (inline.Adapters.Count != 1 || main.Adapters.Count != 1) throw new Exception("Filter affected legacy adapter list.");
             inlineFake.ReadError = true;
@@ -106,9 +125,9 @@ internal static partial class Program
         while (watch.ElapsedMilliseconds < 400) { Pump(); Thread.Sleep(5); }
     }
 
-    private sealed class DiagnosticsSurface : IAdapterDiagnostics, IDiagnosticPingPlatform
+    private sealed class DiagnosticsSurface : IAdapterDiagnostics, IDiagnosticPingPlatform, IDiagnosticTcpConnector
     {
-        public int Reads, Sends;
+        public int Reads, Sends, Connects;
         public bool ReadError;
         public TaskCompletionSource<DiagnosticEcho>? Gate = new(TaskCreationOptions.RunContinuationsAsynchronously);
         public PredictedRoute? Route = new(7, "192.0.2.0", 24, "0.0.0.0", 256);
@@ -128,5 +147,60 @@ internal static partial class Program
         public PredictedRoute? Predict(IPAddress source, IPAddress destination) => Route;
         public Task<DiagnosticEcho> EchoAsync(IPAddress source, IPAddress destination, CancellationToken cancellation)
         { Interlocked.Increment(ref Sends); return Gate?.Task ?? Task.FromResult(new DiagnosticEcho(0, destination.ToString(), 2, 63)); }
+        public DiagnosticTcpObservation TcpObservation = new("Accepted", 2);
+        public Task<DiagnosticTcpObservation> ConnectAsync(IPAddress source, IPAddress destination, int port, CancellationToken cancellation)
+        { Interlocked.Increment(ref Connects); return Task.FromResult(TcpObservation); }
+    }
+
+    private static void ExerciseReadyMadeTests(Window window, AdapterDiagnosticsViewModel vm, DiagnosticsSurface fake, string output, string suffix)
+    {
+        var scroll = Descendants(window).OfType<ScrollViewer>().First();
+        var cards = Descendants(window).OfType<ListBox>().Single(c => c.Name == "PresetCards");
+        if (!cards.IsVisible || cards.Items.Count != 4) throw new Exception("Separate window lacks descriptive preset cards.");
+        if (!cards.Focus()) throw new Exception("Preset cards cannot receive keyboard focus.");
+        foreach (var item in cards.Items.Cast<DiagnosticTestPreset>())
+        {
+            var container = (ListBoxItem)cards.ItemContainerGenerator.ContainerFromItem(item);
+            if (AutomationProperties.GetName(container) != item.Name) throw new Exception("Preset card lacks an accessible name.");
+        }
+        var tcp = vm.Presets.Single(p => p.Kind == DiagnosticTestKind.TcpPort);
+        cards.SelectedItem = tcp; Pump();
+        var port = Descendants(window).OfType<Wpf.Ui.Controls.TextBox>().Single(c => c.Name == "PortInput");
+        port.BringIntoView(); SettleDiagnostics();
+        if (!port.IsVisible || fake.Connects != 0) throw new Exception("TCP selection sent traffic or hid the port.");
+        vm.Port = "0"; Pump();
+        if (vm.CanRun || vm.PortError.Length == 0) throw new Exception("Invalid TCP port enabled Run.");
+        var validation = Descendants(window).OfType<TextBlock>().Single(c => c.Name == "PortValidation");
+        validation.BringIntoView(); SettleDiagnostics();
+        if (AutomationProperties.GetHelpText(port) != vm.PortError) throw new Exception("Port error is not associated with its input.");
+        Capture(window, Path.Combine(output, $"network-tests-port-error-{suffix}.png"));
+        var quick = Descendants(window).OfType<Wpf.Ui.Controls.Button>().Single(b => b.CommandParameter?.ToString() == "443");
+        quick.Command.Execute(quick.CommandParameter); Pump();
+        if (vm.Port != "443" || !vm.CanRun) throw new Exception("Quick port did not restore valid TCP input.");
+        if (!suffix.Contains("minimum")) { scroll.ScrollToHome(); SettleDiagnostics(); }
+        Capture(window, Path.Combine(output, $"network-tests-tcp-ready-{suffix}.png"));
+        foreach (var status in new[] { "Accepted", "Refused", "Timeout" })
+        {
+            fake.TcpObservation = new(status, 2); var run = vm.RunSelectedTestAsync(); Until(() => run.IsCompleted); run.GetAwaiter().GetResult();
+            scroll.ScrollToEnd(); SettleDiagnostics();
+            if (vm.TcpResult?.Observation?.Status != status) throw new Exception("TCP outcome not shown.");
+            Capture(window, Path.Combine(output, $"network-tests-tcp-{status.ToLowerInvariant()}-{suffix}.png"));
+        }
+        foreach (var action in Descendants(window).OfType<Wpf.Ui.Controls.Button>().Where(b => b.IsVisible &&
+                     (ReferenceEquals(b.Command, vm.RunTestCommand) || ReferenceEquals(b.Command, vm.StopCommand))))
+        {
+            var bounds = action.TransformToAncestor(window).TransformBounds(new Rect(action.RenderSize));
+            if (bounds.Bottom > window.ActualHeight || bounds.Top < 0) throw new Exception("Run/Stop unreachable at minimum size.");
+        }
+        vm.SelectedTest = vm.Presets.Single(p => p.Kind == DiagnosticTestKind.ContinuousPing);
+        int sent = fake.Sends; var continuous = vm.RunSelectedTestAsync(); Until(() => vm.AttemptCount >= 3);
+        vm.StopCommand.Execute(null); Until(() => continuous.IsCompleted); continuous.GetAwaiter().GetResult();
+        if (fake.Sends <= sent || vm.CanStop || !vm.CanSelect) throw new Exception("Continuous Ping stop failed.");
+        var hiddenRun = vm.RunSelectedTestAsync(); Until(() => vm.AttemptCount >= 1);
+        int beforeHide = fake.Sends; window.Hide(); Until(() => hiddenRun.IsCompleted); hiddenRun.GetAwaiter().GetResult();
+        if (vm.CanStop || fake.Sends != beforeHide) throw new Exception("Hidden diagnostic window continued sending.");
+        window.Show(); Pump();
+        scroll.ScrollToEnd(); SettleDiagnostics(); Capture(window, Path.Combine(output, $"network-tests-continuous-stopped-{suffix}.png"));
+        vm.SelectedTest = vm.Presets[0];
     }
 }

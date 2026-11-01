@@ -3,17 +3,21 @@
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
  xmlns:views="clr-namespace:NetworkProfileManager.Views"
- Title="{DynamicResource Ping.Title}" Width="700" Height="780" MinWidth="480" MinHeight="440"
+ Title="{DynamicResource NetworkTests.Title}" Width="700" Height="860" MinWidth="480" MinHeight="440"
  WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
  ExtendsContentIntoTitleBar="True" WindowBackdropType="Mica">
  <Grid>
   <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
-  <ui:TitleBar Title="{DynamicResource Ping.Title}" ShowMinimize="False"/>
-  <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+  <ui:TitleBar Title="{DynamicResource NetworkTests.Title}" ShowMinimize="False"/>
+  <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" ClipToBounds="True">
    <views:AdapterDiagnosticsPanel Margin="20,12,20,16"/>
   </ScrollViewer>
   <Border Grid.Row="2" Style="{StaticResource FooterBar}">
-   <ui:Button Content="{DynamicResource Common.Close}" MinWidth="96" HorizontalAlignment="Right" Click="CloseClick" IsCancel="True"/>
+   <DockPanel LastChildFill="False">
+    <ui:Button Content="{DynamicResource NetworkTests.Run}" Command="{Binding RunTestCommand}" Appearance="Primary" MinWidth="96" Margin="0,0,8,0"/>
+    <ui:Button Content="{DynamicResource Diagnostics.Stop}" Command="{Binding StopCommand}" MinWidth="96"/>
+    <ui:Button DockPanel.Dock="Right" Content="{DynamicResource Common.Close}" MinWidth="96" Click="CloseClick" IsCancel="True"/>
+   </DockPanel>
   </Border>
  </Grid>
 </ui:FluentWindow>

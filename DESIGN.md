@@ -1,5 +1,11 @@
 # Existing interface contract
 
+## Network-test preset refinement — ADR-041
+
+Owner approved the expanding settings-style [network-test concept](docs/design/network-tests-target.png), SHA-256 `9cb65b42b118d9adf77b0aa5a056f4c1c37d14c0d50d9b8a3d7a49c8240b8024`, then requested implementation. Reuse the existing main diagnostics expander below profiles/manual settings; title Network tests, with a running suffix during a test. Compact named preset ComboBox/descriptions inline, secondary Open test window action, independent separate-window peer with selectable descriptive cards. Keep explicit adapter/source, destination and conditional TCP-port fields. Single-request Ping remains an additional preset alongside the approved three.
+
+Use existing Card/FieldLabel/CaptionText/NavigationListItem focus conventions, semantic WPF-UI fills/strokes/accent and a checkmark as a non-color selection cue. No new palette or icon library. The window body scrolls with Run/Stop/Close fixed in its footer; inline actions stay within the expanded block. Validation is shown above the port and associated through AutomationProperties.HelpText. Test selection clears the previous test's output; collapsing/reopening keeps the selected draft and never starts a test. [Contract](docs/spec/NETWORK_TEST_PRESETS_CONTRACT.md), [actual captures and review](docs/testing/NETWORK_TEST_PRESETS_REVIEW.md). Native/manual accessibility and owner acceptance remain separate.
+
 Owner instruction, 2026-10-31: **all new buttons, windows and other interface elements must use the existing product's style and design**. This records the current design language; it does not authorize a redesign.
 
 ## Source of truth

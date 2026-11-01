@@ -453,7 +453,7 @@
     <sys:String x:Key="Profiles.ApplyAgain">Apply profile again…</sys:String>
 
   <!-- Phase 07: local diagnostics and explicit-source Ping -->
-  <sys:String x:Key="Diagnostics.Title">Adapter diagnostics &amp; Ping</sys:String>
+  <sys:String x:Key="Diagnostics.Title">Network tests</sys:String>
   <sys:String x:Key="Diagnostics.Adapter">Diagnostic adapter (name · index · GUID)</sys:String>
   <sys:String x:Key="Diagnostics.Source">Source IPv4 — select explicitly</sys:String>
   <sys:String x:Key="Diagnostics.Target">Destination IPv4 or hostname</sys:String>
@@ -479,9 +479,9 @@
   <sys:String x:Key="Diagnostics.Kind.ethernet">Physical Ethernet</sys:String>
   <sys:String x:Key="Diagnostics.Kind.usb">USB (hardware PnP identity)</sys:String>
   <sys:String x:Key="Diagnostics.Kind.wifi">Physical Wi-Fi</sys:String>
-  <sys:String x:Key="Diagnostics.DnsNotice">Hostnames use Windows DNS and may query another interface. Use a literal IPv4 to avoid DNS lookup. Ping does not change network settings.</sys:String>
-  <sys:String x:Key="Diagnostics.EgressNotice">Route = OS prediction. ICMP = observed reply or error. Actual packet egress is unverified; no reply does not establish that a device is offline.</sys:String>
-  <sys:String x:Key="Diagnostics.Stop">Stop Ping</sys:String>
+  <sys:String x:Key="Diagnostics.DnsNotice">Hostnames use Windows DNS and may query another interface. Use a literal IPv4 to avoid DNS lookup. Tests do not change network settings.</sys:String>
+  <sys:String x:Key="Diagnostics.EgressNotice">Route = OS prediction. ICMP/TCP = observed response or error. Physical packet egress is unverified. No response does not prove a device is offline; an accepted TCP connection does not verify HTTP or TLS.</sys:String>
+  <sys:String x:Key="Diagnostics.Stop">Stop</sys:String>
   <sys:String x:Key="Diagnostics.Pinging">Checking the selected source and route, then sending Ping…</sys:String>
   <sys:String x:Key="Diagnostics.Request" xml:space="preserve">Requested: {0} · {1}&#10;Source {2} → {3}</sys:String>
   <sys:String x:Key="Diagnostics.Predicted">OS-predicted interface {0}: {1}/{2} → next hop {3} · route metric {4}</sys:String>
@@ -495,4 +495,42 @@
   <sys:String x:Key="Diagnostics.Error.Resolve">No usable destination IPv4 was resolved. No Ping was sent.</sys:String>
   <sys:String x:Key="Diagnostics.Error.Cancelled">Ping stopped. An in-flight request can finish within its two-second timeout.</sys:String>
   <sys:String x:Key="Diagnostics.Error.Unavailable">Diagnostic data or Ping is unavailable. Refresh and check the selected adapter; no network settings were changed.</sys:String>
+  <sys:String x:Key="NetworkTests.Title">Network tests</sys:String>
+  <sys:String x:Key="NetworkTests.RunningTitle">Network tests · running</sys:String>
+  <sys:String x:Key="NetworkTests.Ready">Review the test, adapter and destination, then choose Run test.</sys:String>
+  <sys:String x:Key="NetworkTests.OpenWindow">Open test window ↗</sys:String>
+  <sys:String x:Key="NetworkTests.Adapter">Adapter</sys:String>
+  <sys:String x:Key="NetworkTests.Source">Source IPv4 — select explicitly</sys:String>
+  <sys:String x:Key="NetworkTests.Presets">Ready-made tests</sys:String>
+  <sys:String x:Key="NetworkTests.PingFour">Ping — 4 requests</sys:String>
+  <sys:String x:Key="NetworkTests.PingFour.Description">Send four ICMP requests. Show response time and missing replies.</sys:String>
+  <sys:String x:Key="NetworkTests.ContinuousPing">Continuous Ping</sys:String>
+  <sys:String x:Key="NetworkTests.ContinuousPing.Description">Monitor replies about once a second until you press Stop or close this tool.</sys:String>
+  <sys:String x:Key="NetworkTests.TcpPort">TCP port check</sys:String>
+  <sys:String x:Key="NetworkTests.TcpPort.Description">Check whether one device port accepts a connection, even when the device does not reply to Ping.</sys:String>
+  <sys:String x:Key="NetworkTests.PingOnce">Ping — single request</sys:String>
+  <sys:String x:Key="NetworkTests.PingOnce.Description">Send one ICMP request for a quick response time and TTL check.</sys:String>
+  <sys:String x:Key="NetworkTests.Port">TCP port</sys:String>
+  <sys:String x:Key="NetworkTests.Port80">Use TCP port 80</sys:String>
+  <sys:String x:Key="NetworkTests.Port443">Use TCP port 443</sys:String>
+  <sys:String x:Key="NetworkTests.PortError">Enter a decimal port from 1 to 65535.</sys:String>
+  <sys:String x:Key="NetworkTests.Run">Run test</sys:String>
+  <sys:String x:Key="NetworkTests.Connecting">Checking the selected source and route, then connecting to one TCP port…</sys:String>
+  <sys:String x:Key="NetworkTests.TcpEndpoint">TCP destination: {0}:{1}</sys:String>
+  <sys:String x:Key="NetworkTests.TcpObserved">Observed: {0} · elapsed: {1} ms</sys:String>
+  <sys:String x:Key="NetworkTests.Tcp.Accepted">TCP connection accepted.</sys:String>
+  <sys:String x:Key="NetworkTests.Tcp.Refused">TCP connection refused. A responder rejected this port.</sys:String>
+  <sys:String x:Key="NetworkTests.Tcp.Timeout">TCP connection timed out. This does not prove the device is offline.</sys:String>
+  <sys:String x:Key="NetworkTests.Tcp.Unreachable">Windows reported the TCP destination unreachable.</sys:String>
+  <sys:String x:Key="NetworkTests.Stopped">Test stopped. An in-flight Ping may take up to two seconds to finish.</sys:String>
+  <sys:String x:Key="NetworkTests.Summary">Replies: {0}/{1} attempts · missing: {2:0.0}% · RTT min/max/avg: {3}/{4}/{5:0.0} ms</sys:String>
+  <sys:String x:Key="NetworkTests.NoReplies">No verified ICMP replies in {0} attempts. This does not prove the device is offline.</sys:String>
+  <sys:String x:Key="NetworkTests.ResultLimit">Showing up to 100 latest Ping results. Summary covers the entire run.</sys:String>
+  <sys:String x:Key="NetworkTests.Error.Input">Select a valid adapter, source IPv4, destination and TCP port (1–65535).</sys:String>
+  <sys:String x:Key="NetworkTests.Error.Changed">Adapter, source or route changed or is ambiguous. Result is unverified; refresh and select again.</sys:String>
+  <sys:String x:Key="NetworkTests.Error.Route">The OS route is unavailable or selects another adapter. No connection was attempted.</sys:String>
+  <sys:String x:Key="NetworkTests.Error.Resolve">No usable destination IPv4 was resolved. No connection was attempted.</sys:String>
+  <sys:String x:Key="NetworkTests.Error.Cancelled">TCP test stopped.</sys:String>
+  <sys:String x:Key="NetworkTests.Error.Timeout">The test exceeded its time budget. No fallback was attempted.</sys:String>
+  <sys:String x:Key="NetworkTests.Error.Unavailable">TCP diagnostics are unavailable. Check the selected adapter and try again; no network settings were changed.</sys:String>
 </ResourceDictionary>

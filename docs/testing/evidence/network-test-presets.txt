@@ -1,0 +1,43 @@
+Network-test preset TRX evidence — 2026-11-01, Asia/Tashkent
+Root: TestResults/NetworkTests (ignored local artifacts)
+All cases use fake OS/network boundaries. No skipped tests in these runs.
+
+presets-focused.trx          total=94  passed=90  failed=4
+SHA256 ED4803A3623B169F3FF34E27F6532E2C989ADF297B8338FCA475AA08A40B6AEE
+Initial fake read/prediction counters only incremented inside optional callbacks.
+
+presets-focused-fixed.trx    total=94  passed=94  failed=0
+SHA256 8A5470CD6ABCD26C0DBA9B22300D5CC64441FC3B0A63E31C77E1EC1331EE4D4A
+
+presets-focused-final.trx    total=97  passed=97  failed=0
+SHA256 947D4545AD9E2183186447E2CC4076C3B303203785687F78CC01F2E4D6636F3C
+
+presets-full.trx             total=678 passed=678 failed=0
+SHA256 F036ED74BDD0061D7B4825B51CE23D42C451142410228A27DA94FBD27A65C55A
+
+presets-full-final.trx       total=681 passed=680 failed=1
+SHA256 8085E05F4E69ECC09417D9D0747A5A0780D4003378F56283D8EC0AEA75D35FF8
+New peer-cancellation fixture assumed its worker had entered the connector.
+Corrected by awaiting an explicit second-entry signal and atomic fake counter.
+
+presets-full-reviewed.trx    total=681 passed=681 failed=0
+SHA256 0012B006CA64BCC84767D1F89C88A97A93169037379C6C08E68B4B6730B97F62
+
+presets-full-verified.trx    total=681 passed=681 failed=0
+SHA256 84F6B583C47ECD182F73CA8CEB1D9E3C83CFC58DFB327564D9523F82E8666342
+
+presets-scoped-source.trx    total=681 passed=681 failed=0
+SHA256 CB8A830CA51E9B9F36695A2C8516DCA942B722EF23CD44F021DAE4AF593196F5
+Initial isolated staged-source check, without concurrent package startup code.
+
+presets-scoped-final.trx     total=681 passed=681 failed=0
+SHA256 E6D44B029A611B588D3580EDA854FC2CD587378224CEB030B5A9B1B0283260C5
+Final isolated feature tree 6257ca7552e7ed8e34f20a14a232d9579defaa81.
+Includes stop-on-hide for both windows; excludes concurrent REL-03 changes.
+Tested app tree: 1bc9f804a26e6219f01709ce049bba6e40561b6f
+Tested test tree: 63fd2a9297ee295c633a393b464df2a463a75036
+Tested scripts/ProjectUiSmoke tree: 821675a3e85f6cd8f2778994e718d2e728cfa33b
+
+Final WPF focused: TestResults/NetworkTests/UiTray, 64 PNG, 0 binding errors.
+Existing WPF regression: TestResults/NetworkTests/UiRegressionTray, 128 PNG, 0 binding errors.
+See docs/testing/NETWORK_TEST_PRESETS_REVIEW.md for exact commands, corrections and limits.
