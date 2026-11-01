@@ -1,5 +1,7 @@
 # Release checklist — release approval pending
 
+ADR-045: owner explicitly requested publishing fork v1.1.1 with the new logo/current changes. Publish as Preview while the unchecked native/phase acceptance gates below remain visible; no claim that those gates are passed. Exact source/artifacts must pass the release workflow's unit/planning/package/runtime-isolation checks. First hosted run 41272961614 passed but predates the logo; repeat at the branded release source.
+
 - [ ] All required phase acceptance gates complete and signed off.
 - [ ] Base MIT license and attribution included.
 - [ ] No unlicensed AV Toolbag source/assets introduced.

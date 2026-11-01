@@ -1,5 +1,12 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Current request — v1.1.1 branding/release / ADR-045, 2026-11-01
+
+- Fork / branch / base: https://github.com/Elguajo/AV-Network-Toolkit / main / `0f307d4` includes owner-supplied logo; first successful hosted CI at `0a27b9fc2efd8c762ae189ca0c841b1a3e10f888` predates branding. Existing fork releases/tags = 0, so no existing v1.1.1 tag/assets are overwritten.
+- Owner now explicitly requested v1.1.1 with the logo/current changes (ADR-045), authorizing the necessary main/release publication and release notes. Prepare v1.1.1 Preview of current code; keep unmet native/phase gates visible. REL-04 documentation/checksum scope now allowed for this release; DATA-01 migration remains a later task. Phase 07 AWAITING_REVIEW, REL-02 native deferred.
+- Verified hosted result: [run 41272961614](https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41272961614) SUCCESS: 681 unit PASS, planning/12 tooling PASS, package/tool integrity, runtime-negative-control, both main-window startups, identical ZIP/installed payload, locked-target rejection, same-version reinstall/uninstall with fixture data retained. Hosted Windows Server runtime isolation, not pristine Windows-client/native-network certification.
+- In progress: pin SDK 8.0.427/latestPatch (observed hosted newer-SDK CS9264 warnings), synchronize README/changelog/release notes to actual fork, reusable build verification followed by explicit manual release publish using the exact verified artifacts/source/hashes. Ordinary push/CI and this requested preview publication authorized; no native NIC/probes/UAC test or phase completion.
+
 ## Product logo / Windows icon — BRAND-01 / ADR-044, 2026-11-01
 
 - Fork / branch / bootstrap SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / `e4bd0cbe152a581ab0a315f90801e42de344439f`. Concurrent packaging records/publication through `0a27b9fc2efd8c762ae189ca0c841b1a3e10f888` preserved. Branding commit resolves via `git log -1 --format=%H -- app/Assets/logo.png`.
@@ -838,3 +845,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks in active phase: previous Phase 07/native/owner review unchanged; independent REL-03/package work continues separately.
 - Next smallest safe action: review logo/icon and actual captures, then consume the new asset in an authorized subsequent package build.
 - Can next session proceed without clarification: read-only review yes; package/publication/native work follows its own existing authorization.
+
+## Session handoff — 2026-11-01, requested branded v1.1.1 Preview publication
+
+- Date and environment: 2026-11-01 Asia/Tashkent; existing local tools; SDK 8.0.427 selected by new global.json. No elevated product install/network mutation locally.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / base branding 0f307d4 plus this release preparation. First hosted PASS source 0a27b9fc2efd8c762ae189ca0c841b1a3e10f888. Exact release source will be this committed main and recorded from run/tag/manifest after execution.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW. Owner request «Обнови последний релиз 1.1.1 с учетом нового логотипа и изменений» authorizes scoped publication ADR-045, including necessary REL-04 docs/hash work; no phase/native acceptance or DATA-01 implementation implied.
+- What was actually completed: first CI run 41272961614 fully PASS (681 unit and package/runtime/control/main-window/install/reinstall/uninstall checks); prepared release with committed logo, current fork README/changelog/notes and manual release workflow reusing the complete build/package verification before upload. Fork has no prior releases/tags; no existing tag rewritten. Preview explicitly records unmet native gates and absent DHCP/password/migration. Upstream history/MIT retained.
+- Files changed: global.json; build.yml reusable trigger, release.yml verify-then-publish workflow; README/CHANGELOG/release notes; checklist/decisions/status/tasks. Logo already independently committed and verified in 0f307d4. App/network/storage logic unchanged in this step.
+- Test commands and results: existing Python plan/schema/49-task/363-link validation PASS, 12 tooling tests PASS, release PowerShell AST PASS and whitespace PASS. Prior hosted source had CS9264 warnings from unintended newer SDK selection; global.json pins supported SDK 8.0.427/latestPatch, without suppression. Branded release workflow must actually pass before publication; no premature artifact claim.
+- Live-network tests: NOT RUN; normal main-window startup only on disposable hosted Windows, no Run/Apply/Open commands. Real NIC/UAC/DAD/route/driver/browser/mDNS/TCP acceptance remains unverified. Product installer not executed on this working PC.
+- Known bugs, risk and workarounds: source release is Preview because native/client/manual/cross-version acceptance incomplete. Hosted runtime-isolation negative control is not a pristine Windows-client test. Current data stays LocalAppData; user-home migration after packaging remains separate. Release workflow now manual rather than automatic tag publication, publishes exact verified artifact hashes/source; existing mismatched tag/source aborts instead of force rewriting.
+- Decisions requiring user approval: this v1.1.1 publication already explicitly requested; do not ask again. No unrelated release, phase completion or native action authorized.
+- Remaining tasks in active phase: owner/native acceptance unchanged.
+- Next smallest safe action: commit/push branded release preparation, run release workflow, inspect both verification and publication jobs, confirm final release/tag/assets/hash and record actual result.
+- Can next session proceed without clarification: yes for this requested release/CI work and necessary scoped fixes; DATA-01/native/Phase 08 remain separate.

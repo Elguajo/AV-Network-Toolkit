@@ -1,171 +1,58 @@
 name: release
 
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  build-and-release:
-    runs-on: windows-latest
+  verify:
+    uses: ./.github/workflows/build.yml
+    permissions:
+      contents: read
 
-    # Optional secrets — the signing and VirusTotal steps stay dormant until these
-    # are set in the repo, so the workflow keeps working before they're configured.
-    #   SIGNPATH_API_TOKEN    → SignPath user token (code signing)
-    #   VIRUSTOTAL_API_KEY    → free VirusTotal API key (malware scan links)
-    # And repo *variables* (Settings → Secrets and variables → Actions → Variables):
-    #   SIGNPATH_ORG_ID, SIGNPATH_PROJECT_SLUG, SIGNPATH_POLICY_SLUG
-    env:
-      SIGNPATH_API_TOKEN: ${{ secrets.SIGNPATH_API_TOKEN }}
-      VIRUSTOTAL_API_KEY: ${{ secrets.VIRUSTOTAL_API_KEY }}
-
+  publish:
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup .NET 8
-        uses: actions/setup-dotnet@v4
+      - uses: actions/download-artifact@v4
         with:
-          dotnet-version: 8.0.x
-
-      - name: Extract version from tag
-        id: ver
-        shell: pwsh
-        run: |
-          $ver = "${{ github.ref_name }}".TrimStart('v')
-          "version=$ver" >> $env:GITHUB_OUTPUT
-
-      # The "## [<version>]" section of CHANGELOG.md becomes the release notes.
-      # Fails fast (before building) if the changelog has no entry for this tag.
-      - name: Extract changelog section
-        id: notes
+          name: AVNetworkToolkit-package-candidates-${{ github.sha }}
+          path: candidates
+      - name: Verify source, hash assets and publish requested preview
         shell: pwsh
         env:
-          VERSION: ${{ steps.ver.outputs.version }}
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_SHA: ${{ github.sha }}
         run: |
-          $section = @()
-          $inside = $false
-          foreach ($line in Get-Content CHANGELOG.md -Encoding utf8) {
-            if ($line.StartsWith('## ')) { $inside = $line.StartsWith("## [$env:VERSION]"); continue }
-            if ($line -match '^\[[^\]]+\]: https?://') { break }
-            if ($inside) { $section += $line }
+          $manifest = Get-Content candidates/package-manifest.json -Raw | ConvertFrom-Json
+          if ($manifest.SourceCommit -ne $env:RELEASE_SHA -or $manifest.Version -ne '1.1.1') { throw 'Unexpected release source/version' }
+          $assets = @()
+          $checksums = @()
+          foreach ($file in $manifest.Files) {
+            if ($file.Name -ne [IO.Path]::GetFileName($file.Name)) { throw 'Invalid manifest filename' }
+            $path = Join-Path candidates $file.Name
+            $hash = (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash
+            if ($hash -ne $file.Sha256) { throw 'Candidate checksum mismatch' }
+            $checksums += "$hash  $($file.Name)"
+            $assets += $path
           }
-          $changes = ($section -join "`n").Trim()
-          if (-not $changes) { throw "CHANGELOG.md has no '## [$env:VERSION]' section." }
-          $delim = "CHANGELOG_$([guid]::NewGuid().ToString('N'))"
-          "changes<<$delim", $changes, $delim | Add-Content -Path $env:GITHUB_OUTPUT -Encoding utf8
-
-      - name: Restore
-        run: dotnet restore
-
-      - name: Test
-        run: dotnet test test/NetworkProfileManager.Tests.csproj --configuration Release --logger "console;verbosity=minimal"
-
-      - name: Publish (self-contained win-x64)
-        run: >
-          dotnet publish app/NetworkProfileManager.csproj
-          -c Release
-          -r win-x64
-          --self-contained true
-          -p:Version=${{ steps.ver.outputs.version }}
-          -p:AssemblyVersion=${{ steps.ver.outputs.version }}.0
-          -p:FileVersion=${{ steps.ver.outputs.version }}.0
-          -p:DebugType=none
-          -p:DebugSymbols=false
-          -p:PublishReadyToRun=false
-          -o publish
-
-      - name: Clean publish artifacts
-        shell: pwsh
-        run: |
-          Get-ChildItem -Path publish -Filter "*.pdb" -Recurse | Remove-Item -Force -ErrorAction SilentlyContinue
-
-      # ── Code signing (SignPath) ─────────────────────────────────────────────
-      # Dormant until SIGNPATH_API_TOKEN + the three SIGNPATH_* repo variables are
-      # set. Once active it signs NetworkProfileManager.exe in place (before zip),
-      # which clears both the SmartScreen and UAC "Unknown publisher" warnings.
-      # Setup: apply for a free SignPath Foundation OSS certificate, then create a
-      # project + signing policy and fill in the org id / project slug / policy slug.
-      - name: Upload unsigned build for signing
-        if: env.SIGNPATH_API_TOKEN != ''
-        id: unsigned
-        uses: actions/upload-artifact@v4
-        with:
-          name: unsigned-publish
-          path: publish
-
-      - name: Sign with SignPath
-        if: env.SIGNPATH_API_TOKEN != ''
-        uses: signpath/github-action-submit-signing-request@v1
-        with:
-          api-token: ${{ env.SIGNPATH_API_TOKEN }}
-          organization-id: ${{ vars.SIGNPATH_ORG_ID }}
-          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG }}
-          signing-policy-slug: ${{ vars.SIGNPATH_POLICY_SLUG }}
-          github-artifact-id: ${{ steps.unsigned.outputs.artifact-id }}
-          wait-for-completion: true
-          output-artifact-directory: publish
-
-      - name: Zip release
-        shell: pwsh
-        run: |
-          $zipName = "NetworkProfileManager-v${{ steps.ver.outputs.version }}-win-x64.zip"
-          Compress-Archive -Path publish/* -DestinationPath $zipName -Force
-          "Created $zipName ($((Get-Item $zipName).Length / 1MB) MB)"
-
-      - name: Generate SHA256 checksum
-        id: sum
-        shell: pwsh
-        run: |
-          $zip  = Get-ChildItem "NetworkProfileManager-v*-win-x64.zip" | Select-Object -First 1
-          $hash = (Get-FileHash $zip.FullName -Algorithm SHA256).Hash
-          "$hash  $($zip.Name)" | Out-File "$($zip.Name).sha256" -Encoding ascii
-          "sha256=$hash" >> $env:GITHUB_OUTPUT
-          "Wrote $($zip.Name).sha256 = $hash"
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            NetworkProfileManager-v*-win-x64.zip
-            NetworkProfileManager-v*-win-x64.zip.sha256
-          name: ${{ github.ref_name }}
-          tag_name: ${{ github.ref_name }}
-          generate_release_notes: true
-          body: |
-            ${{ steps.notes.outputs.changes }}
-
-            ## Download
-
-            1. Download **NetworkProfileManager-v${{ steps.ver.outputs.version }}-win-x64.zip**.
-            2. Extract anywhere (e.g. `C:\Tools\NetworkProfileManager\`).
-            3. Double-click `NetworkProfileManager.exe`. Windows asks for administrator permission (UAC) when you apply a change — `netsh` requires it.
-
-            > If Windows SmartScreen shows an "Unknown publisher" warning → **More info → Run anyway.**
-
-            ## Verify the download
-            SHA256 of the zip:
-            ```
-            ${{ steps.sum.outputs.sha256 }}
-            ```
-            Check it on your machine:
-            ```powershell
-            Get-FileHash .\NetworkProfileManager-v${{ steps.ver.outputs.version }}-win-x64.zip -Algorithm SHA256
-            ```
-
-            ## Updating
-            No auto-updater — to upgrade, download the new zip and extract it over the previous folder. Your profiles live in `%LOCALAPPDATA%\NetworkProfileManager\data\` and survive updates.
-
-      # ── Malware scan links (VirusTotal) ─────────────────────────────────────
-      # Dormant until VIRUSTOTAL_API_KEY is set. Uploads the artifacts to VirusTotal
-      # and appends the scan links to the release notes — a free trust signal.
-      - name: VirusTotal scan
-        if: env.VIRUSTOTAL_API_KEY != ''
-        uses: crazy-max/ghaction-virustotal@v4
-        with:
-          vt_api_key: ${{ env.VIRUSTOTAL_API_KEY }}
-          update_release_body: true
-          files: |
-            NetworkProfileManager-v*-win-x64.zip
+          $checksums | Set-Content candidates/SHA256SUMS.txt -Encoding ascii
+          $assets += 'candidates/SHA256SUMS.txt'
+          $assets += 'candidates/package-manifest.json'
+          $tag = 'v' + $manifest.Version
+          gh release view $tag --json tagName 2>$null
+          if ($LASTEXITCODE -eq 0) {
+            $tagSha = gh api "repos/$env:GITHUB_REPOSITORY/commits/$tag" --jq .sha
+            if ($LASTEXITCODE -ne 0 -or $tagSha -ne $env:RELEASE_SHA) { throw 'Existing release/tag targets another source; no tag rewrite' }
+            gh release edit $tag --title 'AV Network Toolkit 1.1.1 — Preview' --notes-file docs/releases/v1.1.1.md --prerelease
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+            gh release upload $tag @assets --clobber
+          } else {
+            gh release create $tag @assets --target $env:RELEASE_SHA --title 'AV Network Toolkit 1.1.1 — Preview' --notes-file docs/releases/v1.1.1.md --prerelease
+          }
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

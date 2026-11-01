@@ -6,7 +6,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.1.1] — 2026-10-14
+## [1.1.1] — 2026-11-01 (AV Network Toolkit Preview)
+
+### Added
+
+- Independent versioned AV project profiles, device web-interface catalogue, explicit Apply & Open and separately confirmed recovery with supported-state verification.
+- Main local/project workspace, detached profile editor, manual Link-Local, passive selected-NIC mDNS and Ethernet/Hyper-V facts.
+- Explicit source/adapter single, four-request and Continuous Ping plus one-port TCP checks, Run/Stop and separate test window.
+- Same-version self-contained Windows x64 installer and portable ZIP, source/hash manifest and disposable hosted package/runtime verification.
+
+### Changed
+
+- Product branding to AV Network Toolkit with the owner-supplied cyan/blue ribbon PNG and multi-resolution Windows icon.
+- English remains supported; retired Turkish preferences fall back to English without rewriting settings at startup.
+- Fork build/release automation, pinned build-tool integrity checks and SDK 8 selection; see [release notes and limits](docs/releases/v1.1.1.md).
+
+### Fixed
+
+- Shared JSON schema evaluation race that could accept invalid DHCP-with-IPv4 and empty static-DNS documents under concurrent Parse/Serialize calls; meaningful red/green regression evidence retained.
+
+### Preview boundaries
+
+- Real isolated NIC/UAC/DAD/multicast/driver/network recovery and manual accessibility acceptance remain unverified. No DHCP server, device-password fields or future user-home data migration included. Existing LocalAppData/project data locations preserved; no phase marked complete by this publication.
+
+### Upstream 1.1.1 history — 2026-10-14
+
+The following upstream notes describe the original release, not the updated fork package counts or sizes.
 
 ### Changed
 
@@ -126,7 +151,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 Initial public release: adapter list, static/DHCP profiles, history with revert,
 IP scanner, ping tool, system tray, Turkish/English UI, light/dark/blue themes.
 
-[Unreleased]: https://github.com/rmzncakir/network-profile-changer/compare/v1.1.1...HEAD
-[1.1.1]: https://github.com/rmzncakir/network-profile-changer/compare/v1.1.0...v1.1.1
+[Unreleased]: https://github.com/Elguajo/AV-Network-Toolkit/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/Elguajo/AV-Network-Toolkit/releases/tag/v1.1.1
 [1.1.0]: https://github.com/rmzncakir/network-profile-changer/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/rmzncakir/network-profile-changer/releases/tag/v1.0.0
