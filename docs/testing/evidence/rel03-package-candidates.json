@@ -1,0 +1,64 @@
+{
+  "date": "2026-11-01 Asia/Tashkent",
+  "manifest": {
+    "Compiler": {
+      "Files": {
+        "ISCC.exe": "F02FA0E5F237B47D7ED1EDAE9B991866EC94FE02AF61EB6A73E94F92FE8E0604",
+        "ISCmplr.dll": "236555054CA65194C69544B4EF1D49EA345259745F5C4A2005ACA7B5674E7CFF",
+        "ISPP.dll": "140B2D822BF30ED8AA3FED64764B2D2B92A80E0B9AAFC1B8FF3E409706B9207E"
+      },
+      "PinnedRelease": "6.7.4"
+    },
+    "SelfContained": true,
+    "Files": [
+      {
+        "Sha256": "2ACA48807CB914728B10774AA3AED56C7DC352D3FFD142381F3B967A3BBE513D",
+        "Name": "AVNetworkToolkit-1.1.1-win-x64-portable.zip"
+      },
+      {
+        "Sha256": "50EB857DA44A565FD4B2092B22F34138871FCFF4994D00EC8528EE073C5174BA",
+        "Name": "AVNetworkToolkit-1.1.1-win-x64-setup.exe"
+      }
+    ],
+    "RuntimeIdentifier": "win-x64",
+    "SourceCommit": "e4bd0cbe152a581ab0a315f90801e42de344439f",
+    "Version": "1.1.1"
+  },
+  "payloadSelfTest": {
+    "Success": true,
+    "Version": "1.1.1.0",
+    "InformationalVersion": "1.1.1+e4bd0cbe152a581ab0a315f90801e42de344439f",
+    "Runtime": ".NET 8.0.33",
+    "JsonValidated": true,
+    "WpfRendered": true,
+    "ErrorType": null
+  },
+  "unitCounters": {
+    "total": "681",
+    "executed": "681",
+    "passed": "681",
+    "failed": "0",
+    "error": "0",
+    "timeout": "0",
+    "aborted": "0",
+    "inconclusive": "0",
+    "passedButRunAborted": "0",
+    "notRunnable": "0",
+    "notExecuted": "0",
+    "disconnected": "0",
+    "warning": "0",
+    "completed": "0",
+    "inProgress": "0",
+    "pending": "0"
+  },
+  "unitTrxSha256": "C951E51C4B53A8DAD87A8E37D8CE97338607F4E1600D2B8C052DF5E5540CC69B",
+  "applicationFixtureComparison": "106 app files match after CRLF/LF normalization (39 raw newline differences; no content differences)",
+  "portableExtraction": "8/8 payload file hashes match",
+  "selfTestContract": "success + existing-report rejection + 3 malformed-argument rejections PASS",
+  "compilerIntegrity": "reuse + 4 negative cases PASS",
+  "hostedExecution": "NOT RUN / needs authorized push",
+  "ordinaryStartup": "NOT RUN locally; prepared hosted check",
+  "installReinstallUninstall": "NOT RUN locally; prepared hosted checks",
+  "nativeNetwork": "NOT RUN",
+  "futureUserHomeStorage": "approved after packaging; NOT IMPLEMENTED"
+}
