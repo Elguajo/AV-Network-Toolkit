@@ -1,5 +1,7 @@
 # Project context — persistent product brief
 
+Current local navigation follow-up (ADR-050), source 2356dec: private window/sidebar layout persistence and actual running-test/mDNS rail indicators implemented; [contract](docs/spec/NAVIGATION_FOLLOWUP_CONTRACT.md), [evidence/native-DPI limits](docs/testing/NAVIGATION_FOLLOWUP_REVIEW.md). New source is not included in the older prebuilt 1.1.4 candidate below. Native 150%/200%/mixed-monitor acceptance remains pending; no storage-root migration or phase/publication change.
+
 Current local test candidate: owner-requested **1.1.4 Preview** built from `629c2ae2d56800693ce1683a1464e177fcc0238a` with all completed main changes; self-contained payload EXE/ZIP/installer and local checks verified. [Exact path and source/package evidence](docs/testing/LOCAL_PREVIEW_1.1.4_REVIEW.md). Version bump and local packaging only; published v1.1.3/native/phase gates remain separate.
 
 Current publication (ADR-048 / REL-05): [v1.1.3 Preview](https://github.com/Elguajo/AV-Network-Toolkit/releases/tag/v1.1.3), source 2847ff6baaee59c813dbecb0688ffad62324b968, includes audit/theme/tray/adapter fixes and self-contained .NET 10 installer/ZIP; [exact-source checks and downloads](docs/testing/RELEASE_2026-11-01_REVIEW.md) verified. Native/phase acceptance and UX-R01/P05-R01 remain open; DOC-R01 was resolved as a [smoke-test synchronization defect](docs/testing/DIAGNOSTIC_HIDE_REVIEW.md), without product changes; Windows 10 edition limits apply. Previous releases retained. No DATA-01/Phase 08 advancement.

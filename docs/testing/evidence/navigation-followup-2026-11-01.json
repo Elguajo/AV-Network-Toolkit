@@ -1,0 +1,93 @@
+{
+  "tasks": [
+    "UI-PREF-01",
+    "UI-ACTIVITY-01",
+    "UI-DPI-01"
+  ],
+  "date": "2026-11-01",
+  "timezone": "Asia/Tashkent",
+  "sourceCommit": "2356decf70f22a089db2a7a99339c99bc6ac956d",
+  "build": {
+    "solution": "PASS",
+    "harness": "PASS",
+    "warnings": 0,
+    "errors": 0
+  },
+  "unit": {
+    "passed": 736,
+    "failed": 0,
+    "skipped": 0,
+    "trxSha256": "8faad01f31c0c69b19f2a82ccc5971843c50bb3c90f4cdfad14dbc506231e3ae"
+  },
+  "wpf": {
+    "captures": {
+      "Followup": 8,
+      "Navigation": 26,
+      "Workspace": 128,
+      "Diagnostics": 64,
+      "Tray": 6
+    },
+    "total": 232,
+    "bindingErrors": 0,
+    "result": "PASS"
+  },
+  "hideChecks": {
+    "cycles": 20,
+    "lateEcho": 2,
+    "result": "PASS"
+  },
+  "nativeDpi": {
+    "Monitors": [
+      {
+        "DeviceName": "\\\\.\\DISPLAY1",
+        "Dpi": 96,
+        "WindowDpi": 96,
+        "WpfDpi": 96,
+        "Awareness": 2
+      }
+    ],
+    "Scale150": "NOT RUN: no 144-DPI monitor",
+    "Scale200": "NOT RUN: no 192-DPI monitor",
+    "MixedDpiTransfer": "NOT RUN: no different-DPI displays"
+  },
+  "globalDisplayChanges": false,
+  "liveNetworking": "NOT RUN",
+  "appSelfTest": {
+    "Success": true,
+    "Version": "1.1.4.0",
+    "InformationalVersion": "1.1.4+2356decf70f22a089db2a7a99339c99bc6ac956d",
+    "Runtime": ".NET 10.0.14",
+    "JsonValidated": true,
+    "WpfRendered": true,
+    "ErrorType": null
+  },
+  "sourceFileSha256": {
+    "DESIGN.md": "7050d52177692cf6bf28a8eb33cededcdf3265332ff74a819e14bdbc00abf7a2",
+    "app/App.xaml.cs": "79c5e290c377419eab115f0496ffca6e565fa06dc023b02b3fc7aca9644cb4b5",
+    "app/Converters/ToolActivityTextConverter.cs": "523860de355b7eab1a23aeffe4668e53449f953d54302b82a01f590f9cb333b5",
+    "app/Helpers/WindowLayoutState.cs": "348985760876974f415549b3093edb15501ac1aca6628569ac290de810dc63cd",
+    "app/Helpers/WindowScreenPlacement.cs": "57a017f6c502106b172e780be1a04cfad455b60feb393e2707dd4ed6c1fdee6d",
+    "app/MainWindow.Activity.cs": "e117d52a0d5cfed2350374df4134bc58d4f1d86ad110c6438520435a48ed51e9",
+    "app/MainWindow.Layout.cs": "a00f55c84813e52fd26bede13a2f4df391c63cbecde0a7bcbc1459264cb70244",
+    "app/MainWindow.Navigation.cs": "362ebf6d164c3d8c4c8312f9edfdeb1d3f2b31f78198a3f295067e446c90831a",
+    "app/MainWindow.xaml": "b99c7a057b24e4267fe8ad6378e30d386f8a3e661a9b0f0564498583feaa29d4",
+    "app/MainWindow.xaml.cs": "0762d74378658709bdc2e73c862585c67724048b5c1c55284c2dcbf2a79ad384",
+    "app/Services/WindowLayoutStore.cs": "a37d5fc170183b463e00a3d703f2909c8df5f69fa58a4c80617754329cf5c083",
+    "app/Strings/En.xaml": "6958b620176939abcd185eada3ffa8de626ea242a7b3cdde6dcdba5c155d13e9",
+    "app/Themes/Styles.xaml": "3019364344e84509b8f29b70bea3672720a8b4f5214cb692d4bcf0da8fa60643",
+    "app/ViewModels/AdapterDiagnosticsViewModel.cs": "02c243f7349e14949f57a4e0ae742812b57058e91cbb8649a6f9aabae36bf124",
+    "app/ViewModels/MdnsDiscoveryViewModel.cs": "9d36c13641184f8fdfb4a6334bcbf417533d3bf129d98cf76bc1e294ffb88e38",
+    "app/app.manifest": "ce9071bec1309504f37e692f0767b88b26eb165e96074200c70370223bc16084",
+    "decisions/DECISION_LOG.md": "36aefacf43603f1e50ad6ab079d61b19480755dbfd4c97366694cbc166dcecae",
+    "docs/spec/LEFT_NAVIGATION_BRIEF.md": "56952bbf1d62c11f81d94e1f165dd663a4c3f692d160d57fe7f2a710c6b946d6",
+    "docs/spec/NAVIGATION_FOLLOWUP_CONTRACT.md": "5287d0149e139691b6108cf7beecac1b0f2d81c837d493c890ff0dedda02762e",
+    "scripts/ProjectUiSmoke/NavigationFollowupSmoke.cs": "c294764d510a6682987a28fee8b725e2122485eb1ca323da573f0c4f7e12064f",
+    "scripts/ProjectUiSmoke/Program.cs": "bd6803698ea4723f3965cfa47d39f3abee0e34e0b40ea871119a57376f7f57f8",
+    "scripts/ProjectUiSmoke/ProjectUiSmoke.csproj": "c84238c8773cd51641c0e5b846df84dd331a9b446d90278bb59841cdeddb1c7d",
+    "test/WindowLayoutTests.cs": "ba0c6e20b4e5116a34f1cc5a64aa664259c184504f65208691ae020947e83194"
+  },
+  "retainedPngSha256": {
+    "docs/design/navigation/tests-running-dark.png": "d371fb489946a318a3e0cac43798953eaf70f2761a3cdda9ac33e447608a3df6",
+    "docs/design/navigation/mdns-listening-light.png": "dda421781edb6b867df6f5c64b965fc0e21670d4f2a2095798c434f3452ed0eb"
+  }
+}

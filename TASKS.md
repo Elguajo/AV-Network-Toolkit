@@ -1,5 +1,11 @@
 # Traceable task backlog
 
+## Navigation follow-up — ADR-050, 2026-11-01
+
+- [x] **UI-PREF-01** — Remember main-window/sidebar layout across starts. **AC:** reviewed additive private versioned preference, atomic preservation/compatibility/conflict/retry, normal/max/min/tray/offscreen restoration without touching profiles. **State:** VERIFIED_LOCAL at 2356dec; 13 new storage/geometry unit cases and actual WPF restart/placement checks PASS. [Contract](docs/spec/NAVIGATION_FOLLOWUP_CONTRACT.md), [evidence](docs/testing/NAVIGATION_FOLLOWUP_REVIEW.md).
+- [x] **UI-ACTIVITY-01** — Indicate actual tests/mDNS activity on the rail. **AC:** accessible marks, inline/peer aggregation, cancellation drain, mDNS start/stop/close, no automatic traffic and subscription cleanup. **State:** VERIFIED_LOCAL at 2356dec; fake-lifecycle/overlap/late-echo checks and Light/Dark captures PASS. [Evidence and limits](docs/testing/NAVIGATION_FOLLOWUP_REVIEW.md).
+- [ ] **UI-DPI-01** — Verify actual 150%/200% and mixed-monitor interaction. **AC:** native HWND/WPF/monitor DPI agreement, work-area bounds and keyboard/resize/tray behavior on real target scales. **State:** PARTIALLY_VERIFIED — PerMonitorV2/96 DPI native agreement, monitor-relative 96/144/192 geometry and layout simulations PASS; actual 150%/200%/mixed-DPI transfer NOT RUN (one physical 2560x1080/96-DPI display). No global display changes. [Evidence](docs/testing/NAVIGATION_FOLLOWUP_REVIEW.md). Phase 07 and publication gates unchanged.
+
 ## Adapter-list options placement — 2026-11-01
 
 - [x] **UI-ADAPTER-OPTIONS-01** — Move Show all adapters into the list header's More menu. **AC:** compact header, named keyboard-accessible menu/checkable item, existing filtering/drafts/selection behavior and refresh preserved; Light/Dark normal/minimum checks. **State:** VERIFIED_LOCAL — Release build 0 warnings/errors, 25 focused unit PASS, 20 focused + 128 full WPF captures/0 binding errors. [Review](docs/testing/ADAPTER_OPTIONS_REVIEW.md). Packages and Phase 07 acceptance unchanged.
