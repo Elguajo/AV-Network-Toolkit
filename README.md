@@ -11,10 +11,11 @@
   </a>
 </div>
 
-
+<div>
 Windows network profiles and project-scoped device web interfaces for AV field work. Select an adapter, review the computer's current settings, deliberately apply a saved profile, then open the equipment interface when needed.
 
 **1.1.1 Preview:** includes the fork's project/device workflows, diagnostics, new logo and self-contained Windows packages. Automated checks do not replace isolated hardware acceptance; read the [release limitations](docs/releases/v1.1.1.md#limitations) before changing a working network.
+</div>
 
 ## Download and start
 
