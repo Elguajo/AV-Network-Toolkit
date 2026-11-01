@@ -1,5 +1,9 @@
 # Traceable task backlog
 
+## Local application for owner testing — 2026-11-01
+
+- [ ] **BUILD-01** — Bump to 1.1.4 and provide current self-contained application for owner manual testing. **AC:** synchronized version metadata/notes, pinned committed source, Release build/unit/planning checks, both local packages and extracted payload identity/WPF/JSON/self-test rejection evidence, exact executable path. **State:** IN_PROGRESS — [local review](docs/testing/LOCAL_PREVIEW_1.1.4_REVIEW.md). No GitHub publication, installation, agent live-network test or phase advancement.
+
 ## Diagnostic hide smoke investigation — 2026-11-01
 
 - [x] **DOC-R01** — Reproduce and resolve intermittent diagnostic hide/cancellation smoke failure. **AC:** Causal ordering evidence, deterministic main/separate-window cancellation checks, late-echo completion/no restart, negative controls with each actual handler removed, relevant regression results. **State:** VERIFIED — test synchronization defect; no product change. [Review and limits](docs/testing/DIAGNOSTIC_HIDE_REVIEW.md). Historical OPEN mentions below and in release evidence are superseded for this issue only. Owner performs manual acceptance; Phase 07 remains AWAITING_REVIEW, no live-network/publication/Phase 08 action.

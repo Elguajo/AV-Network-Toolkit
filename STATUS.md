@@ -1,5 +1,11 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Local 1.1.4 Preview preparation — BUILD-01, 2026-11-01
+
+- Fork / branch / inspected base: https://github.com/Elguajo/AV-Network-Toolkit / main / `4c0a3aa`. Owner requested current version bump and executable for manual testing. Source commit follows; resolve through git log for app/NetworkProfileManager.csproj.
+- In progress: version/file/assembly 1.1.4/1.1.4.0, synchronized local notes/changelog/manual-release version gate; build both local self-contained packages from a committed source to out/LocalPreview-1.1.4, then verify and give the payload EXE path. [Evidence](docs/testing/LOCAL_PREVIEW_1.1.4_REVIEW.md). No success claimed before commands complete; last executed tests remain the DOC-R01 evidence below.
+- Blockers / next action: no blocker known; run exact-source Release build/full unit/planning and safe package self-tests. Phase 07 AWAITING_REVIEW, owner/native acceptance and previous limits persist. No application behavior/data-path/schema change, agent native probes/NIC/UAC/VM/install/push/release action.
+
 ## Diagnostic hide smoke resolved — DOC-R01, 2026-11-01
 
 - Fork / branch / inspected source: https://github.com/Elguajo/AV-Network-Toolkit / main / `386aef8f3a9d5d9345213a3a7c6eca77ca74a2ed`. Scoped local commit follows; resolve with `git log -1 --format=%H -- docs/testing/DIAGNOSTIC_HIDE_REVIEW.md`.

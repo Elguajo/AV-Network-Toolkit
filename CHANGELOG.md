@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.4] — 2026-11-01 (local AV Network Toolkit Preview)
+
+### Changed
+
+- Bump application/file/assembly versions for an owner-requested local test build containing all completed main changes. Includes the 1.1.3 audit/theme/tray/adapter fixes, current documentation and diagnostic smoke correction. No new application behavior since 1.1.3.
+- Synchronize the manually dispatched release workflow with the new version and [notes](docs/releases/v1.1.4.md); no GitHub publication executed by this local build.
+
+### Fixed
+
+- Synchronize diagnostic-hide smoke checks with a controllable delay and verify both real window handlers using negative controls. DOC-R01 was a test defect; native/manual acceptance remains pending.
+
 ## [1.1.3] — 2026-11-01 (AV Network Toolkit Preview)
 
 ### Fixed
