@@ -47,6 +47,8 @@ This approves delivery requirements, not completed artifacts or release publicat
 
 ADR-042 owner refinement: after packaging, migrate shared user data to `%USERPROFILE%\.av-network-toolkit` through a separate reviewed backup/compatibility/recovery change (DATA-01). Current implementation and candidate packages still use LocalAppData. This approves the future destination, not completed migration or data deletion.
 
+ADR-045 publication: owner requested version 1.1.1 with the new logo/current changes. [v1.1.1 Preview](https://github.com/Elguajo/AV-Network-Toolkit/releases/tag/v1.1.1) is published from `3fd7e77e1f5b560172b7e23d33928bace9cdaa73`, both packages self-contained and [hosted CI verified](https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41273489475). Native/phase acceptance remains pending; no DHCP/password/user-home migration implementation claimed. This supersedes earlier no-publication statements for this requested preview only.
+
 ## Non-goals / unapproved changes
 
 - No rewrite to Flutter/Electron/other toolkit.

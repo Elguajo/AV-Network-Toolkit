@@ -18,12 +18,12 @@ Separate from phase acceptance and the 49 phase tasks; execute in this order:
 
 | ID | Follow-up | State |
 |---|---|---|
-| REL-01 | Investigate/fix UX-R01/P05-R01 with causal reproduction and meaningful regression coverage | FIXED_LOCALLY / EVIDENCE_RECORDED; [reproduction, cause, correction, 631 PASS](docs/testing/JSON_VALIDATION_REVIEW.md); owner review pending |
+| REL-01 | Investigate/fix UX-R01/P05-R01 with causal reproduction and meaningful regression coverage | FIXED / EVIDENCE_RECORDED and included in v1.1.1 Preview; [reproduction, cause, correction](docs/testing/JSON_VALIDATION_REVIEW.md); no historical phase/native acceptance inferred |
 | REL-02 | Prepare isolated Windows profile → observed IP/prefix/gateway/DNS → device open → restore, UAC denial, NIC disconnect and partial failure | PREPARATION_EVIDENCE_RECORDED; [156 fake tests + 11 observer fixtures in two shells](docs/testing/ISOLATED_WINDOWS_PREPARATION.md). Owner chose safe checks only; native NOT RUN/deferred pending lab |
-| REL-03 | Confirm GitHub CI and same-version installer + portable ZIP on clean Windows without preinstalled .NET (ADR-039) | IN_PROGRESS: [local self-contained candidates verified](docs/testing/PACKAGING_REVIEW.md), source e4bd0cb; 681 unit PASS, packaged WPF/JSON + ZIP hashes/tool integrity PASS. Hosted install/ordinary startup/no-global-runtime/reinstall/uninstall NOT RUN, pending authorized main push/actual CI. REL-02 native restriction remains |
-| REL-04 | Update first-release README/changelog/version/description/limits/checksum | AUTHORIZED/IN_PROGRESS for owner-requested v1.1.1 Preview (ADR-045), including new logo and current changes; no completed native/phase acceptance claimed |
+| REL-03 | Confirm GitHub CI and same-version installer + portable ZIP on clean Windows without preinstalled .NET (ADR-039) | HOSTED_EVIDENCE_RECORDED: [release CI](https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41273489475) PASS at 3fd7e77; 681 unit, both packages/main-window launch with global runtime unavailable, install/reinstall/uninstall/retention/lock/hash checks PASS. Hosted Windows Server is not pristine-client/native acceptance; [limits](docs/testing/PACKAGING_REVIEW.md) |
+| REL-04 | Update first-release README/changelog/version/description/limits/checksum | PUBLISHED_PREVIEW / VERIFIED: [v1.1.1](https://github.com/Elguajo/AV-Network-Toolkit/releases/tag/v1.1.1), new logo, same-source installer/ZIP, SHA256SUMS/manifest, README/changelog/notes/limits. Version remains 1.1.1 by owner request (ADR-045); native/phase acceptance not claimed |
 
-Phase 07 remains AWAITING_REVIEW. No push, tag/release, Phase 08 or DHCP server authorization.
+Phase 07 remains AWAITING_REVIEW. ADR-045 authorizes this v1.1.1 Preview publication only; earlier no-push/no-release snapshots are historical for that scope. No Phase 08, DHCP server or native network test authorized.
 
 ADR-038 maintenance follow-up: owner confirmed CODEX_START.md deletion; retired redundant entry and enforced existing AGENTS/bootstrap/resume/handoff documents instead. Real-tree planning/schema/links PASS, 12 tooling regressions PASS; JSON scoped self-review found no new actionable defect, 60 focused PASS and 10 retained TRX hashes verified. Phase/task acceptance and native/deferred release gates unchanged.
 

@@ -1,0 +1,410 @@
+{
+  "date": "2026-11-01 Asia/Tashkent",
+  "release": {
+    "assets": [
+      {
+        "apiUrl": "https://api.github.com/repos/Elguajo/AV-Network-Toolkit/releases/assets/697331211",
+        "contentType": "application/zip",
+        "createdAt": "2026-11-01T04:36:27Z",
+        "digest": "sha256:780b0c41e90eaece141ab545505636974e117f15b542036bd959bb528ee89a6e",
+        "downloadCount": 0,
+        "id": "RA_kwDOVdy-nc4pkG4L",
+        "label": "",
+        "name": "AVNetworkToolkit-1.1.1-win-x64-portable.zip",
+        "size": 65071824,
+        "state": "uploaded",
+        "updatedAt": "2026-11-01T04:36:31Z",
+        "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.1/AVNetworkToolkit-1.1.1-win-x64-portable.zip"
+      },
+      {
+        "apiUrl": "https://api.github.com/repos/Elguajo/AV-Network-Toolkit/releases/assets/697331221",
+        "contentType": "application/octet-stream",
+        "createdAt": "2026-11-01T04:36:27Z",
+        "digest": "sha256:905758c3988a22f3a62cedd2a98ea47cb533f1814988dca272e63f4287db98cb",
+        "downloadCount": 0,
+        "id": "RA_kwDOVdy-nc4pkG4V",
+        "label": "",
+        "name": "AVNetworkToolkit-1.1.1-win-x64-setup.exe",
+        "size": 64609647,
+        "state": "uploaded",
+        "updatedAt": "2026-11-01T04:36:30Z",
+        "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.1/AVNetworkToolkit-1.1.1-win-x64-setup.exe"
+      },
+      {
+        "apiUrl": "https://api.github.com/repos/Elguajo/AV-Network-Toolkit/releases/assets/697331218",
+        "contentType": "application/json",
+        "createdAt": "2026-11-01T04:36:27Z",
+        "digest": "sha256:63542805bb574e423dad97234b7b129306df2ee3594816306e36f8e2a4e72e5b",
+        "downloadCount": 0,
+        "id": "RA_kwDOVdy-nc4pkG4S",
+        "label": "",
+        "name": "package-manifest.json",
+        "size": 830,
+        "state": "uploaded",
+        "updatedAt": "2026-11-01T04:36:28Z",
+        "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.1/package-manifest.json"
+      },
+      {
+        "apiUrl": "https://api.github.com/repos/Elguajo/AV-Network-Toolkit/releases/assets/697331219",
+        "contentType": "text/plain; charset=utf-8",
+        "createdAt": "2026-11-01T04:36:27Z",
+        "digest": "sha256:07f5a399984f5bb16b31855beaa3ecffeee72fd77647710309a75240e6d02432",
+        "downloadCount": 0,
+        "id": "RA_kwDOVdy-nc4pkG4T",
+        "label": "",
+        "name": "SHA256SUMS.txt",
+        "size": 217,
+        "state": "uploaded",
+        "updatedAt": "2026-11-01T04:36:27Z",
+        "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.1/SHA256SUMS.txt"
+      }
+    ],
+    "isDraft": false,
+    "isPrerelease": true,
+    "name": "AV Network Toolkit 1.1.1 \u2014 Preview",
+    "publishedAt": "2026-11-01T04:36:32Z",
+    "tagName": "v1.1.1",
+    "targetCommitish": "3fd7e77e1f5b560172b7e23d33928bace9cdaa73",
+    "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/tag/v1.1.1"
+  },
+  "ci": {
+    "conclusion": "success",
+    "databaseId": 41273489475,
+    "headSha": "3fd7e77e1f5b560172b7e23d33928bace9cdaa73",
+    "jobs": [
+      {
+        "completedAt": "2026-11-01T04:34:21Z",
+        "conclusion": "success",
+        "databaseId": 124750872517,
+        "name": "verify / build-and-test",
+        "startedAt": "2026-11-01T04:32:32Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-01T04:32:34Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-01T04:32:33Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:32:39Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-01T04:32:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:33:10Z",
+            "conclusion": "success",
+            "name": "Setup .NET 8",
+            "number": 3,
+            "startedAt": "2026-11-01T04:32:39Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:33:41Z",
+            "conclusion": "success",
+            "name": "Restore",
+            "number": 4,
+            "startedAt": "2026-11-01T04:33:10Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:33:54Z",
+            "conclusion": "success",
+            "name": "Build (Release)",
+            "number": 5,
+            "startedAt": "2026-11-01T04:33:41Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:34:05Z",
+            "conclusion": "success",
+            "name": "Test",
+            "number": 6,
+            "startedAt": "2026-11-01T04:33:54Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:34:05Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-python@v5",
+            "number": 7,
+            "startedAt": "2026-11-01T04:34:05Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:34:17Z",
+            "conclusion": "success",
+            "name": "Validate durable planning and schema",
+            "number": 8,
+            "startedAt": "2026-11-01T04:34:05Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:34:18Z",
+            "conclusion": "success",
+            "name": "Retain unit evidence",
+            "number": 9,
+            "startedAt": "2026-11-01T04:34:17Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:34:18Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-python@v5",
+            "number": 16,
+            "startedAt": "2026-11-01T04:34:18Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:34:18Z",
+            "conclusion": "success",
+            "name": "Post Setup .NET 8",
+            "number": 17,
+            "startedAt": "2026-11-01T04:34:18Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:34:20Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 18,
+            "startedAt": "2026-11-01T04:34:18Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:34:20Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 19,
+            "startedAt": "2026-11-01T04:34:20Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41273489475/job/124750872517"
+      },
+      {
+        "completedAt": "2026-11-01T04:36:10Z",
+        "conclusion": "success",
+        "databaseId": 124751225888,
+        "name": "verify / packages",
+        "startedAt": "2026-11-01T04:34:24Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-01T04:34:26Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-01T04:34:25Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:34:32Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-01T04:34:26Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:34:34Z",
+            "conclusion": "success",
+            "name": "Run actions/setup-dotnet@v4",
+            "number": 3,
+            "startedAt": "2026-11-01T04:34:32Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:35:44Z",
+            "conclusion": "success",
+            "name": "Build self-contained installer and portable ZIP",
+            "number": 4,
+            "startedAt": "2026-11-01T04:34:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:35:45Z",
+            "conclusion": "success",
+            "name": "Verify pinned build-tool integrity controls",
+            "number": 5,
+            "startedAt": "2026-11-01T04:35:44Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:36:02Z",
+            "conclusion": "success",
+            "name": "Verify packages with global .NET unavailable",
+            "number": 6,
+            "startedAt": "2026-11-01T04:35:45Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:36:07Z",
+            "conclusion": "success",
+            "name": "Retain package candidates and verification evidence",
+            "number": 7,
+            "startedAt": "2026-11-01T04:36:02Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:36:07Z",
+            "conclusion": "success",
+            "name": "Post Run actions/setup-dotnet@v4",
+            "number": 13,
+            "startedAt": "2026-11-01T04:36:07Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:36:09Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 14,
+            "startedAt": "2026-11-01T04:36:07Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:36:09Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 15,
+            "startedAt": "2026-11-01T04:36:09Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41273489475/job/124751225888"
+      },
+      {
+        "completedAt": "2026-11-01T04:36:34Z",
+        "conclusion": "success",
+        "databaseId": 124751567646,
+        "name": "publish",
+        "startedAt": "2026-11-01T04:36:12Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-11-01T04:36:14Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-11-01T04:36:13Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:36:16Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@v4",
+            "number": 2,
+            "startedAt": "2026-11-01T04:36:14Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:36:21Z",
+            "conclusion": "success",
+            "name": "Run actions/download-artifact@v4",
+            "number": 3,
+            "startedAt": "2026-11-01T04:36:16Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:36:32Z",
+            "conclusion": "success",
+            "name": "Verify source, hash assets and publish requested preview",
+            "number": 4,
+            "startedAt": "2026-11-01T04:36:21Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:36:32Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@v4",
+            "number": 8,
+            "startedAt": "2026-11-01T04:36:32Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-11-01T04:36:32Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 9,
+            "startedAt": "2026-11-01T04:36:32Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41273489475/job/124751567646"
+      }
+    ],
+    "status": "completed",
+    "url": "https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41273489475"
+  },
+  "manifest": {
+    "RuntimeIdentifier": "win-x64",
+    "Files": [
+      {
+        "Name": "AVNetworkToolkit-1.1.1-win-x64-portable.zip",
+        "Sha256": "780B0C41E90EAECE141AB545505636974E117F15B542036BD959BB528EE89A6E"
+      },
+      {
+        "Name": "AVNetworkToolkit-1.1.1-win-x64-setup.exe",
+        "Sha256": "905758C3988A22F3A62CEDD2A98EA47CB533F1814988DCA272E63F4287DB98CB"
+      }
+    ],
+    "SourceCommit": "3fd7e77e1f5b560172b7e23d33928bace9cdaa73",
+    "SelfContained": true,
+    "Compiler": {
+      "Files": {
+        "ISCC.exe": "F02FA0E5F237B47D7ED1EDAE9B991866EC94FE02AF61EB6A73E94F92FE8E0604",
+        "ISCmplr.dll": "236555054CA65194C69544B4EF1D49EA345259745F5C4A2005ACA7B5674E7CFF",
+        "ISPP.dll": "140B2D822BF30ED8AA3FED64764B2D2B92A80E0B9AAFC1B8FF3E409706B9207E"
+      },
+      "PinnedRelease": "6.7.4"
+    },
+    "Version": "1.1.1"
+  },
+  "downloadedSelfTest": {
+    "Success": true,
+    "Version": "1.1.1.0",
+    "InformationalVersion": "1.1.1+3fd7e77e1f5b560172b7e23d33928bace9cdaa73",
+    "Runtime": ".NET 8.0.33",
+    "JsonValidated": true,
+    "WpfRendered": true,
+    "ErrorType": null
+  },
+  "postPublicationChecks": {
+    "allFourAssetDigests": "PASS",
+    "manifestAndSHA256SUMS": "PASS",
+    "tagCommit": "3fd7e77e1f5b560172b7e23d33928bace9cdaa73",
+    "downloadedExeIcon32x32": "pixel-exact match to owner-approved ICO",
+    "mitLicense": "SHA256 matches repository",
+    "unitTests": "681 PASS/0 failed/0 skipped",
+    "toolingTests": "12 PASS",
+    "build": "0 warnings/0 errors",
+    "ciArtifactToReleasePayload": "both package file hashes and all self-test results match"
+  },
+  "unverified": [
+    "pristine Windows 10/11 deployment",
+    "historical cross-version installer upgrade",
+    "real NIC/UAC/IPC/DAD/multicast/route/ICMP/TCP/physical egress",
+    "manual AT/high contrast/scaling"
+  ],
+  "futureStorageMigration": "ADR-042 .av-network-toolkit not implemented",
+  "hostedVerification": {
+    "SameVersionReinstall": "passed",
+    "NativeNetwork": "NOT RUN",
+    "CrossVersionUpgrade": "NOT RUN",
+    "OrdinaryStartup": "both main window handles/titles observed; smoke processes terminated without invoking commands",
+    "LockedPayloadUpdateAndUninstall": "rejected as expected",
+    "Version": "1.1.1",
+    "SourceCommit": "3fd7e77e1f5b560172b7e23d33928bace9cdaa73",
+    "Success": true,
+    "Installed": "identical payload and WPF/JSON self-test passed",
+    "Portable": "WPF/JSON self-test passed",
+    "UninstallRetainsData": "passed",
+    "NegativeRuntimeControl": "failed as expected after runtime discovery roots were moved",
+    "Environment": "disposable hosted Windows, global .NET discovery roots temporarily unavailable; not a pristine client-OS claim"
+  }
+}

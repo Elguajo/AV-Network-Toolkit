@@ -22,6 +22,8 @@ Owner approved the expanding Network tests concept and explicitly requested impl
 
 - ADR-039: primary installer and additional portable ZIP of the same version, both including .NET runtime. Clean-Windows/no-preinstalled-.NET verification required for each; packaging and release gates remain separate.
 
+ADR-045 publication milestone: [v1.1.1 Preview](https://github.com/Elguajo/AV-Network-Toolkit/releases/tag/v1.1.1) ships current implemented fork features/new logo with both same-source self-contained packages. [Hosted verification](https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41273489475) passed at 3fd7e77; this does not complete the nine-phase roadmap or real NIC/native/client acceptance. DATA-01 user-home migration and Phase 08 DHCP remain unimplemented/separately gated.
+
 Original-outcome review: [product fit and pending IDEA-01–03](docs/PRODUCT_FIT_REVIEW_RU.md). ADR-024 permits optional device passwords in project JSON; FR-13 implementation/versioning is pending. Standalone project Apply Profile and practical isolated-network transitions need separate follow-up scope. This records gaps/permission without changing the nine-phase order or expanding the concurrent Phase 06 implementation.
 
 - A versioned project JSON schema and migrator/reader in addition to current profile stores.
