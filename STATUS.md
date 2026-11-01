@@ -1,5 +1,12 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Project/device opening invariant — OPEN-01, 2026-11-02
+
+- Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `a75a3acb4c533570ba3ce705e012011681d6e63e`; clean bootstrap. Containing evidence commit: `git log -1 --format=%H -- docs/testing/OPENING_NETWORK_INVARIANT_REVIEW.md`.
+- Completed: traced catalogue/import/selection/device Open and explicit typed Apply & Open including consent, identity, failures, verification and recovery. No invariant violation found; no product/test repair. [Review and exact commands](docs/testing/OPENING_NETWORK_INVARIANT_REVIEW.md). Main reuses visible selected GUID (initial first-row highlight included); detached apply requires manual NIC selection. No fresh selection requirement invented.
+- Tests last executed: Release solution/harness builds 0 warnings/errors; 237 focused / 744 full unit PASS, 0 failed/skipped; 128 safe WPF captures / 0 binding errors. Read-only public 1.1.5 API/tag source 9e06c48/Preview/four assets rechecked; package/native execution NOT RUN. Documentation gates recorded in session handoff.
+- In progress / blockers / next action: OPEN-01 safe review complete; owner reviews evidence, separately approved isolated baseline/recovery required for native acceptance. Phase 07 AWAITING_REVIEW; native/owner/earlier unrelated risks remain. Concurrent updater files and DATA-01 excluded; no push/release/Phase 08.
+
 ## Application update investigation — UPD-01/02, 2026-11-02
 
 - Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `05cac3bf054f282d8e54fc39e28424b0a9dd5754`; clean starting tree. Investigation commit is resolvable with `git log -1 --format=%H -- docs/spec/APPLICATION_UPDATE_PROPOSAL.md`.
@@ -1445,3 +1452,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks in active phase: previous owner/native/DPI gates unchanged; no DATA-01/Phase 08.
 - Next smallest safe action: adopt the owner's selected trust/portable strategy into a bounded implementation contract, then implement and run fake-only/local checks within the agreed scope.
 - Can next session proceed without clarification: inspection/proposal refinement yes; dependent implementation waits for the portable decision. No new phase/publication/install authorization.
+
+### Session handoff — OPEN-01, 2026-11-02 (Asia/Tashkent)
+
+- Date and environment: Windows/PowerShell, existing private SDK 10.0.403/.NET 10/WPF and Python validation environment; no installation/restore.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / inspected `a75a3acb4c533570ba3ce705e012011681d6e63e`, initially clean. Evidence commit resolves via `git log -1 --format=%H -- docs/testing/OPENING_NETWORK_INVARIANT_REVIEW.md`.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; OPEN-01 VERIFIED_SAFE_ONLY; phase acceptance checkboxes unchanged.
+- Actually completed: traced project/catalogue open/import/selection, device Open, standalone project Apply and typed Apply & Open through NIC identity/confirmation/journal/worker/observation/browser/recovery. No opening/mutation violation found; existing code/tests retained. Documented initial main-window adapter highlight versus detached explicit selection without changing behavior. Read-only public v1.1.5 API/tag confirmed source 9e06c48, Preview, four assets.
+- Files changed: docs/testing/OPENING_NETWORK_INVARIANT_REVIEW.md, TASKS.md, STATUS.md only. No requirement/ADR/schema/runtime/support/phase change.
+- Test commands and results: private dotnet `build AVNetworkToolkit.sln --configuration Release --no-restore -p:OutputPath=bin/OpenInvariant/` PASS, 0 warnings/errors; `test test/NetworkProfileManager.Tests.csproj --configuration Release --no-build --no-restore -p:OutputPath=bin/OpenInvariant/` with review's filter/TRX arguments 237 focused PASS and without filter 744 full PASS, 0 failed/skipped. Harness build with `-p:OutputPath=bin/OpenInvariantUi/` PASS, 0 warnings/errors; `scripts/ProjectUiSmoke/bin/OpenInvariantUi/ProjectUiSmoke.dll TestResults/OpenInvariant/Ui` PASS, 128 captures/0 binding errors. Exact commands/TRX hashes in review. `scripts/validate_plan.py` PASS (732 links at pre-handoff check); `scripts/test_validate_plan.py` 12 PASS; `git diff --check` PASS, line-ending notices only. Final documentation checks run before commit.
+- Live-network tests: NOT RUN / not authorized. No real NIC configuration/enumeration, UAC, probes/scans, multicast, DHCP, ordinary App startup, actual browser/device URLs, install, VM, push or publication.
+- Known risks and workarounds: native Windows/UAC/IPC/physical/browser acceptance remains UNVERIFIED; conservative unsupported states and explicit recovery limits retained. Test binaries were built before concurrent updater source/NetworkMutationLease changes; no claim about those later sources. Independent device-password proposal and all concurrent files preserved/excluded.
+- Decisions requiring user approval: none to complete this safe review; a fresh manual NIC choice on every main-window action, support changes or native execution require their own concrete decision. No behavioral change is proposed by this report.
+- Remaining tasks in active phase: existing owner/native/DPI and unrelated risk gates unchanged; no DATA-01/Phase 08 advancement or acceptance.
+- Next smallest safe action: owner reviews the recorded evidence; separately scope/approve isolated native baseline and recovery before live acceptance.
+- Can next session proceed without clarification: read-only review/safe regression yes; no new phase, mutation, updater/data/password implementation or publication authorized by OPEN-01.

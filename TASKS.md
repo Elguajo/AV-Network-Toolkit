@@ -1,5 +1,9 @@
 # Traceable task backlog
 
+## Project/device opening invariant review — 2026-11-02
+
+- [x] **OPEN-01** — Verify catalogue/device opening never applies network settings and explicit Apply & Open retains identity/consent/apply/observation/browser gates. **State:** VERIFIED_SAFE_ONLY at a75a3ac — no product defect or code change needed; 237 focused / 744 full unit PASS, 128 WPF captures / 0 binding errors, solution/harness builds 0 warnings/errors. [Evidence, main-versus-detached selection distinction and limits](docs/testing/OPENING_NETWORK_INVARIANT_REVIEW.md). No native acceptance, phase completion, DATA-01/Phase 08, updater or publication change.
+
 ## Application update investigation — 2026-11-02
 
 - [x] **UPD-01** — Inspect current packaging, release identity, data preservation and exit lifecycle; prepare a minimal update proposal with source-integrity/Preview/consent/portable policy and acceptance checks. **State:** INVESTIGATION_RECORDED — clean main at 05cac3b, public v1.1.5 release/tag independently read as 9e06c48, official API/installer/crypto documentation consulted. [Proposal/evidence](docs/spec/APPLICATION_UPDATE_PROPOSAL.md). No updater implementation or native test claimed.
