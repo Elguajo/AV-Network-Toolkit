@@ -462,8 +462,10 @@
   "lastTests": "Release solution/harness builds PASS, 0 warnings/errors; final full 624 PASS/0 failed/0 skipped, 48 added cases; focused 51 PASS. 32 focused and 128 existing WPF captures/0 binding errors. 15 fake OS-query fixtures in PowerShell 7/5.1, 11 existing fake apply-observer fixtures, schema/plan/10 validator regressions/whitespace/protected-source checks PASS. Native acceptance NOT RUN; OPEN UX-R01/P05-R01 remains.",
   "phase06Authorized": true,
   "nextPhase": "08",
-  "handoffState": "Phase07 local main implementation EVIDENCE_RECORDED/AWAITING_REVIEW under ADR-034. Owner/native acceptance pending; OPEN UX-R01/P05-R01 remains. No push/release, live tests or Phase08 authorization. Resolve implementation SHA through app/Services/DiagnosticPingService.cs history; evidence pin follows commit.",
+  "handoffState": "Phase07 implementation 87d02ce7ba7eaaee18b45825270953081f4f69de on local main, EVIDENCE_RECORDED/AWAITING_REVIEW under ADR-034. Owner/native acceptance pending; OPEN UX-R01/P05-R01 remains. No push/release, live tests or Phase08 authorization. Following documentation-only evidence pin does not recertify native/runtime behavior.",
   "phase05ImplementationCommit": "d054a61ccd2f27ebd03cc73b9acb5e03e6ecd52d",
   "phase07Authorized": true,
+  "implementationCommit": "87d02ce7ba7eaaee18b45825270953081f4f69de",
+  "phase07ImplementationCommit": "87d02ce7ba7eaaee18b45825270953081f4f69de",
   "phase06ImplementationCommit": "18534bef32f6b9ad52445ab04d3834be28fe9834"
 }

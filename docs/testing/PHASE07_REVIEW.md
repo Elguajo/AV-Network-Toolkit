@@ -1,6 +1,6 @@
 # Phase 07 — Ethernet/Hyper-V diagnostics and explicit-source Ping
 
-2026-11-01, Asia/Tashkent. Fork https://github.com/Elguajo/AV-Network-Toolkit, direct `main`, clean bootstrap `db143aba6e4405da57acf2a85f661f3b579c279d`. ADR-034 authorizes 07-T01–07-T04. Implementation anchor resolves with `git log -1 --format=%H -- app/Services/DiagnosticPingService.cs`; the following documentation handoff pins the actual SHA. No branch, worktree, push, release or phase acceptance.
+2026-11-01, Asia/Tashkent. Fork https://github.com/Elguajo/AV-Network-Toolkit, direct `main`, clean bootstrap `db143aba6e4405da57acf2a85f661f3b579c279d`. ADR-034 authorizes 07-T01–07-T04. Implementation commit **`87d02ce7ba7eaaee18b45825270953081f4f69de`**: 32 paths, 1353 insertions/315 deletions; the following documentation-only handoff pins this evidence. No branch, worktree, push, release or phase acceptance.
 
 ## Outcome and scope
 
