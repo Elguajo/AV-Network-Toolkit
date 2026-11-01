@@ -2,7 +2,7 @@
 
 ## Left navigation planning — 2026-11-01
 
-- [ ] **UI-NAV-01** — Add an icon rail and collapsible, resizable adapter sidebar. **AC:** [Owner-intent brief and future implementation checks](docs/spec/LEFT_NAVIGATION_BRIEF.md). **State:** BRIEF_RECORDED / IMPLEMENTATION_NOT_STARTED. Owner requested this handoff file only; rail destination mapping remains a proposal, existing tool windows and network safety remain preserved. Phase 07 AWAITING_REVIEW; no implementation/publication/phase advancement from this record.
+- [ ] **UI-NAV-01** — Add an icon rail and collapsible, resizable adapter sidebar. **AC:** [Owner-intent brief and future implementation checks](docs/spec/LEFT_NAVIGATION_BRIEF.md), supplemented by [official-source research and proposed component contract](docs/spec/LEFT_NAVIGATION_RESEARCH.md). **State:** BRIEF_AND_RESEARCH_RECORDED / IMPLEMENTATION_NOT_STARTED. Owner requested documentation/research only; rail destination mapping and dimensions remain proposals, existing tool windows and network safety remain preserved. Phase 07 AWAITING_REVIEW; no implementation/publication/phase advancement from this record.
 
 ## Current publication — ADR-048, 2026-11-01
 

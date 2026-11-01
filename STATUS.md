@@ -1,5 +1,12 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Left navigation research — UI-NAV-01, 2026-11-01
+
+- Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `b8120d3`. Source-backed [research/component contract](docs/spec/LEFT_NAVIGATION_RESEARCH.md) supplements the [brief](docs/spec/LEFT_NAVIGATION_BRIEF.md); resolve this documentation commit through git log for the research path.
+- Completed: official OpenAI sidebar shortcuts/project organization verified; Microsoft navigation/tooltip/keyboard/splitter guidance inspected. Public geometry/internal-component specification was not found in the inspected OpenAI pages. Screenshot observations, official facts and proposed WPF dimensions are explicitly separated.
+- In progress / blockers / next action: research finished; UI implementation NOT STARTED. The future agent must validate geometry, minimum-size budget, control/window semantics, focus/UI Automation, scaling and themes when explicitly delegated. Phase 07 and prior acceptance gates remain unchanged.
+- Tests last executed for this task are recorded in the research handoff below; no app build, UI/native test, network action or release is claimed.
+
 ## Left navigation brief — UI-NAV-01, 2026-11-01
 
 - Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `8daf4d7eecc0610eabbc82092d2e7646bf33a6a9`. Scoped documentation commit follows; resolve with `git log -1 --format=%H -- docs/spec/LEFT_NAVIGATION_BRIEF.md`.
@@ -1033,3 +1040,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks in active phase: unchanged; no phase completion or advancement.
 - Next smallest safe action: use the brief as the future implementation reference after delegation.
 - Can next session proceed without clarification: reading/review yes; UI implementation only when explicitly delegated. No push/release authorized by this documentation request.
+
+## Session handoff — UI-NAV-01 official documentation research, 2026-11-01 (Asia/Tashkent)
+
+- Date and environment: Windows / PowerShell; official documentation fetched through web tools; source inspection only.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / b8120d3 at research start. Resolve the scoped documentation commit with git log -1 --format=%H -- docs/spec/LEFT_NAVIGATION_RESEARCH.md.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; UI-NAV-01 BRIEF_AND_RESEARCH_RECORDED, implementation NOT STARTED.
+- What was actually completed: official OpenAI Commands/Projects pages and Microsoft NavigationView/Tooltips/Keyboard accessibility/GridSplitter documentation inspected; cited component contract distinguishes facts, screenshot observations and proposed WPF design. Linked from brief and backlog. Old OpenAI routes redirect; markdown web fetch was unsupported, so actual HTML pages were used.
+- Files changed: docs/spec/LEFT_NAVIGATION_RESEARCH.md, docs/spec/LEFT_NAVIGATION_BRIEF.md, TASKS.md and STATUS.md. Concurrent adapter-visibility app/test/harness edits are unrelated and excluded.
+- Test commands and results: private validation venv Python -B scripts/validate_plan.py PASS (9 phases, 49 stable tasks, schema/formats/references and 494 links); -B scripts/test_validate_plan.py PASS (12 tests); git diff --check PASS. Build, app unit tests, UI rendering, interaction and manual accessibility NOT RUN for this documentation-only task.
+- Live-network tests: NOT RUN / not authorized.
+- Known bugs, risk and workarounds: no public exact Codex rail geometry/component specification found in inspected pages; proposed dimensions must be validated against actual WPF content, minimum window, scaling and themes. Existing native/phase issues remain unchanged.
+- Decisions requiring user approval: future implementation still needs explicit delegation; no execution/publication grant from research. Proposed sizing/action mapping is not owner-approved final architecture.
+- Remaining tasks in active phase: unchanged; no phase completion.
+- Next smallest safe action: use linked brief and research together for future authorized UI implementation.
+- Can next session proceed without clarification: document review yes; UI/native/network/publication only under applicable explicit authorization.

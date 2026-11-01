@@ -2,6 +2,8 @@
 
 Date: 2026-11-01 (Asia/Tashkent). Follow-up: **UI-NAV-01**.
 
+Read the [source-backed research and component contract](LEFT_NAVIGATION_RESEARCH.md) before implementation: it separates official Codex behavior, screenshot observations and proposed WPF geometry, and specifies interaction/accessibility quality checks. It supplements this brief without authorizing execution.
+
 ## Purpose and authorization
 
 Give a future AI agent enough context to implement the navigation discussed with the owner without needing this chat. The owner requested a Codex-like sidebar toggle, adjustable sidebar width and an additional narrow icon bar at the far left, then requested this file. The immediate authorized deliverable is documentation only. No UI implementation has been performed or authorized by creating this file; implement when the owner explicitly delegates UI-NAV-01 or asks to implement this brief.
