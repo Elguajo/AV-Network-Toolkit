@@ -1,5 +1,9 @@
 # Project context — persistent product brief
 
+## Application update investigation — 2026-11-02, ADR-053
+
+Owner selected automatic application updates as a separate direction. UPD-01 records current packaging/data/exit/release evidence and a [concrete minimal proposal](docs/spec/APPLICATION_UPDATE_PROPOSAL.md). Owner selected signed-manifest verification; portable strategy remains OWNER_DECISION_PENDING before implementation. No updater implemented. Existing exclusions are superseded only within this bounded direction. No keys/secrets/shared resources, installation, publication, DATA-01, Phase 08 or phase acceptance authorized.
+
 Current publication (ADR-052 / REL-07, 2026-11-02): owner-requested **1.1.5 Preview re-upload**, corrected source **9e06c48b4b433e0463c2376ba4555c44804ea010**. Replaces only v1.1.5's source tag/four assets with the Teredo notification fix; displayed version stays 1.1.5 and earlier downloads must be downloaded again. [Exact-source CI/public-download evidence](docs/testing/RELEASE_1.1.5_REUPLOAD_REVIEW.md): local/hosted 744 unit, 12 tooling, installer/ZIP/runtime/install/retention gates PASS; source/API/checksums/CI bytes/downloaded EXE independently verified. Original assets/body/tag backed up; original evidence below retained and older releases unchanged. Preview/native/owner/phase/DATA-01/Phase 08 limits remain.
 
 Original 1.1.5 publication (ADR-051 / REL-06, historical): exact source 2b78f67, includes navigation/sidebar, window-layout persistence and actual activity marks. [Original CI/public-download evidence](docs/testing/RELEASE_1.1.5_REVIEW.md): 736 unit/12 tooling, same-source self-contained installer/ZIP and runtime/install/retention gates PASS; independently verified original tag/assets/source/checksums. Prior releases and the older local-only 1.1.4 candidate below are preserved historical snapshots. Native DPI/network/owner/phase gates remain; no DATA-01/Phase 08 advancement.

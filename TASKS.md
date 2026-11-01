@@ -1,5 +1,11 @@
 # Traceable task backlog
 
+## Application update investigation — 2026-11-02
+
+- [x] **UPD-01** — Inspect current packaging, release identity, data preservation and exit lifecycle; prepare a minimal update proposal with source-integrity/Preview/consent/portable policy and acceptance checks. **State:** INVESTIGATION_RECORDED — clean main at 05cac3b, public v1.1.5 release/tag independently read as 9e06c48, official API/installer/crypto documentation consulted. [Proposal/evidence](docs/spec/APPLICATION_UPDATE_PROPOSAL.md). No updater implementation or native test claimed.
+- [ ] **UPD-02** — Resolve source-authenticity and portable update strategy; adopt the approved bounded implementation contract. **State:** PARTIALLY_APPROVED / PORTABLE_DECISION_PENDING — owner selected signed manifests; fresh portable folder versus dedicated same-directory updater/recovery remains pending. Local implementation follows only the chosen contract; no real keys/secrets/push/release/install permission implied.
+- [ ] **UPD-03** — Implement and verify the selected application update flow. **State:** NOT_STARTED / DEPENDS_ON_UPD-02 — fake HTTP/process/storage regression, preserved exit/data/network behavior, focused/full unit/build/WPF evidence and separate native/publication gates. No DATA-01/Phase 08 advancement.
+
 ## Owner-requested 1.1.5 re-upload — 2026-11-01
 
 - [x] **REL-07** — Re-upload 1.1.5 with the completed tunnel notification fix. **AC:** verified original release backup, ordinary main commits/push, exact-source unit/tooling/build/package/runtime/install gates, guarded v1.1.5 tag/four-asset replacement and independent public-download verification; other releases unchanged. **State:** VERIFIED_PUBLISHED — ADR-052; source 9e06c48, workflow 41339102871 SUCCESS, local/hosted 744 unit/12 tooling and package gates PASS, four public API digests/manifest/checksums/CI bytes/downloaded EXE verified. Only owner-selected v1.1.5 tag/assets replaced; other releases unchanged. [Evidence](docs/testing/RELEASE_1.1.5_REUPLOAD_REVIEW.md).

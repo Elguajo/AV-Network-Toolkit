@@ -1,5 +1,7 @@
 # Roadmap — fixed phase order
 
+Bounded update investigation (ADR-053, 2026-11-02): [UPD-01/02 proposal](docs/spec/APPLICATION_UPDATE_PROPOSAL.md) explores automatic version checks, verified download and deliberate installation. Owner selected signed manifests; portable choice needs owner decision before implementation. No new numbered phase or change to Phase 07 AWAITING_REVIEW, DATA-01/Phase 08/publication gates.
+
 ADR-052 / REL-07, 2026-11-02: owner-requested **1.1.5 re-upload** includes the completed tunnel notification fix, exact source 9e06c48, with [verified corrected installer/ZIP and public-download evidence](docs/testing/RELEASE_1.1.5_REUPLOAD_REVIEW.md). Version remains 1.1.5; source tag/four assets replaced with verified originals backed up. Other releases and all phase/native/owner gates unchanged.
 
 Initial ADR-051 publication (historical): source 2b78f67 shipped the completed navigation/layout/activity follow-ups with [verified original same-source installer/ZIP](docs/testing/RELEASE_1.1.5_REVIEW.md). Prior releases retained. This is a bounded Preview publication milestone; the nine-phase order, Phase 07 AWAITING_REVIEW, native/DPI/owner acceptance and separate DATA-01/Phase 08 gates remain.

@@ -1,5 +1,13 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Application update investigation — UPD-01/02, 2026-11-02
+
+- Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `05cac3bf054f282d8e54fc39e28424b0a9dd5754`; clean starting tree. Investigation commit is resolvable with `git log -1 --format=%H -- docs/spec/APPLICATION_UPDATE_PROPOSAL.md`.
+- Completed: current-source bootstrap; installer/ZIP/data/exit/mutation boundaries inspected, public v1.1.5 metadata/tag independently checked (both 9e06c48; Preview, four assets); primary documentation/Context7 consulted; [minimal proposal and acceptance matrix](docs/spec/APPLICATION_UPDATE_PROPOSAL.md) recorded. UPD-01 INVESTIGATION_RECORDED; no updater implementation.
+- In progress / blockers: UPD-02 PARTIALLY_APPROVED — owner selected signed-manifest trust, portable update strategy still OWNER_DECISION_PENDING; UPD-03 NOT_STARTED. Remaining recommendations are proposals, not approved requirements. Phase 07 remains AWAITING_REVIEW; native/owner/DPI gates unchanged, no DATA-01/Phase 08.
+- Next action: owner resolves the portable strategy; adopt the selected contract before code. Real keys/CI secrets/shared-resource changes, install, push and publication remain separate gates.
+- Tests last executed for this work: planning/schema/references 710 links PASS, 12 validator regression tests PASS, git diff --check PASS (line-ending notices only). Source/documentation and read-only public metadata inspection complete. App build/unit/package/native/UAC/install/live-network checks NOT RUN; historical 744-unit/package evidence remains attributed to release source 9e06c48.
+
 ## Owner-requested 1.1.5 re-upload — REL-07 / ADR-052, executed 2026-11-02
 
 - Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `5d0cc3e`. Fetched origin/main has 0 remote-only / 2 local-only commits; clean initial tree. Original published v1.1.5 is 2b78f67; scoped preparation commit follows.
@@ -1422,3 +1430,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Completed/files: removed only the redundant H1 and following blank line from docs/releases/v1.1.5.md; synchronized the published v1.1.5 body. The GitHub release header remains. STATUS.md records this handoff.
 - Verification: fetched API body matches the file and equals the previous body minus exactly that heading; release title/channel/tag/target and all four asset IDs/names/digests/sizes/timestamps unchanged. Tag commit independently checked before/after. Final documentation/whitespace checks run before commit. App build/unit/native tests NOT RUN for this two-line editorial change.
 - Live-network tests: NOT RUN; no application/settings/network actions. Existing native/owner risks and phase tasks unchanged; no new decisions or remaining implementation. No rebuild, asset upload or retag. Next safe action: view the corrected release page; no phase advancement.
+
+### Session handoff — UPD-01/02, 2026-11-02 (Asia/Tashkent)
+
+- Date and environment: Windows/PowerShell; existing private Python validation environment; source inspection and read-only public GitHub/documentation requests.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / inspected 05cac3bf054f282d8e54fc39e28424b0a9dd5754, initially clean. Scoped documentation commit resolved via `git log -1 --format=%H -- docs/spec/APPLICATION_UPDATE_PROPOSAL.md`.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; UPD-01 INVESTIGATION_RECORDED, UPD-02 PARTIALLY_APPROVED / PORTABLE_DECISION_PENDING, UPD-03 NOT_STARTED.
+- Actually completed: mandatory current bootstrap, packaging/runtime/data/exit/mutation map, independently observed public v1.1.5 release/tag source 9e06c48, four assets and API digests; Context7 and primary API/installer/crypto documentation research. Prepared minimal proposal, affected boundaries, implementation sequence, explicit trust/portable alternatives and acceptance matrix. No code or updater implemented.
+- Files changed: docs/spec/APPLICATION_UPDATE_PROPOSAL.md, PROJECT_CONTEXT.md, ROADMAP.md, TASKS.md, decisions/DECISION_LOG.md, STATUS.md. Existing history/tasks/phase IDs and product/package/version/data/settings files retained.
+- Test commands and results: `& "$env:LOCALAPPDATA/AVNetworkToolkit.BuildTools/python/Scripts/python.exe" -B scripts/validate_plan.py` PASS (9 phases, 49 stable tasks, schema/formats/references, 710 links); same interpreter with `-B scripts/test_validate_plan.py` PASS (12 tests); `git diff --check` PASS (LF/CRLF notices only). App build/unit/WPF/package/install/native checks NOT RUN for this documentation-only proposal; earlier release tests are historical.
+- Live-network tests: NOT RUN / not authorized. No ordinary application startup, NIC changes/probes/listeners, UAC/product installation, VM/display change, private-data transfer, real key generation, CI secrets, push or publication.
+- Known risks and workarounds: current releases/manifest are unsigned and mutable; integrity hashes from the same account do not provide independent publisher authentication. Current 1.1.5 needs a first manual updater bootstrap; same-version re-uploads are manual repairs. Installer handoff/verification-to-launch/UAC/cross-source upgrade behavior is UNVERIFIED. Fresh-folder portable changes executable path and is a proposed choice, not acceptance of same-folder replacement. Full rationale and future checks are in the proposal.
+- Decisions requiring user approval: fresh portable folder versus separate same-directory updater/recovery remains pending. Owner selected signed manifests in this chat; no unsigned fallback. No answer inferred from elapsed time. Production signing custody and external/native actions require their own concrete authorization later.
+- Remaining tasks in active phase: previous owner/native/DPI gates unchanged; no DATA-01/Phase 08.
+- Next smallest safe action: adopt the owner's selected trust/portable strategy into a bounded implementation contract, then implement and run fake-only/local checks within the agreed scope.
+- Can next session proceed without clarification: inspection/proposal refinement yes; dependent implementation waits for the portable decision. No new phase/publication/install authorization.
