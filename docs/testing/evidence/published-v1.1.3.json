@@ -1,0 +1,461 @@
+{
+  "Date": "2026-11-01",
+  "Timezone": "Asia/Tashkent",
+  "Fork": "https://github.com/Elguajo/AV-Network-Toolkit",
+  "Branch": "main",
+  "FinalSource": "2847ff6baaee59c813dbecb0688ffad62324b968",
+  "Decision": "SHIP WITH KNOWN RISKS: owner-requested Preview only",
+  "StableOrNativeAcceptance": "NO-SHIP / NOT ACCEPTED",
+  "InitialFailure": {
+    "RunId": 41298688041,
+    "Source": "b8120d3961658c1a486ee56c759ee6c4b468af4c",
+    "UnitPassed": 687,
+    "Failure": "Package reinstall exit 7; publish skipped",
+    "Change": "Named process exit checks and installer logs; no assertion removed",
+    "RootCause": "UNVERIFIED transient preparation/lock/access failure"
+  },
+  "Releases": [
+    {
+      "Version": "1.1.2",
+      "SourceCommit": "d634a80918b429d11411d7c3afc8348d9a1d70a8",
+      "RunId": 41299176436,
+      "Url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/tag/v1.1.2",
+      "PublishedAt": "2026-11-01T10:53:40Z",
+      "Prerelease": true,
+      "Draft": false,
+      "Unit": {
+        "Total": 687,
+        "Passed": 687,
+        "Failed": 0,
+        "Skipped": 0
+      },
+      "Manifest": {
+        "RuntimeIdentifier": "win-x64",
+        "Version": "1.1.2",
+        "SelfContained": true,
+        "Files": [
+          {
+            "Sha256": "E88020AF1FA784904DC72E1EBED3351EE41D235673DF73C90D5ECCC81812AD99",
+            "Name": "AVNetworkToolkit-1.1.2-win-x64-portable.zip"
+          },
+          {
+            "Sha256": "3C90FF98D8465F2DA4C40FF9BBC12BF5BEBF35F5DC17B5817FB5CC71C8602267",
+            "Name": "AVNetworkToolkit-1.1.2-win-x64-setup.exe"
+          }
+        ],
+        "SourceCommit": "d634a80918b429d11411d7c3afc8348d9a1d70a8",
+        "Compiler": {
+          "Files": {
+            "ISCC.exe": "F02FA0E5F237B47D7ED1EDAE9B991866EC94FE02AF61EB6A73E94F92FE8E0604",
+            "ISCmplr.dll": "236555054CA65194C69544B4EF1D49EA345259745F5C4A2005ACA7B5674E7CFF",
+            "ISPP.dll": "140B2D822BF30ED8AA3FED64764B2D2B92A80E0B9AAFC1B8FF3E409706B9207E"
+          },
+          "PinnedRelease": "6.7.4"
+        }
+      },
+      "Assets": [
+        {
+          "Name": "AVNetworkToolkit-1.1.2-win-x64-portable.zip",
+          "Bytes": 68359265,
+          "Digest": "sha256:e88020af1fa784904dc72e1ebed3351ee41d235673df73c90d5eccc81812ad99",
+          "Url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.2/AVNetworkToolkit-1.1.2-win-x64-portable.zip"
+        },
+        {
+          "Name": "AVNetworkToolkit-1.1.2-win-x64-setup.exe",
+          "Bytes": 67793137,
+          "Digest": "sha256:3c90ff98d8465f2da4c40ff9bbc12bf5bebf35f5dc17b5817fb5cc71c8602267",
+          "Url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.2/AVNetworkToolkit-1.1.2-win-x64-setup.exe"
+        },
+        {
+          "Name": "package-manifest.json",
+          "Bytes": 830,
+          "Digest": "sha256:33d5982cdd748fb4c8eee44c6596476e5cd7cccd5580cf686b70f6f80fdf380c",
+          "Url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.2/package-manifest.json"
+        },
+        {
+          "Name": "SHA256SUMS.txt",
+          "Bytes": 217,
+          "Digest": "sha256:0163300054e0d6747def78217d6d0e19a55da4ba9f6f8b2b29b9f6fecccf98b9",
+          "Url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.2/SHA256SUMS.txt"
+        }
+      ],
+      "Hosted": {
+        "Success": true,
+        "LockedPayloadUpdateAndUninstall": "rejected as expected",
+        "Environment": "disposable hosted Windows, global .NET discovery roots temporarily unavailable; not a pristine client-OS claim",
+        "NativeNetwork": "NOT RUN",
+        "OrdinaryStartup": "both main window handles/titles observed; smoke processes terminated without invoking commands",
+        "Installed": "identical payload and WPF/JSON self-test passed",
+        "UninstallRetainsData": "passed",
+        "NegativeRuntimeControl": "failed as expected after runtime discovery roots were moved",
+        "Version": "1.1.2",
+        "Portable": "WPF/JSON self-test passed",
+        "CrossVersionUpgrade": "NOT RUN",
+        "SameVersionReinstall": "passed",
+        "SourceCommit": "d634a80918b429d11411d7c3afc8348d9a1d70a8"
+      },
+      "ProcessChecks": [
+        {
+          "ExitCode": 0,
+          "Check": "RuntimeAvailable",
+          "MustSucceed": true
+        },
+        {
+          "ExitCode": -2147450749,
+          "Check": "RuntimeUnavailable",
+          "MustSucceed": false
+        },
+        {
+          "ExitCode": 0,
+          "Check": "InitialInstall",
+          "MustSucceed": true
+        },
+        {
+          "ExitCode": 7,
+          "Check": "LockedUpdate",
+          "MustSucceed": false
+        },
+        {
+          "ExitCode": 1,
+          "Check": "LockedUninstall",
+          "MustSucceed": false
+        },
+        {
+          "ExitCode": 0,
+          "Check": "SameVersionReinstall",
+          "MustSucceed": true
+        },
+        {
+          "ExitCode": 0,
+          "Check": "Uninstall",
+          "MustSucceed": true
+        }
+      ],
+      "DownloadedSelfTest": {
+        "Success": true,
+        "Version": "1.1.2.0",
+        "InformationalVersion": "1.1.2+d634a80918b429d11411d7c3afc8348d9a1d70a8",
+        "Runtime": ".NET 10.0.14",
+        "JsonValidated": true,
+        "WpfRendered": true,
+        "ErrorType": null
+      },
+      "AllApiDigestsManifestChecksumsAndCIIdentity": "PASS",
+      "OldReleasePreserved": "PASS"
+    },
+    {
+      "Version": "1.1.3",
+      "SourceCommit": "2847ff6baaee59c813dbecb0688ffad62324b968",
+      "RunId": 41300112524,
+      "Url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/tag/v1.1.3",
+      "PublishedAt": "2026-11-01T11:07:01Z",
+      "Prerelease": true,
+      "Draft": false,
+      "Unit": {
+        "Total": 723,
+        "Passed": 723,
+        "Failed": 0,
+        "Skipped": 0
+      },
+      "Manifest": {
+        "SelfContained": true,
+        "Files": [
+          {
+            "Name": "AVNetworkToolkit-1.1.3-win-x64-portable.zip",
+            "Sha256": "B571DAADC7AF66A2814514DB9F3CC45F7D57082F4223B3D0473551B8C2069EE9"
+          },
+          {
+            "Name": "AVNetworkToolkit-1.1.3-win-x64-setup.exe",
+            "Sha256": "202BBD02128D0516D2250C17A16C711D2DE061AD1CC35682B7D6F4220B8FC7C2"
+          }
+        ],
+        "Compiler": {
+          "PinnedRelease": "6.7.4",
+          "Files": {
+            "ISCC.exe": "F02FA0E5F237B47D7ED1EDAE9B991866EC94FE02AF61EB6A73E94F92FE8E0604",
+            "ISCmplr.dll": "236555054CA65194C69544B4EF1D49EA345259745F5C4A2005ACA7B5674E7CFF",
+            "ISPP.dll": "140B2D822BF30ED8AA3FED64764B2D2B92A80E0B9AAFC1B8FF3E409706B9207E"
+          }
+        },
+        "SourceCommit": "2847ff6baaee59c813dbecb0688ffad62324b968",
+        "RuntimeIdentifier": "win-x64",
+        "Version": "1.1.3"
+      },
+      "Assets": [
+        {
+          "Name": "AVNetworkToolkit-1.1.3-win-x64-portable.zip",
+          "Bytes": 68361800,
+          "Digest": "sha256:b571daadc7af66a2814514db9f3cc45f7d57082f4223b3d0473551b8c2069ee9",
+          "Url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.3/AVNetworkToolkit-1.1.3-win-x64-portable.zip"
+        },
+        {
+          "Name": "AVNetworkToolkit-1.1.3-win-x64-setup.exe",
+          "Bytes": 67795553,
+          "Digest": "sha256:202bbd02128d0516d2250c17a16c711d2de061ad1cc35682b7d6f4220b8fc7c2",
+          "Url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.3/AVNetworkToolkit-1.1.3-win-x64-setup.exe"
+        },
+        {
+          "Name": "package-manifest.json",
+          "Bytes": 830,
+          "Digest": "sha256:0d58beb5bee4d36d7b1d4070c2f7d9c5a098a745d38a95b4b466e4ce8f0ea748",
+          "Url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.3/package-manifest.json"
+        },
+        {
+          "Name": "SHA256SUMS.txt",
+          "Bytes": 217,
+          "Digest": "sha256:0ff416f1c8d48ce486fbf480f847a7151ad7774d516c00fc58598712421781d0",
+          "Url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.3/SHA256SUMS.txt"
+        }
+      ],
+      "Hosted": {
+        "Installed": "identical payload and WPF/JSON self-test passed",
+        "LockedPayloadUpdateAndUninstall": "rejected as expected",
+        "UninstallRetainsData": "passed",
+        "Version": "1.1.3",
+        "Environment": "disposable hosted Windows, global .NET discovery roots temporarily unavailable; not a pristine client-OS claim",
+        "Portable": "WPF/JSON self-test passed",
+        "OrdinaryStartup": "both main window handles/titles observed; smoke processes terminated without invoking commands",
+        "SourceCommit": "2847ff6baaee59c813dbecb0688ffad62324b968",
+        "CrossVersionUpgrade": "NOT RUN",
+        "SameVersionReinstall": "passed",
+        "NativeNetwork": "NOT RUN",
+        "Success": true,
+        "NegativeRuntimeControl": "failed as expected after runtime discovery roots were moved"
+      },
+      "ProcessChecks": [
+        {
+          "Check": "RuntimeAvailable",
+          "ExitCode": 0,
+          "MustSucceed": true
+        },
+        {
+          "Check": "RuntimeUnavailable",
+          "ExitCode": -2147450749,
+          "MustSucceed": false
+        },
+        {
+          "Check": "InitialInstall",
+          "ExitCode": 0,
+          "MustSucceed": true
+        },
+        {
+          "Check": "LockedUpdate",
+          "ExitCode": 7,
+          "MustSucceed": false
+        },
+        {
+          "Check": "LockedUninstall",
+          "ExitCode": 1,
+          "MustSucceed": false
+        },
+        {
+          "Check": "SameVersionReinstall",
+          "ExitCode": 0,
+          "MustSucceed": true
+        },
+        {
+          "Check": "Uninstall",
+          "ExitCode": 0,
+          "MustSucceed": true
+        }
+      ],
+      "DownloadedSelfTest": {
+        "Success": true,
+        "Version": "1.1.3.0",
+        "InformationalVersion": "1.1.3+2847ff6baaee59c813dbecb0688ffad62324b968",
+        "Runtime": ".NET 10.0.14",
+        "JsonValidated": true,
+        "WpfRendered": true,
+        "ErrorType": null
+      },
+      "AllApiDigestsManifestChecksumsAndCIIdentity": "PASS",
+      "OldReleasePreserved": "PASS"
+    }
+  ],
+  "LocalFinal": {
+    "Sdk": "10.0.403",
+    "Runtime": "10.0.14",
+    "UnitPassed": 723,
+    "UnitFailed": 0,
+    "UnitSkipped": 0,
+    "BuildWarnings": 0,
+    "BuildErrors": 0,
+    "PlanLinks": 512,
+    "ToolingTests": 12,
+    "Wpf": [
+      {
+        "Set": "Tray",
+        "Count": 6,
+        "Sha256ByFile": {
+          "tray-left-Dark.png": "CCCEA57092E6A061C6D6A562FAA038462603D83E4D2F490784C5B0E955E90291",
+          "tray-left-Light.png": "F76FABDE7B8B912397329C6721CBE0A32FF1EF923E0F778B1FA78879FD728523",
+          "tray-overflow-Dark.png": "CCCEA57092E6A061C6D6A562FAA038462603D83E4D2F490784C5B0E955E90291",
+          "tray-overflow-Light.png": "F76FABDE7B8B912397329C6721CBE0A32FF1EF923E0F778B1FA78879FD728523",
+          "tray-right-Dark.png": "CCCEA57092E6A061C6D6A562FAA038462603D83E4D2F490784C5B0E955E90291",
+          "tray-right-Light.png": "F76FABDE7B8B912397329C6721CBE0A32FF1EF923E0F778B1FA78879FD728523"
+        }
+      },
+      {
+        "Set": "Adapters",
+        "Count": 12,
+        "Sha256ByFile": {
+          "adapters-all-Dark-False.png": "C3A8D677795B3DB4BE9116336A865F62FCFC773F5768230331A4D06E4FA4DE52",
+          "adapters-all-Dark-True.png": "C6DD6113F5935192B2A573B1F78CD9FC464DB53FABD2A9A804C8F0323FB40E7C",
+          "adapters-all-Light-False.png": "0853CAC10D1120B7324FDDD2D6CFAFD9CF5A091CBA2633950A3C8F4E520FFAD9",
+          "adapters-all-Light-True.png": "2C99FD7EFE298B7EC2F971A24405E91BF4856FD0294A37676F8C1B7E8E95ABBF",
+          "adapters-cleared-Dark-False.png": "0DF89076479BA492A06929AAEAA118F88DBAB2AD245A23564FC82340B8A308E0",
+          "adapters-cleared-Dark-True.png": "206C194790E57A24AEED88CDC83F9C8EAD4F1C3BB73C5A0EB38CA7FD1101680F",
+          "adapters-cleared-Light-False.png": "4B60758C130553AED39DCD7B8C873EF8EA3C8568AEF1854DAC1DCF8CE088D4BA",
+          "adapters-cleared-Light-True.png": "813F94C0CA229371BF8805DAB2D2120B9D6A58223ECCC13AA6F7F09DD3E0F388",
+          "adapters-default-Dark-False.png": "B2766CBA2357DF119DD9C2567D6F79DF0F0A39A9BBF56A7ACF0EC9832409CDD0",
+          "adapters-default-Dark-True.png": "F2E9A1DAF583C53BCBF78B2BA2BEC991504AC8481E32AFC6A758D09523E422A1",
+          "adapters-default-Light-False.png": "21544B3059A9E2FB37DFEB34E805D640DE2BC2E68B6EEC278C2532F9CB456AC5",
+          "adapters-default-Light-True.png": "488C0621079CE17E208E319D7C2723ABB6B6E72487C8C7702BE75E285F5A436B"
+        }
+      },
+      {
+        "Set": "Workspace",
+        "Count": 128,
+        "Sha256ByFile": {
+          "apply-empty-Dark-620.png": "DEB610D3DE91800EA6092A8164C6DC37D868FDFD6C35A5DAD25CCBA35873807E",
+          "apply-empty-Dark-760.png": "43D40F7D1246E2314E8AA4374503E04B5E6A8DDF312ACAB547042440B29369F8",
+          "apply-empty-Light-620.png": "241B0F23DA1FD88D1E58700C00A76C4A47E4D8969E6FCB3012F57D199454B848",
+          "apply-empty-Light-760.png": "F528121775AEC6AF9042D94B0ED5A6AE4C94FC5199A0AA1C567B28F8BB2EA38A",
+          "apply-error-Dark-620.png": "F00ABE3EAE91E3E6E3C6F9E018A1C6E376536013B126D2929A1F7C1746BC561E",
+          "apply-error-Dark-760.png": "14EAE3641B78B686F9C0D43A231E616CB6599989967C8BCE2322B8BA937EDB64",
+          "apply-error-Light-620.png": "864BF783A5CDDDC88DE89D11FD1EA64179FB36540C48249DE0EA872C05A3F1F8",
+          "apply-error-Light-760.png": "9B6E0BD07FFFF2F78F04299F8F161E25AE0E9C8E7A25050EDC0D42E5D73DEB3F",
+          "apply-recovered-Dark-620.png": "64758560BB366B39DFFD8B20EA68BBFAEAC8C07E26D494BC4B0EFA69E2C71E08",
+          "apply-recovered-Dark-760.png": "B473908075DACAF80FDA1ABF25FD6A512A49BDFCA8CC9BED22F533552CFE0C21",
+          "apply-recovered-Light-620.png": "1B02532787BCD1D8CBB350E2AF8E13EBD3BE560FB9F93A7096439D198DB67897",
+          "apply-recovered-Light-760.png": "9057109E77D51B072678181076BF7CD52C903F2FB5C9345C40CDB42D3BB47192",
+          "apply-recovery-Dark-620.png": "CEB62AC9BBF6172917D6C42476E3A77F3D684215A7947FFC555FAE2F8EFCB19F",
+          "apply-recovery-Dark-760.png": "7995BFC49506E3101F9C7A49645C5A8B539224CE265FA3AC3B89A110E8FCFE97",
+          "apply-recovery-Light-620.png": "00D70C95E7CB637FC5D91FBF117370FC314B213A665ADDC484BDE425955AA371",
+          "apply-recovery-Light-760.png": "552CAA4D4265F93D6B17462D67054D8971206FC885E3E09F15002427613DB73F",
+          "apply-review-Dark-620.png": "A57E668E67E32E7909449BB91F9BF50B1E6B073A23BC07EE6C1B397F56E6F84C",
+          "apply-review-Dark-760.png": "047B0CE26262D5A5F78E6550AC973E77FE6489529B8DA8E460887EB04FC8CEB0",
+          "apply-review-Light-620.png": "516DCC9315496AC595141E72A4834ECCC64D07FC95C7C19345949149EB177200",
+          "apply-review-Light-760.png": "DD0332B53ED3B368F58FC50BF32254691C7D72B412433523F50DA7B8FC0EAD5C",
+          "current-row-Dark-1200.png": "E72F398B17E62479A1CD35E9596540F6F6DE35DCFE0942FFEEBDE2557E3D5AA3",
+          "current-row-Dark-760.png": "9D61AE1AB4A9EB3EB209924DED7E8B5AB3F94C61A97F6F7D0080A616CCFA08CA",
+          "current-row-Light-1200.png": "407C2D8E2391D7409A967EF5D07833ADABE180446D0CD1FD8FEECCC8DDF72449",
+          "current-row-Light-760.png": "F84143757E591239CF70C4832109B29F901C747E0F9E223AD9834D403A0A9294",
+          "devices-details-En-Dark-700.png": "079274B048B4F5FF6EBE2EF6814D82EDD6B60596A7186BD64AB8BC5DFF030F46",
+          "devices-details-En-Dark-900.png": "114B9291D2458FA7476920BAB5AC21737DF360376211F27E742B39613682694D",
+          "devices-details-En-Light-700.png": "748F417FBA3A280A14F2BA988975FB1AAA85E56E4D6FE26D2FB06D868C3292CC",
+          "devices-details-En-Light-900.png": "F15C0392C261B0588FA8DCD4FAAAB5DCBF9C6CC25C14FAFA266BB648B4A27277",
+          "devices-empty-En-Dark-700.png": "9C9E8CB78BC92FE954B932682342DFFEFD91FE32F8FFAF838552F6DB8DDA8A21",
+          "devices-empty-En-Dark-900.png": "1CAA4B21D69F09649EA1FD8832044C5167E217CCEB4B6B8427A60C5F8FDD5315",
+          "devices-empty-En-Light-700.png": "D55B6DA89BB77DB8F048AEEDAA3EC88CCD07512605F8918208D7831FBD18C6EF",
+          "devices-empty-En-Light-900.png": "981E5A1A0689D443AAB0F15ECDAA9376E454F1F19E52D38C7046B2387694A15D",
+          "devices-error-En-Dark-700.png": "F1A83388B9D59E00B17B3DEF6D0FF2EB36D1015EF0AFF192B3129068607C5EC7",
+          "devices-error-En-Dark-900.png": "F3BB37711C5016DD3FDF31154204D1D5A81F38E3C7E184A5068DF46D25244D19",
+          "devices-error-En-Light-700.png": "6012E23E13F5DBB172D6150F95275B91577F20E0F6DFD6C5B3744594BCF01789",
+          "devices-error-En-Light-900.png": "BFA4238C3999C1F385F4A00A013619FF1AD3FD292B368FF8BB5E16772416ADEC",
+          "devices-selected-En-Dark-700.png": "C16EF4F8AAA655AD9D03C8FF4A2D2F3684579AFA4F250E4F68F7D10E2358849F",
+          "devices-selected-En-Dark-900.png": "331CCD3C68F36E01F9CE78DDDB61B09AB5AB2CAC7BE3FF94172830C309091C25",
+          "devices-selected-En-Light-700.png": "13E45F6121F5415FE95F96FE4321BCC12EFEAE7EE82C7A273A0658679DE505E7",
+          "devices-selected-En-Light-900.png": "7CF758EB745E4D13F47B39994DB6A247111848DF3CECEFE074A52D6F39CCA574",
+          "link-local-adapters-Dark-620.png": "D10F377F2031615BF1FE300073C0DB359E8D7D6A993E4050C97F849380DC8304",
+          "link-local-adapters-Dark-760.png": "D10F377F2031615BF1FE300073C0DB359E8D7D6A993E4050C97F849380DC8304",
+          "link-local-adapters-Light-620.png": "034C68934D44744D3CCF2773CDEAB2E0B777E08F0BD7A8293AC9AA070BB59ADF",
+          "link-local-adapters-Light-760.png": "034C68934D44744D3CCF2773CDEAB2E0B777E08F0BD7A8293AC9AA070BB59ADF",
+          "link-local-conflict-Dark-620.png": "927345319895098E1A939FA880F34178791DE81AC56A9E6D52502CB2D62D27C5",
+          "link-local-conflict-Dark-760.png": "A6EC5399E63B0CB829F5DA9589FC49DBB3CB081A69107C543076754B35918912",
+          "link-local-conflict-Light-620.png": "259A50B655E512761B535C372FA4D1B34B7EA6CB4E7C811BA8A87625577083B0",
+          "link-local-conflict-Light-760.png": "01B67F3CA43E308ACB2C160D2628390B2956B6D4DF102F7F82A07A8D208880AB",
+          "link-local-dhcp-Dark-620.png": "4C8D56BF4150DFE1540F0D16F3E660E61CD498B49E6B8DA623E134032A383EA3",
+          "link-local-dhcp-Dark-760.png": "C8CF83B5DA439E128F0EC537164C665FF93D493FADC4A293097EB9CC770FB950",
+          "link-local-dhcp-Light-620.png": "9B833CD4D843843B0F129EA54663ECD674D281431378A80A97F6AFFF79A0BFB9",
+          "link-local-dhcp-Light-760.png": "B68CA3BF9FE64789A032A924D1661EAE439D78CF24B1A47BDC2EC25803803154",
+          "link-local-empty-Dark-620.png": "42223E18856C8D5470DE85644E4E157DD0D08FA8009B701E75D0472303655CFE",
+          "link-local-empty-Dark-760.png": "44A6ADDBF9C32FDEC48CCED72E323E68FA16B26FB8E9FDBDAA592EB9DC173B61",
+          "link-local-empty-Light-620.png": "F2A81DB1F804666A7AB68084FC56C0D0930FCB14707D85BC9B32D1B42F347969",
+          "link-local-empty-Light-760.png": "AE5A826B37E829CC1B5803310C979AAFEFE68FC3C12731B18435C27DF70D1390",
+          "link-local-review-Dark-620.png": "6316BB0D542E602A6AC35AAF4EDE92C0C968FFBC746B054721EA69E93FF6A9DD",
+          "link-local-review-Dark-760.png": "7DA50DC2484DD2088C25D3CE953108A462D7C1E47A3C2C9C642FB1D71A1784E2",
+          "link-local-review-Light-620.png": "625080D64DD059D0400A9F6C372773B07A266CE67D1D4B83C49242C9C9B54678",
+          "link-local-review-Light-760.png": "D07D338996A0EB54B82DF862FDE22B2BBE89B7893FBBBDDD4976A137F3E0E6B0",
+          "link-local-verified-Dark-620.png": "ACFDF1E8118EEAA58E63ED18FE9120D3FAE52B90E6A6B82815BD5FB8D9113C21",
+          "link-local-verified-Dark-760.png": "C5EE516C1462046F3FE45DEA9FA70924A2B25A0ABFC093B26EC586B142204362",
+          "link-local-verified-Light-620.png": "3FF6BA1BE93279E9E31B26A62DEA36F5EF6ED69C02CD2C6BB0CEBD3A2D1F6245",
+          "link-local-verified-Light-760.png": "E3A9B679A6B659CF137020EBED74EF7D1F0EC50D895123B59841C943AC4AA0CC",
+          "mdns-empty-Dark-620.png": "BC6B5B878463DF78F84AA4699D0B77AF4F0B270151DCE21FAD0F35198DAF400D",
+          "mdns-empty-Dark-820.png": "D1A51BAA459AA9771876A9CF8940846D3F3E4EFF18650D47ACA7C253086F2879",
+          "mdns-empty-Light-620.png": "3B7E6B1334CE2E0D74261294D1709583E9E99AD773CFFCD9FFC02E4FAD3E7732",
+          "mdns-empty-Light-820.png": "49141F7721DC7F048EF748C6CFF3BAE5EE8D83264AC50930D64449388427ABDA",
+          "mdns-error-Dark-620.png": "92AADE5DBD499F336DC32EDAC147868BF3D646BD8D3258B0913E5EB93DEABB4E",
+          "mdns-error-Dark-820.png": "B9D6AE086D651E3AD24540421C86B15CBEA158F7324A05C6F359754E5BB4C0C6",
+          "mdns-error-Light-620.png": "72FD6C23EB0203C0CDAB45208BE4D11CD6E5C5A4D2FD18F5EB548A675C63BFF7",
+          "mdns-error-Light-820.png": "B645095A5F231F0A2FEBD1A6A9E06D3424834C4B74A9E3C191548B739001D79B",
+          "mdns-filter-empty-Dark-620.png": "881B1E2AB5B963E07957C27C503AA19410EF4B1BDC4D2C8805E7EA203FB39BCF",
+          "mdns-filter-empty-Dark-820.png": "BD21EF410FA53ABC683492813C699BAF806ECC863081C6DE167B5E5245704CBB",
+          "mdns-filter-empty-Light-620.png": "FFBF27C9588D831F5DFB0A5D97491B8A5530CA609363452F34F19C1324C05891",
+          "mdns-filter-empty-Light-820.png": "14BFFB8F30E5FE02AD96C935F5335863E1AF69269F78277E5F507603C307C7F3",
+          "mdns-listening-Dark-620.png": "E8304C862701B3F0811FA0941FA787050B004713363D77443A31BD1C7E741F89",
+          "mdns-listening-Dark-820.png": "66751B2F3E45CBFACD2CDEF809E4879A16FF70668036E3FF7741E8550B8DDD3F",
+          "mdns-listening-Light-620.png": "1FBCC6B2E904E70E27DFCC15932E44EA2736620C4AD415FCE71EA295D28BE0AD",
+          "mdns-listening-Light-820.png": "C602947848CA7D6B89805BE64A3DD61192030391FFC9BB9CAA6DB629C35C0D38",
+          "mdns-stopped-Dark-620.png": "8B16A5E36ECD7A3B264D0E7FC19746CFF9A2D3410E75334281EEF560D77C242E",
+          "mdns-stopped-Dark-820.png": "BC3EF38AACDA230D56C8AA9490CF971A8682EA541A59E587F46FDEDED0F6B552",
+          "mdns-stopped-Light-620.png": "0E57FF059358923EB27A6877A10A351B436928B16B7E7EC0E1EFA0652A168D2B",
+          "mdns-stopped-Light-820.png": "E478DB9602B47911BF6836F9FE9CDF38B3A61C742B6730D9AEBB47A79187978B",
+          "project-En-Dark-700.png": "7FECBFA407D5B3B970AAFF60104261DFDFB9B150D380683626586D448EE91572",
+          "project-En-Dark-900.png": "9129BDEEA4F66A9DDBBCD4AF00652AAD9260F15A0E66C1DD414F15CFC3C7C997",
+          "project-En-Light-700.png": "0412B70E51A05A7577E00C4D3AEA9450F224ED7374A716D7D711BB34BDB53A80",
+          "project-En-Light-900.png": "5F7C4D0106457894FFC1C5F668CD5A8BD37FDB79784D25AD360B9073CC385651",
+          "toolbar-Dark-1200.png": "F0435F650FCBD82C958C66160850951144532126593E37A9D42450BFF86D9F7E",
+          "toolbar-Dark-760.png": "4E721AA79F48EAEB03FBA401180F58DD54A8073E79D3F2DD271DFAB1796E3FA4",
+          "toolbar-disabled-Dark-1200.png": "85E1F46EE71589B4CE0887F9C079C0140BEE3AA5E1EA6D870FFFBD5FB5FDE70E",
+          "toolbar-disabled-Dark-760.png": "C985023D5DDF7FD31B91A7EA2537D1B393F52CCF118E2B5E74CBECC865C0FE42",
+          "toolbar-disabled-Light-1200.png": "0B3BD032DAE4C1046433F25C1D019FD578ED5771B6E87A5410A00E2E6F77792D",
+          "toolbar-disabled-Light-760.png": "B6F44B08E7915045E207A5F5809E73C2A01EB9165A645E954E5B8BA44D558305",
+          "toolbar-focus-Dark-1200.png": "DA0A02B69ED19C2C33FE37DF3EA520ECBD986F60B917C4E56DD5AF2D2AEAD943",
+          "toolbar-focus-Dark-760.png": "EF4AB8DA0F35E057A48E86A766687FC87D81E35E84236FDD09A7D08AFA0155F9",
+          "toolbar-focus-Light-1200.png": "559F4809B98B45B39B88DBE95C79824007E8E251043F0451546440EA72F11828",
+          "toolbar-focus-Light-760.png": "C2C321157E1F5B18F82C5DC29AFA81D3B6126C37396E238A1D170AAE00F1071A",
+          "toolbar-Light-1200.png": "FA85EEC9095E0B6C2F56E8345E370ECD32BD296B181035E759DFAAA5D213F48E",
+          "toolbar-Light-760.png": "F33B767430DBBB1671510434E3207D74D60865B8EE94D8D4DA8AED407A41F226",
+          "workspace-adapter-Dark-1200.png": "DA0A02B69ED19C2C33FE37DF3EA520ECBD986F60B917C4E56DD5AF2D2AEAD943",
+          "workspace-adapter-Dark-760.png": "0813838F6AA7B623E5B55B46F023F06405D86CD25907455C992C4840C1DBC123",
+          "workspace-adapter-Light-1200.png": "559F4809B98B45B39B88DBE95C79824007E8E251043F0451546440EA72F11828",
+          "workspace-adapter-Light-760.png": "76F4C3AFCCB810A50828FC550F1287900087951EE176511CFD50F9A2CBE313B8",
+          "workspace-devices-Dark-1200.png": "3DF38C90D9BE463173BA31968E681AB4D3812B9BDE9BFF64131BCF2C3908D01E",
+          "workspace-devices-Dark-760.png": "00482C2EEAB0224DA0405E0BB24B58ED56EF2009D6DAAC95837C2A1E34DA08E2",
+          "workspace-devices-Light-1200.png": "D17863C76A5406A08A45617ADF12C40C584181F1DBE6E9484F7EE4033FE6AEFA",
+          "workspace-devices-Light-760.png": "A2D53851CF33347D520E1FFCBF9D4DCAB673242F666A4785F87156AAEABB3B3F",
+          "workspace-editor-Dark-1200.png": "9648EA7773D858908F9A259FB018D863181F13D56C7BF65ED6025625A6DDE086",
+          "workspace-editor-Dark-760.png": "17804AEC1A526E344D6F55C51A07B68EE0089A3B0F17DA71279343CF4BB3CAE3",
+          "workspace-editor-error-Dark-1200.png": "B23791AAA4868D598191374162FCA50B364D924FAA4919C7175174821E85C169",
+          "workspace-editor-error-Dark-760.png": "AE1BE43D8C34E1CCBA151A3DC96B35A906A78FF049675C259459753777FD9E3A",
+          "workspace-editor-error-Light-1200.png": "E26B7FB758DB3147404DC49ADABDFC1DE31667D4D546582874D3345324790D25",
+          "workspace-editor-error-Light-760.png": "3F72961DB9EFCD8793697FD37D359CD97F40D359A43A404A4164B5F7F9315786",
+          "workspace-editor-Light-1200.png": "E96BB14145AFA89DC667F093880D4395CB3C2AC6981AC87DF8A32E65CA22791B",
+          "workspace-editor-Light-760.png": "C8666D32039A7C14A330BBDEBA06A0C8180AA2E4A18D8035FA9C67D4ACC0646A",
+          "workspace-manual-Dark-1200.png": "28426E6E4A7E317F65631C51220948B4F5F697CC2D47EE9EAADC4409FF9CA9AE",
+          "workspace-manual-Dark-760.png": "3B993CCE2B91CFAB6683D208EF374A73D0E0CA8A76B10B3C4A8B365A30E00657",
+          "workspace-manual-Light-1200.png": "384B3FF9D4DCF55EB534472285122A2617F6AA47F01F10C88D0C10B7F021E086",
+          "workspace-manual-Light-760.png": "50443DE0364D87C625EE8479EB63CC6136FE8FAC61E4FB1BD15A347C9F5397E5",
+          "workspace-no-adapter-Dark-1200.png": "57C8EBC9E49A24D531FBB10858525C2347F4A1BF3DF18ECAC7CE0919E6DB9A5E",
+          "workspace-no-adapter-Dark-760.png": "A04D61DD66C9665C749D357F48DCBF513A311EA0C91669E3A022E321954B9F33",
+          "workspace-no-adapter-Light-1200.png": "11331DD81E9A5852CB5A0D5A10C17BB3136657632D755967542E1048CC873533",
+          "workspace-no-adapter-Light-760.png": "5F1DF11638292C6E07BBE6CEEFA3FF3D16B172AFA264DBC39C5D329D3844A47A",
+          "workspace-project-Dark-1200.png": "3587F078D86878EB809E42059BB13891B0DBD76ABFEE95794201AD25C128A8CE",
+          "workspace-project-Dark-760.png": "8EF79D374747E009B624E3CAE69265BEAABFB2F4FBA02D1417491965EF58C857",
+          "workspace-project-Light-1200.png": "46D3A73E754B24E44FFE39756B6D8D8AC5EBAF9037F1EBD140CFD0157FD13F46",
+          "workspace-project-Light-760.png": "410FC4DF1652FBC473865A7E978306A5208782AE927321B74AD0D5274370069A"
+        }
+      }
+    ]
+  },
+  "NativeNetwork": "NOT RUN",
+  "WorkingPcProductInstall": "NOT RUN",
+  "VMChanges": "NOT RUN",
+  "KnownOpen": [
+    "DOC-R01",
+    "UX-R01",
+    "P05-R01"
+  ],
+  "BothOldTagsAndAssetsUnchanged": true
+}

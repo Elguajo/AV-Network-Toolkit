@@ -1,4 +1,6 @@
-# Release checklist — v1.1.3 Preview preparation; native acceptance pending
+# Release checklist — v1.1.3 Preview published; native acceptance pending
+
+Published source **2847ff6baaee59c813dbecb0688ffad62324b968**, [release run 41300112524](https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41300112524) PASS: 723 unit/12 tooling, 0 build warnings/errors and all hosted package/runtime/install/reinstall/uninstall gates. Downloaded [v1.1.3 assets](https://github.com/Elguajo/AV-Network-Toolkit/releases/tag/v1.1.3), verified tag/source/API digests/checksums/CI bytes and packaged EXE. [Evidence and original failures](docs/testing/RELEASE_2026-11-01_REVIEW.md). These results supersede preparation snapshots only; native/phase gates below remain unmet. No prior tag/assets rewritten.
 
 Execution refinement under ADR-048: v1.1.2 was published and independently verified from d634a80918b429d11411d7c3afc8348d9a1d70a8. The concurrent tray/adapter fixes finished afterward; prepare v1.1.3 to include those completed changes without rewriting v1.1.2. Its exact source must repeat the release workflow gates. Native/phase acceptance remains pending; source and all published checks/hashes are recorded in STATUS.
 

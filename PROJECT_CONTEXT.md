@@ -1,5 +1,7 @@
 # Project context — persistent product brief
 
+Current publication (ADR-048 / REL-05): [v1.1.3 Preview](https://github.com/Elguajo/AV-Network-Toolkit/releases/tag/v1.1.3), source 2847ff6baaee59c813dbecb0688ffad62324b968, includes audit/theme/tray/adapter fixes and self-contained .NET 10 installer/ZIP; [exact-source checks and downloads](docs/testing/RELEASE_2026-11-01_REVIEW.md) verified. Native/phase acceptance and DOC-R01/UX-R01/P05-R01 remain open; Windows 10 edition limits apply. Previous releases retained. No DATA-01/Phase 08 advancement.
+
 Current local source follow-up (ADR-047): owner-authorized [A26 audit fixes](docs/spec/AUDIT_FIXES_CONTRACT.md) unify local/project mutation safety, preserve damaged storage, add journal-backed local recovery and target .NET 10 LTS. [Evidence and OS/compatibility limits](docs/testing/AUDIT_FIXES_REVIEW.md). Existing published v1.1.1 remains .NET 8. Phase 07 AWAITING_REVIEW; no native acceptance, DATA-01 or Phase 08 advancement.
 
 ## Current diagnostic follow-up — ADR-041, 2026-11-01
