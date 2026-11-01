@@ -24,3 +24,28 @@ Negative control is an independent local git-archive export of app/test/schema/l
 Self-review: the changed runtime rule is limited to the existing excluded interface type, independent of names or IPv4 presence; existing event/diff policy is retained. No native type/API signature or production dependency change. Full UI rendering NOT RUN for this service-only change. Host Teredo behavior, native balloon delivery and real network events remain UNVERIFIED; no traffic, OS settings/UAC, App startup, install, release or push performed. Existing concurrency/stack-failure/lifecycle behavior is outside this bounded filter fix; no broader monitor hardening claimed.
 
 Published 1.1.5/installed or running applications are unchanged. Phase 07 remains AWAITING_REVIEW; DATA-01/Phase 08 and owner/native acceptance gates remain.
+
+## Local corrected build after continuing notifications
+
+2026-11-01, NOTIFY-02. Owner supplied repeated **Connection lost / Teredo Tunneling Pseudo-Interface** screenshots. Existing c580604 excludes Tunnel before either up or down notification; its repeated-transition regression already covers both directions. Published 1.1.5 is source 2b78f67 and lacks the fix. No NetworkProfileManager.exe or other matching product process was found through read-only Win32_Process inspection, so the screenshot's actual binary and host transition cause remain UNVERIFIED. No further runtime code change was justified.
+
+Prepared a local self-contained Windows x64 candidate from clean main **c580604b74b63c5f2b6e6ea5c676edc896dfae9d**, without modifying app version, installed files, release/tag/assets or OS/network settings:
+
+- EXE: `D:\01_DEV\AV-Network-Toolkit\out\TeredoFix-c580604\payload\NetworkProfileManager.exe`.
+- ZIP: `out/TeredoFix-c580604/AVNetworkToolkit-1.1.5-local-TeredoFix-c580604-win-x64-portable.zip`.
+- Identity: **1.1.5.0**, informational **1.1.5+c580604b74b63c5f2b6e6ea5c676edc896dfae9d**, bundled **.NET 10.0.14**. The local folder/ZIP name and informational SHA distinguish it from published 1.1.5; this is not a new release.
+- EXE SHA-256: `79DB966F7AEE6D93218D3D7934C8DAD40C732D248B50C5A70359CB8A9E804606`.
+- ZIP SHA-256: `E9322962D5A9080F6F2F87E86D031D0D861F090B4AE905F023E184B3A6228055`.
+- Local machine-readable evidence: `out/TeredoFix-c580604/local-build-manifest.json`, `SHA256SUMS.txt`, `TestResults/TeredoFix-c580604`.
+
+PowerShell, same private `$sdk` as above:
+
+| Command / check | Observed result |
+|---|---|
+| `& $sdk test test/NetworkProfileManager.Tests.csproj --configuration Release --no-restore -p:OutputPath=bin/MonitorFix/ -p:IntermediateOutputPath=obj/MonitorFix/ --filter 'FullyQualifiedName~NetworkMonitorServiceTests' --logger 'trx;LogFileName=monitor-rebuilt.trx' --results-directory TestResults/TeredoFix-c580604 --nologo` | Current source rebuilt; 8 PASS / 0 failed / 0 skipped. Earlier no-build focused invocation also 8 PASS. |
+| `& $sdk publish app/NetworkProfileManager.csproj -c Release -r win-x64 --self-contained true -p:DebugType=none -p:DebugSymbols=false -p:PublishReadyToRun=false -p:SourceRevisionId=c580604b74b63c5f2b6e6ea5c676edc896dfae9d -o out/TeredoFix-c580604/payload` | PASS; all eight expected files present after LICENSE copied, no compiler warning/error reported. |
+| `scripts/test_package_self_test.ps1 -Executable out/TeredoFix-c580604/payload/NetworkProfileManager.exe -ResultsDirectory TestResults/TeredoFix-c580604/PayloadSelfTest` | Script PASS: WPF/JSON, report preservation, three malformed invocation cases and four retired-worker rejections; no normal app/network startup. An outer ad hoc `$LASTEXITCODE` assertion then falsely reported failure because the script intentionally tests exit 1. Script assertions and success report confirmed PASS; no check suppressed or product repair needed. |
+| Compress/expand ZIP; SHA-256 compare every original/extracted file and file counts | PASS, all 8 files identical; original and extracted reports agree on exact source/version/runtime. |
+| `scripts/test_package_self_test.ps1 -Executable TestResults/TeredoFix-c580604/Extracted/NetworkProfileManager.exe -ResultsDirectory TestResults/TeredoFix-c580604/ZipSelfTest` | PASS, same complete diagnostics; process exit 0. |
+
+Full unit suite NOT RUN again for this packaging-only work; previous 744 result remains attributed to NOTIFY-01 above. No installer generated/run, normal app launched, host network enumerated/scanned/changed, real tray delivery tested or GitHub publication performed. Native confirmation requires the owner to exit any older copy through its tray menu and run this exact EXE, keeping all payload files together. Existing saved profiles/settings retain their established locations. Phase 07/owner/native gates remain unchanged.

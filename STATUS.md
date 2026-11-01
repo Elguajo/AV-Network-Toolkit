@@ -1,5 +1,12 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Corrected local executable — NOTIFY-02, 2026-11-01
+
+- Fork / branch / exact built source: https://github.com/Elguajo/AV-Network-Toolkit / main / `c580604b74b63c5f2b6e6ea5c676edc896dfae9d`. This evidence-only commit follows; resolve with `git log -1 --format=%H -- docs/testing/TUNNEL_NOTIFICATION_REVIEW.md`.
+- Completed: continuing Connection lost report checked against existing up/down tunnel tests; self-contained local corrected EXE and ZIP prepared under `out/TeredoFix-c580604`. Published 1.1.5 lacks c580604. No matching product process found during read-only inspection; the screenshot's actual EXE/source remains UNVERIFIED. [Paths, commands and hashes](docs/testing/TUNNEL_NOTIFICATION_REVIEW.md#local-corrected-build-after-continuing-notifications).
+- Tests last executed: current-source focused build/test 8 PASS / 0 failed/skipped; self-contained publish PASS; original/extracted WPF/JSON, create-only report, malformed invocation and retired-worker rejection checks PASS; 8 ZIP payload files hash-identical. Earlier 744 full-unit result remains historical NOTIFY-01 evidence; full suite NOT RUN again for packaging-only work.
+- In progress / blockers / next action: no local packaging work remains; owner exits older app via tray and runs `out/TeredoFix-c580604/payload/NetworkProfileManager.exe` with its sibling files. Published/installed files unchanged; no agent ordinary app startup/install/traffic/OS change. Native Teredo transition/tray acceptance NOT RUN; Phase 07 AWAITING_REVIEW, DATA-01/Phase 08 unchanged.
+
 ## Tunnel notification correction — NOTIFY-01, 2026-11-01
 
 - Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `0507357`. Scoped commit follows; resolve using `git log -1 --format=%H -- docs/testing/TUNNEL_NOTIFICATION_REVIEW.md`.
@@ -1372,3 +1379,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining active-phase tasks: owner/native acceptance unchanged; DATA-01/Phase 08 not started.
 - Next smallest safe action: include the verified fix in the next separately requested package; restarting the old released EXE does not incorporate source changes.
 - Can next session proceed without clarification: only within already authorized scope.
+
+### Session handoff — NOTIFY-02, 2026-11-01 (Asia/Tashkent)
+
+- Date and environment: Windows/PowerShell, private SDK 10.0.403, self-contained win-x64/.NET 10.0.14.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / exact built source c580604b74b63c5f2b6e6ea5c676edc896dfae9d; evidence-only commit resolved through review-file git log.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; NOTIFY-02 VERIFIED_LOCAL.
+- Actually completed: checked continuing Connection lost screenshots against existing bidirectional Tunnel exclusion, rebuilt current focused tests and prepared a directly runnable local EXE/portable ZIP with exact source identity and hashes. Existing published 1.1.5 lacks this fix; screenshot source remains UNVERIFIED, no matching running product process found.
+- Files changed: docs/testing/TUNNEL_NOTIFICATION_REVIEW.md, TASKS.md, STATUS.md; ignored candidate and diagnostics under out/TeredoFix-c580604 and TestResults/TeredoFix-c580604. No app/test/version/schema/dependency change.
+- Test commands and results: exact commands in review; focused current-source rebuild/test 8 PASS/0 failed/skipped, self-contained publish PASS, original/extracted complete package diagnostics PASS, 8 payload-file hashes/counts identical. Outer ad hoc LASTEXITCODE assertion falsely rejected a successful script with expected negative cases; documented and corrected interpretation, no product/test suppression. Earlier full 744 evidence remains historical; full suite NOT RUN again. Final planning/link/tooling/whitespace checks recorded in CLI.
+- Live-network tests: NOT RUN / not authorized. No ordinary app startup, NotifyIcon/network event reproduction, probe/listener, network configuration, UAC, installer, push or release.
+- Known bugs, risk and workarounds: native Teredo cycling/tray behavior unverified; installed/published copies unchanged. Exit old copy through its tray menu, then run the new payload EXE with all sibling files. Local file version remains 1.1.5.0; folder/ZIP name and informational source distinguish candidate.
+- Decisions requiring user approval: none for completed local candidate; shared publication/install/native networking retain existing gates.
+- Remaining active-phase tasks: owner/native acceptance unchanged; DATA-01/Phase 08 not started.
+- Next smallest safe action: owner runs out/TeredoFix-c580604/payload/NetworkProfileManager.exe for manual confirmation.
+- Can next session proceed without clarification: safe inspection within current scope yes; no automatic publication/phase/native network action.

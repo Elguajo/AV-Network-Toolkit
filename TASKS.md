@@ -2,6 +2,8 @@
 
 ## Tunnel notification correction — 2026-11-01
 
+- [x] **NOTIFY-02** — Prepare a local corrected executable after the owner reported continuing Teredo Connection lost messages. **AC:** exact NOTIFY-01 source in a self-contained local EXE/ZIP, focused monitor regression and payload/ZIP diagnostics verified, explicit launch handoff without installing or publishing. **State:** VERIFIED_LOCAL — source c580604, 8 focused PASS, both package diagnostics PASS and 8 ZIP files hash-identical. [Evidence](docs/testing/TUNNEL_NOTIFICATION_REVIEW.md#local-corrected-build-after-continuing-notifications). Published 1.1.5 and installed files unchanged.
+
 - [x] **NOTIFY-01** — Exclude tunnel lifecycle changes from tray connection notifications. **AC:** repeated Teredo/renamed-tunnel transitions stay silent; loopback exclusion and Ethernet/Wi-Fi/ordinary virtual up/down/IP notifications remain; fake-only regression reproduction and validation. **State:** VERIFIED_LOCAL — 8 focused / 744 full unit PASS, Release build 0 warnings/errors; removing only the tunnel exclusion reproduces 3 failures. [Evidence](docs/testing/TUNNEL_NOTIFICATION_REVIEW.md). Published 1.1.5 unchanged; native/phase gates remain.
 
 ## Release-note editorial follow-up — 2026-11-01
