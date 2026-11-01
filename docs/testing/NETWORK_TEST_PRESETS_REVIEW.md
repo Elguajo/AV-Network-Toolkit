@@ -1,6 +1,6 @@
 # Ready-made network tests — local review
 
-2026-11-01, Asia/Tashkent. Fork https://github.com/Elguajo/AV-Network-Toolkit, main, clean bootstrap `2ccf8cd668ab0e27ef98f93b4db87afaf6ec4c67`. ADR-041 / NT-01. Local implementation and evidence recorded; owner/native acceptance pending. Phase 07 stays AWAITING_REVIEW. Resolve the implementation commit using `git log -1 --format=%H -- app/Services/DiagnosticTcpService.cs`; STATUS.md pins it after commit.
+2026-11-01, Asia/Tashkent. Fork https://github.com/Elguajo/AV-Network-Toolkit, main, clean bootstrap `2ccf8cd668ab0e27ef98f93b4db87afaf6ec4c67`. ADR-041 / NT-01. Implementation **`e0d7d3a032d87b4d49ecf4e93aafbb168b1c40fb`**, 27 paths, 936 insertions/54 deletions, following independently committed distribution decision `a81f7d5`. Local implementation and evidence recorded; owner/native acceptance pending. Phase 07 stays AWAITING_REVIEW. This subsequent documentation-only pin changes no tested source. App/test/harness Git tree hashes exactly matched the final isolated 681-case snapshot before the implementation commit; concurrent package changes were not staged.
 
 ## Outcome and changed surfaces
 
