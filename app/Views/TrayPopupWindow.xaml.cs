@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Shapes;
 using NetworkProfileManager.Helpers;
@@ -52,7 +53,7 @@ namespace NetworkProfileManager.Views
             if (vm != null)
             {
                 bool anyProfiles = false;
-                foreach (var adapter in vm.Adapters)
+                foreach (var adapter in vm.VisibleAdapters.Cast<AdapterViewModel>())
                 {
                     if (adapter.Profiles.Count == 0) continue;
                     if (!anyProfiles)

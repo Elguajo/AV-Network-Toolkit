@@ -4,6 +4,10 @@
 
 - [x] **UI-TRAY-01** — Open the tray menu above the clicked icon rather than at the primary screen corner. **AC:** capture click location, use its monitor, convert pixels/DIPs, clamp edges, preserve menu actions/style. **State:** VERIFIED locally — 9 focused unit PASS, 6 Light/Dark HWND-placement/action captures PASS/0 binding errors, 723 full unit PASS on the combined tree. [Evidence and native limits](docs/testing/TRAY_PLACEMENT_REVIEW.md). Phase 07 AWAITING_REVIEW; installed app/release unchanged.
 
+## Adapter list filtering — 2026-11-01
+
+- [x] **ADAPTER-LIST-01** — Hide confirmed system filters/idle built-in WAN/debug plumbing from the main/tray list by default, with Show all. **AC:** preserve working/virtual/disconnected/unknown interfaces, stored data and drafts; hiding/removing a selected target clears selection; no OS mutation/probes; regression and Light/Dark normal/minimum captures. **State:** VERIFIED locally — 714 scoped / 723 final combined unit PASS, 12 focused + 128 existing WPF captures/0 binding errors, focused repeat at actual 760x520 minimum PASS; read-only production enumeration 24 total/17 hidden/7 visible. [Evidence and limits](docs/testing/ADAPTER_VISIBILITY_REVIEW.md). Phase 07 AWAITING_REVIEW; no system removal/publication/native acceptance.
+
 ## Left navigation planning — 2026-11-01
 
 - [ ] **UI-NAV-01** — Add an icon rail and collapsible, resizable adapter sidebar. **AC:** [Owner-intent brief and future implementation checks](docs/spec/LEFT_NAVIGATION_BRIEF.md), supplemented by [official-source research and proposed component contract](docs/spec/LEFT_NAVIGATION_RESEARCH.md). **State:** BRIEF_AND_RESEARCH_RECORDED / IMPLEMENTATION_NOT_STARTED. Owner requested documentation/research only; rail destination mapping and dimensions remain proposals, existing tool windows and network safety remain preserved. Phase 07 AWAITING_REVIEW; no implementation/publication/phase advancement from this record.

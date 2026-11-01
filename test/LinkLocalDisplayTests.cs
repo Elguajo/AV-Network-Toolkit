@@ -10,6 +10,21 @@ namespace NetworkProfileManager.Tests;
 public sealed class LinkLocalDisplayTests
 {
     [Theory]
+    [InlineData(0x02, true)][InlineData(0x05, false)][InlineData(0x15, false)][InlineData(null, false)]
+    public void AdapterProjectionAnnotatesVisibilityWithoutDroppingInterfaceOrAddress(int? flags, bool system)
+    {
+        var adapter = new FixtureNic(false);
+        var info = Assert.Single(new NetworkService().GetAdapters(new[] { adapter }, id =>
+        {
+            Assert.Equal(Guid.Parse(adapter.Id), id);
+            return (byte?)flags;
+        }));
+        Assert.Equal(system, info.IsSystemInterface);
+        Assert.Equal(adapter.Id, info.Id);
+        Assert.Equal("169.254.42.10", info.CurrentIp);
+    }
+
+    [Theory]
     [InlineData(false, "LinkLocal.Manual")][InlineData(true, "LinkLocal.Automatic")][InlineData(null, "LinkLocal.Unknown")]
     public void RealAdapterProjectionKeepsLinkLocalAndDistinguishesDhcpPolicy(bool? dhcp, string mode)
     {

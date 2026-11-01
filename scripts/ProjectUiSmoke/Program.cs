@@ -48,6 +48,13 @@ internal static partial class Program
                 Console.WriteLine("PASS: tray menu anchored to screen click, edges clamped, 6 Light/Dark captures, action callbacks, 0 binding errors.");
                 return 0;
             }
+            if (args.Contains("--adapter-visibility"))
+            {
+                RenderAdapterVisibility(output);
+                if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
+                Console.WriteLine("PASS: adapter filtering, Show all, selection/draft preservation, 12 captures, fake network, 0 binding errors.");
+                return 0;
+            }
             if (args.Contains("--themes"))
             {
                 RenderWindowThemes(output);
@@ -319,6 +326,8 @@ internal static partial class Program
     private sealed class AdapterFixture
     {
         public System.Collections.ObjectModel.ObservableCollection<AdapterViewModel> Adapters { get; init; } = new();
+        public object VisibleAdapters => Adapters;
+        public bool ShowAllAdapters { get; set; }
         public AdapterViewModel? SelectedAdapter { get; set; }
         public System.Windows.Input.ICommand RefreshCommand { get; } = new NetworkProfileManager.Commands.RelayCommand(_ => { });
     }

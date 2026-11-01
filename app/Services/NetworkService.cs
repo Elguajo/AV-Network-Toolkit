@@ -19,11 +19,11 @@ namespace NetworkProfileManager.Services
 #if DEBUG
             if (DemoMode.IsActive) return DemoMode.Adapters();
 #endif
-            return GetAdapters(NetworkInterface.GetAllNetworkInterfaces());
+            return GetAdapters(NetworkInterface.GetAllNetworkInterfaces(), WindowsAdapterVisibility.ReadFlags);
         }
 
         // Same projection for production and fixture interfaces; tests never enumerate the host.
-        internal List<AdapterInfo> GetAdapters(IEnumerable<NetworkInterface> interfaces)
+        internal List<AdapterInfo> GetAdapters(IEnumerable<NetworkInterface> interfaces, Func<Guid, byte?>? readFlags = null)
         {
             var result = new List<AdapterInfo>();
 
@@ -87,6 +87,9 @@ namespace NetworkProfileManager.Services
                     Name              = nic.Name,
                     Description       = nic.Description,
                     IsConnected       = connected,
+                    IsSystemInterface = WindowsAdapterVisibility.IsSystemInterface(nic.Description,
+                        readFlags != null && Guid.TryParse(nic.Id, out var id) ? readFlags(id) : null,
+                        !string.IsNullOrEmpty(ip)),
                     CurrentIp         = ip,
                     CurrentSubnet     = subnet,
                     CurrentGateway    = gateway,

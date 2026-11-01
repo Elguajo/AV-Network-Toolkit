@@ -18,6 +18,75 @@ public class MainViewModelTests : System.IDisposable
         new ObservableCollection<ProfileViewModel>(),
         new ObservableCollection<HistoryEntry>());
 
+    [Fact]
+    public void FilterKeepsWorkingAndDisconnectedAdaptersAndDoesNotReloadOrLoseDrafts()
+    {
+        int reads = 0;
+        var vm = new MainViewModel(() =>
+        {
+            reads++;
+            return new() {
+                new() { Id = "ethernet", Name = "Ethernet", IsConnected = false },
+                new() { Id = "wifi", Name = "Wi-Fi", IsConnected = true },
+                new() { Id = "vpn", Name = "Radmin VPN" },
+                new() { Id = "hyperv", Name = "vEthernet" },
+                new() { Id = "unknown", Name = "Unknown" },
+                new() { Id = "filter", Name = "System filter", IsSystemInterface = true }
+            };
+        });
+        Assert.Equal(6, vm.Adapters.Count);
+        Assert.Equal(5, vm.VisibleAdapters.Cast<AdapterViewModel>().Count());
+        var selected = vm.SelectedAdapter!;
+        selected.EditIp = "192.0.2.42";
+        vm.ShowAllAdapters = true;
+        Assert.Equal(6, vm.VisibleAdapters.Cast<AdapterViewModel>().Count());
+        vm.ShowAllAdapters = false;
+        Assert.Same(selected, vm.SelectedAdapter);
+        Assert.Equal("192.0.2.42", selected.EditIp);
+        Assert.Equal(1, reads);
+    }
+
+    [Fact]
+    public void HidingSelectedSystemInterfaceClearsTargetWithoutSelectingAnotherOnRefresh()
+    {
+        var vm = new MainViewModel(() => new() {
+            new() { Id = "filter", Name = "System filter", IsSystemInterface = true },
+            new() { Id = "ethernet", Name = "Ethernet" }
+        });
+        Assert.Equal("ethernet", vm.SelectedAdapter!.Info.Id);
+        vm.ShowAllAdapters = true;
+        vm.SelectedAdapter = vm.Adapters[0];
+        vm.ShowAllAdapters = false;
+        Assert.Null(vm.SelectedAdapter);
+        vm.Refresh();
+        Assert.Null(vm.SelectedAdapter);
+        vm.ShowAllAdapters = true;
+        Assert.Null(vm.SelectedAdapter);
+        Assert.Equal(2, vm.Adapters.Count);
+    }
+
+    [Fact]
+    public void RefreshPreservesGuidAcrossRenameAndClearsRemovedOrNewlyHiddenTarget()
+    {
+        var data = new List<AdapterInfo> {
+            new() { Id = "one", Name = "Ethernet" }, new() { Id = "two", Name = "Other" }
+        };
+        var vm = new MainViewModel(() => data);
+        var selected = vm.SelectedAdapter;
+        data = new() { new() { Id = "one", Name = "Renamed" }, new() { Id = "two", Name = "Ethernet" } };
+        vm.Refresh();
+        Assert.Same(selected, vm.SelectedAdapter);
+        Assert.Equal("Renamed", vm.SelectedAdapter!.Name);
+        data[0].IsSystemInterface = true;
+        vm.Refresh();
+        Assert.Null(vm.SelectedAdapter);
+        Assert.Single(vm.VisibleAdapters.Cast<AdapterViewModel>());
+        vm.SelectedAdapter = vm.Adapters[1];
+        data.RemoveAt(1); vm.Refresh();
+        Assert.Null(vm.SelectedAdapter);
+        Assert.Empty(vm.VisibleAdapters.Cast<AdapterViewModel>());
+    }
+
     /// <summary>
     /// Refresh() re-selects the same adapter after every apply, revert and
     /// refresh. The window resets its page on this notification, so repeating

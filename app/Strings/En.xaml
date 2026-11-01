@@ -30,6 +30,8 @@
 
     <!-- ── AdapterListPanel ── -->
     <sys:String x:Key="Adapters.Header">Network Adapters</sys:String>
+    <sys:String x:Key="Adapters.ShowAll">Show all adapters</sys:String>
+    <sys:String x:Key="Adapters.ShowAllHelp">Include system filters and idle WAN miniports. This only changes the list; no Windows adapter is disabled or removed.</sys:String>
     <sys:String x:Key="Adapters.NotConnected">Not connected</sys:String>
     <sys:String x:Key="Adapters.CopyIpTooltip">Copy IP</sys:String>
     <sys:String x:Key="Adapter.Dns">DNS</sys:String>

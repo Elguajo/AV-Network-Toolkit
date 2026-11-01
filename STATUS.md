@@ -7,6 +7,13 @@
 - Tests last executed: 9 focused unit PASS; 6 Light/Dark WPF captures, actual HWND placement/action callbacks PASS, 0 binding errors; 723 full unit PASS on the combined working tree including concurrent adapter filtering. No network actions. Documentation validation recorded in the handoff below.
 - In progress / blockers / next action: no local UI-TRAY-01 implementation remains; check the rebuilt menu from the actual Windows tray. Physical mixed-DPI/Explorer/auto-hidden taskbar acceptance UNVERIFIED. Concurrent adapter/navigation/release work remains independent; no installed-binary update, push, release or Phase 08 authorization. Phase 07 AWAITING_REVIEW.
 
+## Adapter list filtering — ADAPTER-LIST-01, 2026-11-01
+
+- Fork / branch / inspected base: https://github.com/Elguajo/AV-Network-Toolkit / main / `f7720e9`; resolve scoped SHA with `git log -1 --format=%H -- app/Services/WindowsAdapterVisibility.cs`. Concurrent release/navigation/tray changes preserved/excluded.
+- Completed: main/tray filtering for native system filters and idle built-in WAN/debug plumbing, localized Show all, preserved adapters/stores/drafts and GUID selection; hidden/removed target clears without replacement. [Exact contract, commands and limits](docs/testing/ADAPTER_VISIBILITY_REVIEW.md). No OS component/configuration removed or disabled.
+- Tests last executed: Release solution/harness builds 0 warnings/errors; **33 focused / 714 scoped / 723 final combined unit PASS**, **12 focused + 128 existing WPF captures PASS/0 binding errors**; focused repeated at actual minimum 760x520 PASS. Final combined base `06d3728`; planning/schema/formats/506 links and 12 tooling PASS. Separate read-only production enumeration **24 total / 17 hidden / 7 visible**, Ethernet/Radmin retained. Automated tests use fake networking.
+- In progress / blockers / next action: no ADAPTER-LIST-01 implementation work remains; owner can review the build/captures before separate publication. Installed app/release untouched; phase/native acceptance, DOC-R01/UX-R01/P05-R01 remain open. Network mutation/probes/OS removal NOT RUN; Phase 07 AWAITING_REVIEW, no DATA-01/Phase 08.
+
 ## Left navigation research — UI-NAV-01, 2026-11-01
 
 - Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `b8120d3`. Source-backed [research/component contract](docs/spec/LEFT_NAVIGATION_RESEARCH.md) supplements the [brief](docs/spec/LEFT_NAVIGATION_BRIEF.md); resolve this documentation commit through git log for the research path.
@@ -1062,6 +1069,21 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks in active phase: unchanged; no phase completion.
 - Next smallest safe action: use linked brief and research together for future authorized UI implementation.
 - Can next session proceed without clarification: document review yes; UI/native/network/publication only under applicable explicit authorization.
+
+## Session handoff — ADAPTER-LIST-01, 2026-11-01
+
+- Date/environment: 2026-11-01 Asia/Tashkent, Windows 11 x64/private SDK 10.0.403.
+- Fork/branch/source: https://github.com/Elguajo/AV-Network-Toolkit / main / f7720e9; scoped commit resolved by `git log -1 --format=%H -- app/Services/WindowsAdapterVisibility.cs`.
+- Phase/task: Phase 07 AWAITING_REVIEW / ADAPTER-LIST-01 locally verified; no phase completion.
+- Actually completed: native flag-based list filtering, idle built-in WAN/debug classification, Show all, preserved data/drafts and stable GUID selection; hidden/removed target clears without fallback. No OS removal/disable.
+- Changed paths: app/Models/AdapterInfo.cs; app/Services/NetworkService.cs and WindowsAdapterVisibility.cs; app/ViewModels/MainViewModel.cs; app/Views/AdapterListPanel.xaml and TrayPopupWindow.xaml.cs (filter hunks only); app/Strings/En.xaml; test/AdapterVisibilityTests.cs, LinkLocalDisplayTests.cs, MainViewModelTests.cs; scripts/ProjectUiSmoke/Program.cs (adapter hunks only) and AdapterVisibilitySmoke.cs; TASKS/STATUS/DECISION_LOG/TEST_MATRIX and adapter review. Concurrent release/navigation/tray work preserved/excluded.
+- Tests: exact commands/results in docs/testing/ADAPTER_VISIBILITY_REVIEW.md; Release builds 0 warnings/errors, 33 focused/714 scoped/723 final combined unit PASS; 12 focused + 128 existing WPF captures PASS/0 binding errors, focused repeat at true 760x520 minimum PASS. Planning/schema/formats/506 links and 12 tooling PASS. Separate read-only production inventory 24 total/17 hidden/7 visible. SDK lookup/temporary inventory-path failures recorded, then corrected. Exact scoped source export independently passed 714 unit + 12 WPF.
+- Live network tests: NOT RUN. Separate read-only local adapter metadata enumeration only; no traffic/configuration/UAC/system removal.
+- Risks/workaround: unknown flags keep interfaces visible; Show all restores hidden rows. Other drivers/Windows/manual assistive technology and phase/native acceptance remain unverified. Existing DOC-R01/UX-R01/P05-R01 remain open.
+- Approval decisions: none for this local correction. Any future concrete OS removal or publication has its separate scope/gate.
+- Remaining phase tasks: owner/native acceptance unchanged. Next safe action: review local build/captures; no further implementation remains for ADAPTER-LIST-01. Existing installed app/release untouched.
+- Next session may inspect evidence without clarification; no next-phase/network/publication authorization inferred.
+
 
 ## Session handoff — UI-TRAY-01, 2026-11-01
 

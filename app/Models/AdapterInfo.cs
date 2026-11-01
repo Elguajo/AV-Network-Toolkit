@@ -6,6 +6,7 @@ namespace NetworkProfileManager.Models
         public string Name        { get; set; } = "";
         public string Description { get; set; } = "";
         public bool   IsConnected { get; set; }
+        public bool   IsSystemInterface { get; set; }
         public string CurrentIp      { get; set; } = "";
         public string CurrentSubnet  { get; set; } = "";
         public string CurrentGateway { get; set; } = "";

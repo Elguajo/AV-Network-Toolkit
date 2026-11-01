@@ -13,8 +13,14 @@
       <TextBlock Text="{DynamicResource Adapters.Header}" Style="{StaticResource SectionHeaderText}"/>
     </DockPanel>
 
+    <CheckBox DockPanel.Dock="Top" Margin="12,0,0,8"
+              Content="{DynamicResource Adapters.ShowAll}"
+              AutomationProperties.Name="{DynamicResource Adapters.ShowAll}"
+              ToolTip="{DynamicResource Adapters.ShowAllHelp}"
+              IsChecked="{Binding ShowAllAdapters}"/>
+
     <!-- Navigation-style list: selection is a fill plus the accent pill, nothing else -->
-    <ListBox ItemContainerStyle="{StaticResource NavigationListItem}" ItemsSource="{Binding Adapters}"
+    <ListBox ItemContainerStyle="{StaticResource NavigationListItem}" ItemsSource="{Binding VisibleAdapters}"
              AutomationProperties.Name="{DynamicResource Adapters.Header}"
              SelectedItem="{Binding SelectedAdapter}"
              Background="Transparent" BorderThickness="0" Padding="0"

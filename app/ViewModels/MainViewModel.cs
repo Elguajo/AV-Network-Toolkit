@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Data;
 using NetworkProfileManager.Commands;
 using NetworkProfileManager.Helpers;
 using NetworkProfileManager.Models;
@@ -30,8 +31,23 @@ namespace NetworkProfileManager.ViewModels
 
         private AdapterViewModel? _selectedAdapter;
         private bool _isLoading;
+        private bool _hasRefreshed;
 
         public ObservableCollection<AdapterViewModel> Adapters { get; } = new ObservableCollection<AdapterViewModel>();
+        public ICollectionView VisibleAdapters { get; }
+        private bool _showAllAdapters;
+        public bool ShowAllAdapters
+        {
+            get => _showAllAdapters;
+            set
+            {
+                if (_showAllAdapters == value) return;
+                _showAllAdapters = value;
+                if (!value && SelectedAdapter?.Info.IsSystemInterface == true) SelectedAdapter = null;
+                VisibleAdapters.Refresh();
+                OnPropertyChanged();
+            }
+        }
         public AdapterDiagnosticsViewModel Diagnostics { get; }
 
         /// <summary>
@@ -91,6 +107,8 @@ namespace NetworkProfileManager.ViewModels
 
         internal MainViewModel(Func<List<AdapterInfo>>? getAdapters, AdapterDiagnosticsViewModel? diagnostics = null, LocalProfileApplyService? apply = null)
         {
+            VisibleAdapters = new ListCollectionView(Adapters)
+            { Filter = item => ShowAllAdapters || !((AdapterViewModel)item).Info.IsSystemInterface };
             _apply = apply ?? LocalProfileApplyService.Create();
             Diagnostics = diagnostics ?? AdapterDiagnosticsViewModel.Create(persist: false);
             _getAdapters = getAdapters ?? _networkSvc.GetAdapters;
@@ -129,7 +147,7 @@ namespace NetworkProfileManager.ViewModels
         // ── Refresh ─────────────────────────────────────────────────
         public void Refresh()
         {
-            var selectedName = _selectedAdapter?.Name;
+            var selectedId = _selectedAdapter?.Info.Id;
             var adapters = _getAdapters();
 
             foreach (var info in adapters)
@@ -176,8 +194,12 @@ namespace NetworkProfileManager.ViewModels
                 if (!ids.Contains(Adapters[i].Info.Id))
                     Adapters.RemoveAt(i);
 
-            SelectedAdapter = Adapters.FirstOrDefault(a => a.Name == selectedName)
-                           ?? Adapters.FirstOrDefault();
+            if (SelectedAdapter?.Info.IsSystemInterface == true && !ShowAllAdapters) SelectedAdapter = null;
+            VisibleAdapters.Refresh();
+            SelectedAdapter = !_hasRefreshed && selectedId == null
+                ? VisibleAdapters.Cast<AdapterViewModel>().FirstOrDefault()
+                : VisibleAdapters.Cast<AdapterViewModel>().FirstOrDefault(a => a.Info.Id == selectedId);
+            _hasRefreshed = true;
 
         }
 
