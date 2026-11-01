@@ -1153,3 +1153,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d â†
 - Remaining tasks in active phase: prior owner/native acceptance and unrelated open issues, no automatic completion/advancement.
 - Next smallest safe action: use/review the published Preview and its limits; prepare/approve the exact isolated native baseline/recovery case before live tests.
 - Can next session proceed without clarification: safe read-only/local review yes; live/network/phase advancement and unrelated new publication keep existing gates.
+
+## Session handoff â€” 2026-11-01, owner-approved README publication
+
+- Date and environment: 2026-11-01 Asia/Tashkent; Windows/PowerShell, private Python validation environment.
+- Fork URL / branch / inspected HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / 4a3e045528a26a111e5bf81185e7a1ea24d67c62. Independent git ls-remote origin refs/heads/main returned the same SHA; git merge-base --is-ancestor confirms README commit 8523ce82fafe4211a41d6f11814e479322b2282f is already in the published chain.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; DOC-02 remains VERIFIED. Owner explicitly approved the README and requested commit/push plus a separate personal skill.
+- What was actually completed: verified that the approved README/user-guide commit had already reached origin/main during completed REL-05 publication. Created the reusable product-readme personal Codex skill outside this repository and validated it with the bundled skill-creator validator and metadata checks. No skill files or private resources enter the application repository.
+- Files changed: STATUS.md publication/handoff record only. Existing README, user guide, product source, versions and release tags/assets unchanged. This scoped evidence commit is included in the owner's ordinary main-push request.
+- Test commands and results: skill-creator quick_validate.py PASS (Skill is valid), YAML/interface/default discovery/invocation checks PASS. Existing README wide/narrow rendering is recorded under DOC-02; final planning/schema/formats/561 links PASS, 12 tooling tests PASS, whitespace PASS for this metadata commit. Full app build/unit/native tests NOT RUN for a status-only change; no new CI success claimed.
+- Live-network tests: NOT RUN. No product startup, NIC change, probe/listener, UAC, VM or release action.
+- Known bugs, risk and workarounds: existing DOC-R01/native/owner/OS/recovery limits unchanged; no new product issue.
+- Decisions requiring user approval: none for this requested ordinary commit/push; no force/history rewrite or further release authorization inferred.
+- Remaining tasks in active phase: existing owner/native acceptance unchanged.
+- Next smallest safe action: use the published README; personal product-readme can be invoked for another repository.
+- Can next session proceed without clarification: safe documentation work yes; other publication/native/implementation work retains its existing gates.
