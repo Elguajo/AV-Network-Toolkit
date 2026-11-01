@@ -1,5 +1,12 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Published release-note refinement — DOC-03, 2026-11-01
+
+- Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `15b5453`. Exact binary/tag source remains `2b78f67cb80320c975ca18ad02677f7d0913c732`. Scoped notes commit follows; resolve with `git log -1 --format=%H -- docs/releases/v1.1.5.md`.
+- Completed: [1.1.5 Preview notes](docs/releases/v1.1.5.md) rewritten around navigation/layout/activity benefits, other improvements, exact download links, updates, known limits and observed release verification. GitHub release body updated through `gh release edit --notes-file`; downloaded API body matches the local file. Release title/Preview/target, tag SHA and all four asset IDs/names/digests/sizes/timestamps/URLs independently compared before/after and unchanged. Prior releases unchanged; no rebuild/reupload/retag.
+- Tests last executed: bundled Markdig/local Chromium preview at **1280x1000 / 390x844**, no page overflow or missing fragment anchors; one package table and 12 links parsed, four exact asset URLs match GitHub metadata. Notes visually inspected. `scripts/validate_plan.py` **663 links PASS** including final task/status metadata, `scripts/test_validate_plan.py` **12 PASS**, whitespace PASS. Existing 736-unit/162-WPF/runtime/install evidence is attributed to the released source, not rerun for prose. Full app build/unit/native tests NOT RUN for this documentation change.
+- In progress / remaining risks / next action: no DOC-03 editorial/publication work remains; read the published notes. Existing OS/DPI/native/recovery/owner gates remain explicit. Phase 07 AWAITING_REVIEW; no DATA-01/Phase 08, feature or support expansion. Temporary local preview server stopped; generated artifacts stay under ignored TestResults.
+
 ## Requested 1.1.5 Preview — REL-06 / ADR-051, 2026-11-01
 
 - Fork / branch / preflight HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `ccfbe61`. Fetched origin/main has 0 remote-only / 9 local-only commits. Working tree initially clean; latest published version 1.1.3, tags 1.1.1–1.1.3. Retain those releases and the distinct older local 1.1.4 candidate.
@@ -1328,3 +1335,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks in active phase: existing owner/native acceptance; no REL-06 publication work remains.
 - Next smallest safe action: owner downloads 1.1.5 Preview and reviews actual layout/activity behavior; use release notes for retained limits.
 - Can next session proceed without clarification: within already authorized scope only; new phase/native operations retain applicable gates.
+
+## Session handoff — 2026-11-01, published release-note editorial refinement
+
+- Date and environment: 2026-11-01 Asia/Tashkent; Windows/PowerShell, bundled Markdig, Chromium and private Python validation environment.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / inspected 15b5453. Release v1.1.5 remains pinned to 2b78f67cb80320c975ca18ad02677f7d0913c732. Scoped notes commit resolves via git log -1 --format=%H -- docs/releases/v1.1.5.md.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; DOC-03 VERIFIED, no phase advancement.
+- What was actually completed: current published 1.1.5 notes lead with user outcomes, three navigable highlights, other improvements, package choice/direct links, update steps, known limitations and verified release evidence. Internal task vocabulary removed from the release narrative; support/data/recovery/DPI/Preview limits preserved. GitHub body updated and independently compared with local file. Old notes/releases retained.
+- Files changed: docs/releases/v1.1.5.md, TASKS.md and STATUS.md. Concurrent REL-06 outcome commit 15b5453 preserved. No app/test/schema/dependency/workflow/version/asset/tag changes by this task.
+- Test commands and results: ConvertFrom-Markdown rendered notes; local wide/narrow browser screenshots visually inspected, anchors/tables/overflow PASS. Four direct download URLs exactly match API assets. gh release view before/after and commits/v1.1.5 API prove body equality, unchanged title/Preview/target/source and all four asset IDs/digests/sizes/timestamps/URLs. Plan/schema/formats/661 links PASS before metadata, 12 tooling PASS; final metadata/link/whitespace results recorded by CLI. Full app build/unit/native NOT RUN for editorial work; historical release verification accurately attributed.
+- Live-network tests: NOT RUN. Temporary loopback documentation server stopped; public Microsoft OS matrix checked, GitHub release text edited as requested. No product startup/probes/listeners/NIC/UAC/VM or package rebuild/upload.
+- Known bugs, risk and workarounds: existing Preview/native/DPI/OS/recovery/owner limits unchanged. Local preview is not proof of GitHub layout; actual API body equality verified. Only favicon returned an irrelevant 404. No product repair implied.
+- Decisions requiring user approval: none for requested release-text refinement and ordinary documentation publication; no further release/version/native authorization inferred.
+- Remaining tasks in active phase: existing owner/native acceptance unchanged.
+- Next smallest safe action: read the updated published 1.1.5 release notes. No automatic next phase.
+- Can next session proceed without clarification: safe editorial work yes; product/native/phase work retains its existing gates.

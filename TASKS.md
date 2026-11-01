@@ -1,5 +1,9 @@
 # Traceable task backlog
 
+## Release-note editorial follow-up — 2026-11-01
+
+- [x] **DOC-03** — Present the latest published release as reader-oriented release notes. **AC:** outcome-led highlights, accurate changes relative to prior published version, package links/update instructions, preserved compatibility/data/recovery/Preview limits and observed verification; published body matches tracked notes without changing source/tag/assets. **State:** VERIFIED — [1.1.5 notes](docs/releases/v1.1.5.md) updated on GitHub, all four assets and exact tag source unchanged, local wide/narrow preview and documentation gates PASS. Earlier release notes and application behavior unchanged.
+
 ## Current publication — ADR-051, 2026-11-01
 
 - [x] **REL-06** — Publish current navigation/layout/activity work as 1.1.5 Preview. **AC:** scoped commits and ordinary main push, exact-source build/unit/planning and disposable package/runtime/install/reinstall/uninstall gates, same-source installer/ZIP/checksums/manifest, independent public asset/source verification and accurate known limits. **State:** VERIFIED — [release](https://github.com/Elguajo/AV-Network-Toolkit/releases/tag/v1.1.5), source 2b78f67, [CI 41333770039](https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41333770039) PASS; 736 hosted/local unit, 12 tooling, 162 local WPF captures and all hosted package gates PASS. Public assets/tag/source/digests/checksums/CI bytes and downloaded EXE verified; older releases/local 1.1.4 retained. [Evidence](docs/testing/RELEASE_1.1.5_REVIEW.md). Native/DPI/phase acceptance remains separate.
