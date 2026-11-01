@@ -1,0 +1,135 @@
+{
+  "version": "1.1.5",
+  "sourceCommit": "2b78f67cb80320c975ca18ad02677f7d0913c732",
+  "releaseUrl": "https://github.com/Elguajo/AV-Network-Toolkit/releases/tag/v1.1.5",
+  "runUrl": "https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41333770039",
+  "runId": 41333770039,
+  "assets": {
+    "AVNetworkToolkit-1.1.5-win-x64-portable.zip": {
+      "sha256": "025291e4e9219c70be2a52c3f3990a15b43b68916ec555ca79b741620c999828",
+      "size": 68371011,
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.5/AVNetworkToolkit-1.1.5-win-x64-portable.zip",
+      "apiDigestMatches": true
+    },
+    "AVNetworkToolkit-1.1.5-win-x64-setup.exe": {
+      "sha256": "c1f323f06b24a3c70dbab459de28a1d7696e64409d4271711e27ede2e932d10f",
+      "size": 67838569,
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.5/AVNetworkToolkit-1.1.5-win-x64-setup.exe",
+      "apiDigestMatches": true
+    },
+    "package-manifest.json": {
+      "sha256": "6689ebcbc5554856ff1a772b6f32c4ecfafc907ad87483ab1e9a021e17328a01",
+      "size": 830,
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.5/package-manifest.json",
+      "apiDigestMatches": true
+    },
+    "SHA256SUMS.txt": {
+      "sha256": "0a60785c5fe787b7300f7be6ff0029c9b55d33dff417484933f115e826ceadb3",
+      "size": 217,
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.5/SHA256SUMS.txt",
+      "apiDigestMatches": true
+    }
+  },
+  "manifest": {
+    "SourceCommit": "2b78f67cb80320c975ca18ad02677f7d0913c732",
+    "RuntimeIdentifier": "win-x64",
+    "Compiler": {
+      "PinnedRelease": "6.7.4",
+      "Files": {
+        "ISCC.exe": "F02FA0E5F237B47D7ED1EDAE9B991866EC94FE02AF61EB6A73E94F92FE8E0604",
+        "ISCmplr.dll": "236555054CA65194C69544B4EF1D49EA345259745F5C4A2005ACA7B5674E7CFF",
+        "ISPP.dll": "140B2D822BF30ED8AA3FED64764B2D2B92A80E0B9AAFC1B8FF3E409706B9207E"
+      }
+    },
+    "Files": [
+      {
+        "Name": "AVNetworkToolkit-1.1.5-win-x64-portable.zip",
+        "Sha256": "025291E4E9219C70BE2A52C3F3990A15B43B68916EC555CA79B741620C999828"
+      },
+      {
+        "Name": "AVNetworkToolkit-1.1.5-win-x64-setup.exe",
+        "Sha256": "C1F323F06B24A3C70DBAB459DE28A1D7696E64409D4271711E27EDE2E932D10F"
+      }
+    ],
+    "Version": "1.1.5",
+    "SelfContained": true
+  },
+  "runner": {
+    "SameVersionReinstall": "passed",
+    "SourceCommit": "2b78f67cb80320c975ca18ad02677f7d0913c732",
+    "Environment": "disposable hosted Windows, global .NET discovery roots temporarily unavailable; not a pristine client-OS claim",
+    "NegativeRuntimeControl": "failed as expected after runtime discovery roots were moved",
+    "Installed": "identical payload and WPF/JSON self-test passed",
+    "OrdinaryStartup": "both main window handles/titles observed; smoke processes terminated without invoking commands",
+    "Success": true,
+    "Portable": "WPF/JSON self-test passed",
+    "Version": "1.1.5",
+    "NativeNetwork": "NOT RUN",
+    "CrossVersionUpgrade": "NOT RUN",
+    "UninstallRetainsData": "passed",
+    "LockedPayloadUpdateAndUninstall": "rejected as expected"
+  },
+  "ciSelfTest": {
+    "Success": true,
+    "Version": "1.1.5.0",
+    "InformationalVersion": "1.1.5+2b78f67cb80320c975ca18ad02677f7d0913c732",
+    "Runtime": ".NET 10.0.14",
+    "JsonValidated": true,
+    "WpfRendered": true,
+    "ErrorType": null
+  },
+  "priorReleaseAssetsUnchanged": true,
+  "priorTagsUnchanged": true,
+  "unit": {
+    "local": 736,
+    "hosted": 736,
+    "failed": 0,
+    "skipped": 0
+  },
+  "payloadFiles": {
+    "D3DCompiler_47_cor3.dll": "a05f99734f7c4822fefc12b367af21fd0976ed6608752fb1e1e80b6ece7ecbbb",
+    "LICENSE": "e782b973ec2fff35326a454c83a05fd23aa08c341c4b61e849ae9958daec56c9",
+    "NetworkProfileManager.exe": "cc48b9d76a72742e30c2827fef0e17d8e839f315e83b6c964bd859c0f7cd1458",
+    "PenImc_cor3.dll": "2f0962a6475578924087f1de7b2849a1d5be1b830fc3374acbd9cce7f024a98e",
+    "PresentationNative_cor3.dll": "091609705a031d5832f21548291c2670f06eadd781d465d3e1a5fad3772adc91",
+    "THIRD_PARTY_NOTICES.md": "f3a1558c9734ea7f8ea40e22f7ad5d370180bdab3d200fbdbf52123039208ed4",
+    "vcruntime140_cor3.dll": "d5e4d9a3e835fa679450145d6a7d94e36573a509317111904d9b3712c30d9066",
+    "wpfgfx_cor3.dll": "48a8e8100fd38183a0fabfe7fad0bf9e9d28d65a0827298ef0910b31e6e94cbd"
+  },
+  "date": "2026-11-01",
+  "timezone": "Asia/Tashkent",
+  "publication": "Preview",
+  "downloadedSelfTest": {
+    "Success": true,
+    "Version": "1.1.5.0",
+    "InformationalVersion": "1.1.5+2b78f67cb80320c975ca18ad02677f7d0913c732",
+    "Runtime": ".NET 10.0.14",
+    "JsonValidated": true,
+    "WpfRendered": true,
+    "ErrorType": null
+  },
+  "downloadedNegativeChecks": [
+    "report create-only",
+    "3 malformed diagnostics",
+    "4 retired-worker arities"
+  ],
+  "localWpfCaptures": {
+    "Followup": 8,
+    "Navigation": 26,
+    "Workspace": 128
+  },
+  "localBuildWarnings": 0,
+  "localBuildErrors": 0,
+  "hostedToolingTests": 12,
+  "oldReleaseTagsPreserved": [
+    "v1.1.1",
+    "v1.1.2",
+    "v1.1.3"
+  ],
+  "native150and200Dpi": "NOT RUN",
+  "mixedMonitorDpi": "NOT RUN",
+  "nativeNetwork": "NOT RUN",
+  "phaseStatus": "PHASE_07_AWAITING_REVIEW",
+  "localUnitTrxSha256": "4626f01f4a1fd766bc92f3c8ba8e4bace1ff0d64a0fbea7faea07c00b98aaf9a",
+  "hostedUnitTrxSha256": "92a483acade5613081af9be91711e74da15540bf3a9a29cfb38110d5b741e641"
+}

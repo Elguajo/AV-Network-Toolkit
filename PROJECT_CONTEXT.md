@@ -1,5 +1,7 @@
 # Project context — persistent product brief
 
+Current published version (ADR-051 / REL-06): [1.1.5 Preview](https://github.com/Elguajo/AV-Network-Toolkit/releases/tag/v1.1.5), exact source 2b78f67, includes navigation/sidebar, window-layout persistence and actual activity marks. [Exact-source CI/public-download evidence](docs/testing/RELEASE_1.1.5_REVIEW.md): 736 unit/12 tooling, same-source self-contained installer/ZIP and runtime/install/retention gates PASS; independently verified tag/assets/source/checksums. Prior releases and the older local-only 1.1.4 candidate below are preserved historical snapshots. Native DPI/network/owner/phase gates remain; no DATA-01/Phase 08 advancement.
+
 Current local navigation follow-up (ADR-050), source 2356dec: private window/sidebar layout persistence and actual running-test/mDNS rail indicators implemented; [contract](docs/spec/NAVIGATION_FOLLOWUP_CONTRACT.md), [evidence/native-DPI limits](docs/testing/NAVIGATION_FOLLOWUP_REVIEW.md). New source is not included in the older prebuilt 1.1.4 candidate below. Native 150%/200%/mixed-monitor acceptance remains pending; no storage-root migration or phase/publication change.
 
 Current local test candidate: owner-requested **1.1.4 Preview** built from `629c2ae2d56800693ce1683a1464e177fcc0238a` with all completed main changes; self-contained payload EXE/ZIP/installer and local checks verified. [Exact path and source/package evidence](docs/testing/LOCAL_PREVIEW_1.1.4_REVIEW.md). Version bump and local packaging only; published v1.1.3/native/phase gates remain separate.

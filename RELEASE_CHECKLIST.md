@@ -1,8 +1,10 @@
-# Release checklist — v1.1.3 Preview published; native acceptance pending
+# Release checklist — v1.1.5 Preview published; native acceptance pending
 
 ## Current requested release — 1.1.5 Preview / ADR-051
 
 Owner authorized commit/push and a new GitHub version after navigation/layout/activity work. Prepare 1.1.5 to distinguish it from the older local-only 1.1.4 candidate; retain all existing tags/assets. [Notes](docs/releases/v1.1.5.md). Publish only after the exact source passes the release workflow's build/unit/planning/package/runtime/install/reinstall/uninstall gates and verify the resulting public assets/source independently. Native 150%/200%/mixed-monitor, other native/owner/phase and clean-client gates remain unpassed; Preview publication is not stable acceptance. Outcome/evidence follows in STATUS.
+
+Executed: [1.1.5 Preview](https://github.com/Elguajo/AV-Network-Toolkit/releases/tag/v1.1.5), exact source **2b78f67cb80320c975ca18ad02677f7d0913c732**, [release workflow 41333770039](https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41333770039) PASS. Hosted/local 736 unit, 12 tooling, 0 build warnings/errors, 162 local WPF captures, full hosted runtime/package/install/retention checks PASS. Four public assets' API/manifests/checksums/CI bytes, tag/source and downloaded EXE independently verified. [Evidence and remaining limits](docs/testing/RELEASE_1.1.5_REVIEW.md). Older releases unchanged; unchecked native/phase/clean-client/DPI gates below remain unchecked.
 
 2026-11-01 DOC-R01 follow-up: the historical intermittent diagnostic-hide failure below was [resolved as a smoke-test synchronization defect](docs/testing/DIAGNOSTIC_HIDE_REVIEW.md). Product code/packages and native/manual/phase acceptance are unchanged.
 

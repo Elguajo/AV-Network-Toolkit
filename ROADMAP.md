@@ -1,5 +1,7 @@
 # Roadmap — fixed phase order
 
+ADR-051 publication: [1.1.5 Preview](https://github.com/Elguajo/AV-Network-Toolkit/releases/tag/v1.1.5), source 2b78f67, ships the completed navigation/layout/activity follow-ups with [verified same-source installer/ZIP](docs/testing/RELEASE_1.1.5_REVIEW.md). Prior releases retained. This is a bounded Preview publication milestone; the nine-phase order, Phase 07 AWAITING_REVIEW, native/DPI/owner acceptance and separate DATA-01/Phase 08 gates remain.
+
 ADR-047 authorizes the bounded [A26 remediation](docs/testing/AUDIT_FIXES_REVIEW.md) as a local follow-up, without changing the nine phases or 49 stable IDs. Locally verified fixes do not complete Phase 07/native acceptance or start DATA-01/Phase 08.
 
 ## Bounded diagnostics addition — ADR-041, 2026-11-01
