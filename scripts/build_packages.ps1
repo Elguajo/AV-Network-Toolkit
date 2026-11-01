@@ -20,8 +20,10 @@ if (-not $SourceCommit) {
 }
 if ($SourceCommit -notmatch '^[a-f0-9]{40}$') { throw 'Expected a full source commit SHA' }
 # Local immutable git-archive builds pass their verified commit explicitly.
-if (-not $Compiler) { $Compiler = & (Join-Path $PSScriptRoot 'install_inno_setup.ps1') }
+if ($Compiler) { $Compiler = & (Join-Path $PSScriptRoot 'install_inno_setup.ps1') -CompilerPath $Compiler -ValidateOnly }
+else { $Compiler = & (Join-Path $PSScriptRoot 'install_inno_setup.ps1') }
 if (-not (Test-Path -LiteralPath $Compiler)) { throw 'Inno Setup compiler is required' }
+$compilerPin = Get-Content -LiteralPath (Join-Path $root 'packaging/inno-setup.json') -Raw | ConvertFrom-Json
 New-Item -ItemType Directory -Path $output | Out-Null
 $payload = Join-Path $output 'payload'
 & $Dotnet publish (Join-Path $root 'app/NetworkProfileManager.csproj') -c Release -r win-x64 --self-contained true `
@@ -53,7 +55,7 @@ $setup = Join-Path $output "AVNetworkToolkit-$version-win-x64-setup.exe"
 if (-not (Test-Path -LiteralPath $setup)) { throw 'Installer missing' }
 @{
     SourceCommit = $SourceCommit; Version = $version; RuntimeIdentifier = 'win-x64'; SelfContained = $true
-    Compiler = (Get-Item -LiteralPath $Compiler).VersionInfo.FileVersion
+    Compiler = @{ PinnedRelease = $compilerPin.Version; Files = $compilerPin.CompilerFiles }
     Files = @($zip,$setup) | ForEach-Object { @{ Name = [IO.Path]::GetFileName($_); Sha256 = (Get-FileHash -LiteralPath $_ -Algorithm SHA256).Hash } }
 } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $output 'package-manifest.json') -Encoding utf8
 Write-Output "PASS: installer and portable ZIP from $SourceCommit, version $version; package WPF/JSON self-test passed"

@@ -61,6 +61,11 @@ jobs:
       - name: Build self-contained installer and portable ZIP
         shell: pwsh
         run: ./scripts/build_packages.ps1
+      - name: Verify pinned build-tool integrity controls
+        shell: pwsh
+        run: |
+          $compiler = ./scripts/install_inno_setup.ps1
+          ./scripts/test_packaging_tools.ps1 -Compiler $compiler -ResultsDirectory TestResults/PackagingTools
       - name: Verify packages with global .NET unavailable
         shell: pwsh
         run: ./scripts/test_packages_on_runner.ps1 -PackageDirectory out/packages
