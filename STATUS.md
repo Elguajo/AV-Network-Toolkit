@@ -1,5 +1,13 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## README product entry point — DOC-02, 2026-11-01
+
+- Fork / branch / source inspected: https://github.com/Elguajo/AV-Network-Toolkit / main / `2847ff6baaee59c813dbecb0688ffad62324b968`. Scoped documentation commit follows; resolve using `git log -1 --format=%H -- docs/USER_GUIDE.md`. Concurrent REL-05 execution/evidence preserved and excluded from this task.
+- Completed: rewritten README with AV use case, download choice, quick start, capability matrix, compact seven-image gallery, documentation index, build/contribution paths; [user guide](docs/USER_GUIDE.md) carries the installation/checksum, profile/device, diagnostics, data and recovery details. Explicit source/download distinction, old-capture provenance, .NET 10 OS limits, Preview/DOC-R01 and unimplemented features retained. No behavior, schema, dependencies, release/version or screenshot asset changes.
+- Tests last executed: bundled Markdig HTML rendered and inspected locally in Chromium at **1280x1000 / 390x844**; all **12 images** (logo, four badges, seven screenshots) loaded, **0 missing README anchors**, gallery details opened, **6 README / 5 guide tables** parsed, no page overflow in checked viewports. User-guide internal anchor check PASS. This is a local GitHub-style preview, not an actual GitHub publication/render claim.
+- Documentation validation: `scripts/validate_plan.py` PASS (**550 links**, final metadata included); `scripts/test_validate_plan.py` **12 PASS**; whitespace and protected source/format/tooling/screenshot diff checks PASS. Full app build/unit/native tests NOT RUN for documentation-only work; existing evidence/known issues unchanged. Final state checks recorded in the handoff below.
+- In progress / next action / risks: no DOC-02 implementation remains; read the README and guide locally. Existing native/owner/Phase 07 and diagnostic cancellation limits persist. No new push/release/Phase 08 action from this task.
+
 ## Current release execution — v1.1.3 Preview / REL-05 / ADR-048, 2026-11-01
 
 - Fork / branch / completed follow-up source: https://github.com/Elguajo/AV-Network-Toolkit / main / adapter fix `ea7ca7af08d80df54815be7791a05be128e4e5f7`, including tray fix 06d3728. Final version/docs commit follows; later independent work is outside this frozen release. All existing scoped commits preserved; generated agent/Python caches ignored, not deleted.
@@ -1105,3 +1113,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Decisions requiring approval: none for this bounded local fix; no push/release/next phase implied.
 - Remaining phase tasks: existing owner/native acceptance. Next smallest safe action: check the rebuilt menu above the actual tray icon.
 - Next session may inspect/recheck without clarification; no broader execution authorization inferred.
+
+## Session handoff — 2026-11-01, README product documentation
+
+- Date and environment: 2026-11-01 Asia/Tashkent; Windows, PowerShell 7 bundled Markdig, local Chromium preview, private Python validation venv.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / inspected 2847ff6baaee59c813dbecb0688ffad62324b968. Resolve scoped documentation commit with git log -1 --format=%H -- docs/USER_GUIDE.md. Concurrent REL-05 publication/evidence retained and excluded.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; DOC-02 VERIFIED. No acceptance/roadmap phase advancement.
+- What was actually completed: product-oriented README with explicit AV scenario/value, package choice, five-step start, feature matrix, retained seven-image gallery in compact expandable tables, documentation/build/contribution paths. New user guide preserves operational profile/device/diagnostic/data/update/recovery details. Microsoft .NET 10 OS matrix verified from the primary source on this date. No fabricated adoption/support/acceptance metrics; main and published packages explicitly distinguished.
+- Files changed: README.md, docs/USER_GUIDE.md, TASKS.md and STATUS.md. No app/test/schema/example/tooling/dependency/version/release/screenshot asset changes. Concurrent docs/testing/RELEASE_2026-11-01_REVIEW.md is outside scope.
+- Test commands and results: ConvertFrom-Markdown rendered README and guide; local browser checked at 1280x1000 and 390x844, screenshots visually inspected, 12 images loaded, 0 missing README anchors, expanded gallery, 6 README/5 guide tables, no page overflow; guide internal anchors PASS. Python scripts/validate_plan.py PASS (546 links before metadata, final count in CLI output); scripts/test_validate_plan.py 12 PASS. Protected-source/screenshot diff and whitespace PASS. Full application build/unit/native tests NOT RUN for documentation-only changes. Exact GitHub rendering/publication not claimed.
+- Live-network tests: NOT RUN / not authorized by this request. Only a temporary 127.0.0.1 documentation server and public badge/document requests; no NIC changes, probes/listener, UAC, VM or product startup. Temporary server stopped; generated preview artifacts moved into ignored TestResults/ReadmeEditorial.
+- Known bugs, risk and workarounds: prior DOC-R01/native/recovery/OS support limits remain documented, not fixed or accepted here. Screenshots retain their exact older source/provenance. Local browser initially rejected file URLs; loopback serving supplied the preview, with only an irrelevant favicon 404. No documentation asset failed to load.
+- Decisions requiring user approval: none for completed local editorial scope; no new push/release or native execution permission inferred.
+- Remaining tasks in active phase: existing owner/native acceptance unchanged; no phase checkbox completed.
+- Next smallest safe action: read the local README and linked guide. No automatic publication or phase advancement by DOC-02.
+- Can next session proceed without clarification: yes for safe local documentation review; other implementation/publication/native actions retain their own authorization gates.

@@ -1,5 +1,9 @@
 # Traceable task backlog
 
+## README product documentation — 2026-11-01
+
+- [x] **DOC-02** — Rewrite the README as a product entry point with an actionable user guide. **AC:** clear AV use case, download choice/quick start, factual feature matrix, retained seven-image gallery, discoverable documentation/contribution links, existing compatibility/security/recovery/Preview limits retained. **State:** VERIFIED — local Markdig/browser preview checked at 1280x1000 and 390x844, images/anchors/tables checked; planning/schema/links and 12 tooling tests PASS. [User guide](docs/USER_GUIDE.md). Documentation only; source/release publication and Phase 07 acceptance unchanged.
+
 ## Tray menu placement — 2026-11-01
 
 - [x] **UI-TRAY-01** — Open the tray menu above the clicked icon rather than at the primary screen corner. **AC:** capture click location, use its monitor, convert pixels/DIPs, clamp edges, preserve menu actions/style. **State:** VERIFIED locally — 9 focused unit PASS, 6 Light/Dark HWND-placement/action captures PASS/0 binding errors, 723 full unit PASS on the combined tree. [Evidence and native limits](docs/testing/TRAY_PLACEMENT_REVIEW.md). Phase 07 AWAITING_REVIEW; installed app/release unchanged.

@@ -1,124 +1,120 @@
 # AV Network Toolkit
 
 <div align="center">
-  <img src="app/Assets/logo.png" width="160" alt="AV Network Toolkit cyan and blue ribbon logo">
-  <br><br>
-  <a href="https://github.com/Elguajo/AV-Network-Toolkit/actions/workflows/build.yml">
-    <img src="https://github.com/Elguajo/AV-Network-Toolkit/actions/workflows/build.yml/badge.svg" alt="Build">
-  </a>
-  <a href="LICENSE">
-    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT">
-  </a>
+  <img src="app/Assets/logo.png" width="128" alt="AV Network Toolkit cyan and blue ribbon logo">
+  <p><strong>Network profiles. Device interfaces. Field diagnostics.</strong></p>
+  <p>A Windows workspace for the laptop you bring to an AV installation.</p>
+  <p>
+    <a href="https://github.com/Elguajo/AV-Network-Toolkit/actions/workflows/build.yml"><img src="https://github.com/Elguajo/AV-Network-Toolkit/actions/workflows/build.yml/badge.svg" alt="Build status"></a>
+    <img src="https://img.shields.io/badge/platform-Windows%20x64-0078D4" alt="Platform: Windows x64">
+    <a href="https://github.com/Elguajo/AV-Network-Toolkit/releases"><img src="https://img.shields.io/badge/status-Preview-E6A23C" alt="Release status: Preview"></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2EA44F" alt="License: MIT"></a>
+  </p>
+  <p>
+    <a href="https://github.com/Elguajo/AV-Network-Toolkit/releases"><strong>Download Preview</strong></a> ·
+    <a href="#quick-start">Quick start</a> ·
+    <a href="#features">Features</a> ·
+    <a href="#screenshots">Screenshots</a> ·
+    <a href="#documentation">Documentation</a>
+  </p>
 </div>
 
-<br>
+AV work often means moving one laptop between a control processor, a DSP, a video wall and the office network. AV Network Toolkit keeps the computer's network presets and the equipment's web interfaces together: select an adapter, choose a profile and open the device you need.
 
-<div>
-Windows network profiles and project-scoped device web interfaces for AV field work. Select an adapter, review the computer's current settings, deliberately apply a saved profile, then open the equipment interface when needed.
+![AV Network Toolkit dark workspace showing the selected Ethernet adapter, current settings and saved profiles](docs/screenshots/readme/main-dark.png)
 
-**1.1.3 Preview:** includes audit safety/storage fixes, consistent Light/Dark windows, corrected tray placement, a cleaner adapter list with Show all and self-contained .NET 10 packages. Automated checks do not replace isolated hardware acceptance; read the [release limitations](docs/releases/v1.1.3.md#known-limitations) before changing a working network.
+> **Preview software.** Hardware and recovery acceptance is still in progress. Review the [known limitations](#status-and-limitations) before using it on a working network.
 
-**Since 1.1.1:** local Apply/Revert uses the verified typed workflow, file failures preserve saved data, and development targets .NET 10 LTS. [Compatibility limits and evidence](docs/testing/AUDIT_FIXES_REVIEW.md). The earlier v1.1.1 downloads remain unchanged on .NET 8. Native/phase acceptance and the known diagnostic-stop smoke issue remain open.
-</div>
+## Why AV Network Toolkit?
 
-![AV Network Toolkit in dark theme: selected Ethernet adapter, current settings and saved network profiles](docs/screenshots/readme/main-dark.png)
+- **Take the project with you.** Store network profiles and device links in a project JSON file you can move between computers.
+- **Keep computer settings and equipment addresses clear.** Profiles describe this laptop's adapter; device entries describe the equipment you want to reach.
+- **Choose what changes.** Open a device's web interface, apply a network profile, or deliberately combine the two with Apply & Open.
+- **Check the connection in the same workspace.** Use Ping, a TCP port check, IP scanning, passive mDNS discovery and adapter facts without opening a command shell.
 
-*Select an adapter, review its current configuration and choose a saved profile. [Explore the screenshots below](#screenshots).*
+## Download
 
-## Download and start
+Choose a published Preview from [GitHub Releases](https://github.com/Elguajo/AV-Network-Toolkit/releases). Each release includes its changes, known issues, checksums and source identity. `main` can contain changes newer than the downloads.
 
-Get both formats from [Releases](https://github.com/Elguajo/AV-Network-Toolkit/releases):
+| Package | Best for | Start here |
+|---|---|---|
+| **Installer** — `*-win-x64-setup.exe` | Regular use on a service laptop | Install to Program Files, then launch from the Start menu. Setup requests administrator permission. |
+| **Portable ZIP** — `*-win-x64-portable.zip` | Field work and quick launch | Extract the **entire** archive, then run `NetworkProfileManager.exe`. Keep its accompanying files together. |
 
-| Package | Use |
+Both packages include the required .NET runtime; no separate .NET or SDK installation is needed. They provide the same application features. The portable package still uses the computer's per-user data folder.
+
+**Platform:** Windows x64. Current .NET 10 builds follow Microsoft's [supported Windows versions](https://github.com/dotnet/core/blob/main/release-notes/10.0/supported-os.md#windows); ordinary Windows 10 22H2 is not listed. Bundling the runtime does not extend OS support. The interface is English, with Light and Dark themes.
+
+Binaries are unsigned. Verify the download against the release's `SHA256SUMS.txt` before running it; see [installation and updates](docs/USER_GUIDE.md#installation-and-updates).
+
+## Quick start
+
+1. **Select the adapter connected to your equipment.** Check its name and current IP, subnet, gateway and DNS in the workspace.
+2. **Create a network profile.** Use **This computer** for local per-adapter presets, or **Project profiles** for presets saved with an AV project. Enter the address the **computer** should use.
+3. **Apply deliberately.** Use the adapter-named Apply action, review current and requested settings, then confirm. Windows requests elevation for the change; unsupported configurations are blocked with a reason.
+4. **Add the equipment.** In **Device interfaces**, save its HTTP/HTTPS URL and optionally associate a project profile. Keep the entry, then save the project.
+5. **Open or diagnose.** Use **Open Web Interface** to open the link. Choose **Apply & Open** when the associated profile should be reviewed and applied first, or open **Network tests** to check a specific destination.
+
+Opening a project, selecting a device or expanding Network tests does not apply settings or send diagnostic probes. Scans, listeners and tests have their own explicit start actions.
+
+Explore the [example project](examples/project.avnet.json) to see the file structure. Its addresses are documentation examples; replace them with your actual plan before applying a profile. See the [user guide](docs/USER_GUIDE.md) for profile scopes, diagnostics and recovery.
+
+## Features
+
+| Area | What you can do |
 |---|---|
-| `AVNetworkToolkit-1.1.3-win-x64-setup.exe` | Primary installer: Program Files, Start menu shortcut and uninstaller. Installation requests administrator permission. |
-| `AVNetworkToolkit-1.1.3-win-x64-portable.zip` | Additional option: extract the entire ZIP into a dedicated folder, then run `NetworkProfileManager.exe`. Keep all five WPF DLLs beside it. |
-
-Both include .NET 10: users do not need to install .NET or the SDK separately. Target is x64 Windows under Microsoft's [.NET 10 OS matrix](https://github.com/dotnet/core/blob/main/release-notes/10.0/supported-os.md): Windows 11 and listed Windows 10 LTSC/IoT/Enterprise versions; ordinary Windows 10 22H2 is not listed. Hosted package verification uses Windows Server 2022 with global .NET discovery disabled and a negative control, not a complete Windows-client/hardware certification. Binaries are currently unsigned; Windows may show an unknown-publisher warning. Download only artifacts whose source and SHA-256 you trust. Check `SHA256SUMS.txt` with PowerShell `Get-FileHash`.
-
-The application runs unelevated by default. Applying network changes is a separate deliberate operation that requests administrator rights through UAC. Opening a project or selecting a device does not apply settings.
-
-## Main workflows
-
-- **Computer profiles:** retain named per-adapter static/DHCP profiles, IP/mask/gateway/primary+secondary DNS, five local slots, JSON import/export and existing scanner/history/tray tools.
-- **Project profiles:** independent versioned project JSON, explicit Open/Save/Save As, multiple profiles and adapter hints. Project and local stores remain separate; hints do not silently select a NIC on another computer.
-- **Device interfaces:** save/search/group device entries and exact HTTP/HTTPS deep links, associate a profile, then choose Open or Apply & Open. Unsafe schemes and URL credentials are rejected. Password fields are not implemented in v1.
-- **Apply & Open / standalone project Apply:** target the selected adapter, review old/requested values, confirm, verify observed configuration and optionally open the device. Complex or unknown affected state is blocked. Recovery uses an explicit new review/confirmation; it is best effort, not atomic rollback.
-- **Network tests:** choose four-request Ping, Continuous Ping, single Ping or one-port TCP check. Adapter/source and destination are explicit. Run/Stop controls and a separate test window are available. Route prediction/source binding do not prove actual physical egress; a TCP connection does not validate HTTP/TLS.
-- **AV tools:** manual Link-Local with DAD-aware verification/recovery, passive selected-interface IPv4 mDNS listener, adapter/Hyper-V facts and optional diagnostic uplink filtering. Every live test/listener is explicit.
+| **Network profiles** | Save static IPv4 or DHCP presets, subnet/mask, gateway and primary/secondary DNS. Keep up to five local profiles per adapter; import/export local profiles as JSON. |
+| **AV projects** | Keep multiple profiles and device entries in a separate versioned JSON file. Open, Save and Save As without replacing the local profile store. |
+| **Device interfaces** | Search and group equipment links. Preserve full HTTP/HTTPS URLs, including ports, paths, queries and fragments; optionally link a network profile. |
+| **Apply and recovery** | Review a named adapter's current/requested state, confirm changes and verify the observed result. Supported original settings are journaled for separately confirmed recovery. |
+| **Network tests** | Run four-request, continuous or single-request Ping, or a TCP check against one port. Choose the adapter/source IPv4 explicitly; use the inline panel or an independent window. |
+| **Discovery** | Scan with ARP/ICMP/TCP options, or explicitly start a passive IPv4 mDNS listener and filter/export its advertised services. |
+| **Adapter tools** | Inspect link, IPv4, DNS, routes and Hyper-V facts. Hide confirmed system-list clutter, reveal it with Show all, and optionally filter Hyper-V uplinks in diagnostic selectors. |
+| **Desktop workflow** | Use tray profile shortcuts, history/revert and Light/Dark themes. Applying settings remains a deliberate operation with UAC. |
 
 ## Screenshots
 
-These are actual WPF views rendered from the current source with the new logo and invented demonstration data. Network, browser and elevation operations are replaced by test doubles; the images show the interface, not live-network acceptance. Click an image to view it at full size. [Capture source and verification](docs/screenshots/readme/README.md).
+Select an image for the full-size view. These WPF component captures use invented data and test doubles; they show the interface, not live-network results. They predate the later adapter-list and theme fixes. [Exact source and capture notes](docs/screenshots/readme/README.md).
 
-### Project profiles · light theme
-
-Keep project profiles separate from this computer's local profiles. Each Apply action names the selected adapter; the matching current configuration is marked Selected.
-
-![Light-theme workspace with project profiles, static and DHCP presets, and explicit Apply to Ethernet actions](docs/screenshots/readme/project-light.png)
-
-### Device web interfaces
-
-Keep equipment links in the project, search the directory and preserve full URLs, including ports, paths and fragments. Open Web Interface and Apply & Open are separate actions.
-
-![Device directory with a saved touch-panel deep URL and its associated network profile](docs/screenshots/readme/devices-dark.png)
-
-### Network tests
-
-Choose four-request Ping, Continuous Ping, single Ping or a TCP port check, then explicitly select the adapter, source IPv4 and destination. The separate window includes descriptions and Run/Stop controls.
-
-![Network tests window with descriptive Ping and TCP presets, explicit source address and TCP port](docs/screenshots/readme/network-tests-dark.png)
+| Project profiles · Light | Device interfaces · Dark |
+|---|---|
+| [![Light workspace with project profiles and explicit adapter Apply actions](docs/screenshots/readme/project-light.png)](docs/screenshots/readme/project-light.png) | [![Device directory with a touch-panel deep URL and project profile association](docs/screenshots/readme/devices-dark.png)](docs/screenshots/readme/devices-dark.png) |
 
 <details>
-<summary>More screenshots: profile editor, Apply & Open and mDNS discovery</summary>
+<summary>Profile editor, Apply & Open, network tests and mDNS</summary>
 
-### Profile editor
+| Profile editor | Apply & Open review |
+|---|---|
+| [![Static IPv4 project profile editor with gateway and DNS fields](docs/screenshots/readme/profile-editor-dark.png)](docs/screenshots/readme/profile-editor-dark.png) | [![Current and requested adapter configuration with a separate confirmation action](docs/screenshots/readme/apply-review-light.png)](docs/screenshots/readme/apply-review-light.png) |
 
-Edit the computer's static IP, prefix, gateway and DNS policy in a separate dialog. Keeping a profile in the project does not apply it to Windows.
-
-![Project network profile editor with static IPv4 and explicit DNS settings](docs/screenshots/readme/profile-editor-dark.png)
-
-### Apply & Open review
-
-Review the selected adapter's observed and requested settings before deliberately confirming a change.
-
-![Apply and Open review window with current and requested adapter settings and a separate Confirm changes button](docs/screenshots/readme/apply-review-light.png)
-
-### Passive mDNS discovery
-
-Select an interface and start listening explicitly. Inspect advertised services, addresses, ports and TTL, then optionally export filtered CSV results.
-
-![Light-theme mDNS discovery window showing synthetic advertised services and explicit Stop listening and CSV export actions](docs/screenshots/readme/mdns-light.png)
+| Ping and TCP tests | Passive mDNS discovery |
+|---|---|
+| [![Network test presets with explicit adapter, source IPv4, destination and TCP port](docs/screenshots/readme/network-tests-dark.png)](docs/screenshots/readme/network-tests-dark.png) | [![mDNS service results with addresses, ports, TTL and export and stop actions](docs/screenshots/readme/mdns-light.png)](docs/screenshots/readme/mdns-light.png) |
 
 </details>
 
-## Data and updates
+## Status and limitations
 
-Profiles, history, scanner and theme/language settings currently remain under:
+The current source targets **1.1.3 Preview**. Read the [version notes](docs/releases/v1.1.3.md) and [changelog](CHANGELOG.md) for the changes included in each build.
 
-```text
-%LOCALAPPDATA%\NetworkProfileManager\data\
-```
+- **Network safety:** complex or unknown adapter configurations are blocked. Recovery is best effort and can fail; older history does not contain a complete original snapshot. Keep an independent way to restore the adapter. [Supported states and field semantics](docs/USER_GUIDE.md#applying-settings-and-recovery).
+- **Acceptance:** automated checks and hosted package tests do not certify real NIC/UAC/DAD, physical packet egress, multicast, clean-client deployment or manual accessibility. The diagnostic hide/cancellation check has an open intermittent failure; its product impact is unverified. [Known issues](docs/releases/v1.1.3.md#known-limitations).
+- **Scope:** no temporary DHCP server, device-password storage, automatic login, TLS bypass or automatic updater is shipped. Data still uses LocalAppData; the planned user-home migration is not implemented.
 
-Project JSON stays in the folder you explicitly choose. New-flow private recovery journals are under `%LOCALAPPDATA%\NetworkProfileManager\apply-recovery` and may contain private network configuration. Back up these folders and your projects before updating.
+## Documentation
 
-Exit the application through its tray Exit action before replacing/installing files. The installer does not force-close a busy app or remove user data on uninstall. Portable updates replace application files only; the ZIP does not make settings USB-local. There is no automatic updater. A future move to `%USERPROFILE%\.av-network-toolkit` is approved but **not implemented in this release**.
+| Start with | For |
+|---|---|
+| [User guide](docs/USER_GUIDE.md) | Installation, local versus project profiles, device links, diagnostics, data and recovery |
+| [Release notes](docs/releases/v1.1.3.md) · [Changelog](CHANGELOG.md) | Version changes, compatibility and known issues |
+| [Roadmap](ROADMAP.md) | Planned capabilities and acceptance status |
+| [Test matrix](docs/testing/TEST_MATRIX.md) · [Packaging report](docs/testing/PACKAGING_REVIEW.md) | What was checked and the limits of that evidence |
+| [Project schema](schemas/project.avnet.schema.json) · [Example](examples/project.avnet.json) | Project JSON format |
+| [Contributing](CONTRIBUTING.md) · [Security reporting](SECURITY.md) | Development contributions and private vulnerability reports |
 
-In current source, local profile/history saves use atomic replacement with unique backups. Corrupt files and backups are preserved; repair/restore them before retrying. A save conflict requires refresh. Add/Edit keeps the draft open if saving fails. Private journals and backups can grow; retain them securely and manage retention manually.
+## Build from source
 
-New local history points to the exact recovery journal, including the supported original DNS policy. Older history has an explicit incomplete-restore warning: recorded address settings or DHCP policy only, never complete restoration of unknown DNS/routes/leases. Missing journals block full recovery. Recovery lists preserve damaged files, show healthy entries and offer pages beyond 1000 files.
-
-## Verification and limits
-
-The [packaging report](docs/testing/PACKAGING_REVIEW.md), [test matrix](docs/testing/TEST_MATRIX.md), [JSON regression evidence](docs/testing/JSON_VALIDATION_REVIEW.md) and [release notes](docs/releases/v1.1.3.md) distinguish unit/fake, WPF, packaged-host and native evidence. GitHub CI runs isolated unit tests, schema/planning checks and package installation/runtime-discovery checks on disposable Windows runners.
-
-Real NIC/DAD/UAC/IPC/multicast/route/ICMP/TCP behavior, actual packet egress, clean Windows-client deployment, cross-version installer upgrades and manual accessibility remain separate acceptance work. No temporary DHCP server or device-password storage is shipped. Current source uses the same conservative contract for local/manual/tray and project Apply: static automatic DNS, /31–/32, initial DHCP without a usable lease/APIPA and complex/managed settings are blocked. Static empty DNS means unchanged; empty gateway explicitly removes the supported default gateway after review. See the [compatibility matrix](docs/spec/AUDIT_FIXES_CONTRACT.md).
-
-## Development
-
-Use the .NET 10 SDK selected by `global.json`; runtime is bundled only in published packages, not ordinary build output.
-
-For current .NET 10 builds, follow Microsoft's [supported OS matrix](https://github.com/dotnet/core/blob/main/release-notes/10.0/supported-os.md). The existing Windows 10 lab does not certify .NET 10 startup or native behavior.
+Use Windows and the .NET 10 SDK selected by [global.json](global.json). Published packages include the runtime; a source checkout requires the SDK.
 
 ```powershell
 git clone https://github.com/Elguajo/AV-Network-Toolkit.git
@@ -127,16 +123,18 @@ dotnet build AVNetworkToolkit.sln -c Release
 dotnet test test/NetworkProfileManager.Tests.csproj -c Release --no-build
 ```
 
-Build both packages from a clean checkout with PowerShell 7:
+To build the installer and portable ZIP, run `./scripts/build_packages.ps1` in PowerShell 7 from a clean checkout. It verifies the pinned Inno Setup compiler and writes both packages, checksums and a source manifest to a fresh `out/packages` directory. [Packaging contract](docs/spec/PACKAGING_CONTRACT.md).
 
-```powershell
-./scripts/build_packages.ps1
-```
+The application is C# / WPF with MVVM. Source lives in `app/`, isolated tests in `test/`, project formats in `schemas/` and `examples/`, and build tools in `scripts/` and `packaging/`. The executable and internal namespace retain `NetworkProfileManager` for data compatibility.
 
-The script downloads and verifies pinned Inno Setup 6.7.4 build tools, publishes a self-contained win-x64 payload, executes the non-network package self-test and creates installer/ZIP plus a source/hash manifest under a fresh `out/packages` directory. A repeat build needs a fresh output directory. Native DLLs stay beside the executable instead of being extracted to a user-writable temporary location. See [packaging contract](docs/spec/PACKAGING_CONTRACT.md).
+## Contribute
 
-`app/` contains the .NET 10 WPF/MVVM application, `test/` its isolated xUnit suite, `schemas/` and `examples/` the project format, `scripts/` build/verification tools and `packaging/` installer configuration. Internal namespace/executable identities remain `NetworkProfileManager` for compatibility. [Contributing](CONTRIBUTING.md), [security reporting](SECURITY.md), [roadmap](ROADMAP.md).
+[Report a bug](https://github.com/Elguajo/AV-Network-Toolkit/issues/new) with the app version, Windows version, reproduction steps and expected/observed behavior. Use invented addresses and remove private project data from attachments. Send vulnerabilities through [private security reporting](SECURITY.md), not public issues.
 
-## License and provenance
+For code changes, start with [CONTRIBUTING.md](CONTRIBUTING.md). Tests must use fake networking; real adapter changes, probes and listeners require an explicitly approved isolated environment.
 
-Forked from [Network Profile Manager](https://github.com/rmzncakir/network-profile-changer). [MIT license](LICENSE), copyright 2026 rmzncakir, retained unchanged; [third-party notices](docs/legal/THIRD_PARTY_NOTICES.md). The new logo was supplied by the owner. AV Network Toolbag is a behavior reference only; no source code, artwork or UX assets from that unlicensed repository are copied into this product.
+## License and credits
+
+[MIT licensed](LICENSE). Based on [Network Profile Manager](https://github.com/rmzncakir/network-profile-changer), copyright 2026 rmzncakir; original attribution is retained. [Third-party notices](docs/legal/THIRD_PARTY_NOTICES.md) accompany the application. The logo was supplied by the project owner.
+
+AV Network Toolbag informed desired behaviors only. Its unlicensed source, resources and artwork are not copied into this project.
