@@ -70,7 +70,7 @@ internal static partial class Program
             {
                 RenderAdapterVisibility(output);
                 if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
-                Console.WriteLine("PASS: adapter filtering, Show all, selection/draft preservation, 12 captures, fake network, 0 binding errors.");
+                Console.WriteLine("PASS: adapter filtering, Show all menu/automation, selection/draft preservation, 20 captures, fake network, 0 binding errors.");
                 return 0;
             }
             if (args.Contains("--themes"))

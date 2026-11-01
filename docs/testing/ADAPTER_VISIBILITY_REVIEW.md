@@ -4,6 +4,8 @@
 
 ## Result and contract
 
+UI-ADAPTER-OPTIONS-01 (2026-11-01) supersedes the permanent checkbox placement below: Show all adapters is now a checkable item in the named More menu beside Refresh in the list header. Filtering/session/selection semantics are unchanged. [Current placement and verification](ADAPTER_OPTIONS_REVIEW.md).
+
 The owner requested keeping useful adapters and removing list clutter. Main navigation and tray profile shortcuts now use the same filtered view; the underlying collection, profiles/history and OS interfaces remain intact. A localized, keyboard-focusable **Show all adapters** checkbox restores the previously listed interfaces. It defaults off per application session and writes no preference. Existing loopback/tunnel exclusions remain: "all" means the complete existing profile-adapter list.
 
 Classify WFP/QoS/other NDIS filters using Windows `MIB_IF_ROW2.InterfaceAndOperStatusFlags.FilterInterface` (bit 1). Convert GUID to LUID and verify the returned GUID; no display-name joins or reused-index matching. Reserve the full 1352-byte native row; read only LUID/GUID/flags. Unknown native metadata keeps ordinary interfaces visible. Fixed built-in descriptions identify idle `WAN Miniport (...)` and kernel-debug plumbing only without projected current/configured IPv4. A RAS interface with IPv4 remains visible; idle WAN remains available through Show all. No generic VPN, virtual, disconnected, no-IP or localized-alias exclusion.

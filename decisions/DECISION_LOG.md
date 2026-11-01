@@ -297,3 +297,7 @@ While that release was frozen, separately authorized tray placement (06d3728) an
 ## Profile-source placement follow-up — UI-SOURCE-01, 2026-11-01
 
 Owner flagged the isolated This computer selector as misplaced. Apply a bounded layout correction: use a separate visibly labelled Profile source row above the heading/actions in both scopes, preserving the existing ComboBox binding, independent stores and all commands. This supersedes ADR-030's beside-heading placement only; no broader redesign, schema/network change, navigation acceptance, package publication or phase advancement. [Verification](../docs/testing/PROFILE_SOURCE_REVIEW.md).
+
+## Adapter-list options placement — UI-ADAPTER-OPTIONS-01, 2026-11-01
+
+Owner flagged the separate Show all adapters row as illogical and unattractive. Move the same session-only filter into a checkable item in a named More menu beside Refresh in the adapter header, reusing the existing product menu style. Preserve all filtering/selection/draft/OS behavior. No broader navigation acceptance, new persistence/network action, package publication or phase advancement. [Verification](../docs/testing/ADAPTER_OPTIONS_REVIEW.md).

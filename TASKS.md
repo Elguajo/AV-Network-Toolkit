@@ -1,5 +1,9 @@
 # Traceable task backlog
 
+## Adapter-list options placement — 2026-11-01
+
+- [x] **UI-ADAPTER-OPTIONS-01** — Move Show all adapters into the list header's More menu. **AC:** compact header, named keyboard-accessible menu/checkable item, existing filtering/drafts/selection behavior and refresh preserved; Light/Dark normal/minimum checks. **State:** VERIFIED_LOCAL — Release build 0 warnings/errors, 25 focused unit PASS, 20 focused + 128 full WPF captures/0 binding errors. [Review](docs/testing/ADAPTER_OPTIONS_REVIEW.md). Packages and Phase 07 acceptance unchanged.
+
 ## Profile-source placement — 2026-11-01
 
 - [x] **UI-SOURCE-01** — Separate the profile-source selector from the saved-profile heading. **AC:** visibly labelled source row in both scopes; existing stores/actions/style preserved; Light/Dark normal/minimum renders, keyboard/source round trip and regression checks. **State:** VERIFIED_LOCAL — 44 focused + 128 full WPF captures/0 binding errors, 723 unit PASS, build 0 warnings/errors. [Evidence and retained failures](docs/testing/PROFILE_SOURCE_REVIEW.md). Concurrent navigation changes independent; packages unchanged, Phase 07 AWAITING_REVIEW.

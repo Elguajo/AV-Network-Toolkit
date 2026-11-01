@@ -5,19 +5,27 @@
 
   <DockPanel Margin="8,4,8,8">
     <DockPanel DockPanel.Dock="Top" Margin="12,8,0,8">
+      <ui:Button x:Name="AdapterListOptions" DockPanel.Dock="Right" Style="{StaticResource SubtleButton}" Padding="6"
+                 Icon="{ui:SymbolIcon MoreHorizontal20}" Click="Options_Click"
+                 ToolTip="{DynamicResource Adapters.ListOptions}"
+                 AutomationProperties.Name="{DynamicResource Adapters.ListOptions}">
+        <ui:Button.ContextMenu>
+          <ContextMenu DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+            <MenuItem Header="{DynamicResource Adapters.ShowAll}" IsCheckable="True"
+                      IsChecked="{Binding ShowAllAdapters, Mode=TwoWay}"
+                      AutomationProperties.Name="{DynamicResource Adapters.ShowAll}"
+                      ToolTip="{DynamicResource Adapters.ShowAllHelp}"/>
+          </ContextMenu>
+        </ui:Button.ContextMenu>
+      </ui:Button>
       <ui:Button DockPanel.Dock="Right" Style="{StaticResource SubtleButton}" Padding="6"
                  Icon="{ui:SymbolIcon ArrowSync20}"
                  Command="{Binding RefreshCommand}"
                  ToolTip="{DynamicResource Common.Refresh}"
                  AutomationProperties.Name="{DynamicResource Common.Refresh}"/>
-      <TextBlock Text="{DynamicResource Adapters.Header}" Style="{StaticResource SectionHeaderText}"/>
+      <TextBlock Text="{DynamicResource Adapters.Header}" Style="{StaticResource SectionHeaderText}"
+                 TextTrimming="CharacterEllipsis" ToolTip="{DynamicResource Adapters.Header}"/>
     </DockPanel>
-
-    <CheckBox DockPanel.Dock="Top" Margin="12,0,0,8"
-              Content="{DynamicResource Adapters.ShowAll}"
-              AutomationProperties.Name="{DynamicResource Adapters.ShowAll}"
-              ToolTip="{DynamicResource Adapters.ShowAllHelp}"
-              IsChecked="{Binding ShowAllAdapters}"/>
 
     <!-- Navigation-style list: selection is a fill plus the accent pill, nothing else -->
     <ListBox ItemContainerStyle="{StaticResource NavigationListItem}" ItemsSource="{Binding VisibleAdapters}"

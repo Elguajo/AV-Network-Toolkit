@@ -1,5 +1,12 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Adapter-list options placement — UI-ADAPTER-OPTIONS-01, 2026-11-01
+
+- Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `3fd92a2`. Scoped commit follows; resolve using `git log -1 --format=%H -- docs/testing/ADAPTER_OPTIONS_REVIEW.md`.
+- Completed: Show all adapters moved from its permanent checkbox row into a checkable item in the named header More menu; filtering, selection/drafts and network behavior preserved. [Review and actual captures](docs/testing/ADAPTER_OPTIONS_REVIEW.md).
+- Tests last executed: Release harness build 0 warnings/errors; 25 focused unit PASS/0 failed/skipped; 20 focused + 128 full component WPF captures PASS/0 binding errors. Final documentation checks in handoff below.
+- In progress / blockers / next action: local placement work complete; owner can review captures. Concurrent navigation/adapter-tooltip changes preserved separately. Native/owner acceptance pending, Phase 07 AWAITING_REVIEW; DATA-01/Phase 08 not started. Existing EXE/packages unchanged; no live-network/UAC/install/publication action.
+
 ## Profile-source placement — UI-SOURCE-01, 2026-11-01
 
 - Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `57ff73fe47b98aaccfa4941da88bbdc9e4da13d8`. Scoped commit follows; resolve with `git log -1 --format=%H -- docs/testing/PROFILE_SOURCE_REVIEW.md`.
@@ -1234,3 +1241,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining active-phase tasks: existing owner/native acceptance unchanged; DATA-01/Phase 08 not started.
 - Next smallest safe action: owner reviews actual placement captures; existing EXE/packages have not been rebuilt by this task.
 - Can next session proceed without clarification: only within already authorized scope; no phase advancement inferred.
+
+### Session handoff — UI-ADAPTER-OPTIONS-01, 2026-11-01 (Asia/Tashkent)
+
+- Date and environment: Windows/PowerShell, private SDK 10.0.403, safe injected WPF fixtures.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / inspected 3fd92a2; scoped implementation SHA via `git log -1 --format=%H -- docs/testing/ADAPTER_OPTIONS_REVIEW.md`.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; UI-ADAPTER-OPTIONS-01 VERIFIED_LOCAL.
+- Actually completed: header More menu with named checkable Show all adapters item, same session-only binding/help; permanent checkbox row removed, Refresh retained. Existing filtering/drafts/selection unchanged.
+- Files changed: own header hunk in app/Views/AdapterListPanel.xaml, its code-behind, own Adapters.ListOptions resource in En.xaml, AdapterVisibilitySmoke.cs and only the adapter-smoke result string in Program.cs; DESIGN/TASKS/STATUS/decision log/user guide/adapter review, new docs/testing/ADAPTER_OPTIONS_REVIEW.md and two actual synthetic captures in docs/design/adapter-options/.
+- Test commands/results: exact commands in review; Release harness build PASS/0 warnings/errors; adapter --adapter-visibility PASS/20 Light/Dark normal/minimum captures, actual menu UI Automation invocation, keyboard names/focus, retained checkmark and prior filtering guards; full harness PASS/128 captures/0 binding errors; 25 focused unit PASS/0 failed/skipped. Private Python `-B scripts/validate_plan.py` PASS/590 links; `-B scripts/test_validate_plan.py` PASS/12; git diff --check PASS (line-ending notices only).
+- Live-network tests: NOT RUN / not authorized; no normal startup, real OS/traffic/NIC/UAC/browser/install/publication action.
+- Known risks: popup-only screenshot methods were rejected as rendering artifacts; final popup-root captures visually inspected in both themes. Manual screen-reader/high-contrast/mixed-DPI and native acceptance NOT RUN. Concurrent navigation/adapter-tooltip changes preserved outside scoped commit.
+- Decisions requiring approval: none for the completed local placement fix; native/publication/phase gates remain separate.
+- Remaining active-phase tasks: owner/native acceptance unchanged, no DATA-01/Phase 08 advancement.
+- Next smallest safe action: owner reviews header/menu captures; existing EXE/packages have not been rebuilt.
+- Can next session proceed without clarification: only within existing authorized scope.

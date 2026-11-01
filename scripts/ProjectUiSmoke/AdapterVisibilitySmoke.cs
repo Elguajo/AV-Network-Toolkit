@@ -1,6 +1,8 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Automation;
+using System.Windows.Automation.Peers;
+using System.Windows.Automation.Provider;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using NetworkProfileManager;
@@ -39,22 +41,44 @@ internal static partial class Program
                 window.Show(); Pump();
                 var panel = Descendants(window).OfType<AdapterListPanel>().Single();
                 var list = Descendants(panel).OfType<ListBox>().Single();
-                var toggle = Descendants(panel).OfType<CheckBox>().Single();
+                var options = (Wpf.Ui.Controls.Button)panel.FindName("AdapterListOptions");
+                var menu = options.ContextMenu!;
+                var toggle = (MenuItem)menu.Items[0];
+                options.Focus(); Pump();
+                if (!options.IsKeyboardFocusWithin || AutomationProperties.GetName(options) != Loc.Get("Adapters.ListOptions"))
+                    throw new Exception("Adapter list options is unnamed or cannot receive keyboard focus.");
+                AssertWorkspaceBounds(window, options);
+                CaptureToolbar((FrameworkElement)options.Parent, window, Path.Combine(output, $"adapter-header-{theme}-{minimum}.png"));
+                options.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent)); Pump();
+                if (!menu.IsOpen || !ReferenceEquals(menu.DataContext, main)) throw new Exception("Adapter list options lost its view model or did not open.");
                 if (list.Items.Count != 5 || toggle.IsChecked != false || main.SelectedAdapter?.Info.Id != "ethernet")
                     throw new Exception("Default list hid a working adapter or showed plumbing.");
                 if (AutomationProperties.GetName(toggle) != Loc.Get("Adapters.ShowAll")) throw new Exception("Missing toggle accessible name.");
                 toggle.Focus(); Pump();
                 if (!toggle.IsKeyboardFocusWithin) throw new Exception("Adapter toggle cannot receive keyboard focus.");
-                AssertWorkspaceBounds(window, toggle);
+                menu.IsOpen = false; Pump();
                 var selected = main.SelectedAdapter;
                 selected.EditIp = "192.0.2.42";
                 Capture(window, Path.Combine(output, $"adapters-default-{theme}-{minimum}.png"));
-                toggle.SetCurrentValue(ToggleButton.IsCheckedProperty, true); Pump();
+                options.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent)); Pump();
+                ((IInvokeProvider)new MenuItemAutomationPeer(toggle).GetPattern(PatternInterface.Invoke)).Invoke(); Pump();
                 if (list.Items.Count != 7 || !main.ShowAllAdapters || !ReferenceEquals(main.SelectedAdapter, selected)
                     || selected.EditIp != "192.0.2.42" || reads != 1) throw new Exception("Show all reloaded/dropped drafts or changed target.");
                 Capture(window, Path.Combine(output, $"adapters-all-{theme}-{minimum}.png"));
                 list.SelectedItem = main.Adapters.Single(a => a.Info.Id == "filter"); Pump();
-                toggle.SetCurrentValue(ToggleButton.IsCheckedProperty, false); Pump();
+                options.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent)); Pump();
+                if (!toggle.IsChecked) throw new Exception("Reopened menu lost the Show all checkmark.");
+                // Let the existing popup opening animation reach its final layout before capturing.
+                var menuAnimation = System.Diagnostics.Stopwatch.StartNew();
+                while (menuAnimation.ElapsedMilliseconds < 300) { Pump(); System.Threading.Thread.Sleep(10); }
+                Pump();
+                var popupRoot = (FrameworkElement)PresentationSource.FromVisual(menu).RootVisual;
+                var menuBitmap = new System.Windows.Media.Imaging.RenderTargetBitmap((int)Math.Ceiling(popupRoot.ActualWidth), (int)Math.Ceiling(popupRoot.ActualHeight), 96, 96, System.Windows.Media.PixelFormats.Pbgra32);
+                menuBitmap.Render(popupRoot);
+                var menuPng = new System.Windows.Media.Imaging.PngBitmapEncoder();
+                menuPng.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(menuBitmap));
+                using (var stream = File.Create(Path.Combine(output, $"adapter-options-menu-{theme}-{minimum}.png"))) menuPng.Save(stream);
+                ((IInvokeProvider)new MenuItemAutomationPeer(toggle).GetPattern(PatternInterface.Invoke)).Invoke(); Pump();
                 if (main.SelectedAdapter != null || list.SelectedItem != null || list.Items.Count != 5 || reads != 1)
                     throw new Exception("Hiding a selected filter silently switched targets.");
                 Capture(window, Path.Combine(output, $"adapters-cleared-{theme}-{minimum}.png"));
