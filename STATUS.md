@@ -1,5 +1,13 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## README screenshots — DOC-01, 2026-11-01
+
+- Fork / branch / capture source: https://github.com/Elguajo/AV-Network-Toolkit / main / `bfc978c6305a2bd5d2d09424d29d7fad4e0a4b1c`, isolated git-archive export. Scoped documentation commit follows; resolve with `git log -1 --format=%H -- docs/screenshots/readme/README.md`. Unrelated untracked `.serena/` and concurrent app source edits preserved/excluded.
+- Completed: README overview and captioned gallery with seven current, unchanged WPF PNGs (Light/Dark, profiles/devices/editor/apply/mDNS/network tests); synthetic fixture data, new logo, [source and reproduction](docs/screenshots/readme/README.md). No application/test/harness changes.
+- Tests last executed: screenshot harness Release build **0 warnings / 0 errors**, workspace **128 captures PASS / 0 binding errors**. Diagnostics **FAIL** after 9 captures: `DiagnosticsSmoke.cs:201`, `Hidden diagnostic window continued sending`; selected TCP-ready image predates the assertion. Full unit suite NOT RUN for this documentation-only change. Final documentation gates recorded in the session handoff below.
+- Open risk **DOC-R01**: diagnostic hide/cancellation assertion failed on this machine; cause/product impact UNVERIFIED, no repair attempted outside documentation scope. Existing audit findings and native/owner acceptance remain open. Phase 07 AWAITING_REVIEW; no Phase 08 or release/publication change.
+- Documentation checks: plan/schema/formats/local links PASS (426 links at the first final run), 12 tooling tests PASS, all seven PNG headers/dimensions/alt texts/source hashes and gallery details PASS, whitespace PASS. No DOC-01 implementation work remains; review the README gallery. Diagnostic cancellation requires a separate investigation; no live network tests or push authorized by this request.
+
 ## Repository audit / research — evidence recorded, 2026-11-01
 
 - Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `de7a97e` (application source unchanged from `ba44a525f51ff8a36e67f8d303178d65a29148b1`). Resolve this audit/evidence commit with `git log -1 --format=%H -- docs/testing/REPOSITORY_AUDIT_2026-11-01.md`. Untracked `.serena/` preserved.
@@ -933,3 +941,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks in active phase: owner/native acceptance and current audit findings; all phase checkboxes retained.
 - Next smallest safe action: review report; authorize bounded A26-01/02 repair and A26-08 servicing decision, then separately scoped legacy safety work. No automatic next phase or app repair.
 - Can next session proceed without clarification: yes for further safe audit inspection; implementation of material compatibility/auth/data/runtime changes, native tests and publication retain their gates.
+
+## Session handoff — 2026-11-01, README screenshot gallery
+
+- Date and environment: 2026-11-01 Asia/Tashkent; Windows, private .NET SDK 8.0.427 and Python validation venv.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / bootstrap bfc978c6305a2bd5d2d09424d29d7fad4e0a4b1c. Final captures rebuilt from an isolated git-archive export of that exact commit; scoped documentation commit resolves via git log -1 --format=%H -- docs/screenshots/readme/README.md.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; DOC-01 VERIFIED. No phase acceptance or new numbered phase.
+- What was actually completed: seven actual WPF captures with invented documentation-range data, overview near README introduction, captioned feature gallery and expandable additional screenshots, Light/Dark examples and source/reproduction notes. Visually inspected final PNGs and hash-compared unchanged copies.
+- Files changed: README.md, TASKS.md, STATUS.md and docs/screenshots/readme/ (seven PNGs plus provenance README). Concurrent app source/untracked files and .serena/ preserved and excluded; no application/test/harness/lockfile changes made by this task.
+- Test commands and results: pinned ProjectUiSmoke Release build PASS, 0 warnings/errors; ordinary harness PASS, 128 captures/0 binding errors. --phase07 FAIL after 9 captures at DiagnosticsSmoke.cs:201, Hidden diagnostic window continued sending; also reproduced in the initial working-tree run. Selected TCP-ready capture predates the failure. Python scripts/validate_plan.py PASS (426 links at first final run), scripts/test_validate_plan.py 12 PASS, PNG/header/dimension/alt/source-hash/detail checks PASS; git diff --check PASS. Full unit suite NOT RUN for this documentation-only change; no success inferred from earlier runs.
+- Live-network tests: NOT RUN / not authorized. All NIC/apply/socket/probe/browser boundaries fake; no real settings, receiver, UAC or external launch.
+- Known bugs, risk and workarounds: DOC-R01 OPEN, hidden diagnostic window cancellation assertion; cause/product impact UNVERIFIED, separate investigation required. Earlier audit/native/owner acceptance limits retained. Images show fixture controls, not native certification; no failure suppression or out-of-scope repair.
+- Decisions requiring user approval: none for completed local documentation; no new push/release/native testing permission inferred.
+- Remaining tasks in active phase: unchanged owner/native acceptance; no phase checkbox completed.
+- Next smallest safe action: view the README gallery; separately investigate DOC-R01 if authorized. No automatic phase advancement or publication.
+- Can next session proceed without clarification: safe read-only review yes; new publication, native actions and material repairs retain their existing gates.

@@ -19,6 +19,10 @@ Windows network profiles and project-scoped device web interfaces for AV field w
 **1.1.1 Preview:** includes the fork's project/device workflows, diagnostics, new logo and self-contained Windows packages. Automated checks do not replace isolated hardware acceptance; read the [release limitations](docs/releases/v1.1.1.md#limitations) before changing a working network.
 </div>
 
+![AV Network Toolkit in dark theme: selected Ethernet adapter, current settings and saved network profiles](docs/screenshots/readme/main-dark.png)
+
+*Select an adapter, review its current configuration and choose a saved profile. [Explore the screenshots below](#screenshots).*
+
 ## Download and start
 
 Get both formats from [Releases](https://github.com/Elguajo/AV-Network-Toolkit/releases):
@@ -41,11 +45,50 @@ The application runs unelevated by default. Applying network changes is a separa
 - **Network tests:** choose four-request Ping, Continuous Ping, single Ping or one-port TCP check. Adapter/source and destination are explicit. Run/Stop controls and a separate test window are available. Route prediction/source binding do not prove actual physical egress; a TCP connection does not validate HTTP/TLS.
 - **AV tools:** manual Link-Local with DAD-aware verification/recovery, passive selected-interface IPv4 mDNS listener, adapter/Hyper-V facts and optional diagnostic uplink filtering. Every live test/listener is explicit.
 
-### Current workspace
+## Screenshots
 
-![Workspace with profile sources and expandable network tests](docs/design/network-tests/main-expanded-dark.png)
+These are actual WPF views rendered from the current source with the new logo and invented demonstration data. Network, browser and elevation operations are replaced by test doubles; the images show the interface, not live-network acceptance. Click an image to view it at full size. [Capture source and verification](docs/screenshots/readme/README.md).
 
-Actual WPF-control capture with invented documentation-range fixtures; it predates the icon replacement. [Branding review](docs/testing/BRANDING_REVIEW.md) verifies the current icon separately. [More network-test states](docs/testing/NETWORK_TEST_PRESETS_REVIEW.md).
+### Project profiles · light theme
+
+Keep project profiles separate from this computer's local profiles. Each Apply action names the selected adapter; the matching current configuration is marked Selected.
+
+![Light-theme workspace with project profiles, static and DHCP presets, and explicit Apply to Ethernet actions](docs/screenshots/readme/project-light.png)
+
+### Device web interfaces
+
+Keep equipment links in the project, search the directory and preserve full URLs, including ports, paths and fragments. Open Web Interface and Apply & Open are separate actions.
+
+![Device directory with a saved touch-panel deep URL and its associated network profile](docs/screenshots/readme/devices-dark.png)
+
+### Network tests
+
+Choose four-request Ping, Continuous Ping, single Ping or a TCP port check, then explicitly select the adapter, source IPv4 and destination. The separate window includes descriptions and Run/Stop controls.
+
+![Network tests window with descriptive Ping and TCP presets, explicit source address and TCP port](docs/screenshots/readme/network-tests-dark.png)
+
+<details>
+<summary>More screenshots: profile editor, Apply & Open and mDNS discovery</summary>
+
+### Profile editor
+
+Edit the computer's static IP, prefix, gateway and DNS policy in a separate dialog. Keeping a profile in the project does not apply it to Windows.
+
+![Project network profile editor with static IPv4 and explicit DNS settings](docs/screenshots/readme/profile-editor-dark.png)
+
+### Apply & Open review
+
+Review the selected adapter's observed and requested settings before deliberately confirming a change.
+
+![Apply and Open review window with current and requested adapter settings and a separate Confirm changes button](docs/screenshots/readme/apply-review-light.png)
+
+### Passive mDNS discovery
+
+Select an interface and start listening explicitly. Inspect advertised services, addresses, ports and TTL, then optionally export filtered CSV results.
+
+![Light-theme mDNS discovery window showing synthetic advertised services and explicit Stop listening and CSV export actions](docs/screenshots/readme/mdns-light.png)
+
+</details>
 
 ## Data and updates
 

@@ -1,5 +1,9 @@
 # Traceable task backlog
 
+## README screenshot gallery — 2026-11-01
+
+- [x] **DOC-01** — Add current application screenshots to README. **AC:** Actual WPF captures with synthetic fixtures, main overview and captioned feature gallery, Light/Dark examples, image provenance and valid local links. **State:** VERIFIED — seven unchanged PNG captures visually inspected; [provenance and observed harness limitation](docs/screenshots/readme/README.md). Documentation-only; Phase 07 remains AWAITING_REVIEW. Separate DOC-R01 diagnostic hide/cancellation assertion failed during capture; no product fix or native acceptance claimed.
+
 ## Repository audit / research — 2026-11-01
 
 [A26-01–08 findings and proposed sequence](docs/testing/REPOSITORY_AUDIT_2026-11-01.md) recorded from current source and 9 isolated audit scenarios. Findings remain OPEN; no repair scope, roadmap reprioritization, runtime/storage/auth migration or new phase was approved by the audit request. Existing phase IDs/checkboxes and REL-02 native acceptance are unchanged. Prioritize owner review of data preservation/recovery availability and .NET 8 servicing before stable acceptance.
