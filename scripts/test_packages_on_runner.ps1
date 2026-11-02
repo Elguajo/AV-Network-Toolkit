@@ -62,8 +62,6 @@ $control = Join-Path $results 'control'
 & dotnet publish (Join-Path $PSScriptRoot 'RuntimeControl/RuntimeControl.csproj') -c Release -r win-x64 --self-contained false -o $control
 if ($LASTEXITCODE -ne 0) { throw 'Runtime negative-control build failed' }
 Invoke-Checked (Join-Path $control 'RuntimeControl.exe') @() $true 'RuntimeAvailable'
-& dotnet build-server shutdown
-if ($LASTEXITCODE -ne 0) { throw 'Cannot stop build servers before runtime isolation' }
 $roots = @((Join-Path $env:ProgramFiles 'dotnet'), (Join-Path ${env:ProgramFiles(x86)} 'dotnet'),
     [IO.Path]::GetDirectoryName((Get-Command dotnet).Source)) | Select-Object -Unique
 $moves = @()
@@ -85,6 +83,10 @@ $storageFixture = Join-Path $results 'storage-fixture'
 & dotnet run --project (Join-Path $PSScriptRoot 'ProjectUiSmoke/ProjectUiSmoke.csproj') -c Release -- $storageFixture --prepare-package-storage
 if ($LASTEXITCODE -ne 0) { throw 'Cannot prepare isolated home-storage fixtures' }
 $retainedStorage = @(Get-Content -LiteralPath (Join-Path $storageFixture 'retention-files.json') -Raw | ConvertFrom-Json)
+# Fixture preparation compiles the WPF harness and can restart Roslyn/MSBuild.
+# Stop servers only after the final build, before moving runtime discovery roots.
+& dotnet build-server shutdown
+if ($LASTEXITCODE -ne 0) { throw 'Cannot stop build servers before runtime isolation' }
 function Assert-StorageRetained {
     foreach ($entry in $retainedStorage) {
         if ((Get-FileHash -LiteralPath $entry.Path -Algorithm SHA256).Hash -ne $entry.Hash) { throw 'Package operation changed a storage fixture' }
