@@ -53,3 +53,19 @@ Code review by the implementing agent traced detached validation-before-mutation
 Real network mutation/probes/UAC, browser launch, real clipboard/history, installation, private-data migration, hosted/public package and owner/native acceptance **NOT RUN / UNVERIFIED**. No push, public release, next phase or phase completion. Review this local UI with synthetic data first; all personal project save/version/password consent rules still apply. Commit/package outcome and final documentation checks follow in the session handoff.
 
 Final combined TRX SHA-256: `c85024dbdce474451ec4d290902158f7b4a56d4710e5f08c352bca24590ca65a`. Private Python `-B scripts/validate_plan.py` PASS (9 phases, 49 stable tasks, schemas/formats and 973 links before final metadata); `-B scripts/test_validate_plan.py` PASS (12). `git diff --check` PASS, line-ending notices only.
+
+## Exact local portable — f39f341
+
+Implementation/source: **f39f34184585d101eb2f104a3f54cc43ea23445d**, committed on main after 0e55c99's documentation-only outcome. Clean working tree before archive/publish; all prior committed offline/diagnostic fixes included. Application/test source is unchanged from the final combined 977/180-check tree. Exported this exact commit with git archive into `out/DeviceInterfaces-f39f341/Source`; no other session's uncommitted files entered the package.
+
+From the repository, private SDK command:
+
+```powershell
+& $sdk publish out/DeviceInterfaces-f39f341/Source/app/NetworkProfileManager.csproj -c Release -r win-x64 --self-contained true -p:DebugType=none -p:DebugSymbols=false -p:PublishReadyToRun=false -p:SourceRevisionId=f39f34184585d101eb2f104a3f54cc43ea23445d -p:InformationalVersion=1.1.6-local.devices -p:ReleaseChannel=Preview -o out/DeviceInterfaces-f39f341/Portable
+```
+
+PASS, 0 warnings/errors. MIT LICENSE and existing third-party notices/dependencies retained. Hidden `--package-self-test <absolute-new-json-path>` invoked with a hidden process, exits 0 before ordinary startup; Success/JSON/WPF true, assembly 1.1.6.0, informational version `1.1.6-local.devices+f39f34184585d101eb2f104a3f54cc43ea23445d`, .NET 10.0.14, Preview, no production updater key. No ordinary launch, migration, install or NIC/clipboard/browser action.
+
+Ready EXE: `out/DeviceInterfaces-f39f341/Portable/NetworkProfileManager.exe` with adjacent dependencies. ZIP: `out/DeviceInterfaces-f39f341/AVNetworkToolkit-1.1.6-local-devices-f39f341-portable.zip`; extracted to a fresh ZipVerified folder, **all 8 files SHA-256-identical**. ZIP SHA-256 **ca319c502e9ba20441760d8c878caeedef587e8c499e7b2057dffbfd23f22e2a**. Ignored manifest/self-test JSON kept alongside. Existing local candidates, installed application, personal data and public 1.1.6 are unchanged.
+
+Next safe action: owner exits the older app through tray Exit and opens the complete new portable folder, then reviews Add/Edit/select/Open with synthetic devices first. Save project file separately; existing password/v2/backup consent and deliberate network actions remain. Native/owner/phase acceptance remains pending. This outcome-only metadata does not alter package source or rerun/replace unchanged unit/WPF results.
