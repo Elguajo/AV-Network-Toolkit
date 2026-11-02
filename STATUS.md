@@ -8,7 +8,6 @@
 - In progress / blockers: no password-specific implementation remains; native clipboard/exit/history, cross-PC/manual/owner acceptance NOT RUN. Final combined full suite is green; Phase 07 remains AWAITING_REVIEW. No real project migration, login/auth change, live network/UAC, install, push/publication, DATA-01/Phase 08 advancement or phase completion by this task.
 - Next action: synthetic owner/native clipboard walkthrough; repeat shared-tree checks only for subsequent source changes; published 1.1.5 stays unchanged.
 
-
 ## Application updates â€” UPD-03 local checks pass, 2026-11-02
 
 - Fork / branch / source: https://github.com/Elguajo/AV-Network-Toolkit / main; proposal a75a3ac, isolated product baseline e729f3d8f2194ed8d90e41a02953cafc2d1e54b6 plus the 24 updater-only paths bound by the review evidence. Current concurrent documentation HEAD observed 36775f2; implementation commit is resolvable with `git log -1 --format=%H -- docs/testing/APPLICATION_UPDATE_REVIEW.md`.
@@ -1546,6 +1545,7 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d â†
 - Next smallest safe action: review local source/evidence; separately scope UPD-04 native installation/locking and signing custody before distribution.
 - Can next session proceed without clarification: local review/fake-only refinement yes; production keys, native install/UAC, shared publication and later phases retain their explicit gates.
 
+
 ### Session handoff â€” IDEA-03 / FR-13 implementation, 2026-11-02 (Asia/Tashkent)
 
 - Date and environment: Windows/PowerShell; private SDK 10.0.403/.NET 10/WPF and existing Python validator environment. Synthetic fixtures only; no tool/dependency installation.
@@ -1560,3 +1560,12 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d â†
 - Remaining tasks in active phase: previous owner/native/DPI and unrelated risks unchanged; no DATA-01/Phase 08 advancement or phase acceptance by this task.
 - Next smallest safe action: synthetic owner/native clipboard walkthrough; repeat checks only for subsequent source changes. Published 1.1.5 remains unchanged.
 - Can next session proceed without clarification: safe local regression/review within accepted contract yes; no new network/auth/migration/install/publication authorization.
+
+
+### Verification addendum â€” IDEA-03 / FR-13, 2026-11-02
+
+- Implementation committed directly on main as `b837ec6401998d5ef034cf75dd5686111b0f1d9d`; updater predecessor bebaa10 and all uncommitted DATA-01 changes preserved.
+- Independently exported that exact commit to `TestResults/DevicePassword/CommitSource`, offline cached restore, Release full unit **839 PASS/0 failed/skipped**. Exact committed harness build **0 warnings/errors**, **20 focused + 128 existing WPF captures / 0 binding errors**; clipboard/network/process/browser/elevation all fake. Exact-source planning **812 links PASS**, validator **12 PASS**. Full commands/hashes/source distinction in docs/testing/DEVICE_PASSWORD_REVIEW.md.
+- Separate current-tree combined result remains **876 PASS/0 failed/skipped** including concurrent DATA-01, not attributed to b837ec6. Earlier isolated baseline-plus-password **795 PASS** retained as provenance. No tests suppressed or unrelated test fixed here.
+- Final follow-up: evidence/documentation only and removal of one accidentally duplicated updater design paragraph; no runtime difference from b837ec6. Phase 07 AWAITING_REVIEW, native clipboard/cross-PC/owner gates remain. No push/publication/install, real credentials, network action or real-file migration.
+- Next safe action: synthetic owner/native clipboard walkthrough; no further implementation decision required for the accepted local contract.

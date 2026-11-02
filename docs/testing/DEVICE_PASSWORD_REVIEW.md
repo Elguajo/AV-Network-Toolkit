@@ -1,6 +1,6 @@
 # Optional device passwords — local implementation review
 
-2026-11-02, Asia/Tashkent. FR-13 / IDEA-03. **VERIFIED_LOCAL; native clipboard and owner acceptance remain separate.** Fork https://github.com/Elguajo/AV-Network-Toolkit, `main`. Approved [contract](../spec/DEVICE_PASSWORD_PROPOSAL.md); proposal commit e729f3d, isolated implementation baseline 36775f22db2912cbbd1b4cdd23c739a9dece0a4d. Resolve the containing implementation commit with `git log -1 --format=%H -- docs/testing/DEVICE_PASSWORD_REVIEW.md`. Phase 07 remains AWAITING_REVIEW.
+2026-11-02, Asia/Tashkent. FR-13 / IDEA-03. **VERIFIED_LOCAL; native clipboard and owner acceptance remain separate.** Fork https://github.com/Elguajo/AV-Network-Toolkit, `main`. Approved [contract](../spec/DEVICE_PASSWORD_PROPOSAL.md); proposal commit e729f3d, isolated implementation baseline 36775f22db2912cbbd1b4cdd23c739a9dece0a4d. Resolve the containing review commit with `git log -1 --format=%H -- docs/testing/DEVICE_PASSWORD_REVIEW.md`. Phase 07 remains AWAITING_REVIEW.
 
 ## Result and compatibility
 
@@ -62,3 +62,15 @@ Primary sources consulted for implementation: [WPF PasswordBox source](https://g
 Plaintext project/temp/backup/copy and managed-string exposure are intentional; there is no encryption/secure-erasure promise. Clipboard history/cloud/other apps can retain copies, and abrupt termination cannot guarantee cleanup. An old v1-only program rejects v2 on Open but can still explicitly overwrite it with another v1 Save As and its own backup flow. No retroactive old-binary protection or new credential-free downgrade/export is claimed.
 
 The initial combined test failures belonged to concurrent DATA-01; after its contract/test updates the final combined full run passed all 876 tests. This does not mark DATA-01 accepted by this task. Native clipboard/history, manual keyboard/Narrator/high-contrast/DPI, different-PC transfer, ordinary app/tray/exit, actual NIC/UAC/browser/device, packaging and owner acceptance remain NOT RUN. Published 1.1.5 is unchanged; Phase 07/native/phase/publication gates remain separate. Safe owner check: use synthetic credentials in a copy of a project, save to a new v2 path, reopen, verify hidden/show/copy/remove and original v1 preservation; real credentials are unnecessary for acceptance.
+
+
+## Exact committed source verification — b837ec6
+
+After scoped integration, independently exported exact commit **b837ec6401998d5ef034cf75dd5686111b0f1d9d** using `git archive` into ignored `TestResults/DevicePassword/CommitSource`. This includes the committed updater predecessor bebaa10 and passwords; unfinished DATA-01 source is excluded. No branch/worktree/index reset or foreign change. Restore again used only an empty local feed and cached packages.
+
+- Exact-commit full unit suite: **839 PASS, 0 failed/skipped**, Release app/test build succeeded. `password-commit-full.trx` SHA-256 `0446212aaf38ac5240787e0b5bfdd6eb65ff448c9a2c55ad6b446503ace5aeac`.
+- Exact-commit harness Release build: **0 warnings/errors**. `CommitUi --device-passwords`: **20 captures / 0 binding errors**; default `CommitRegressionUi`: **128 captures / 0 binding errors**. Same mask/automation/reveal/draft/paste/viewport and existing fake-boundary assertions passed. No actual clipboard/backend/network/elevation/browser invoked.
+- Exact-commit planning/schema/reference check: **812 links PASS**; validator regression **12 PASS**. Frozen v1 and new v2 validated from tracked files only, so unrelated uncommitted documents cannot hide a missing committed dependency.
+- The **876 combined** result above additionally includes concurrent DATA-01 source/tests; it is a separate observed result, not attributed to b837ec6. The older **795 isolated** result remains baseline-plus-password provenance.
+
+Commands follow the earlier block with `CommitSource` instead of `Source`, unit logger `trx;LogFileName=password-commit-full.trx`, UI output `TestResults/DevicePassword/CommitUi` and `TestResults/DevicePassword/CommitRegressionUi`. Final follow-up changes documentation only, including removing one duplicated updater paragraph introduced while selecting the shared DESIGN.md hunk. Native clipboard/cross-PC/owner/phase/publication gates remain unchanged.
