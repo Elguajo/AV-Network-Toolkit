@@ -28,6 +28,8 @@ Current local source follow-up (ADR-047): owner-authorized [A26 audit fixes](doc
 
 ## Current diagnostic follow-up — ADR-041, 2026-11-01
 
+NT-PERF-01, 2026-11-02: owner rejected blocking readiness waits and requested an application-wide responsiveness search. [Local correction/evidence and remaining findings](docs/testing/UI_RESPONSIVENESS_REVIEW.md): diagnostic native facts measured 50–76 ms versus 5.1 s PowerShell, optional complete inventory runs in the background, themed disabled preset list corrected; selected-source/route checks retained. Main refresh, scanner per-change persistence, file commands, Apply/Link-Local enumeration and storage startup remain separately tracked. Real caption→main-hide cause remains UNVERIFIED; no phase acceptance/publication implied.
+
 Owner approved the [expanding network-test concept](docs/design/network-tests-target.png) and explicitly requested implementation. NT-01 adds descriptive Ping four/continuous/single and one-port TCP presets through the existing diagnostics MVVM/panel, inline below profiles and in an independent separate window. [Contract](docs/spec/NETWORK_TEST_PRESETS_CONTRACT.md), [local evidence](docs/testing/NETWORK_TEST_PRESETS_REVIEW.md). Phase 07 remains AWAITING_REVIEW; ADR-037 safe-only verification, previous acceptance and publication/release gates persist. No JSON/schema/network-mutation/support/Phase 08 change.
 
 ## Product name — ADR-018

@@ -1,5 +1,19 @@
 # Traceable task backlog
 
+## Responsiveness follow-up — 2026-11-02
+
+- [x] **PERF-AUDIT-01** — Search application startup, windows, reads/writes, wait calls, styles and close paths for similar readiness/UI defects. **Verified:** source inventory and ranked findings in [review](docs/testing/UI_RESPONSIVENESS_REVIEW.md); measured native/PowerShell comparison, other durations explicitly UNVERIFIED. No claim of exhaustive native acceptance.
+- [ ] **NT-PERF-01** — Remove full inventory from Network tests readiness and fix disabled preset styling. **State:** EVIDENCE_RECORDED — native 49.7–76.4 ms versus 5114.6 ms PowerShell; 969 full unit PASS (23 new), 16 focused + 64 repeat existing WPF captures/0 binding errors; retained initial focus failure, owner/native acceptance separate. [Contract](docs/spec/PHASE07_IMPLEMENTATION_CONTRACT.md), [review](docs/testing/UI_RESPONSIVENESS_REVIEW.md).
+- [ ] **PERF-02** — Main startup/Refresh: worker-owned reads, safe dispatcher publication and refresh deduplication; preserve profile/history/draft/apply semantics. **State:** OPEN, source-confirmed synchronous path, duration UNVERIFIED.
+- [ ] **PERF-03** — Scanner settings: coalesce per-character writes with orderly flush and preserved atomic/revision/backup/error policy. **State:** OPEN, source-confirmed per-change storage transaction, duration UNVERIFIED.
+- [ ] **PERF-04** — Apply/Link-Local: fast initial identity catalogue without deferring strict mutation preparation/verification. **State:** OPEN, PowerShell readiness dependency identified, timing UNVERIFIED.
+- [ ] **PERF-05** — Project/legacy import-export/CSV: asynchronous owned file operations preserving validation, drafts, overwrite consent and revisions. **State:** OPEN, synchronous commands identified, slow-file timing UNVERIFIED.
+- [ ] **PERF-06** — Storage startup: responsive preparation/consent/recovery while retaining verified root selection and migration safety. **State:** OPEN, synchronous pre-window inventory identified; no migration policy change.
+- [ ] **PERF-07** — Measure/coalesce small settings/layout work without breaking external-revision protection. **State:** OPEN, repeated UI file reads/writes identified; actual duration UNVERIFIED.
+- [ ] **PERF-08** — Reproduce the owner's Network tests caption→main-hide sequence on the actual Portable. **State:** OPEN / cause UNVERIFIED; owner confirms tray remains. Safe native-caption fixtures keep main visible. Real input was unavailable for the hidden window; owner stopped Computer Use with Escape. Do not claim fixed or change tray behavior speculatively.
+
+The fixed nine-phase order and earlier acceptance/live-network/publication gates remain. Findings outside Phase 07 are recorded for scoped follow-ups, not silently implemented here.
+
 ## Field profile-switching correction — 2026-11-02
 
 - [ ] **SWITCH-03** — Permit ordinary IPv4/DHCP configuration with an unplugged cable; verify stored policy separately and prevent offline Apply & Open. **State:** IN_PROGRESS — 946 unit PASS/23 observer fixtures per shell/156 captures; freeze/package checks pending. [Contract, exact evidence and four adjacent findings](docs/testing/PROFILE_SWITCHING_AUDIT_2026-11-02.md). No native mutation or phase acceptance.

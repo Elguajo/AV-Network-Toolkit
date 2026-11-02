@@ -24,10 +24,14 @@ public sealed class AdapterDiagnosticsViewModel : INotifyPropertyChanged, IDispo
     private readonly Action<bool> _saveFilter;
     private readonly CancellationTokenSource _lifetime = new();
     private CancellationTokenSource? _pingCancellation;
+    private CancellationTokenSource? _detailsCancellation;
+    private int _refreshVersion;
+    private IReadOnlyList<DiagnosticAdapter>? _pendingDetails;
+    private string _detailsNotice = "";
     private IReadOnlyList<DiagnosticAdapter> _all = Array.Empty<DiagnosticAdapter>();
     private DiagnosticAdapter? _selected;
     private string? _source;
-    private bool _busy, _disposed, _hide;
+    private bool _busy, _disposed, _hide, _updatingDetails;
     private string _target = "", _status = "";
     private string _port = "443";
     private DiagnosticTestPreset _test = new(DiagnosticTestKind.PingFour);
@@ -50,7 +54,7 @@ public sealed class AdapterDiagnosticsViewModel : INotifyPropertyChanged, IDispo
     internal static AdapterDiagnosticsViewModel Create(bool persist = true)
     {
         var platform = new WindowsDiagnosticPingPlatform();
-        return new(new WindowsAdapterDiagnostics(), new(platform), persist && AppSettingsStore.Get("HideHyperVUplinks") == "true",
+        return new(new WindowsQuickAdapterDiagnostics(), new(platform), persist && AppSettingsStore.Get("HideHyperVUplinks") == "true",
             persist ? value => AppSettingsStore.Set("HideHyperVUplinks", value ? "true" : "false") : null,
             new(platform, new WindowsDiagnosticTcpConnector()));
     }
@@ -96,12 +100,12 @@ public sealed class AdapterDiagnosticsViewModel : INotifyPropertyChanged, IDispo
         get => _selected;
         set
         {
-            if (!CanSelect || ReferenceEquals(value, _selected)) return;
+            if (!CanSelect || _updatingDetails || ReferenceEquals(value, _selected)) return;
             _selected = value != null && Adapters.Contains(value) ? value : null;
             _source = null; Changed(); Changed(nameof(Sources)); Changed(nameof(Source)); Changed(nameof(Details)); Changed(nameof(CanPing));
         }
     }
-    public string? Source { get => _source; set { if (!CanSelect) return; _source = value != null && Sources.Contains(value) ? value : null; Changed(); Changed(nameof(CanPing)); } }
+    public string? Source { get => _source; set { if (!CanSelect || _updatingDetails) return; _source = value != null && Sources.Contains(value) ? value : null; Changed(); Changed(nameof(CanPing)); } }
     public string Target { get => _target; set { if (!CanSelect) return; _target = value; Changed(); Changed(nameof(CanPing)); } }
     public bool HideHyperVUplinks
     {
@@ -121,6 +125,8 @@ public sealed class AdapterDiagnosticsViewModel : INotifyPropertyChanged, IDispo
     public bool IsTestRunning => _pingCancellation != null;
     public string SectionTitle => Loc.Get(_pingCancellation != null ? "NetworkTests.RunningTitle" : "Diagnostics.Title");
     public string Status { get => _status; private set { _status = value; Changed(); } }
+    public string DetailsNotice { get => _detailsNotice; private set { _detailsNotice = value; Changed(); } }
+    internal Task DetailsCompletion { get; private set; } = Task.CompletedTask;
     public string Details => _selected == null ? Loc.Get("Diagnostics.Select")
         : Loc.Format("Diagnostics.Facts", _selected.Id, _selected.Index, _selected.Mac, _selected.KindDisplay,
             _selected.Link, _selected.Speed, _selected.Dhcp,
@@ -136,6 +142,8 @@ public sealed class AdapterDiagnosticsViewModel : INotifyPropertyChanged, IDispo
     public async Task RefreshAsync()
     {
         if (!CanSelect) return;
+        int version = ++_refreshVersion;
+        _detailsCancellation?.Cancel(); _pendingDetails = null; DetailsNotice = "";
         var selectedId = _selected?.Id ?? PreferredAdapterId;
         _selected = null; _source = null; _all = Array.Empty<DiagnosticAdapter>();
         Changed(nameof(Adapters)); Changed(nameof(SelectedAdapter)); Changed(nameof(Sources)); Changed(nameof(Source)); Changed(nameof(Details));
@@ -154,6 +162,42 @@ public sealed class AdapterDiagnosticsViewModel : INotifyPropertyChanged, IDispo
             SetBusy(false);
             if (!_disposed && selectedId.HasValue) SelectedAdapter = Adapters.SingleOrDefault(a => a.Id == selectedId);
         }
+        if (!_disposed && _reader is IAdapterDiagnosticsDetails details && _all.Count != 0)
+            DetailsCompletion = ReadDetailsAsync(details, version);
+    }
+    private async Task ReadDetailsAsync(IAdapterDiagnosticsDetails reader, int version)
+    {
+        using var cancellation = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.Token);
+        _detailsCancellation = cancellation;
+        DetailsNotice = Loc.Get("Diagnostics.Loading");
+        try
+        {
+            var details = await Task.Run(() => reader.ReadDetailsAsync(cancellation.Token), cancellation.Token);
+            if (_disposed || version != _refreshVersion || cancellation.IsCancellationRequested) return;
+            _pendingDetails = details;
+            if (CanSelect) ApplyDetails();
+        }
+        catch (OperationCanceledException) when (cancellation.IsCancellationRequested) { }
+        catch { if (!_disposed && version == _refreshVersion) DetailsNotice = Loc.Get("Diagnostics.Error.Unavailable"); }
+        finally { if (ReferenceEquals(_detailsCancellation, cancellation)) _detailsCancellation = null; }
+    }
+    private void ApplyDetails()
+    {
+        if (_pendingDetails == null || _disposed) return;
+        _updatingDetails = true;
+        try
+        {
+            var selected = _selected; var source = _source;
+            _all = _pendingDetails; _pendingDetails = null;
+            // Restore only an explicitly selected identity; never move a source onto a replacement NIC.
+            _selected = selected == null ? null : Adapters.SingleOrDefault(a => a.Id == selected.Id
+                && a.Index == selected.Index && DiagnosticPingService.Mac(a.Mac) == DiagnosticPingService.Mac(selected.Mac));
+            _source = source != null && Sources.Contains(source) ? source : null;
+            DetailsNotice = "";
+            Changed(nameof(Adapters)); Changed(nameof(SelectedAdapter)); Changed(nameof(Sources)); Changed(nameof(Source));
+            Changed(nameof(Details)); Changed(nameof(CanPing));
+        }
+        finally { _updatingDetails = false; }
     }
     public Task PingAsync(int count = 1) => count is >= 1 and <= 4 ? RunAsync(count, false) : Task.CompletedTask;
     public Task RunSelectedTestAsync() => !CanRun ? Task.CompletedTask : RunAsync(_test.Kind switch
@@ -213,6 +257,7 @@ public sealed class AdapterDiagnosticsViewModel : INotifyPropertyChanged, IDispo
         _busy = value;
         Changed(nameof(IsTestRunning)); // Also notify completion of a cancelled in-flight call after disposal.
         if (_disposed) return;
+        if (!value) ApplyDetails();
         Changed(nameof(CanSelect)); Changed(nameof(CanPing)); Changed(nameof(CanStop)); Changed(nameof(SectionTitle)); CommandManager.InvalidateRequerySuggested();
     }
     public void Dispose() { if (_disposed) return; _disposed = true; _lifetime.Cancel(); _lifetime.Dispose(); }

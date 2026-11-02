@@ -1,5 +1,9 @@
 # Phase 07 — adapter diagnostics and explicit-source Ping
 
+## Responsiveness refinement — NT-PERF-01, 2026-11-02
+
+Owner rejected multi-second readiness waits and requested searching application-wide for similar issues. Initial diagnostic selection now uses read-only .NET/IP Helper facts on a worker, including native DAD/SkipAsSource and active route-only metrics. Preserve explicit adapter/source and all pre/post-probe checks. Full PowerShell inventory enriches hardware/hidden-interface/Hyper-V facts independently in the background; until confirmed, kind/physical/binding remain unknown and unknowns stay visible. Its completion must not block running a test, retarget an in-flight request, choose another interface or publish an older refresh after a newer one. Changed/filtered identities or ineligible sources are cleared; close cancels owned work and drops late results. This supersedes only the original all-facts-before-ready sequence below, not network support, apply semantics or phase gates. [Measurements, regressions and remaining application-wide findings](../testing/UI_RESPONSIVENESS_REVIEW.md).
+
 2026-11-01, Asia/Tashkent. ADR-034 authorizes 07-T01–07-T04 directly on main, base `db143aba6e4405da57acf2a85f661f3b579c279d`. No live execution, publication, release, Phase 08 or invented prior acceptance. OPEN UX-R01/P05-R01 remains release-blocking.
 
 ## Boundaries and implementation sequence

@@ -38,9 +38,13 @@
    <TextBlock Text="{Binding SelectedTest.Description}" Style="{StaticResource CaptionText}" TextWrapping="Wrap" TextTrimming="None" Margin="0,8,0,0"/>
   </StackPanel>
   <ListBox x:Name="PresetCards" ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedTest}"
-   IsEnabled="{Binding CanSelect}" Style="{StaticResource WindowOnly}" Background="Transparent" BorderThickness="0"
+   IsEnabled="{Binding CanSelect}" Background="Transparent" BorderThickness="0"
    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
    ScrollViewer.VerticalScrollBarVisibility="Disabled" AutomationProperties.Name="{DynamicResource NetworkTests.Presets}">
+   <ListBox.Style><Style TargetType="ListBox" BasedOn="{StaticResource {x:Type ListBox}}">
+    <Setter Property="Visibility" Value="Collapsed"/>
+    <Style.Triggers><DataTrigger Binding="{Binding ShowPresetCards}" Value="True"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers>
+   </Style></ListBox.Style>
    <ListBox.ItemContainerStyle><Style TargetType="ListBoxItem" BasedOn="{StaticResource NavigationListItem}">
     <Setter Property="Margin" Value="0,0,0,8"/>
     <Setter Property="AutomationProperties.Name" Value="{Binding Name}"/>
@@ -110,7 +114,10 @@
    </Style></TextBlock.Style>
   </TextBlock>
   <Expander Header="{DynamicResource Diagnostics.FactsHeader}" Margin="0,0,0,12">
-   <TextBlock Text="{Binding Details}" TextWrapping="Wrap" Margin="0,12,0,0"/>
+   <StackPanel>
+    <TextBlock Text="{Binding DetailsNotice}" Style="{StaticResource CaptionText}" TextWrapping="Wrap" Margin="0,8,0,0" AutomationProperties.LiveSetting="Polite"/>
+    <TextBlock Text="{Binding Details}" TextWrapping="Wrap" Margin="0,12,0,0"/>
+   </StackPanel>
   </Expander>
   <TextBlock Text="{DynamicResource Diagnostics.EgressNotice}" Style="{StaticResource CaptionText}" TextWrapping="Wrap"/>
  </StackPanel>
