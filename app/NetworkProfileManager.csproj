@@ -19,6 +19,7 @@
     <FileVersion>1.1.5.0</FileVersion>
     <!-- The supported UI is English; skip unused dependency language resources. -->
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <ReleaseChannel Condition="'$(ReleaseChannel)' == ''">Preview</ReleaseChannel>
   </PropertyGroup>
   <!-- Publishing for a runtime, as the release zip does (self-contained win-x64), produces one
        .exe plus WPF's five native DLLs. They stay beside the exe on purpose: bundling them
@@ -41,7 +42,23 @@
     <InternalsVisibleTo Include="NetworkProfileManager.Tests" />
     <InternalsVisibleTo Include="ProjectUiSmoke" />
     <EmbeddedResource Include="..\schemas\project.avnet.schema.json" LogicalName="ProjectSchema.json" />
+    <AssemblyMetadata Include="ReleaseChannel" Value="$(ReleaseChannel)" />
+    <EmbeddedResource Include="$(UpdatePublicKeyFile)" LogicalName="ApplicationUpdatePublicKey.pem"
+                      Condition="'$(UpdatePublicKeyFile)' != ''" />
     <None Include="..\docs\legal\THIRD_PARTY_NOTICES.md" Link="THIRD_PARTY_NOTICES.md"
           CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
+  <UsingTask TaskName="ValidateUpdatePublicKey" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup><KeyFile ParameterType="System.String" Required="true" /></ParameterGroup>
+    <Task><Using Namespace="System.IO" /><Code Type="Fragment" Language="cs"><![CDATA[
+      var text = File.ReadAllText(KeyFile);
+      if (text.Length > 8192 || !text.StartsWith("-----BEGIN PUBLIC KEY-----") || text.Contains("PRIVATE")) {
+        Log.LogError("UpdatePublicKeyFile must contain only a public SubjectPublicKeyInfo PEM key. Never embed a private key.");
+        return false;
+      }
+    ]]></Code></Task>
+  </UsingTask>
+  <Target Name="ValidateApplicationUpdateKey" BeforeTargets="PrepareForBuild" Condition="'$(UpdatePublicKeyFile)' != ''">
+    <ValidateUpdatePublicKey KeyFile="$(UpdatePublicKeyFile)" />
+  </Target>
 </Project>

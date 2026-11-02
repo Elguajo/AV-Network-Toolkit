@@ -1,0 +1,47 @@
+# Application updates — local implementation review
+
+2026-11-02 Asia/Tashkent. UPD-01/02/03, ADR-053. Owner selected a signed manifest and new-folder portable updates. Phase 07 remains AWAITING_REVIEW; no publication, host installation, real networking, DATA-01 or Phase 08 work in this change.
+
+## Result and source boundary
+
+Local implementation adds optional daily public-release checks, explicit verified download and installation/preparation in Settings → Application updates. RSA-3072/SHA-256/PSS authenticates exact manifest bytes; package and payload SHA-256/size checks retain their distinct integrity role. No unsigned fallback or new runtime dependency. Preview opt-in/channel, numerical version ordering, same-version/downgrade exclusion, bounded pagination/HTTP/ZIP handling and unchanged data roots are specified in the [approved local contract](../spec/APPLICATION_UPDATE_PROPOSAL.md).
+
+Installed mode requires the fixed Inno AppId/registered path to match the running EXE. A copied instance of the current packaged application, with its existing dependencies, performs a pre-startup signed/locked installer handoff, current-user pipe/PID/start-time checks and actual parent-exit wait. Draft/apply guards and a reversible mutation barrier remain active; diagnostics/mDNS drain, active scanner/monitor requires explicit Stop. Installer remains interactive and retains busy-file rejection, no reboot/force-close/automatic restart. UAC denial after exit means the owner starts the unchanged existing app again. Complete Inno bootstrap/locking/UAC behavior is **UNVERIFIED** until isolated native acceptance.
+
+Portable ZIP verifies into a fresh staging sibling and becomes the named new folder only after complete inventory/byte verification. Existing application/data/projects are never replaced. Incomplete folders remain visibly `.partial-*`; no automatic recursive deletion. User exits through the guarded action and starts the displayed new EXE. Enabled startup follows the existing startup-path refresh behavior on that deliberate launch.
+
+Production trust is **NOT CONFIGURED**: no real key/secret generated or uploaded. A build without `UpdatePublicKeyFile` refuses automatic download/install and makes the limitation visible; checks with missing trust do not contact GitHub. Current published 1.1.5 remains manual. The first updater-enabled build must be installed manually; real signing custody, key recovery/rotation, release upload integration and native acceptance are separate gates. Authenticode/SmartScreen reputation is not supplied by the manifest signature.
+
+Concurrent OPEN-01/password/DATA-01 work arrived after proposal a75a3ac. Validation used a clean git archive of documentation-only e729f3d (same product baseline) plus exactly the updater's 24 source/test/tool paths, reconstructed shared hunks for project resources/close guard/dispatcher. Concurrent password/schema/data code and edits remain excluded from this implementation commit. [Structured source/evidence hashes](evidence/application-update-review.json) bind the isolated source; source checks do not certify the evolving combined checkout or newer project formats. No claim that project v2 or DATA-01 is supported by update compatibility version 1.
+
+## Observed checks
+
+Synthetic rendered examples: [verified download, Dark](../design/application-updates/downloaded-dark.png), [available update at minimum size, Light](../design/application-updates/available-light-minimum.png). All values are fixtures; no device/user data is shown.
+
+Use private `$sdk = "$env:LOCALAPPDATA/AVNetworkToolkit.BuildTools/dotnet10/dotnet.exe"` and `$py = "$env:LOCALAPPDATA/AVNetworkToolkit.BuildTools/python/Scripts/python.exe"`. Ordinary App startup, installed helper execution and actual installer/UAC were never run on this PC.
+
+| Command / boundary | Observed result |
+|---|---|
+| `$sdk build AVNetworkToolkit.sln --configuration Release --no-restore -p:OutputPath=bin/Updates/ -p:IntermediateOutputPath=obj/Updates/ --nologo` before concurrent code arrived | PASS, 0 warnings/errors. |
+| `$sdk test test/NetworkProfileManager.Tests.csproj --configuration Release --no-restore` with the same paths, `--filter FullyQualifiedName~ApplicationUpdateTests` | Initial 40 new tests PASS/0 failed/skipped. |
+| Isolated source: `$sdk test TestResults/ApplicationUpdates/Source/test/NetworkProfileManager.Tests.csproj --configuration Release --logger 'trx;LogFileName=updates-isolated-complete.trx' --results-directory TestResults/ApplicationUpdates/IsolatedChecks --nologo` | Final 788 tests (744 baseline + 44 updater), 0 failed/skipped. Earlier 784 then 788 runs retained; source compilation produced no warnings/errors. |
+| Isolated WPF build, `ProjectUiSmoke.exe …/IsolatedUi --application-updates`, process-local DOTNET_ROOT set to private .NET 10 | PASS, 20 Light/Dark normal/minimum captures: ready, available, verified, canceled and missing-key; fake signed HTTP/download, busy-close cancellation, accessible details name, 0 binding errors. |
+| Same isolated driver `--workspace` and `--themes` | PASS existing workspace/source/action/draft checks and window/native appearance transitions, 0 binding errors. Synthetic component startup only. |
+| `./scripts/test_update_signing.ps1 -ResultsDirectory TestResults/ApplicationUpdates/Signing1` | PASS 5 cases: signed contract, wrong key, modified package, wrong channel and existing-output rejection. Disposable fixture private keys removed. No real installer files executed. |
+| Self-contained isolated `dotnet publish … -r win-x64 --self-contained true -p:UpdatePublicKeyFile=ABSOLUTE_DISPOSABLE_PUBLIC_PEM -p:SourceRevisionId=uncommitted-updater-fixture -p:DebugType=none -p:DebugSymbols=false -o TestResults/ApplicationUpdates/KeyBuild/payload` | PASS fixture publish; explicitly not a release/exact-commit candidate. |
+| Packaged `--package-self-test ABSOLUTE_NEW_REPORT` through ProcessStartInfo/WaitForExit, then compare report fingerprint/channel | PASS exit 0, exact public-key fingerprint, Preview, .NET 10.0.14, JSON and offscreen WPF. No App/tray/network/data startup. |
+| Packaged malformed `--install-application-update` | PASS exit 2 before ordinary startup/installer. Unit malformed worker cases also PASS. |
+| `$sdk msbuild … -target:ValidateApplicationUpdateKey -p:UpdatePublicKeyFile=ABSOLUTE_DISPOSABLE_PRIVATE_PEM` | Expected failure: private-key embedding rejected with generic error; key bytes never printed. Disposable private key removed. |
+| Planning/schema/reference validator, 12 validator regression tests, PowerShell AST and staged whitespace | PASS in the staged export: 791 links, 9 phases/49 stable tasks, schema/formats/references, 12 validator tests and staged whitespace. |
+
+Negative cases cover wrong/tampered/missing signatures, valid signatures over unsupported/duplicate/trailing JSON, malformed/numerical versions, Preview/stable, incomplete pagination, changed source/digest/asset identity, partial/canceled downloads, locked package replacement, unsafe ZIP paths/collisions/payload hashes, storage corruption/future versions/conflicts, opt-in/daily cooldown, reentrant checks and reversible mutation exclusion. Fake HTTP/files/process rejection only; no NIC scan, ICMP, mDNS, DHCP or elevation.
+
+Initial failures were corrected rather than suppressed: the old private dotnet directory contained SDK 8, so use existing dotnet10; UI fixture lacked System.IO; ProgressBar's default two-way binding required explicit OneWay; first item-based MSBuild key guard rejected valid public PEM, replaced with a secret-safe inline validation task. One GUI-EXE PowerShell invocation incorrectly inspected stale LASTEXITCODE despite a successful report; explicit ProcessStartInfo/WaitForExit verified actual exits. A source-export routing conflict from concurrent password tests was removed only from the isolated updater snapshot, preserving the live checkout.
+
+## Review disposition and remaining gates
+
+Focused code/security/concurrency review covered signature-before-parse, fixed public origins and no TLS bypass/auth tokens, bounded streams, exact file inventory, reparse/path guards, no overwrite/delete of user data, file locks, late progress/result ownership, one update operation, reversible mutation exclusion and fail-closed missing trust. Follow-up fixes retained staging until complete verification, froze asset identities, added server cooldown and per-job helper exclusion, pinned copied helper files through its handshake, and avoided committing draft-close approval during a canceled preflight.
+
+**LOCAL_CHECKS_PASS / NOT_RELEASE_READY.** No native handoff/UAC/cross-source installation/second-instance/end-to-end rollback certification, clean Windows-client acceptance, new release/channel upload/signature publication or production signing key setup. No freshness guarantee against withholding, full local-malware defense, Authenticode reputation, arbitrary future project-format support or atomic installer rollback. Supported Windows edition limits remain; minimum build metadata alone is not an OS support certification. Original files/old versions remain the recovery path; no automatic shared-data downgrade/migration.
+
+Native installation and real signing setup require a concrete owner-approved operational step; phase/native gates remain separate. Read-only/public requests exposed no private repository files, projects, credentials or device data.

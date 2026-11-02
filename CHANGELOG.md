@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Local application-update flow in Settings: opt-in daily release checks, explicit Preview policy, signed-manifest/package verification, deliberate installer handoff and fresh-folder portable preparation. Production signing trust/release integration and native installer/UAC acceptance remain pending; current releases are unchanged. [Local evidence and limits](docs/testing/APPLICATION_UPDATE_REVIEW.md).
+
 ## [1.1.5] — 2026-11-01 (AV Network Toolkit Preview)
 
 ### Added

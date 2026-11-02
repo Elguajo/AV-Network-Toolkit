@@ -9,6 +9,18 @@ namespace NetworkProfileManager;
 
 public partial class MainWindow
 {
+    internal async System.Threading.Tasks.Task<bool> StopTestsForUpdateAsync()
+    {
+        var views = _diagnosticViews.ToArray();
+        foreach (var vm in views) if (vm.CanStop) vm.StopCommand.Execute(null);
+        var deadline = System.DateTime.UtcNow.AddSeconds(15);
+        while (views.Any(v => v.IsTestRunning))
+        {
+            if (System.DateTime.UtcNow >= deadline) return false;
+            await System.Threading.Tasks.Task.Delay(50);
+        }
+        return true;
+    }
     private readonly HashSet<AdapterDiagnosticsViewModel> _diagnosticViews = new();
     private readonly HashSet<AdapterDiagnosticsViewModel> _retiredDiagnosticViews = new();
     private MdnsDiscoveryViewModel? _listeningView;

@@ -20,7 +20,9 @@ Get-FileHash -LiteralPath .\AVNetworkToolkit-1.1.3-win-x64-setup.exe -Algorithm 
 
 Compare the complete hash with the matching filename in `SHA256SUMS.txt`. Use the filename for the version and format you downloaded. `package-manifest.json` also identifies the source commit and package hashes; it is not a code-signing certificate.
 
-Before updating, back up the [data folders and projects](#data-and-backups), then exit using the tray's Exit action. The installer rejects a busy application instead of force-closing it. Uninstall retains user data. Portable updates replace application files; they do not make settings USB-local. There is no automatic updater.
+Before updating, back up the [data folders and projects](#data-and-backups), then exit using the tray's Exit action. The installer rejects a busy application instead of force-closing it. Uninstall retains user data. Published 1.1.5 updates remain manual; ZIP distribution does not make settings USB-local.
+
+Current source adds **Settings → Application updates**. A build needs a configured trusted publisher key before it can offer automatic updates; otherwise use GitHub Releases manually. Checking once a day is opt-in, Preview inclusion is explicit, and download and installation are separate actions. The installer flow exits the app after draft/active-operation checks, then opens the interactive installer; start the app again after completion or canceled UAC. Portable preparation creates a new version folder and shows its EXE path, retaining the old copy and shared data. Stop scanner monitoring and finish network changes before updating. The first updater-enabled version must be installed manually. [Local verification and remaining signing/native gates](testing/APPLICATION_UPDATE_REVIEW.md).
 
 ## Local and project profiles
 

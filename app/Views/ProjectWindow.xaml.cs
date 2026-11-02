@@ -31,13 +31,14 @@ public partial class ProjectWindow : Wpf.Ui.Controls.FluentWindow
         base.OnClosing(e);
     }
 
-    public bool ConfirmApplicationExit()
+    public bool ConfirmApplicationExit(bool approveClose = true)
     {
         if (OwnedWindows.OfType<ProjectApplyWindow>().Any(w => !w.ConfirmApplicationExit())) return false;
         if (!_shared && DataContext is ProjectViewModel vm && !vm.CanDiscard()) return false;
-        _exitApproved = true;
+        if (approveClose) _exitApproved = true;
         return true;
     }
+    internal void ApproveApplicationClose() => _exitApproved = true;
     private void Recovery_Click(object sender, RoutedEventArgs e)
     {
         var window = ProjectApplyWindow.Create(null, null); window.Owner = this; window.ShowDialog();

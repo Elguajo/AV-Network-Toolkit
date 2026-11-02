@@ -66,6 +66,10 @@
           </DockPanel>
         </Border>
 
+        <Border Style="{StaticResource Card}" Margin="0,8,0,0">
+          <ui:Button Content="{DynamicResource Updates.Title}" HorizontalAlignment="Stretch" Click="UpdatesClick"/>
+        </Border>
+
       </StackPanel>
     </ScrollViewer>
 

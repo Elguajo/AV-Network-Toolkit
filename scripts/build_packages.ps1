@@ -3,7 +3,9 @@ param(
     [string]$Dotnet = 'dotnet',
     [string]$Compiler,
     [string]$SourceCommit,
-    [string]$OutputDirectory = 'out/packages'
+    [string]$OutputDirectory = 'out/packages',
+    [string]$UpdatePublicKeyFile,
+    [ValidateSet('Preview', 'Stable')][string]$ReleaseChannel = 'Preview'
 )
 $ErrorActionPreference = 'Stop'
 $root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
@@ -26,8 +28,15 @@ if (-not (Test-Path -LiteralPath $Compiler)) { throw 'Inno Setup compiler is req
 $compilerPin = Get-Content -LiteralPath (Join-Path $root 'packaging/inno-setup.json') -Raw | ConvertFrom-Json
 New-Item -ItemType Directory -Path $output | Out-Null
 $payload = Join-Path $output 'payload'
+$updateProperties = @("-p:ReleaseChannel=$ReleaseChannel")
+if ($UpdatePublicKeyFile) {
+    $UpdatePublicKeyFile = [IO.Path]::GetFullPath($UpdatePublicKeyFile)
+    $publicPem = [IO.File]::ReadAllText($UpdatePublicKeyFile)
+    if ($publicPem.Contains('PRIVATE') -or $publicPem -notmatch '^-----BEGIN PUBLIC KEY-----') { throw 'Only a public update key may be embedded' }
+    $updateProperties += "-p:UpdatePublicKeyFile=$UpdatePublicKeyFile"
+}
 & $Dotnet publish (Join-Path $root 'app/NetworkProfileManager.csproj') -c Release -r win-x64 --self-contained true `
-    -p:DebugType=none -p:DebugSymbols=false -p:PublishReadyToRun=false "-p:SourceRevisionId=$SourceCommit" -o $payload
+    -p:DebugType=none -p:DebugSymbols=false -p:PublishReadyToRun=false "-p:SourceRevisionId=$SourceCommit" @updateProperties -o $payload
 if ($LASTEXITCODE -ne 0) { throw 'Self-contained publish failed' }
 Copy-Item -LiteralPath (Join-Path $root 'LICENSE') -Destination (Join-Path $payload 'LICENSE')
 $exe = Join-Path $payload 'NetworkProfileManager.exe'

@@ -41,6 +41,13 @@ internal static partial class Program
         ApplyRenderTheme("Dark");
         try
         {
+            if (args.Contains("--application-updates"))
+            {
+                CheckApplicationUpdates(output);
+                if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
+                Console.WriteLine("PASS: update Light/Dark normal/minimum states, fake signed release/download, cancellation and close guard; 0 binding errors.");
+                return 0;
+            }
             if (args.Contains("--navigation-followup"))
             {
                 CheckNavigationFollowup(output);

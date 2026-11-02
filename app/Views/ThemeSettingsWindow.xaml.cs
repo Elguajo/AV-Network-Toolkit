@@ -72,5 +72,6 @@ namespace NetworkProfileManager.Views
         }
 
         private void CloseClick(object sender, RoutedEventArgs e) => Close();
+        private void UpdatesClick(object sender, RoutedEventArgs e) => App.ShowApplicationUpdates();
     }
 }

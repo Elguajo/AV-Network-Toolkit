@@ -36,6 +36,11 @@ namespace NetworkProfileManager
                 Environment.Exit(PackageSelfTest.Run(e.Args));
                 return;
             }
+            if (e.Args.Length > 0 && e.Args[0] == ApplicationUpdateHandoff.WorkerSwitch)
+            {
+                Environment.Exit(System.Threading.Tasks.Task.Run(() => ApplicationUpdateHandoff.RunAsync(e.Args)).GetAwaiter().GetResult());
+                return;
+            }
             if (e.Args.Length > 0 && e.Args[0] == ProjectApplyElevation.WorkerSwitch)
             {
                 int code = e.Args.Length == 3
@@ -113,6 +118,7 @@ namespace NetworkProfileManager
 
             if (!startMinimized)
                 _mainWindow.Show();
+            InitializeApplicationUpdates();
         }
 
         protected override void OnSessionEnding(SessionEndingCancelEventArgs e)
@@ -126,6 +132,9 @@ namespace NetworkProfileManager
             // Static event: detach or the handler outlives the app.
             SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
             _networkMonitor?.Dispose();
+            _updates?.Dispose();
+            _updateTimer?.Stop();
+            _updateTransport?.Dispose();
             _trayIcon?.Dispose();
             base.OnExit(e);
         }
@@ -297,14 +306,7 @@ namespace NetworkProfileManager
                 {
                     // Application.Shutdown bypasses cancellable owned-window closing.
                     // Protect the new project draft before retaining the existing exit flow.
-                    foreach (var apply in Windows.OfType<ProjectApplyWindow>().ToArray())
-                        if (!apply.ConfirmApplicationExit()) return;
-                    foreach (var project in Windows.OfType<ProjectWindow>().ToArray())
-                        if (!project.ConfirmApplicationExit()) return;
-                    if (_mainWindow != null && !_mainWindow.ConfirmApplicationExit()) return;
-                    IsExiting = true;
-                    _trayIcon!.Visible = false;
-                    Shutdown();
+                    if (ConfirmApplicationExit()) ExitApplication();
                 }));
 
             _trayPopup.Show();

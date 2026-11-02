@@ -1,6 +1,8 @@
-# Application updates — proposal and implementation preflight
+# Application updates — approved local contract
 
-2026-11-02, Asia/Tashkent. **PARTIALLY_APPROVED / PORTABLE_DECISION_PENDING**, UPD-01/02, ADR-053. Owner selected the signed-manifest trust model in this chat; portable strategy remains pending before implementation. Inspected fork https://github.com/Elguajo/AV-Network-Toolkit, clean `main` at `05cac3bf054f282d8e54fc39e28424b0a9dd5754`. No keys, shared-resource changes, installation, push or publication authorized. Phase 07 remains AWAITING_REVIEW; DATA-01 and Phase 08 are separate.
+2026-11-02, Asia/Tashkent. **APPROVED_LOCAL**, UPD-01/02/03, ADR-053. Owner selected signed manifests and a fresh portable folder retaining the old copy, completing the two architecture decisions. Initial inspection: fork https://github.com/Elguajo/AV-Network-Toolkit, clean `main` at `05cac3bf054f282d8e54fc39e28424b0a9dd5754`; proposal commit a75a3ac. Selected local implementation/testing follows. No production keys, shared-resource changes, actual installation, push or publication authorized. Phase 07 remains AWAITING_REVIEW; DATA-01 and Phase 08 are separate.
+
+Implementation/evidence: [local update review](../testing/APPLICATION_UPDATE_REVIEW.md). A configured production trust root and release signing integration remain required before automatic installation can be enabled in a distributed build. Current releases are unchanged.
 
 ## Observed system
 
@@ -54,11 +56,13 @@ Detect installed mode only when the fixed AppId's Windows uninstall entry and ca
 
 Reuse the interactive installer, stable AppId and discovered existing destination; pass only fixed documented parameters such as `/NORESTART`, not silent/force-close flags. No automatic relaunch in v1, preserving packaging behavior. Explain that the user starts the app again after the wizard finishes; launching the wizard is not reported as successful installation.
 
-Before launch, obtain the shared exit gate: resolve drafts through existing dialogs, block new local/project/tray/hotkey mutations, request cancellation of owned diagnostics/scanner/mDNS, wait for actual completion and durable recovery results. Timeout or refusal aborts the handoff; no process kill or new cancellation semantics for network mutations. A cancelled exit restores normal operation. Existing one-way NetworkMutationLease.Inhibit is for uncertain mutation state and cannot be reused as a reversible update lock.
+Before launch, obtain the shared exit gate: resolve drafts through existing dialogs, block new local/project/tray/hotkey mutations, stop owned diagnostics/mDNS and wait for actual completion and durable recovery results. Require an active scanner/monitor to be stopped explicitly rather than changing its legacy cancellation rules. Timeout or refusal aborts the handoff; no process kill or new cancellation semantics for network mutations. A cancelled exit restores normal operation. Existing one-way NetworkMutationLease.Inhibit is for uncertain mutation state and cannot be reused as a reversible update lock.
 
-After guards succeed, launch the verified interactive installer and then complete real app exit, including tray disposal. On UAC denial/launch failure, keep the app available and the verified download retryable. Retain installer busy-file rejection if another instance or an exit race keeps files occupied. A helper is not required for this proposed interactive first version; reliable waiting/silent install/relaunch would be additional scope. Validate launch/exit ordering in isolation. Do not advertise atomic installer rollback or guaranteed cross-version recovery.
+After guards succeed, copy the current packaged EXE and its existing native dependencies into the private job folder and start its explicit `--install-application-update` mode. This engineering refinement keeps the verified installer read-locked after parent exit; it downloads no helper code and adds no dependency/service. The helper runs before normal App startup, authenticates pipe PIDs and parent process start time, compares its EXE with the parent, re-verifies signature/version/package, and holds a per-job lease. A current-user-only pipe acknowledges the explicit install handoff. It then waits for actual parent exit, retains the package lock through installer execution and passes only the fixed destination and `/NORESTART` to the interactive wizard. After commitment, finish acknowledgment/exit rather than treating late Cancel as revocation of the authorized handoff.
 
-### Portable — owner choice pending
+UAC/install cancellation occurs after parent exit: original files remain available, a failure message/result is shown and the user starts the existing app again. Before commitment, failure/cancellation leaves the app open. Retain installer busy-file rejection for another instance; never force-close or automatically relaunch. Verify complete native bootstrap/UAC/locking behavior in the separately approved isolated Windows lab; local file-lock tests cannot certify Inno's process chain. Do not advertise transactional rollback or guaranteed cross-version recovery.
+
+### Portable — owner selected new folder
 
 **Recommended minimum:** after explicit destination selection, verify and extract into a newly created versioned folder. Reject current/application/data/project directories, existing nonempty targets, traversal, absolute/ADS/device paths, symlinks/reparse entries, duplicate or colliding names, and excessive entry count/expanded size. Extract only package-declared files. Publish the ready folder only after all files verify; failure leaves the current version usable. Display the exact new EXE location. After protected Exit, the user starts that EXE; do not copy settings into it or create an installed-app identity. Existing startup registration only follows the app's current enabled-path refresh behavior when the new copy is deliberately started; disclose the path change.
 
@@ -83,7 +87,7 @@ After guards succeed, launch the verified interactive installer and then complet
 | Regression/UI | Existing profile/scanner/history/revert/UAC tests; Release build; focused and full isolated unit suite; Light/Dark normal/minimum WPF captures, keyboard/errors/progress/cancel and supported English. No live NIC/traffic. |
 | Native/release gate | Separately approved isolated supported Windows: cross-source old-to-new upgrade, denied/accepted UAC, busy second process, installer failure, unchanged fixture user data and actual tray exit. Verify both same-source package payloads. Published signature/source/download checks only after publication authorization. |
 
-Investigation performed source inspection and read-only public metadata/documentation requests only. Application build/unit/native/install checks are **NOT RUN** for this proposal. Earlier 744-unit/package evidence belongs to 9e06c48 and is not evidence for an updater.
+Initial investigation performed source inspection and read-only public metadata/documentation requests only. Subsequent approved local build/unit/WPF/signing evidence is recorded in the linked review. Native installation/UAC remains **NOT RUN**. Earlier 744-unit/package evidence belongs to 9e06c48 and is not evidence for an updater.
 
 ## Primary documentation consulted
 

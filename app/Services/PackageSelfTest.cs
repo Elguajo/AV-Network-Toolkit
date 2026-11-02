@@ -42,6 +42,8 @@ internal static class PackageSelfTest
                 Success = success,
                 Version = typeof(PackageSelfTest).Assembly.GetName().Version?.ToString(),
                 InformationalVersion = typeof(PackageSelfTest).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion,
+                ReleaseChannel = ApplicationUpdateTrust.BuildChannel,
+                UpdatePublicKeySha256 = ApplicationUpdateTrust.PublicKeyFingerprint,
                 Runtime = RuntimeInformation.FrameworkDescription,
                 JsonValidated = success,
                 WpfRendered = success,
