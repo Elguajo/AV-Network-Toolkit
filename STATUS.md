@@ -1,5 +1,13 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Field profile switching — SWITCH-01 / ADR-055, 2026-11-02
+
+- Fork / branch / inspected base: https://github.com/Elguajo/AV-Network-Toolkit / main / `4f2f870b455fad8adfd06314f90ca92f9dfd40b2`, initially clean. Scoped local implementation/evidence commit follows; resolve via `git log -1 --format=%H -- app/Services/WindowsProjectApplyObservation.cs`.
+- Completed: causally reproduced empty filtered persistent-store/null route Protocol errors and empty-policy-container misclassification; corrected observer, reviewed DNS list preservation/known-empty recovery, source-only duplicate/APIPA handling, specific read/conflict feedback and regression fixtures. [Compatibility/evidence](docs/testing/PROFILE_SWITCHING_REVIEW.md). Passive read of current DHCP Ethernet succeeds with complete classification; no network settings changed.
+- In progress / blockers: final local portable packaging and exact-source checks; no native apply/UAC/recovery acceptance. Published/installed 1.1.6 unchanged, Phase 07 AWAITING_REVIEW; no push/release/Phase 08.
+- Tests last executed: Release solution/harness builds 0 warnings/errors, 902 full unit PASS/0 failed/skipped before final guard check; 18 observer fixtures in both shells, 128 existing + 12 focused WPF captures/0 binding errors. Initial duplicate resource failure retained and corrected. Final commands/results appended in handoff.
+- Next action: finish verified portable handoff; owner exits older app via tray Exit and checks explicit named-adapter confirmation in the corrected local build. Real network mutation by the agent remains separately gated.
+
 ## Release-note overhaul drafts — DOC-04, 2026-11-02
 
 - Fork / branch / inspected baseline: https://github.com/Elguajo/AV-Network-Toolkit / main / `314bf64e152f1eebefd48ecec88e2d551c255bf0`. Five actual published releases discovered: 1.1.1/1.1.2/1.1.3/1.1.5/1.1.6; local-only 1.1.4 unchanged. Scoped local documentation commit follows; resolve via `git log -1 --format=%H -- docs/testing/RELEASE_NOTES_OVERHAUL_REVIEW.md`.

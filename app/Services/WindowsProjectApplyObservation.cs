@@ -10,7 +10,9 @@ using NetworkProfileManager.Models;
 
 namespace NetworkProfileManager.Services;
 
-// Invoked only by the explicit Apply & Open window. No startup monitor or probe.
+internal sealed class ApplyObservationException : IOException { }
+
+// Explicit profile preparation/verification/recovery only; no startup monitor or probe.
 internal sealed class WindowsProjectApplyObservation
 {
     internal async Task<ImmutableArray<ApplyAdapterIdentity>> EnumerateAsync(CancellationToken cancellation)
@@ -61,17 +63,24 @@ internal sealed class WindowsProjectApplyObservation
             'HKLM:\SOFTWARE\Policies\Microsoft\Windows\DNSClient',
             'HKLM:\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters\DnsPolicyConfig',
             'HKLM:\SOFTWARE\Microsoft\PolicyManager\current\device\ADMX_DnsClient')) {
-          if (Test-Path -LiteralPath $p) { $complete = $false }
+          if (Test-Path -LiteralPath $p) {
+            $policyKey = Get-Item -LiteralPath $p
+            if ($policyKey.ValueCount -gt 0 -or $policyKey.SubKeyCount -gt 0) { $complete = $false }
+          }
         }
         if (@(Get-DnsClientNrptPolicy -Effective).Count -gt 0) { $complete = $false }
         if ($dhcp -and @($reg.IPAddress | Where-Object { $_ -and $_ -ne '0.0.0.0' }).Count -gt 0) { $complete = $false }
         $addresses = @()
         $persistent = @()
         foreach ($store in @('ActiveStore','PersistentStore')) {
-          $list = @(Get-NetIPAddress -AddressFamily IPv4 -PolicyStore $store | Where-Object InterfaceIndex -eq $idx)
+          # A filtered CIM query throws ObjectNotFound for a normally empty
+          # PersistentStore (e.g. DHCP). Enumerate, then filter without suppressing errors.
+          $list = @(Get-NetIPAddress -PolicyStore $store | Where-Object { $_.AddressFamily -eq 'IPv4' -and $_.InterfaceIndex -eq $idx })
           $out = @($list | Sort-Object IPAddress,PrefixLength | ForEach-Object {
             if ($_.SkipAsSource -or $_.Type.ToString() -ne 'Unicast') { $complete = $false }
-            if ($_.PrefixOrigin.ToString() -ne $_.SuffixOrigin.ToString()) { $complete = $false }
+            $fallback = $store -eq 'ActiveStore' -and $_.IPAddress -like '169.254.*' -and $_.PrefixLength -eq 16 -and
+              [string]$_.PrefixOrigin -eq 'WellKnown' -and [string]$_.SuffixOrigin -eq 'Link'
+            if (-not $fallback -and $_.PrefixOrigin.ToString() -ne $_.SuffixOrigin.ToString()) { $complete = $false }
             if ($_.PrefixOrigin.ToString() -eq 'Manual' -and
                 ($_.ValidLifetime.TotalSeconds -lt [uint32]::MaxValue -or $_.PreferredLifetime.TotalSeconds -lt [uint32]::MaxValue)) { $complete = $false }
             @{ Address=$_.IPAddress; PrefixLength=[int]$_.PrefixLength;
@@ -82,12 +91,18 @@ internal sealed class WindowsProjectApplyObservation
         $routes = @()
         foreach ($store in @('ActiveStore','PersistentStore')) {
           $label = 'active'; if ($store -eq 'PersistentStore') { $label='persistent' }
-          $routes += @(Get-NetRoute -AddressFamily IPv4 -PolicyStore $store | Where-Object InterfaceIndex -eq $idx |
+          $routes += @(Get-NetRoute -PolicyStore $store | Where-Object { $_.AddressFamily -eq 'IPv4' -and $_.InterfaceIndex -eq $idx } |
             Sort-Object DestinationPrefix,NextHop,RouteMetric | ForEach-Object {
+              $origin = ([string]$_.Protocol).ToLowerInvariant()
+              if (-not $origin) {
+                $origin = 'unknown'
+                if ($store -eq 'PersistentStore') { $origin = 'persistent' } else { $complete = $false }
+              }
               @{ Destination=$_.DestinationPrefix; NextHop=$_.NextHop; Metric=[int]$_.RouteMetric;
-                 Store=$label; Origin=$_.Protocol.ToString().ToLowerInvariant() }
+                 Store=$label; Origin=$origin }
             })
         }
+        if (-not $dhcp -and $rawDns.Count -eq 0 -and $dns.Count -eq 0) { $source = 'none' }
         @{ Identity=@{ Id=$guid.ToString(); InterfaceIndex=[int]$nic.InterfaceIndex;
              Alias=$nic.Name; PhysicalAddress=$nic.MacAddress }; Dhcp=$dhcp; Addresses=@($addresses);
            PersistentAddresses=@($persistent); DnsSource=$source; DnsServers=@($dns); Routes=@($routes);
@@ -113,13 +128,18 @@ internal sealed class WindowsProjectApplyObservation
             await process.WaitForExitAsync(timeout.Token);
             var output = await stdout;
             _ = await stderr;
-            if (process.ExitCode != 0 || output.Length > ProjectApplyWire.MaxBytes) throw new IOException("Observation unavailable.");
+            if (process.ExitCode != 0 || output.Length > ProjectApplyWire.MaxBytes) throw new ApplyObservationException();
             return output;
+        }
+        catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
+        {
+            try { process.Kill(true); } catch { }
+            throw;
         }
         catch
         {
             try { process.Kill(true); } catch { }
-            throw;
+            throw new ApplyObservationException();
         }
     }
 }

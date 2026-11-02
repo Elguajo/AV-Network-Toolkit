@@ -228,6 +228,7 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
         _cancellation = cancellation;
         try { await action(cancellation.Token); }
         catch (OperationCanceledException) { Status = Loc.Get("Apply.State.Cancelled"); }
+        catch (ApplyObservationException) { Status = Loc.Get("Apply.ObservationFailed"); }
         catch { Status = Loc.Get(IsLinkLocalTool ? "LinkLocal.Unsupported" : "Apply.Unsupported"); }
         finally { _cancellation = null; IsBusy = false; }
     }
@@ -237,14 +238,15 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
             ? Loc.Get(s.Dhcp ? "LinkLocal.Automatic" : s.Addresses.All(a => a.Origin == "manual")
                 ? "LinkLocal.Manual" : "LinkLocal.UnknownOrigin") : s.Dhcp ? "DHCP" : "Static IPv4")
         + "\n" + string.Join("\n", s.Addresses.Select(a => a.Address + "/" + a.PrefixLength + " (" + a.Origin + ", " + a.State + ")"))
-        + "\nDNS: " + s.DnsSource + " " + string.Join(", ", s.DnsServers)
+        + "\nDNS: " + (s.DnsSource == "none" ? Loc.Get("Apply.NoDns") : s.DnsSource) + " " + string.Join(", ", s.DnsServers)
         + "\n" + Loc.Get("Apply.DnsRegistration") + " " + s.DnsRegistration
         + (s.Dad == null ? "" : "\n" + Loc.Get("LinkLocal.DadObserved") + " " + s.Dad.Transmits + " / " + s.Dad.Connected)
         + "\n" + Loc.Get("Apply.Persistent") + " " + string.Join(", ", s.PersistentAddresses.Select(a => a.Address + "/" + a.PrefixLength))
-        + "\n" + Loc.Get("Apply.Routes") + "\n" + string.Join("\n", s.Routes.Select(r => r.Destination + " → " + r.NextHop + " (" + r.Metric + ", " + r.Store + ")"));
+        + "\n" + Loc.Get("Apply.Routes") + "\n" + string.Join("\n", s.Routes.Select(r => r.Destination + " → " + r.NextHop + " (" + r.Metric + ", " + r.Store + ")"))
+        + (s.Addresses.Any(a => a.State == "duplicate") ? "\n\n" + Loc.Get("Apply.SourceConflict") : "");
     internal static string FormatIntent(ApplyIntent d) => (d.Mode == "dhcp" ? "DHCP" : d.Address + "/" + d.PrefixLength)
         + "\n" + Loc.Get("EditBar.Gateway") + ": " + (d.Mode == "dhcp" ? Loc.Get("Project.DnsAutomatic") : d.Gateway ?? Loc.Get("Apply.None"))
-        + "\nDNS: " + d.DnsMode + " " + string.Join(", ", d.DnsServers);
+        + "\nDNS: " + (d.DnsMode == "none" ? Loc.Get("Apply.NoDns") : d.DnsMode) + " " + string.Join(", ", d.DnsServers);
     internal static string StateText(ProjectApplyState state) => state switch
     {
         ProjectApplyState.Complete => Loc.Get("Apply.State.Complete"),

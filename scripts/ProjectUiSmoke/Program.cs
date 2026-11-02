@@ -41,6 +41,13 @@ internal static partial class Program
         ApplyRenderTheme("Dark");
         try
         {
+            if (args.Contains("--profile-switching"))
+            {
+                RenderProfileSwitching(output);
+                if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
+                Console.WriteLine("PASS: 12 profile-switching Light/Dark normal/minimum reviews; explicit DNS, conflict warning, reachable confirmation; no mutations or binding errors.");
+                return 0;
+            }
             if (args.Contains("--prepare-package-storage"))
             {
                 PreparePackageStorage(output);

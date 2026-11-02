@@ -70,14 +70,17 @@ The current local/manual/tray and project flows share a conservative support con
 | State or field | Behavior |
 |---|---|
 | Supported single usable IPv4 and classified configuration | Review, confirmation, original snapshot, apply and observed verification |
-| DHCP with usable lease → static | Requires a supported source and explicit replacement DNS when necessary |
+| DHCP with usable lease → static | Empty profile DNS retains the reported DNS servers as a reviewed static list; explicit profile DNS replaces them. DHCP recovery restores automatic DNS policy |
 | Empty static gateway | Explicitly removes the supported default gateway; review shows the change |
-| Empty DNS in the local/manual static flow | Leaves DNS unchanged; does not erase it. Project static-DNS profiles require valid explicit DNS |
+| Empty DNS in a static profile | Preserves existing static DNS, including a known empty list. When leaving DHCP, freezes its currently reported servers in the confirmation; it never silently clears servers |
+| One duplicate configured static IPv4, optionally with Windows APIPA fallback | Can switch to another profile or DHCP. Original configured address and fallback remain in the journal; a duplicate result is never verified as success |
 | Secondary DNS without primary | Rejected |
 | No usable IPv4, APIPA/no lease, multiple addresses, /31–/32, noncontiguous mask | Blocked; profile/draft remains editable |
 | Static automatic DNS, managed/unknown DNS, complex routes or unknown persistent state | Blocked before mutation |
 
 See the [exact compatibility contract](spec/AUDIT_FIXES_CONTRACT.md) for supported transitions. Do not bypass a refusal to apply to a production adapter.
+
+The profile-switching changes above are a **local correction after published 1.1.6**, documented in [SWITCH-01](testing/PROFILE_SWITCHING_REVIEW.md). A persistent default route without a reported protocol is accepted only with a matching active ordinary route. Empty DNS-policy registry containers are not treated as configured policy; populated policy remains blocking.
 
 New local history identifies the exact private recovery journal, including the supported original DNS policy. Recovery requires a new deliberate review and confirmation. A missing, invalid or wrong-adapter journal blocks full recovery. Older history explicitly offers only its limited recorded state or DHCP policy, not complete historical restoration.
 

@@ -1,5 +1,9 @@
 # Traceable task backlog
 
+## Field profile-switching correction — 2026-11-02
+
+- [ ] **SWITCH-01** — Fix ordinary Windows adapter observation and empty-DNS/profile transitions after the owner's failure report. **AC:** reproduce empty persistent-store/null route protocol/empty policy-container defects; source-only duplicate/APIPA handling; reviewed DNS preservation/known-empty recovery; strict target verification, journal/consent/identity, fake-worker negative coverage, full unit/WPF/tooling checks and local portable artifact. **State:** IN_PROGRESS — code and isolated checks implemented; [evidence/compatibility and retained failures](docs/testing/PROFILE_SWITCHING_REVIEW.md). Local packaging/final verification pending; no native mutation, push/release or phase acceptance.
+
 ## Release-note overhaul — 2026-11-02
 
 - [x] **DOC-04** — Audit and prepare standardized descriptions for every published release, with a reusable template and review packet. **AC:** current API inventory/full originals, per-version verified features/limits/history, actual assets/checksums, all included links/media/rendering, second editorial pass and protected-source/live-release preservation; stop before external publication. **State:** VALIDATED_DRAFTS / OWNER_REVIEW_PENDING — five drafts (1.1.1/1.1.2/1.1.3/1.1.5/1.1.6), 60 URLs/20 asset links/10 GFM viewport checks PASS; [report and pending approval/publication checklist](docs/testing/RELEASE_NOTES_OVERHAUL_REVIEW.md), [template](templates/RELEASE_NOTES.md). Existing live descriptions and 1.1.4 unchanged. Issues/Discussions disabled; no settings changed. This checkbox completes preparation only, not publication or Phase 07 acceptance.

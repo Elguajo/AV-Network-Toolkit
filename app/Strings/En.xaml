@@ -358,6 +358,10 @@
   <sys:String x:Key="Apply.ManualRecovery">Changes may be partial. Review recovery explicitly. If blocked, use Windows adapter IPv4 settings with the original snapshot; automatic recovery is not performed. DHCP recovery restores automatic policy, not the previous lease.</sys:String>
   <sys:String x:Key="Apply.Recovered">Supported recovery settings verified. No browser was opened. DHCP leases may differ.</sys:String>
   <sys:String x:Key="Apply.Unsupported">Cannot prepare this operation. Select the intended adapter and a valid linked profile. Complex/unknown IPv4 state, custom routes, managed DNS, static automatic DNS and /31–/32 are blocked before changes. Review the original settings and use Windows settings for unsupported recovery.</sys:String>
+  <sys:String x:Key="Apply.ObservationFailed">Windows adapter settings could not be read. Nothing was applied. Refresh the adapter and retry; if this repeats, report the adapter-reading error.</sys:String>
+  <sys:String x:Key="Apply.NoDns">No IPv4 DNS servers (explicitly configured)</sys:String>
+  <sys:String x:Key="Apply.SourceConflict">Windows reports an IP address conflict in the current configuration. You can switch to another profile or DHCP. Recovery restores the configured settings; it cannot resolve a conflict with another device.</sys:String>
+  <sys:String x:Key="Apply.AddressConflict">Windows detected an IP address conflict. The requested settings were not verified. Choose an unused address or DHCP; the original recovery snapshot is retained.</sys:String>
   <sys:String x:Key="Apply.ObservationUnknown">Actual adapter state could not be read. Treat any attempted changes as unverified.</sys:String>
   <sys:String x:Key="Apply.Stage">Stage:</sys:String>
   <sys:String x:Key="Apply.Persistent">Persistent IPv4:</sys:String>

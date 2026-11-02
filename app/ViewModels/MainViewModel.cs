@@ -227,7 +227,7 @@ namespace NetworkProfileManager.ViewModels
                     if (recovery == null)
                     {
                         var before = result.Request.Before;
-                        var address = before.Addresses.Single();
+                        var address = ProjectApplyPolicy.ConfiguredAddress(before);
                         int mask = unchecked((int)(uint.MaxValue << (32 - address.PrefixLength)));
                         var entry = new HistoryEntry
                         {
@@ -246,10 +246,12 @@ namespace NetworkProfileManager.ViewModels
                         NotificationService.Warning(Loc.Get("LocalApply.HistoryFailed"));
                     else NotificationService.Success(Loc.Get(recovery == null ? "LocalApply.Verified" : recovery.RecoveryOperationId == null ? "LocalApply.AddressOnlyRestored" : "Apply.Recovered"));
                 }
-                else NotificationService.Error(ProjectApplyViewModel.StateText(result.Outcome.State) + "\n" + Loc.Get("Apply.ManualRecovery"));
+                else NotificationService.Error((result.Outcome.Stage == "AddressConflict" ? Loc.Get("Apply.AddressConflict") : ProjectApplyViewModel.StateText(result.Outcome.State))
+                    + "\n" + Loc.Get("Apply.ManualRecovery"));
                 Refresh();
             }
             catch (LocalApplyBlockedException error) { NotificationService.Error(Loc.Get(error.Code)); }
+            catch (ApplyObservationException) { NotificationService.Error(Loc.Get("Apply.ObservationFailed")); }
             catch (OperationCanceledException) { NotificationService.Info(Loc.Get("Apply.State.Cancelled")); }
             catch { NotificationService.Error(Loc.Get("Apply.Unsupported")); }
             finally { _applyCancellation = null; IsLoading = false; }

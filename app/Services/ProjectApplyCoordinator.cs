@@ -68,6 +68,7 @@ public sealed class ProjectApplyCoordinator(
             cancellation.ThrowIfCancellationRequested();
             var before = await boundary.ReadAsync(identity, cancellation);
             if (before.Identity != identity) throw new InvalidOperationException("Adapter changed.");
+            desired = ProjectApplyPolicy.ResolveIntent(before, desired);
             boundary.ValidateSupported(before, desired, recovery);
             cancellation.ThrowIfCancellationRequested();
             var request = new ProjectApplyRequest(1, Guid.NewGuid(), _time.GetUtcNow().AddMinutes(2), before, desired, recovery);
@@ -153,7 +154,9 @@ public sealed class ProjectApplyCoordinator(
             else if (execution.Status != ApplyExecutionStatus.Finished)
                 outcome = End(ProjectApplyState.ApplyFailed, execution.MayHaveChanged, observed, execution.Stage);
             else if (observed == null || !ProjectApplyVerification.Matches(request, observed))
-                outcome = End(ProjectApplyState.Unverified, execution.MayHaveChanged, observed, "Verification");
+                outcome = End(ProjectApplyState.Unverified, execution.MayHaveChanged, observed,
+                    observed?.Addresses.Any(a => a.Address == request.Desired.Address && a.State == "duplicate") == true
+                        ? "AddressConflict" : "Verification");
             else
             {
                 State = ProjectApplyState.Verified;
@@ -233,6 +236,7 @@ internal static class ProjectApplyVerification
         {
             "static" => actual.DnsSource == "static" && actual.DnsServers.SequenceEqual(desired.DnsServers),
             "automatic" => actual.DnsSource == "automatic",
+            "none" => actual.DnsSource == "none" && actual.DnsServers.Length == 0,
             "leave-unchanged" => actual.DnsSource == request.Before.DnsSource
                 && actual.DnsServers.SequenceEqual(request.Before.DnsServers),
             _ => false
