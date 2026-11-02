@@ -57,14 +57,15 @@ internal static class ProjectApplyPolicy
     }
 
     internal static void ValidateSnapshot(ApplyAdapterSnapshot s, bool allowTransient = false, bool allowLinkLocal = false,
-        bool restoringDhcp = false)
+        bool restoringDhcp = false, bool allowDhcpWithoutLease = false)
     {
+        var noLease = allowDhcpWithoutLease && IsDhcpWithoutLease(s);
         if (s == null || s.Identity == null || s.Identity.Id == Guid.Empty || s.Identity.InterfaceIndex <= 0
             || string.IsNullOrWhiteSpace(s.Identity.Alias) || s.Identity.Alias.Length > 256
             || s.Identity.Alias.Any(char.IsControl) || s.Identity.PhysicalAddress == null
             || !s.ClassificationComplete || s.Addresses.IsDefault || s.PersistentAddresses.IsDefault
             || s.DnsServers.IsDefault || s.Routes.IsDefault || s.Addresses.Length > 1 || s.PersistentAddresses.Length > 1
-            || (!allowTransient && s.Addresses.Length != 1) || s.Routes.Length > 32)
+            || (!allowTransient && !noLease && s.Addresses.Length != 1) || s.Routes.Length > 32)
             throw new InvalidOperationException("Unsupported or unknown adapter state.");
         ValidateDns(s.DnsSource, s.DnsServers, observed: true);
         if (s.Dhcp && s.DnsSource == "none") throw new InvalidOperationException("Invalid DHCP DNS policy.");
@@ -73,8 +74,8 @@ internal static class ProjectApplyPolicy
         {
             var manualLinkLocal = allowLinkLocal && !s.Dhcp && LinkLocalAddressing.IsCandidate(a.Address)
                 && a.PrefixLength == 16 && a.Origin == "manual";
-            if ((!Usable(a.Address) && !manualLinkLocal) || a.PrefixLength < 1 || a.PrefixLength > 30 || !HostInSubnet(a.Address, a.Address, a.PrefixLength)
-                || (a.Origin != "manual" && a.Origin != "dhcp")
+            if ((!Usable(a.Address) && !manualLinkLocal && !noLease) || a.PrefixLength < 1 || a.PrefixLength > 30 || !HostInSubnet(a.Address, a.Address, a.PrefixLength)
+                || (a.Origin != "manual" && a.Origin != "dhcp" && !noLease)
                 ) throw new InvalidOperationException("Unsupported address.");
         }
         if (!allowTransient && s.Addresses.Any(a => a.State != "preferred")) throw new InvalidOperationException("Address not ready.");
@@ -90,7 +91,7 @@ internal static class ProjectApplyPolicy
             if (!allowTransient && (s.PersistentAddresses.Length != 1 || !SameAddress(s.Addresses[0], s.PersistentAddresses[0])
                 || s.Addresses[0].Origin != "manual")) throw new InvalidOperationException("Unknown persistent address.");
         }
-        else if (s.PersistentAddresses.Any(a => a.Origin == "manual") || s.Addresses.Any(a => a.Origin != "dhcp"))
+        else if (s.PersistentAddresses.Any(a => a.Origin == "manual") || s.Addresses.Any(a => a.Origin != "dhcp" && !noLease))
             throw new InvalidOperationException("DHCP alternate address unsupported.");
 
         foreach (var r in s.Routes)
@@ -123,7 +124,7 @@ internal static class ProjectApplyPolicy
 
     internal static ApplyIntent RecoveryIntent(ApplyAdapterSnapshot snapshot)
     {
-        ValidateSnapshot(SourceConfiguration(snapshot), allowLinkLocal: true);
+        ValidateSnapshot(SourceConfiguration(snapshot), allowLinkLocal: true, allowDhcpWithoutLease: true);
         if (snapshot.Dhcp) return new("dhcp", null, 0, null, snapshot.DnsSource,
             snapshot.DnsSource == "automatic" ? ImmutableArray<string>.Empty : snapshot.DnsServers, DnsRegistration: snapshot.DnsRegistration);
         var a = ConfiguredAddress(snapshot);
@@ -137,7 +138,8 @@ internal static class ProjectApplyPolicy
     {
         ValidateIntent(desired, recovery);
         ValidateSnapshot(SourceConfiguration(snapshot), allowTransient: recovery,
-            allowLinkLocal: recovery || desired.Mode is "link-local" or "dhcp", restoringDhcp: recovery && desired.Mode == "dhcp");
+            allowLinkLocal: recovery || desired.Mode is "link-local" or "dhcp", restoringDhcp: recovery && desired.Mode == "dhcp",
+            allowDhcpWithoutLease: desired.Mode is "static" or "dhcp");
         if (!recovery && desired.DnsMode == "none" && snapshot.DnsServers.Length != 0)
             throw new InvalidOperationException("Empty profile DNS cannot clear existing servers.");
         if (desired.Mode is "static" or "link-local" && desired.DnsMode == "leave-unchanged" && snapshot.DnsSource == "automatic")
@@ -155,6 +157,16 @@ internal static class ProjectApplyPolicy
 
     internal static ApplyAddress ConfiguredAddress(ApplyAdapterSnapshot snapshot) =>
         snapshot.Addresses.Single(a => a.Origin != "wellknown");
+
+    // A recoverable automatic policy, not a usable DHCP lease. Do not accept
+    // alternate static configuration, multiple addresses or a default gateway.
+    internal static bool IsDhcpWithoutLease(ApplyAdapterSnapshot? s) =>
+        s is { Dhcp: true, Dad: { Connected: true, Transmits: > 0 } }
+        && !s.Addresses.IsDefault && !s.PersistentAddresses.IsDefault && !s.Routes.IsDefault
+        && s.PersistentAddresses.Length == 0 && s.Addresses.Length <= 1
+        && s.Addresses.All(a => a.Origin == "wellknown" && a.State == "preferred"
+            && a.PrefixLength == 16 && LinkLocalAddressing.IsCandidate(a.Address))
+        && !s.Routes.Any(r => r.Destination == "0.0.0.0/0");
 
     private static ApplyAdapterSnapshot SourceConfiguration(ApplyAdapterSnapshot snapshot)
     {

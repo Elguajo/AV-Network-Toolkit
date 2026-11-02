@@ -360,6 +360,9 @@
   <sys:String x:Key="Apply.Unsupported">Cannot prepare this operation. Select the intended adapter and a valid linked profile. Complex/unknown IPv4 state, custom routes, managed DNS, static automatic DNS and /31–/32 are blocked before changes. Review the original settings and use Windows settings for unsupported recovery.</sys:String>
   <sys:String x:Key="Apply.ObservationFailed">Windows adapter settings could not be read. Nothing was applied. Refresh the adapter and retry; if this repeats, report the adapter-reading error.</sys:String>
   <sys:String x:Key="Apply.NoDns">No IPv4 DNS servers (explicitly configured)</sys:String>
+  <sys:String x:Key="Apply.NoLeaseReview">DHCP is enabled but no lease is available. This profile can replace automatic addressing. Restoring DHCP restores the policy; it may select a different automatic address while waiting for a server.</sys:String>
+  <sys:String x:Key="Apply.DhcpPolicyVerified">DHCP policy is configured. No lease is available yet; waiting for a DHCP server. Connectivity has not been verified.</sys:String>
+  <sys:String x:Key="Apply.Stage.DhcpPolicyVerified">DHCP policy configured; waiting for a lease</sys:String>
   <sys:String x:Key="Apply.SourceConflict">Windows reports an IP address conflict in the current configuration. You can switch to another profile or DHCP. Recovery restores the configured settings; it cannot resolve a conflict with another device.</sys:String>
   <sys:String x:Key="Apply.AddressConflict">Windows detected an IP address conflict. The requested settings were not verified. Choose an unused address or DHCP; the original recovery snapshot is retained.</sys:String>
   <sys:String x:Key="Apply.ObservationUnknown">Actual adapter state could not be read. Treat any attempted changes as unverified.</sys:String>
@@ -577,7 +580,7 @@
   <sys:String x:Key="LocalApply.PrimaryDnsRequired">Enter primary DNS before secondary DNS. No network settings were changed.</sys:String>
   <sys:String x:Key="LocalApply.AdapterChanged">The selected adapter or its saved recovery identity is unavailable. Select and review the intended adapter again.</sys:String>
   <sys:String x:Key="LocalApply.UnknownState">Windows could not fully classify the adapter policy or persistent settings. Nothing was applied. Check managed DNS, policy and adapter state before retrying.</sys:String>
-  <sys:String x:Key="LocalApply.AddressState">Verified apply requires one usable, preferred IPv4 address. No address, APIPA, multiple addresses or an unsupported source is currently blocked. No settings were changed.</sys:String>
+  <sys:String x:Key="LocalApply.AddressState">The adapter's addressing state is not supported for this operation. Multiple configured addresses, alternate configuration, unready addresses or unclassified automatic addressing are blocked. Ordinary connected DHCP/APIPA can switch to a static profile or DHCP. No settings were changed.</sys:String>
   <sys:String x:Key="LocalApply.AutomaticDns">This transition cannot safely retain automatic DNS on a static address. Enter explicit static DNS when switching from DHCP, or use DHCP. No settings were changed.</sys:String>
   <sys:String x:Key="LocalApply.ComplexState">The adapter has routes, DNS policy or address settings outside the supported recovery contract. Nothing was applied; review its configuration before retrying.</sys:String>
   <sys:String x:Key="LocalApply.OldHistory">This older history entry has no full recovery snapshot. Only its recorded address settings (or DHCP policy) can be restored. Original DNS, routes and lease values are unknown. Review exactly what will change below.</sys:String>

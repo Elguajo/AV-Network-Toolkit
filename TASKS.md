@@ -2,6 +2,8 @@
 
 ## Field profile-switching correction — 2026-11-02
 
+- [ ] **SWITCH-02** — Complete the field correction for ordinary connected DHCP/APIPA or no-address → static profile with gateway and empty DNS; retain original policy/history and explicit DHCP-without-lease result without opening a browser. **State:** IN_PROGRESS — 922 unit PASS, 20 observer fixtures per shell/148 renders PASS; local packaging and handoff pending. [Contract/evidence and prior-source red reproduction](docs/testing/APIPA_PROFILE_SWITCHING_REVIEW.md). No real settings, profile edits, push/release or phase advancement.
+
 - [x] **SWITCH-01** — Fix ordinary Windows adapter observation and empty-DNS/profile transitions after the owner's failure report. **AC:** reproduce empty persistent-store/null route protocol/empty policy-container defects; source-only duplicate/APIPA handling; reviewed DNS preservation/known-empty recovery; strict target verification, journal/consent/identity, fake-worker negative coverage, full unit/WPF/tooling checks and local portable artifact. **State:** VERIFIED_LOCAL — source e3315a2, 902 unit/18 observer fixtures per shell/12 tooling PASS, builds 0 warnings/errors, 128 existing + 12 focused WPF captures/0 binding errors; self-contained portable diagnostic/source/8 ZIP-file hashes verified. [Evidence/compatibility and retained failures](docs/testing/PROFILE_SWITCHING_REVIEW.md). Native apply/UAC/recovery and owner acceptance remain UNVERIFIED; no push/release or phase acceptance.
 
 ## Release-note overhaul — 2026-11-02

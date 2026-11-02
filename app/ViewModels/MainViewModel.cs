@@ -227,12 +227,12 @@ namespace NetworkProfileManager.ViewModels
                     if (recovery == null)
                     {
                         var before = result.Request.Before;
-                        var address = ProjectApplyPolicy.ConfiguredAddress(before);
-                        int mask = unchecked((int)(uint.MaxValue << (32 - address.PrefixLength)));
+                        var address = before.Dhcp ? before.Addresses.SingleOrDefault() : ProjectApplyPolicy.ConfiguredAddress(before);
+                        int mask = address == null ? 0 : unchecked((int)(uint.MaxValue << (32 - address.PrefixLength)));
                         var entry = new HistoryEntry
                         {
                             AdapterId = before.Identity.Id.ToString(), AdapterName = before.Identity.Alias,
-                            OldIp = address.Address, OldSubnet = new System.Net.IPAddress(BitConverter.GetBytes(System.Net.IPAddress.HostToNetworkOrder(mask))).ToString(),
+                            OldIp = address?.Address ?? "", OldSubnet = address == null ? "" : new System.Net.IPAddress(BitConverter.GetBytes(System.Net.IPAddress.HostToNetworkOrder(mask))).ToString(),
                             OldGateway = before.Routes.SingleOrDefault(r => r.Store == "active" && r.Destination == "0.0.0.0/0")?.NextHop ?? "",
                             NewIp = result.Request.Desired.Mode == "dhcp" ? "DHCP" : result.Request.Desired.Address!,
                             WasDhcp = before.Dhcp, IsDhcp = result.Request.Desired.Mode == "dhcp", ProfileName = profileName,
@@ -244,7 +244,8 @@ namespace NetworkProfileManager.ViewModels
                     }
                     if (historyFailed || result.Outcome.JournalUpdateFailed)
                         NotificationService.Warning(Loc.Get("LocalApply.HistoryFailed"));
-                    else NotificationService.Success(Loc.Get(recovery == null ? "LocalApply.Verified" : recovery.RecoveryOperationId == null ? "LocalApply.AddressOnlyRestored" : "Apply.Recovered"));
+                    else NotificationService.Success(Loc.Get(result.Outcome.Stage == "DhcpPolicyVerified" ? "Apply.DhcpPolicyVerified"
+                        : recovery == null ? "LocalApply.Verified" : recovery.RecoveryOperationId == null ? "LocalApply.AddressOnlyRestored" : "Apply.Recovered"));
                 }
                 else NotificationService.Error((result.Outcome.Stage == "AddressConflict" ? Loc.Get("Apply.AddressConflict") : ProjectApplyViewModel.StateText(result.Outcome.State))
                     + "\n" + Loc.Get("Apply.ManualRecovery"));

@@ -2,6 +2,8 @@
 
 Current bounded amendment: [SWITCH-01 / ADR-055](../testing/PROFILE_SWITCHING_REVIEW.md), 2026-11-02, corrects ordinary Windows observation and extends empty-DNS/duplicate-source transitions after the owner's failed real-use report. Its explicit compatibility matrix supersedes the corresponding blocked rows below for current local source only; historical A26/release evidence stays attributed to its source.
 
+[SWITCH-02 / ADR-056](../testing/APIPA_PROFILE_SWITCHING_REVIEW.md) further permits classified connected DHCP/APIPA/no-address sources for static/DHCP operations. Browser-free DHCP policy completion is separate from a usable lease and never enables browser opening. It supersedes the corresponding no-lease blocks below only; manual Link-Local rules, unknown/alternate/complex-state blocks and historical evidence remain.
+
 2026-11-01, main, Phase 07 AWAITING_REVIEW. Owner requested “Исправь все что нашел” after the [eight-finding audit](../testing/REPOSITORY_AUDIT_2026-11-01.md). This authorizes the scoped local remediation, including the runtime and inherited privilege boundary. No push, release, native networking, VM mutation or phase completion. ADR-047 records the decision.
 
 ## Scope and compatibility

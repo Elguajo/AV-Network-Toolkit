@@ -138,7 +138,8 @@ public sealed class ProjectApplyCoordinator(
                     try
                     {
                         observed = await boundary.ReadAsync(request.Before.Identity, observationTimeout.Token);
-                        if (execution.Status != ApplyExecutionStatus.Finished || ProjectApplyVerification.Matches(request, observed)) break;
+                        if (execution.Status != ApplyExecutionStatus.Finished || ProjectApplyVerification.Matches(request, observed)
+                            || plan.Destination == null && ProjectApplyVerification.MatchesDhcpPolicyWithoutLease(request, observed)) break;
                         if (attempt + 1 < verificationAttempts)
                             await Task.Delay(TimeSpan.FromMilliseconds(500), _time, observationTimeout.Token);
                     }
@@ -153,6 +154,8 @@ public sealed class ProjectApplyCoordinator(
                 outcome = End(ProjectApplyState.Cancelled, execution.MayHaveChanged, observed, execution.Stage);
             else if (execution.Status != ApplyExecutionStatus.Finished)
                 outcome = End(ProjectApplyState.ApplyFailed, execution.MayHaveChanged, observed, execution.Stage);
+            else if (observed != null && plan.Destination == null && ProjectApplyVerification.MatchesDhcpPolicyWithoutLease(request, observed))
+                outcome = End(ProjectApplyState.Complete, execution.MayHaveChanged, observed, "DhcpPolicyVerified");
             else if (observed == null || !ProjectApplyVerification.Matches(request, observed))
                 outcome = End(ProjectApplyState.Unverified, execution.MayHaveChanged, observed,
                     observed?.Addresses.Any(a => a.Address == request.Desired.Address && a.State == "duplicate") == true
@@ -209,6 +212,18 @@ public sealed class ProjectApplyCoordinator(
 
 internal static class ProjectApplyVerification
 {
+    // Only the coordinator's browser-free branch may use this narrower result.
+    internal static bool MatchesDhcpPolicyWithoutLease(ProjectApplyRequest request, ApplyAdapterSnapshot actual)
+    {
+        var d = request.Desired;
+        if (d.Mode != "dhcp" || !ProjectApplyPolicy.IsDhcpWithoutLease(actual) || !actual.ClassificationComplete
+            || actual.Identity != request.Before.Identity || actual.DnsSource != d.DnsMode
+            || actual.DnsRegistration != (d.DnsRegistration ?? request.Before.DnsRegistration)) return false;
+        try { ProjectApplyPolicy.ValidateSnapshot(actual, allowDhcpWithoutLease: true); }
+        catch { return false; }
+        return d.DnsMode == "automatic" || d.DnsMode == "static" && actual.DnsServers.SequenceEqual(d.DnsServers);
+    }
+
     internal static bool Matches(ProjectApplyRequest request, ApplyAdapterSnapshot actual)
     {
         var desired = request.Desired;

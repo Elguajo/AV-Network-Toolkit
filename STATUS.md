@@ -1,5 +1,12 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## DHCP/APIPA field continuation — SWITCH-02 / ADR-056, 2026-11-02
+
+- Fork / branch / inspected base: https://github.com/Elguajo/AV-Network-Toolkit / main / `941e0cc9aa68a207839c2056d6033fa2d9a601a5`. Clean starting tree; prior SWITCH-01 source e3315a2 preserved. Implementation commit follows; resolve via `git log -1 --format=%H -- app/Services/ProjectApplyPolicy.cs`.
+- Completed: source-only connected DHCP/APIPA/no-address→static support, strict static/browser verification, exact original policy/no-address history, explicit browser-free DHCP-policy result while awaiting a lease, localized review/result feedback and regressions. [Contract and evidence](docs/testing/APIPA_PROFILE_SWITCHING_REVIEW.md). Saved user profiles and settings not changed.
+- Tests last executed: 922 full unit PASS/0 failed/skipped, Release solution/harness builds 0 warnings/errors; 20 observer fixtures per shell; 20 focused + 128 existing WPF captures/0 binding errors. Six expected prior-source failures retained. Final documentation/package checks follow.
+- In progress / blockers / next action: prepare new exact-source local portable, preserve old folder; owner reviews explicit target/settings. Native UAC/apply/renewal/recovery UNVERIFIED, no live tests by the agent. Phase 07 AWAITING_REVIEW; installed/public 1.1.6 unchanged, no push/release or Phase 08.
+
 ## Field profile switching — SWITCH-01 / ADR-055, 2026-11-02
 
 - Fork / branch / inspected base: https://github.com/Elguajo/AV-Network-Toolkit / main / `4f2f870b455fad8adfd06314f90ca92f9dfd40b2`, initially clean. Exact implementation/package source **`e3315a22b38d048266109bc24350ac29c13a2c33`**. Evidence-only commit follows; resolve via `git log -1 --format=%H -- docs/testing/PROFILE_SWITCHING_REVIEW.md`.

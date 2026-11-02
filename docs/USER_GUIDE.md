@@ -74,13 +74,17 @@ The current local/manual/tray and project flows share a conservative support con
 | Empty static gateway | Explicitly removes the supported default gateway; review shows the change |
 | Empty DNS in a static profile | Preserves existing static DNS, including a known empty list. When leaving DHCP, freezes its currently reported servers in the confirmation; it never silently clears servers |
 | One duplicate configured static IPv4, optionally with Windows APIPA fallback | Can switch to another profile or DHCP. Original configured address and fallback remain in the journal; a duplicate result is never verified as success |
+| Connected, classified DHCP with ordinary APIPA or no IPv4 yet | Can switch to static/DHCP with enabled DAD and no persistent/alternate addresses or custom/default routes. Original automatic policy is retained for recovery |
+| DHCP configured but no server supplies a lease | Browser-free apply/recovery reports policy configured and waiting for a lease. Apply & Open still needs a usable lease before opening the device |
 | Secondary DNS without primary | Rejected |
-| No usable IPv4, APIPA/no lease, multiple addresses, /31–/32, noncontiguous mask | Blocked; profile/draft remains editable |
+| Unclassified/unready or multiple configured IPv4, unsupported alternate/static state, /31–/32, noncontiguous mask | Blocked; profile/draft remains editable |
 | Static automatic DNS, managed/unknown DNS, complex routes or unknown persistent state | Blocked before mutation |
 
 See the [exact compatibility contract](spec/AUDIT_FIXES_CONTRACT.md) for supported transitions. Do not bypass a refusal to apply to a production adapter.
 
 The profile-switching changes above are a **local correction after published 1.1.6**, documented in [SWITCH-01](testing/PROFILE_SWITCHING_REVIEW.md). A persistent default route without a reported protocol is accepted only with a matching active ordinary route. Empty DNS-policy registry containers are not treated as configured policy; populated policy remains blocking.
+
+[SWITCH-02](testing/APIPA_PROFILE_SWITCHING_REVIEW.md) completes the ordinary DHCP/APIPA source case that the first correction still blocked. Restoring DHCP restores its policy, not the old APIPA address; no connectivity claim is made while awaiting a lease. Existing manually assigned Link-Local action retains its separate source/DNS rules.
 
 New local history identifies the exact private recovery journal, including the supported original DNS policy. Recovery requires a new deliberate review and confirmation. A missing, invalid or wrong-adapter journal blocks full recovery. Older history explicitly offers only its limited recorded state or DHCP policy, not complete historical restoration.
 

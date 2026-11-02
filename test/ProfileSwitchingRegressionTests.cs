@@ -1,5 +1,6 @@
 using System.Collections.Immutable;
 using NetworkProfileManager.Models;
+using NetworkProfileManager.Helpers;
 using NetworkProfileManager.Services;
 using NetworkProfileManager.ViewModels;
 
@@ -16,7 +17,7 @@ public sealed class ProfileSwitchingRegressionTests : IDisposable
         internal ApplyAdapterSnapshot Current = ProjectApplyTests.Snapshot();
         internal ProjectApplyRequest? Saved;
         internal int Executes, Begins, Opens;
-        internal bool Conflict;
+        internal bool Conflict, ReturnWithoutLease;
         public Task<ApplyAdapterSnapshot> ReadAsync(ApplyAdapterIdentity id, CancellationToken ct) => Task.FromResult(Current);
         public void ValidateSupported(ApplyAdapterSnapshot s, ApplyIntent d, bool recovery) => ProjectApplyPolicy.ValidateTransition(s, d, recovery);
         public async Task<ApplyExecutionResult> ExecuteAsync(ProjectApplyRequest request, CancellationToken ct)
@@ -27,6 +28,9 @@ public sealed class ProfileSwitchingRegressionTests : IDisposable
             if (result.Status == ApplyExecutionStatus.Finished)
             {
                 Current = ProjectApplyTests.Applied(Current, request.Desired);
+                if (ReturnWithoutLease && request.Desired.Mode == "dhcp")
+                    Current = WithoutLease() with { Identity = Current.Identity, DnsSource = request.Desired.DnsMode,
+                        DnsServers = request.Desired.DnsServers, DnsRegistration = Current.DnsRegistration };
                 if (Conflict) Current = Current with { Addresses = Current.Addresses.Select(a => a with { State = "duplicate" }).ToImmutableArray() };
             }
             return result;
@@ -170,5 +174,139 @@ public sealed class ProfileSwitchingRegressionTests : IDisposable
         var s = Duplicate(false);
         s = s with { Routes = s.Routes.Where(r => r.Store == "persistent").ToImmutableArray() };
         Assert.Throws<InvalidOperationException>(() => ProjectApplyPolicy.ValidateTransition(s, EmptyDns(), recovery: true));
+    }
+
+    private static ApplyAdapterSnapshot WithoutLease(bool apipa = true) => Dhcp(false) with
+    {
+        Addresses = apipa ? ImmutableArray.Create(new ApplyAddress("169.254.42.10", 16, "wellknown", "preferred")) : ImmutableArray<ApplyAddress>.Empty,
+        Routes = apipa ? ImmutableArray.Create(
+            new ApplyRoute("169.254.0.0/16", "0.0.0.0", 256, "active", "local"),
+            new ApplyRoute("169.254.42.10/32", "0.0.0.0", 256, "active", "local"),
+            new ApplyRoute("169.254.255.255/32", "0.0.0.0", 256, "active", "local")) : ImmutableArray<ApplyRoute>.Empty,
+        Dad = new(1, true)
+    };
+
+    [Theory]
+    [InlineData(true)][InlineData(false)]
+    public async Task NoLeaseToStaticWithGatewayAndEmptyDnsThenRestoreDhcpWithoutAServer(bool apipa)
+    {
+        var s = new Surface { Current = WithoutLease(apipa), ReturnWithoutLease = true };
+        var original = s.Current; var c = s.Coordinator();
+        var plan = await c.PrepareProfileAsync(original.Identity, EmptyDns() with { Gateway = "192.0.2.1" });
+        Assert.Equal(original, plan.Request.Before); Assert.Equal("none", plan.Request.Desired.DnsMode);
+        Assert.Equal(0, s.Executes); Assert.Equal(0, s.Begins);
+        var commands = ProjectApplyPolicy.Commands(plan.Request);
+        Assert.Contains("gateway=192.0.2.1", commands[0]); Assert.Contains("address=none", commands[1]);
+        var result = await c.ExecuteAsync(plan);
+        Assert.Equal(ProjectApplyState.Complete, result.State); Assert.Equal(original, s.Saved!.Before);
+        var recovery = await c.PrepareRecoveryAsync(original);
+        Assert.Equal("dhcp", recovery.Request.Desired.Mode);
+        var restored = await c.ExecuteAsync(recovery);
+        Assert.Equal(ProjectApplyState.Complete, restored.State); Assert.Equal("DhcpPolicyVerified", restored.Stage);
+        Assert.True(s.Current.Dhcp); Assert.Equal("automatic", s.Current.DnsSource); Assert.Equal(0, s.Opens);
+    }
+
+    [Theory]
+    [InlineData(true)][InlineData(false)]
+    public async Task NoLeaseLocalHistoryAndDeclinedReviewDoNotRequireAnOldUsableIp(bool apipa)
+    {
+        var s = new Surface { Current = WithoutLease(apipa) }; var original = s.Current;
+        var profile = new IpProfile { IpAddress = "192.0.2.20", SubnetMask = "255.255.255.0", Gateway = "192.0.2.1" };
+        var declined = await s.Local().RunAsync(original.Identity.Id.ToString(), profile, null, _ => Task.FromResult(false), default);
+        Assert.Null(declined.Outcome); Assert.Equal(0, s.Executes); Assert.Equal(0, s.Begins);
+        var id = original.Identity.Id.ToString();
+        var vm = new MainViewModel(() => new() { new() { Id = id, Name = "Fixture" } }, apply: s.Local());
+        try
+        {
+            vm.SelectedAdapter!.EditIp = profile.IpAddress; vm.SelectedAdapter.EditSubnet = profile.SubnetMask;
+            vm.SelectedAdapter.EditGateway = profile.Gateway; vm.SelectedAdapter.EditIsDhcp = false;
+            vm.ConfirmHandler = (_, _) => Task.FromResult(true);
+            await vm.ApplyAsync();
+            Assert.Equal(ProjectApplyState.Complete, vm.LastApplyOutcome!.State);
+            var entry = Assert.Single(new HistoryRepository().Load(id));
+            Assert.True(entry.WasDhcp); Assert.Equal(apipa ? "169.254.42.10" : "", entry.OldIp);
+            Assert.NotNull(entry.RecoveryOperationId); Assert.Equal(original, s.Saved!.Before);
+        }
+        finally { vm.Diagnostics.Dispose(); }
+    }
+
+    [Fact]
+    public async Task DhcpWithoutLeaseCanVerifyPolicyWithoutLaunchingBrowserOrClaimingLeaseVerification()
+    {
+        var s = new Surface { ReturnWithoutLease = true }; var c = s.Coordinator();
+        var dhcp = new ApplyIntent("dhcp", null, 0, null, "automatic", ImmutableArray<string>.Empty);
+        var plan = await c.PrepareAsync(s.Current.Identity, dhcp, "https://192.0.2.44/");
+        var failedOpen = await c.ExecuteAsync(plan);
+        Assert.Equal(ProjectApplyState.Unverified, failedOpen.State); Assert.Equal(0, s.Opens);
+        Assert.False(ProjectApplyVerification.Matches(plan.Request, s.Current));
+        var policyOnly = await c.PrepareProfileAsync(s.Current.Identity, dhcp);
+        var result = await c.ExecuteAsync(policyOnly);
+        Assert.Equal(ProjectApplyState.Complete, result.State); Assert.Equal("DhcpPolicyVerified", result.Stage); Assert.Equal(0, s.Opens);
+    }
+
+    [Theory]
+    [InlineData("policy")][InlineData("alternate")][InlineData("manual-apipa")][InlineData("dad-disabled")]
+    [InlineData("dad-unknown")][InlineData("disconnected")][InlineData("custom-route")][InlineData("default-route")]
+    [InlineData("multiple")][InlineData("prefix")][InlineData("duplicate")][InlineData("dns-unknown")]
+    public async Task NoLeaseSupportDoesNotAcceptAlternateOrUnclassifiedSource(string kind)
+    {
+        var s = new Surface { Current = WithoutLease() };
+        var a = s.Current.Addresses[0];
+        s.Current = kind switch
+        {
+            "policy" => s.Current with { ClassificationComplete = false },
+            "alternate" => s.Current with { PersistentAddresses = ImmutableArray.Create(new ApplyAddress("192.0.2.10", 24, "manual", "preferred")) },
+            "manual-apipa" => s.Current with { Addresses = ImmutableArray.Create(a with { Origin = "manual" }) },
+            "dad-disabled" => s.Current with { Dad = new(0, true) },
+            "dad-unknown" => s.Current with { Dad = null },
+            "disconnected" => s.Current with { Dad = new(1, false) },
+            "custom-route" => s.Current with { Routes = s.Current.Routes.Add(new("198.51.100.0/24", "169.254.42.1", 1, "active", "netmgmt")) },
+            "default-route" => s.Current with { Routes = s.Current.Routes.Add(new("0.0.0.0/0", "169.254.42.1", 1, "active", "dhcp")) },
+            "multiple" => s.Current with { Addresses = s.Current.Addresses.Add(new("192.0.2.10", 24, "dhcp", "preferred")) },
+            "prefix" => s.Current with { Addresses = ImmutableArray.Create(a with { PrefixLength = 24 }) },
+            "duplicate" => s.Current with { Addresses = ImmutableArray.Create(a with { State = "duplicate" }) },
+            _ => s.Current with { DnsSource = "unknown" }
+        };
+        await Assert.ThrowsAsync<InvalidOperationException>(() => s.Coordinator().PrepareProfileAsync(s.Current.Identity, EmptyDns()));
+        Assert.Equal(0, s.Executes); Assert.Equal(0, s.Begins); Assert.Equal(0, s.Opens);
+    }
+
+    [Fact]
+    public async Task LeaseArrivingAfterApipaReviewInvalidatesThePlanBeforeMutation()
+    {
+        var s = new Surface { Current = WithoutLease() }; var c = s.Coordinator();
+        var plan = await c.PrepareProfileAsync(s.Current.Identity, EmptyDns());
+        s.Current = Dhcp() with { Identity = s.Current.Identity };
+        Assert.Equal(ProjectApplyState.Rejected, (await c.ExecuteAsync(plan)).State);
+        Assert.Equal(0, s.Executes); Assert.Equal(0, s.Begins);
+    }
+
+    [Fact]
+    public async Task ApipaWithExplicitStaticDnsPreservesServersAndRestoresOriginalDhcpDnsPolicy()
+    {
+        var s = new Surface { Current = WithoutLease() with { DnsSource = "static", DnsServers = ImmutableArray.Create("192.0.2.53") }, ReturnWithoutLease = true };
+        var original = s.Current; var c = s.Coordinator();
+        var plan = await c.PrepareProfileAsync(original.Identity, EmptyDns());
+        Assert.Single(ProjectApplyPolicy.Commands(plan.Request));
+        Assert.Equal(ProjectApplyState.Complete, (await c.ExecuteAsync(plan)).State);
+        Assert.Equal(original.DnsServers, s.Current.DnsServers);
+        var recovery = await c.PrepareRecoveryAsync(original);
+        Assert.Equal("static", recovery.Request.Desired.DnsMode);
+        Assert.Equal(ProjectApplyState.Complete, (await c.ExecuteAsync(recovery)).State);
+        Assert.True(s.Current.Dhcp); Assert.Equal(original.DnsServers, s.Current.DnsServers);
+    }
+
+    private sealed class Consent : IProjectApplyDialogs { public bool Confirm(string review, bool recovery) => true; }
+    [Fact]
+    public async Task ProjectWindowReportsPolicyOnlyResultWithoutClaimingAddressOrConnectivity()
+    {
+        var s = new Surface { Current = WithoutLease(), ReturnWithoutLease = true };
+        var vm = new ProjectApplyViewModel(new ProjectProfile { Name = "DHCP fixture", Mode = "dhcp" }, null, s, s, s,
+            _ => Task.FromResult<IReadOnlyList<ApplyAdapterIdentity>>(new[] { s.Current.Identity }),
+            () => Array.Empty<ProjectApplyRequest>(), new Consent(), verificationAttempts: 1, targetAdapterId: s.Current.Identity.Id);
+        await vm.RefreshAsync(); await vm.ReviewAsync(false);
+        Assert.Contains(Loc.Get("Apply.NoLeaseReview"), vm.Review);
+        await vm.ApplyAsync();
+        Assert.Equal(Loc.Get("Apply.DhcpPolicyVerified"), vm.Status); Assert.Equal(0, s.Opens);
     }
 }

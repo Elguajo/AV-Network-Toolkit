@@ -192,6 +192,8 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
             if (outcome.Stage == "WorkerStillRunning") Status += "\n" + Loc.Get("Apply.WorkerActive");
             if (outcome.MayHaveChanged && outcome.State != ProjectApplyState.Complete) Status += "\n" + Loc.Get("Apply.ManualRecovery");
             if (plan.Request.Recovery && outcome.State == ProjectApplyState.Complete) Status = Loc.Get("Apply.Recovered");
+            if (outcome.State == ProjectApplyState.Complete && outcome.Stage == "DhcpPolicyVerified")
+                Status = Loc.Get("Apply.DhcpPolicyVerified") + (outcome.JournalUpdateFailed ? "\n" + Loc.Get("Apply.JournalWarning") : "");
             Observed = outcome.Observed == null ? Loc.Get("Apply.ObservationUnknown") : FormatSnapshot(outcome.Observed);
         });
     }
@@ -243,7 +245,8 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
         + (s.Dad == null ? "" : "\n" + Loc.Get("LinkLocal.DadObserved") + " " + s.Dad.Transmits + " / " + s.Dad.Connected)
         + "\n" + Loc.Get("Apply.Persistent") + " " + string.Join(", ", s.PersistentAddresses.Select(a => a.Address + "/" + a.PrefixLength))
         + "\n" + Loc.Get("Apply.Routes") + "\n" + string.Join("\n", s.Routes.Select(r => r.Destination + " → " + r.NextHop + " (" + r.Metric + ", " + r.Store + ")"))
-        + (s.Addresses.Any(a => a.State == "duplicate") ? "\n\n" + Loc.Get("Apply.SourceConflict") : "");
+        + (s.Addresses.Any(a => a.State == "duplicate") ? "\n\n" + Loc.Get("Apply.SourceConflict") : "")
+        + (ProjectApplyPolicy.IsDhcpWithoutLease(s) ? "\n\n" + Loc.Get("Apply.NoLeaseReview") : "");
     internal static string FormatIntent(ApplyIntent d) => (d.Mode == "dhcp" ? "DHCP" : d.Address + "/" + d.PrefixLength)
         + "\n" + Loc.Get("EditBar.Gateway") + ": " + (d.Mode == "dhcp" ? Loc.Get("Project.DnsAutomatic") : d.Gateway ?? Loc.Get("Apply.None"))
         + "\nDNS: " + (d.DnsMode == "none" ? Loc.Get("Apply.NoDns") : d.DnsMode) + " " + string.Join(", ", d.DnsServers);
