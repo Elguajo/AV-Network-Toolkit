@@ -39,7 +39,7 @@ All new interface elements reuse the current design language, per owner instruct
 
 ## Owner-approved requirement follow-up — ADR-024
 
-- **FR-13** Permit optional device passwords in portable project JSON. Storage permission is approved; implementation and versioned format extension are pending. Proposed login/password editor, reveal/copy behavior, backup implications, compatibility and acceptance criteria are in [the product-fit review](../PRODUCT_FIT_REVIEW_RU.md). Automatic login, token storage and TLS bypass are not included.
+- **FR-13** Permit optional device passwords in portable project JSON. Owner accepted the [strict v2 contract](DEVICE_PASSWORD_PROPOSAL.md); [local implementation/evidence](../testing/DEVICE_PASSWORD_REVIEW.md) records separate first save, preserved v1, masked/show/copy/remove, plaintext/backup consent and conditional clipboard cleanup. Native clipboard/cross-PC/owner acceptance and publication remain separate. No login field, automatic login, token storage or TLS bypass.
 - Original-outcome gaps IDEA-01 (project Apply Profile without device URL) and IDEA-02 (practical DHCP/no-lease/APIPA/static DNS transitions) are recorded for separate scope/design, not silently implemented in Phase 06. Existing 49 phase-task IDs, phase ordering and acceptance gates remain unchanged.
 
 ## Main-screen workflow approved — ADR-025

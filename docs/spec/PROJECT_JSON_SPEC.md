@@ -2,7 +2,7 @@
 
 Owner approved the concrete format package on 2026-10-31. See [review package](PHASE02_FORMAT_REVIEW.md). Implementation status and execution evidence belong to [STATUS](../../STATUS.md) and [test matrix](../testing/TEST_MATRIX.md); this specification does not certify Windows apply behavior.
 
-**Later requirement, ADR-024:** owner now permits optional device-password storage in project JSON. This v1 document still describes the implemented format: no credential fields and strict rejection of unknown properties. A versioned extension/compatibility design is pending under FR-13, with [acceptance criteria](../PRODUCT_FIT_REVIEW_RU.md). Do not add a password to v1, put it in notes/URL, or loosen URL validation as a substitute. The previous prohibition on password storage is superseded as a product requirement, not retroactively removed from the current reader.
+**FR-13 / IDEA-03:** owner accepted the separate [v2 password contract](DEVICE_PASSWORD_PROPOSAL.md) on 2026-11-02. This document and the v1 schema remain unchanged contracts for password-free files. V2 adds only an optional device password; first password-bearing save requires a separate new v2 file, preserving v1. Loaded v2 stays v2 after password removal; old v1-only applications reject v2. Unknown fields remain rejected in both versions. Do not put a password in v1, notes or URL. [Implementation evidence and limits](../testing/DEVICE_PASSWORD_REVIEW.md) distinguish local support from published 1.1.5, native clipboard and phase acceptance.
 
 ## Layout and ownership
 

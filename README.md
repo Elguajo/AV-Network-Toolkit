@@ -101,6 +101,8 @@ The current source targets **1.1.5 Preview**, with the icon rail, collapsible/re
 - **Acceptance:** automated checks and hosted package tests do not certify real NIC/UAC/DAD, physical packet egress, multicast, clean-client deployment or manual accessibility. Native DPI was checked at 100%; actual 150%/200% and mixed-monitor acceptance remain pending. DOC-R01 was resolved as a test synchronization defect. [Known issues](docs/releases/v1.1.5.md#known-limitations).
 - **Scope:** no temporary DHCP server, device-password storage, automatic login, TLS bypass or automatic updater is shipped. Data still uses LocalAppData; the planned user-home migration is not implemented.
 
+Local source follow-up: optional device passwords use the separately approved v2 project format; [behavior, compatibility and verification limits](docs/testing/DEVICE_PASSWORD_REVIEW.md). This is not included in the published 1.1.5 packages.
+
 ## Documentation
 
 | Start with | For |

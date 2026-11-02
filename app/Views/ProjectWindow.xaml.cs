@@ -76,6 +76,14 @@ internal sealed class ProjectDialogs(Window owner) : IProjectDialogs
     public bool ConfirmDelete() => System.Windows.MessageBox.Show(owner,
         Loc.Get("Project.DeleteConfirm", "Delete the selected profile?"), Loc.Get("Project.Title", "Project"),
         MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes;
+    public bool ConfirmPasswordSave(bool initialV2, bool backupHasPassword)
+    {
+        var message = Loc.Get("Password.Warning");
+        if (initialV2) message += "\n\n" + Loc.Get("Password.VersionCopy");
+        if (backupHasPassword) message += "\n\n" + Loc.Get("Password.BackupWarning");
+        return System.Windows.MessageBox.Show(owner, message, Loc.Get("Password.Title"),
+            MessageBoxButton.OKCancel, MessageBoxImage.Warning, MessageBoxResult.Cancel) == MessageBoxResult.OK;
+    }
     public bool ConfirmOverwrite(string path) => System.Windows.MessageBox.Show(owner,
         Loc.Get("Project.Overwrite", "Replace this file and retain a backup?") + "\n\n" + path,
         Loc.Get("Project.Title", "Project"), MessageBoxButton.YesNo, MessageBoxImage.Question,

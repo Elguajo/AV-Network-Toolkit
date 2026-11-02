@@ -24,12 +24,15 @@ public interface IProjectDialogs
     bool ConfirmOverwrite(string path);
     bool ConfirmDeleteDevice();
     bool ConfirmOpenDevice(string destination, bool isHttp, bool hostMismatch, bool unlinked);
+    // Fail closed for older/injected dialog implementations.
+    bool ConfirmPasswordSave(bool initialV2, bool backupHasPassword) => false;
 }
 
 public sealed partial class ProjectViewModel : INotifyPropertyChanged
 {
     private readonly IProjectDialogs _dialogs;
     private readonly ProjectStore _store;
+    private readonly Func<string, bool> _copyPassword;
     private NetworkProject _project = Empty();
     private ProjectSnapshot? _snapshot;
     private ProjectProfile? _selected;
@@ -42,9 +45,10 @@ public sealed partial class ProjectViewModel : INotifyPropertyChanged
 
     public ProjectViewModel(IProjectDialogs dialogs) : this(dialogs, new ProjectStore(), new DefaultBrowserLauncher()) { }
     public ProjectViewModel(IProjectDialogs dialogs, IBrowserLauncher browser) : this(dialogs, new ProjectStore(), browser) { }
-    internal ProjectViewModel(IProjectDialogs dialogs, ProjectStore store, IBrowserLauncher? browser = null)
+    internal ProjectViewModel(IProjectDialogs dialogs, ProjectStore store, IBrowserLauncher? browser = null, Func<string, bool>? copyPassword = null)
     {
         (_dialogs, _store) = (dialogs, store);
+        _copyPassword = copyPassword ?? (value => DevicePasswordClipboard.Shared.Copy(value));
         AttachEditor();
         NewCommand = new RelayCommand(_ => Run(() => { if (CanDiscard()) Load(Empty(), null); }));
         OpenCommand = new RelayCommand(_ => Run(Open));
@@ -169,13 +173,22 @@ public sealed partial class ProjectViewModel : INotifyPropertyChanged
         if (_deviceEditorDirty) KeepDevice();
         var data = Current();
         _ = ProjectJson.Serialize(data);
-        var path = !saveAs && _snapshot != null ? _snapshot.Path : _dialogs.SavePath(_folder);
+        var initialV2 = data.SchemaVersion == 2 && (_snapshot == null || _snapshot.Data.SchemaVersion == 1);
+        var path = !saveAs && !initialV2 && _snapshot != null ? _snapshot.Path : _dialogs.SavePath(_folder);
         if (path == null) return;
         path = ProjectStore.ValidatePath(path);
         var currentRevision = _store.RevisionAt(path);
+        if (initialV2 && (currentRevision != null || _snapshot != null
+            && string.Equals(path, _snapshot.Path, StringComparison.OrdinalIgnoreCase)))
+            throw new ProjectValidationException("VersionCopyRequired");
         // For the opened file retain the revision originally opened, even after external edits.
         var expected = _snapshot != null && string.Equals(path, _snapshot.Path, StringComparison.OrdinalIgnoreCase)
             ? _snapshot.Revision : currentRevision;
+        var previous = _store.InspectOverwrite(data, path, expected);
+        bool backupHasPassword = previous?.Devices.Any(d => d.Password != null) == true
+            || data.SchemaVersion == 2 && currentRevision != null && previous == null;
+        if ((data.Devices.Any(d => d.Password != null) || backupHasPassword)
+            && !_dialogs.ConfirmPasswordSave(initialV2, backupHasPassword)) return;
         if (currentRevision != null && !_dialogs.ConfirmOverwrite(path)) return;
         var saved = _store.Save(data, path, expected);
         _snapshot = saved;
@@ -185,7 +198,9 @@ public sealed partial class ProjectViewModel : INotifyPropertyChanged
         Changed(nameof(FilePath)); Changed(nameof(FileName)); Changed(nameof(Folder)); Changed(nameof(BackupPath)); Changed(nameof(HasUnsavedChanges));
         FileFeedback = Loc.Get("Ux.Saved");
     }
-    private NetworkProject Current() => _project with { Profiles = Profiles.ToList(), Devices = Devices.ToList() };
+    private static NetworkProject WithCredentialVersion(NetworkProject project) =>
+        project.Devices.Any(d => d.Password != null) ? project with { SchemaVersion = 2 } : project;
+    private NetworkProject Current() => WithCredentialVersion(_project with { Profiles = Profiles.ToList(), Devices = Devices.ToList() });
     private void KeepProfile()
     {
         var profile = _editor.Build();

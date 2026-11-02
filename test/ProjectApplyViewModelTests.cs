@@ -36,6 +36,20 @@ public sealed class ProjectApplyViewModelTests
             () => new[] { new ProjectApplyRequest(1, Guid.NewGuid(), DateTimeOffset.UtcNow.AddMinutes(2), s.Snapshot, ProjectApplyTests.Intent()) }, s, 1);
     }
     [Fact]
+    public async Task PasswordBearingDeviceCannotEnterReviewOrApplyPayloads()
+    {
+        var s = new Surface { Consent = true };
+        var p = ProjectJsonTests.Sample().Profiles[0];
+        var device = ProjectJsonTests.Sample().Devices[0] with { Password = "SYNTHETIC_APPLY_SENTINEL" };
+        var vm = new ProjectApplyViewModel(p, device, s, s, s,
+            _ => Task.FromResult<IReadOnlyList<ApplyAdapterIdentity>>(new[] { s.Snapshot.Identity }),
+            () => Array.Empty<ProjectApplyRequest>(), s, verificationAttempts: 1);
+        await vm.RefreshAsync(); vm.SelectedAdapter = vm.Adapters[0]; await vm.ReviewAsync(false);
+        Assert.DoesNotContain("SYNTHETIC_APPLY_SENTINEL", vm.Review + vm.Destination + vm.DeviceName);
+        await vm.ApplyAsync(); Assert.Equal(1, s.Executes); Assert.Equal(1, s.Opened);
+        Assert.DoesNotContain("SYNTHETIC_APPLY_SENTINEL", vm.Status + vm.Observed);
+    }
+    [Fact]
     public async Task ManualSelectionReviewAndFinalConsentAreSeparateGates()
     {
         var s = new Surface(); var vm = Vm(s);

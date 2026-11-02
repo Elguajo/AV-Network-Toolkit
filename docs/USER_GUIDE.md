@@ -24,6 +24,14 @@ Before updating, back up the [data folders and projects](#data-and-backups), the
 
 Current source adds **Settings → Application updates**. A build needs a configured trusted publisher key before it can offer automatic updates; otherwise use GitHub Releases manually. Checking once a day is opt-in, Preview inclusion is explicit, and download and installation are separate actions. The installer flow exits the app after draft/active-operation checks, then opens the interactive installer; start the app again after completion or canceled UAC. Portable preparation creates a new version folder and shows its EXE path, retaining the old copy and shared data. Stop scanner monitoring and finish network changes before updating. The first updater-enabled version must be installed manually. [Local verification and remaining signing/native gates](testing/APPLICATION_UPDATE_REVIEW.md).
 
+## Optional device passwords in current source
+
+This local follow-up is not included in published 1.1.5. In Device interfaces, select a device, enable **Save password in project file**, enter the password and use **Keep device in project** or **Save project file**. The first password-bearing save requires a new, unused filename for project format v2; the original v1 remains unchanged. Older application versions cannot open v2.
+
+Passwords are hidden on opening. **Show / Hide** reveals the current draft temporarily; **Copy** copies only after that separate action. **Remove** stops saving the password after Keep/Save. Clearing the input alone produces a validation error and preserves the saved password. A saved v2 file stays v2 after removal. Passwords may contain spaces and Unicode, up to 1024 characters; empty/control-bearing values are rejected without trimming or silent truncation.
+
+Anyone with the JSON file, its temporary save payload, backup or another copy can read stored passwords. Save asks for confirmation; removal does not erase old backups. Copy attempts conditional cleanup after 30 seconds and on exit, preserving later clipboard content. Windows clipboard history and other apps may retain copies. No automatic login or password-bearing URL is created. [Contract, local evidence and native clipboard limits](testing/DEVICE_PASSWORD_REVIEW.md).
+
 ## Local and project profiles
 
 Both profile scopes describe the **computer's adapter configuration**, not the device's own address.

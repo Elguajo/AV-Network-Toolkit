@@ -72,6 +72,41 @@
         <TextBlock Text="{Binding DeviceProfileStatus}" Style="{StaticResource CaptionText}" TextWrapping="Wrap" Margin="0,4,0,0"/>
         <ui:Button Content="{DynamicResource Device.Unlink}" Command="{Binding UnlinkDeviceCommand}" Style="{StaticResource SubtleButton}" Padding="10,6" HorizontalAlignment="Left" Margin="0,4,0,0"/>
         <ui:Button Content="{DynamicResource Apply.Title}" Command="{Binding ApplyAndOpenCommand}" HorizontalAlignment="Left" Margin="0,12,0,0"/>
+        <Border Style="{StaticResource Card}" Margin="0,12,0,0">
+          <StackPanel>
+            <TextBlock Text="{DynamicResource Password.Title}" Style="{StaticResource FieldLabel}"/>
+            <CheckBox Content="{DynamicResource Password.OptIn}" IsChecked="{Binding DeviceEditor.SavePassword}"
+                      IsEnabled="{Binding DeviceEditor.CanChoosePasswordStorage}" Margin="0,0,0,8"/>
+            <PasswordBox x:Name="DevicePasswordInput" PasswordChanged="Password_Changed"
+                         IsEnabled="{Binding DeviceEditor.SavePassword}" AutomationProperties.Name="{DynamicResource Password.Title}"
+                         Height="40" FontSize="14" Padding="12,6"
+                         Foreground="{DynamicResource TextFillColorPrimaryBrush}" Background="{DynamicResource ControlFillColorDefaultBrush}"
+                         BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}">
+              <PasswordBox.Template>
+                <ControlTemplate TargetType="PasswordBox">
+                  <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="1" CornerRadius="{DynamicResource ControlCornerRadius}">
+                    <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"/>
+                  </Border>
+                  <ControlTemplate.Triggers>
+                    <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                      <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}"/>
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="False"><Setter Property="Opacity" Value="0.5"/></Trigger>
+                  </ControlTemplate.Triggers>
+                </ControlTemplate>
+              </PasswordBox.Template>
+            </PasswordBox>
+            <TextBlock x:Name="DeviceRevealedPassword" TextWrapping="Wrap" Margin="0,8,0,0" Visibility="Collapsed"/>
+            <WrapPanel Margin="0,8,0,0">
+              <ui:Button Content="{Binding DeviceEditor.RevealCaption}" Command="{Binding RevealPasswordCommand}" Margin="0,0,8,8"/>
+              <ui:Button Content="{DynamicResource Password.Copy}" Command="{Binding CopyPasswordCommand}" Margin="0,0,8,8"/>
+              <ui:Button Content="{DynamicResource Password.Remove}" Command="{Binding RemovePasswordCommand}" Margin="0,0,0,8"/>
+            </WrapPanel>
+            <TextBlock Text="{DynamicResource Password.Warning}" TextWrapping="Wrap" Style="{StaticResource CaptionText}"/>
+            <TextBlock Text="{DynamicResource Password.ClipboardHint}" TextWrapping="Wrap" Style="{StaticResource CaptionText}" Margin="0,8,0,0"/>
+          </StackPanel>
+        </Border>
         <TextBlock Text="{DynamicResource Device.Notes}" Style="{StaticResource FieldLabel}" Margin="0,12,0,4"/>
         <ui:TextBox Text="{Binding DeviceEditor.Notes, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="64" AutomationProperties.Name="{DynamicResource Device.Notes}"/>
       </StackPanel>

@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Buffers;
 using Json.Schema;
 using NetworkProfileManager.Models;
 
@@ -29,9 +30,11 @@ public static class ProjectJson
         WriteIndented = true,
         MaxDepth = 64
     };
-    private static readonly Lazy<JsonSchema> Schema = new(() =>
+    private static readonly Lazy<JsonSchema> Schema = LoadSchema("ProjectSchema.json");
+    private static readonly Lazy<JsonSchema> SchemaV2 = LoadSchema("ProjectSchemaV2.json");
+    private static Lazy<JsonSchema> LoadSchema(string resource) => new(() =>
     {
-        using var stream = typeof(ProjectJson).Assembly.GetManifestResourceStream("ProjectSchema.json")!;
+        using var stream = typeof(ProjectJson).Assembly.GetManifestResourceStream(resource)!;
         using var document = JsonDocument.Parse(stream);
         return JsonSchema.FromText(document.RootElement.GetRawText());
     });
@@ -45,21 +48,28 @@ public static class ProjectJson
 
     public static NetworkProject Parse(string json)
     {
-        if (Encoding.UTF8.GetByteCount(json) > MaxBytes) throw new ProjectValidationException("TooLarge");
+        try
+        {
+            if (new UTF8Encoding(false, true).GetByteCount(json) > MaxBytes) throw new ProjectValidationException("TooLarge");
+        }
+        catch (EncoderFallbackException) { throw new ProjectValidationException("Json"); }
         try
         {
             using var document = JsonDocument.Parse(json, new JsonDocumentOptions { MaxDepth = 64 });
             var root = document.RootElement;
-            RejectDuplicateProperties(root);
+            try { RejectDuplicateProperties(root); }
+            catch (InvalidOperationException) { throw new ProjectValidationException("Json"); }
+            int number = 1;
             if (root.ValueKind == JsonValueKind.Object && root.TryGetProperty("schemaVersion", out var version)
-                && version.ValueKind == JsonValueKind.Number && version.TryGetInt32(out var number) && number != 1)
+                && version.ValueKind == JsonValueKind.Number && version.TryGetInt32(out number) && number is not (1 or 2))
                 throw new ProjectValidationException("Version", "schemaVersion");
+            var schema = number == 2 ? SchemaV2 : Schema;
             // JsonSchema.Net 7.4 mutates cached constraints during Evaluate. Lazy only
             // protects construction; overlapping evaluations can miss conditional rules.
             EvaluationResults result;
             lock (SchemaEvaluationGate)
             {
-                result = Schema.Value.Evaluate(root, new EvaluationOptions
+                result = schema.Value.Evaluate(root, new EvaluationOptions
                 { EvaluateAs = SpecVersion.Draft202012, RequireFormatValidation = true });
             }
             if (!result.IsValid) throw new ProjectValidationException("Structure");
@@ -72,6 +82,8 @@ public static class ProjectJson
 
     public static string Serialize(NetworkProject project)
     {
+        foreach (var device in project.Devices)
+            if (device.Password != null) ValidatePassword(device.Password);
         var json = JsonSerializer.Serialize(project, Options);
         _ = Parse(json); // Same gate on both input and output; never write invalid intent.
         json += Environment.NewLine;
@@ -81,6 +93,8 @@ public static class ProjectJson
 
     private static void RejectDuplicateProperties(JsonElement element)
     {
+        // Decode strings before the schema library can throw a value/provider error.
+        if (element.ValueKind == JsonValueKind.String) _ = element.GetString();
         if (element.ValueKind == JsonValueKind.Object)
         {
             var names = new HashSet<string>(StringComparer.Ordinal);
@@ -140,7 +154,22 @@ public static class ProjectJson
                 throw new ProjectValidationException("Reference", field + ".profileId");
             if (device.Ip != null) Host(device.Ip, field + ".ip");
             ValidateUrl(device.WebUrl, field + ".webUrl");
+            if (device.Password != null) ValidatePassword(device.Password);
         }
+    }
+
+    public static void ValidatePassword(string value)
+    {
+        var span = value.AsSpan();
+        int length = 0;
+        while (!span.IsEmpty)
+        {
+            if (Rune.DecodeFromUtf16(span, out var rune, out var consumed) != OperationStatus.Done
+                || Rune.IsControl(rune) || ++length > 1024)
+                throw new ProjectValidationException("Password", "devices.password");
+            span = span.Slice(consumed);
+        }
+        if (length == 0) throw new ProjectValidationException("Password", "devices.password");
     }
 
     private static uint Host(string text, string field)

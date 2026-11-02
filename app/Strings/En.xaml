@@ -589,4 +589,19 @@
   <sys:String x:Key="Updates.PreparingExit">Preparing protected exit and installer handoff…</sys:String>
   <sys:String x:Key="Updates.Canceled">Update operation canceled or timed out. No installation was started.</sys:String>
   <sys:String x:Key="Updates.Failed">Update could not continue.</sys:String>
+    <sys:String x:Key="Password.Title">Device password</sys:String>
+    <sys:String x:Key="Password.OptIn">Save password in project file</sys:String>
+    <sys:String x:Key="Password.Show">Show</sys:String>
+    <sys:String x:Key="Password.Hide">Hide</sys:String>
+    <sys:String x:Key="Password.Copy">Copy</sys:String>
+    <sys:String x:Key="Password.Remove">Remove</sys:String>
+    <sys:String x:Key="Password.Warning">Anyone with this project file or its backups can read saved passwords. Share it only with people who should have them.</sys:String>
+    <sys:String x:Key="Password.ClipboardHint">Copy attempts to clear the unchanged clipboard after 30 seconds. Clipboard history and other apps may retain copies.</sys:String>
+    <sys:String x:Key="Password.VersionCopy">Passwords require project format v2. Save a separate new file; the original v1 stays unchanged. Older versions cannot open v2.</sys:String>
+    <sys:String x:Key="Password.BackupWarning">Backups may retain previous passwords, even after removal from the saved project.</sys:String>
+    <sys:String x:Key="Password.Copied">Password copied. Cleanup will be attempted after 30 seconds if the clipboard is unchanged.</sys:String>
+    <sys:String x:Key="Password.CopyFailed">Could not copy the password. The clipboard may be busy. Try again.</sys:String>
+    <sys:String x:Key="Project.ErrorPassword">Enter a password of 1–1024 characters without control characters, or use Remove.</sys:String>
+    <sys:String x:Key="Project.ErrorVersionCopyRequired">Choose a new, unused filename for format v2. The original project must stay unchanged.</sys:String>
+    <sys:String x:Key="Project.ErrorDowngrade">A v1 project cannot replace a v2 project. Choose another filename.</sys:String>
 </ResourceDictionary>

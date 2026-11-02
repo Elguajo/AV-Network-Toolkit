@@ -1,5 +1,12 @@
 # Existing interface contract
 
+## Device password addition — FR-13 / IDEA-03
+
+Use the existing device-editor Card, semantic control/text/accent brushes, ControlCornerRadius, field ramp, scrolling body and fixed Keep/Open footer. A native PasswordBox with the same semantic surface/focus styling provides masked password automation rather than a normal text binding; a separate transient revealed TextBlock exists only after Show. Opt-in, Show/Hide, Copy and Remove use existing CheckBox/WPF-UI buttons; plaintext/backup/clipboard explanations wrap within the group. No new palette, theme, motion or screen. [Local Light/Dark normal/minimum and masked-automation evidence](docs/testing/DEVICE_PASSWORD_REVIEW.md); native clipboard/Narrator/high-contrast/DPI acceptance remains separate.
+
+Application updates (UPD-03) adds one Settings action and a Fluent/Mica window using existing Card/SectionHeaderText/CaptionText/FooterBar resources. Body and plain-text release details scroll; wrapped action/footer rows retain Check/Download/Install/Cancel/Close access at 460x440. Verification, disabled trust, progress, cancellation and fresh-folder output are explicit accessible states. [Local review](docs/testing/APPLICATION_UPDATE_REVIEW.md) records 20 focused Light/Dark normal/minimum captures; native installer/UAC and screen-reader certification remain separate. No visual redesign or new token system.
+
+
 Application updates (UPD-03) adds one Settings action and a Fluent/Mica window using existing Card/SectionHeaderText/CaptionText/FooterBar resources. Body and plain-text release details scroll; wrapped action/footer rows retain Check/Download/Install/Cancel/Close access at 460x440. Verification, disabled trust, progress, cancellation and fresh-folder output are explicit accessible states. [Local review](docs/testing/APPLICATION_UPDATE_REVIEW.md) records 20 focused Light/Dark normal/minimum captures; native installer/UAC and screen-reader certification remain separate. No visual redesign or new token system.
 
 ## Left navigation rail — UI-NAV-01 / ADR-049

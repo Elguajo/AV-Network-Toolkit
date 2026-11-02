@@ -48,6 +48,13 @@ internal static partial class Program
                 Console.WriteLine("PASS: update Light/Dark normal/minimum states, fake signed release/download, cancellation and close guard; 0 binding errors.");
                 return 0;
             }
+            if (args.Contains("--device-passwords"))
+            {
+                CheckDevicePasswords(output);
+                if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
+                Console.WriteLine("PASS: masked credential UI/automation, reveal reset, reachable actions, untruncated paste, copy/draft/remove/new states; 20 Light/Dark captures, 0 binding errors, fake clipboard/browser.");
+                return 0;
+            }
             if (args.Contains("--navigation-followup"))
             {
                 CheckNavigationFollowup(output);

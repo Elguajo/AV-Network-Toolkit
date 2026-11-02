@@ -64,6 +64,19 @@ def validate(root):
     from jsonschema import Draft202012Validator, FormatChecker
     Draft202012Validator.check_schema(schema)
     Draft202012Validator(schema, format_checker=FormatChecker()).validate(example)
+    schema_v2 = json.loads((root / "schemas/project.avnet.v2.schema.json").read_text(encoding="utf-8"))
+    example_v2 = json.loads((root / "examples/project.avnet.v2.json").read_text(encoding="utf-8"))
+    Draft202012Validator.check_schema(schema_v2)
+    Draft202012Validator(schema_v2, format_checker=FormatChecker()).validate(example_v2)
+    assert not Draft202012Validator(schema).is_valid(example_v2), "v1 must reject v2"
+    # The frozen v1 contract and all unrelated v2 properties must remain identical.
+    v2_without_extension = json.loads(json.dumps(schema_v2))
+    v2_without_extension["$id"] = schema["$id"]
+    v2_without_extension["title"] = schema["title"]
+    v2_without_extension["properties"]["schemaVersion"]["const"] = 1
+    del v2_without_extension["$defs"]["device"]["properties"]["password"]
+    assert v2_without_extension == schema, "unexpected v2 schema changes"
+
     ids = [p["id"] for p in example["profiles"]]
     assert len(ids) == len(set(ids))
     assert all(d.get("profileId") is None or d["profileId"] in ids for d in example["devices"])

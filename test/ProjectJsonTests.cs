@@ -111,7 +111,7 @@ public class ProjectJsonTests
             case "emptyGateway": ip["gateway"] = ""; break;
             case "unknown": root["password"] = "never-save"; break;
             case "unknownNested": profile["extra"] = true; break;
-            case "future": root["schemaVersion"] = 2; break;
+            case "future": root["schemaVersion"] = 3; break;
             case "past": root["schemaVersion"] = 0; break;
             case "linkLocal": profile["mode"] = "link-local"; break;
             case "linkLocalStatic": ip["address"] = "169.254.10.10"; break;

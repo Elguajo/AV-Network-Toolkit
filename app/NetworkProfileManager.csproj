@@ -42,6 +42,7 @@
     <InternalsVisibleTo Include="NetworkProfileManager.Tests" />
     <InternalsVisibleTo Include="ProjectUiSmoke" />
     <EmbeddedResource Include="..\schemas\project.avnet.schema.json" LogicalName="ProjectSchema.json" />
+    <EmbeddedResource Include="..\schemas\project.avnet.v2.schema.json" LogicalName="ProjectSchemaV2.json" />
     <AssemblyMetadata Include="ReleaseChannel" Value="$(ReleaseChannel)" />
     <EmbeddedResource Include="$(UpdatePublicKeyFile)" LogicalName="ApplicationUpdatePublicKey.pem"
                       Condition="'$(UpdatePublicKeyFile)' != ''" />

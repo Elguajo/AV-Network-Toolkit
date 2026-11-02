@@ -46,7 +46,7 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
         Func<int, IReadOnlyList<ProjectApplyRequest>>? readPage = null, Func<bool>? hasMore = null, Func<int>? unreadable = null)
     {
         _intent = profile == null ? null : ProjectApplyPolicy.FromProfile(profile);
-        _device = device;
+        _device = device == null ? null : device with { Password = null };
         _targetAdapterId = targetAdapterId;
         _enumerate = enumerate; _readJournals = readJournals; _dialogs = dialogs;
         _readPage = readPage; _hasMore = hasMore; _unreadable = unreadable;

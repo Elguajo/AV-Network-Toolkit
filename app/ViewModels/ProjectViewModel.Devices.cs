@@ -55,7 +55,7 @@ public sealed partial class ProjectViewModel
     public int Section
     {
         get => _section;
-        set { _section = value; Changed(); Changed(nameof(IsProfilesSection)); Changed(nameof(IsDevicesSection)); }
+        set { _deviceEditor.HidePassword(); _section = value; Changed(); Changed(nameof(IsProfilesSection)); Changed(nameof(IsDevicesSection)); }
     }
     public bool IsProfilesSection => Section == 0;
     public bool IsDevicesSection => Section == 1;
@@ -83,6 +83,9 @@ public sealed partial class ProjectViewModel
             Changed(nameof(SelectedDeviceEntry));
         }
     }
+    public ICommand RevealPasswordCommand { get; private set; } = null!;
+    public ICommand CopyPasswordCommand { get; private set; } = null!;
+    public ICommand RemovePasswordCommand { get; private set; } = null!;
     public ICommand NewDeviceCommand { get; private set; } = null!;
     public ICommand KeepDeviceCommand { get; private set; } = null!;
     public ICommand DeleteDeviceCommand { get; private set; } = null!;
@@ -94,6 +97,16 @@ public sealed partial class ProjectViewModel
     private void InitializeDevices(IBrowserLauncher browser)
     {
         _browser = browser;
+        RevealPasswordCommand = new RelayCommand(_ => Run(() => _deviceEditor.TogglePassword()), _ => _deviceEditor.SavePassword);
+        CopyPasswordCommand = new RelayCommand(_ => Run(() =>
+        {
+            ProjectJson.ValidatePassword(_deviceEditor.Password);
+            bool copied;
+            try { copied = _copyPassword(_deviceEditor.Password); }
+            catch { copied = false; }
+            DeviceNotice = Loc.Get(copied ? "Password.Copied" : "Password.CopyFailed");
+        }), _ => _deviceEditor.SavePassword);
+        RemovePasswordCommand = new RelayCommand(_ => _deviceEditor.RemovePassword(), _ => _deviceEditor.SavePassword);
         _deviceEditor.PropertyChanged += DeviceEditorChanged;
         NewDeviceCommand = new RelayCommand(_ => Run(() =>
         {
@@ -118,7 +131,7 @@ public sealed partial class ProjectViewModel
             if (_editorDirty && _editor.Id == profile.Id) throw new ProjectValidationException("ApplyDraft");
             // Freeze project intent before opening a modal; never retain/discard drafts here.
             var frozen = ProjectJson.Parse(ProjectJson.Serialize(WithDevice(device)));
-            ApplyAndOpenRequested?.Invoke(frozen.Profiles.Single(p => p.Id == profile.Id), frozen.Devices.Single(d => d.Id == device.Id));
+            ApplyAndOpenRequested?.Invoke(frozen.Profiles.Single(p => p.Id == profile.Id), frozen.Devices.Single(d => d.Id == device.Id) with { Password = null });
         }), _ => _selectedDevice != null);
         RefreshDeviceDirectory();
     }
@@ -128,6 +141,7 @@ public sealed partial class ProjectViewModel
         var proposed = Current();
         var index = proposed.Devices.FindIndex(d => d.Id == device.Id);
         if (index < 0) proposed.Devices.Add(device); else proposed.Devices[index] = device;
+        proposed = WithCredentialVersion(proposed);
         _ = ProjectJson.Serialize(proposed);
         return proposed;
     }
@@ -230,6 +244,7 @@ public sealed partial class ProjectViewModel
     }
     private void SetDeviceEditor(ProjectDevice device)
     {
+        _deviceEditor.HidePassword();
         _deviceEditor.PropertyChanged -= DeviceEditorChanged;
         _deviceEditor = new ProjectDeviceEditor(device);
         _deviceEditor.PropertyChanged += DeviceEditorChanged;
@@ -238,6 +253,9 @@ public sealed partial class ProjectViewModel
     }
     private void DeviceEditorChanged(object? sender, PropertyChangedEventArgs e)
     {
+        CommandManager.InvalidateRequerySuggested();
+        if (e.PropertyName is nameof(ProjectDeviceEditor.IsPasswordRevealed)
+            or nameof(ProjectDeviceEditor.RevealCaption) or nameof(ProjectDeviceEditor.CanChoosePasswordStorage)) return;
         FileFeedback = "";
         _deviceEditorDirty = true;
         DeviceNotice = "";
@@ -253,10 +271,59 @@ public sealed class ProjectDeviceEditor : INotifyPropertyChanged
 {
     private readonly string _id;
     private string _name, _webUrl, _type, _manufacturer, _ip, _profileId, _notes;
+    private string _password = "";
+    private bool _savePassword, _revealed;
+    public bool SavePassword
+    {
+        get => _savePassword;
+        set
+        {
+            // Existing secrets are removed only with Remove, never by a cleared field.
+            if (!value || _savePassword) return;
+            _savePassword = true;
+            NotifyPasswordState();
+        }
+    }
+    public bool CanChoosePasswordStorage => !_savePassword;
+    public string Password { get => _password; set => Set(ref _password, value); }
+    public bool IsPasswordRevealed => _revealed;
+    public string RevealCaption => Loc.Get(_revealed ? "Password.Hide" : "Password.Show");
+    public void HidePassword()
+    {
+        if (!_revealed) return;
+        _revealed = false;
+        PropertyChanged?.Invoke(this, new(nameof(IsPasswordRevealed)));
+        PropertyChanged?.Invoke(this, new(nameof(RevealCaption)));
+    }
+    public void TogglePassword()
+    {
+        if (!_savePassword) return;
+        ProjectJson.ValidatePassword(_password);
+        if (_revealed) HidePassword();
+        else
+        {
+            _revealed = true;
+            PropertyChanged?.Invoke(this, new(nameof(IsPasswordRevealed)));
+            PropertyChanged?.Invoke(this, new(nameof(RevealCaption)));
+        }
+    }
+    public void RemovePassword()
+    {
+        HidePassword();
+        _password = ""; _savePassword = false;
+        PropertyChanged?.Invoke(this, new(nameof(Password)));
+        NotifyPasswordState();
+    }
+    private void NotifyPasswordState()
+    {
+        PropertyChanged?.Invoke(this, new(nameof(SavePassword)));
+        PropertyChanged?.Invoke(this, new(nameof(CanChoosePasswordStorage)));
+    }
     public ProjectDeviceEditor() : this(new ProjectDevice()) { }
     public ProjectDeviceEditor(ProjectDevice device)
     {
         _id = device.Id; _name = device.Name; _webUrl = device.WebUrl;
+        _password = device.Password ?? ""; _savePassword = device.Password != null;
         _type = device.Type ?? ""; _manufacturer = device.Manufacturer ?? "";
         _ip = device.Ip ?? ""; _profileId = device.ProfileId ?? ""; _notes = device.Notes ?? "";
     }
@@ -271,7 +338,7 @@ public sealed class ProjectDeviceEditor : INotifyPropertyChanged
     public ProjectDevice Build() => new()
     {
         Id = _id, Name = Name.Trim(), WebUrl = WebUrl, Type = Optional(Type),
-        Manufacturer = Optional(Manufacturer), Ip = Optional(Ip), ProfileId = Optional(ProfileId), Notes = Optional(Notes)
+        Manufacturer = Optional(Manufacturer), Ip = Optional(Ip), ProfileId = Optional(ProfileId), Notes = Optional(Notes), Password = SavePassword ? Password : null
     };
     private static string? Optional(string value) => string.IsNullOrEmpty(value) ? null : value;
     public event PropertyChangedEventHandler? PropertyChanged;

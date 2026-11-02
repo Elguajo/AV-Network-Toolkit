@@ -1,8 +1,8 @@
 # Threat model & safety gates
 
-## Approved future password storage — ADR-024 / FR-13
+## Optional password storage — ADR-024 / FR-13
 
-Owner permits optional device passwords in project JSON. Current v1 has no credential fields; the extension is not implemented. A plaintext project and every retained backup can disclose the password to anyone with file access. Future work must cover explicit masked/reveal/copy behavior, exact round-trip/version compatibility and exclusion from logs/errors/search/URLs/worker requests/recovery journals. Real credentials must never enter Git/test artifacts. This changes the product's blanket storage prohibition only; it does not authorize tokens, automatic login or TLS bypass. [Requirements and acceptance criteria](../PRODUCT_FIT_REVIEW_RU.md).
+Owner approved the [strict v2 contract](../spec/DEVICE_PASSWORD_PROPOSAL.md); v1 remains password-free. A plaintext project, atomic-save temporary payload, backup or copied file can disclose passwords to anyone with file access. New input requires explicit opt-in; save warns about plaintext/backup exposure. Initial upgrade creates a separate v2 file, no silent downgrade/unknown-field rewrite; masked input and redacted DTO output exclude secrets from normal search/preview/errors/automation. Password is stripped before Apply & Open and at its VM entry; network/worker/journal/CSV/browser paths never need it. Conditional clipboard cleanup holds the native clipboard lock across ownership/sequence/text comparison and clearing; clipboard history, other applications, crashes and managed-string copies are outside erasure guarantees. Real credentials must never enter Git/test artifacts. No tokens, automatic login or TLS bypass. [Local review/evidence and native limits](../testing/DEVICE_PASSWORD_REVIEW.md); [requirements](../PRODUCT_FIT_REVIEW_RU.md).
 
 | Risk | Failure mode | Mitigation/evidence |
 |---|---|---|

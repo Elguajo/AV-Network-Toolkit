@@ -1,12 +1,12 @@
 # Device passwords — FR-13 / IDEA-03 review proposal
 
-2026-11-02, Asia/Tashkent. **PROPOSED / OWNER_REVIEW_PENDING; no implementation or schema change.** Inspected fork https://github.com/Elguajo/AV-Network-Toolkit, `main`, `a75a3acb4c533570ba3ce705e012011681d6e63e`, initially clean. Phase 07 remains AWAITING_REVIEW.
+2026-11-02, Asia/Tashkent. **APPROVED_CONTRACT; local implementation authorized 2026-11-02.** Inspected fork https://github.com/Elguajo/AV-Network-Toolkit, `main`, `a75a3acb4c533570ba3ce705e012011681d6e63e`, initially clean. Phase 07 remains AWAITING_REVIEW.
 
 ## Authorization and review boundary
 
 Owner requested starting local work on optional device web-interface passwords, with explicit show/copy actions. [ADR-024](../../decisions/DECISION_LOG.md#adr-024--permit-device-passwords-in-project-json-2026-10-31) already permits plaintext portable storage. Do not ask again whether passwords may be stored. This proposal settles the required version/compatibility review before changing the working format, as required by [AGENTS.md](../../AGENTS.md).
 
-Approve the concrete v2/transition/UI/clipboard contract below before implementation. In particular, the first password-bearing save creates a separate new v2 file; it cannot replace the opened v1 file. This preserves a usable v1 original but gives two independent project copies. In-place v1 upgrade is the alternative requiring an explicit different owner decision. No automatic downgrade is proposed.
+Owner accepted the complete concrete v2/transition/UI/clipboard contract with «Принять предложенный контракт». In particular, the first password-bearing save creates a separate new v2 file; it cannot replace the opened v1 file. This preserves a usable v1 original but gives two independent project copies. In-place v1 upgrade is the alternative requiring an explicit different owner decision. No automatic downgrade is proposed.
 
 Local authorization does not permit real-file migration, live network/UAC/browser actions, installation, publication, new shared resources, tokens, automatic login or TLS bypass. DATA-01 and application updates are independently owned. Phase acceptance remains separate.
 
@@ -102,6 +102,6 @@ Do not infer that an arbitrary URL is secret-free merely because its parameter n
 
 ## Current evidence and unresolved decisions
 
-Completed: source/requirements/compatibility inspection and this concrete proposal. **No working schema, model, UI, password support, real file migration or runtime behavior changed.** Baseline compatibility facts above are source evidence; the new acceptance matrix is not a test result.
+At proposal commit e729f3d: source/requirements/compatibility inspection only, no runtime implementation. Owner subsequently approved the contract; implementation/evidence are recorded separately. Baseline facts above describe the inspected pre-extension source; the acceptance matrix is not itself a test result.
 
-Owner review required for the proposed v2 contract, particularly separate first-save copy, no automatic downgrade, invalid empty password and 30-second conditional clipboard cleanup. Approving this packet authorizes bounded local implementation and synthetic verification only; native/phase/release/shared-resource gates remain separate. No skill imposes an additional permission gate: this review comes from AGENTS.md's versioned reviewed-extension requirement and the task's explicit format/compatibility checkpoint.
+Owner approved the v2 contract, including separate first-save copy, no automatic downgrade, invalid empty password and 30-second conditional clipboard cleanup. This authorizes bounded local implementation and synthetic verification only; native/phase/release/shared-resource gates remain separate. No skill imposes an additional permission gate: this review comes from AGENTS.md's versioned reviewed-extension requirement and the task's explicit format/compatibility checkpoint.

@@ -53,7 +53,7 @@ public sealed record ProjectDns
     public List<string> Servers { get; init; } = new();
 }
 
-// Shared v1 storage contract, also used by the device directory and launcher.
+// Shared versioned storage contract, also used by the device directory and launcher.
 public sealed record ProjectDevice
 {
     public string Id { get; init; } = Guid.NewGuid().ToString();
@@ -68,4 +68,8 @@ public sealed record ProjectDevice
     public string? ProfileId { get; init; }
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Notes { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Password { get; init; }
+    // Records otherwise include every property in diagnostic/interpolated output.
+    public override string ToString() => "ProjectDevice { [redacted] }";
 }

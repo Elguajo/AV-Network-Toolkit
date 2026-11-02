@@ -2,7 +2,7 @@
 
 ## Device-password follow-up — FR-13 / IDEA-03, 2026-11-02
 
-Owner requested starting bounded local work on optional device passwords with explicit show/copy. ADR-024 storage permission is already granted. [Concrete v2 proposal](docs/spec/DEVICE_PASSWORD_PROPOSAL.md) records current v1 consumers, compatibility/transition, exact password states, plaintext/backup consent, clipboard ownership and acceptance checks. OWNER_REVIEW_PENDING before working format/code changes; no login field, automatic login, token/TLS behavior, real-file migration or support claim. Phase 07 remains AWAITING_REVIEW; updater/DATA-01/native/publication gates and concurrent work remain separate.
+Owner requested starting bounded local work on optional device passwords with explicit show/copy. ADR-024 storage permission is already granted. [Concrete v2 proposal](docs/spec/DEVICE_PASSWORD_PROPOSAL.md) records current v1 consumers, compatibility/transition, exact password states, plaintext/backup consent, clipboard ownership and acceptance checks. Owner accepted the contract; [local v2 implementation/evidence](docs/testing/DEVICE_PASSWORD_REVIEW.md) now covers opt-in/password UI, atomic/version compatibility and conditional clipboard cleanup. No login field, automatic login, token/TLS behavior or real-file migration. Published 1.1.5 is unchanged; native clipboard/owner acceptance remain separate. Phase 07 remains AWAITING_REVIEW; updater/DATA-01/native/publication gates and concurrent work remain separate.
 
 ## Application update investigation — 2026-11-02, ADR-053
 

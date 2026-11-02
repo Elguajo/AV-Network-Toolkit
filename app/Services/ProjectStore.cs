@@ -54,6 +54,7 @@ public sealed class ProjectStore
         try
         {
             CheckRevision(path, expectedRevision);
+            _ = InspectOverwrite(data, path, expectedRevision);
             using (var stream = new FileStream(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None))
             {
                 _beforeStage?.Invoke(ProjectWriteStage.TempWrite);
@@ -104,6 +105,25 @@ public sealed class ProjectStore
         {
             try { if (File.Exists(temporary)) File.Delete(temporary); } catch { }
         }
+    }
+
+    // Also called by the UI for backup consent. Save repeats this under its lease.
+    internal NetworkProject? InspectOverwrite(NetworkProject data, string path, string? expected)
+    {
+        CheckRevision(path, expected);
+        if (expected == null) return null;
+        NetworkProject previous;
+        try { previous = Open(path).Data; }
+        catch (ProjectValidationException ex) when (ex.Code == "Json")
+        {
+            // Existing deliberate replacement of malformed bytes remains recoverable.
+            return null;
+        }
+        if (previous.SchemaVersion > data.SchemaVersion)
+            throw new ProjectValidationException("Downgrade");
+        if (previous.SchemaVersion == 1 && data.SchemaVersion == 2)
+            throw new ProjectValidationException("VersionCopyRequired");
+        return previous;
     }
 
     private static void CheckRevision(string path, string? expected)
