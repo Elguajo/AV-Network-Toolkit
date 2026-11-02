@@ -233,7 +233,7 @@ namespace NetworkProfileManager.ViewModels
                         {
                             AdapterId = before.Identity.Id.ToString(), AdapterName = before.Identity.Alias,
                             OldIp = address?.Address ?? "", OldSubnet = address == null ? "" : new System.Net.IPAddress(BitConverter.GetBytes(System.Net.IPAddress.HostToNetworkOrder(mask))).ToString(),
-                            OldGateway = before.Routes.SingleOrDefault(r => r.Store == "active" && r.Destination == "0.0.0.0/0")?.NextHop ?? "",
+                            OldGateway = before.Routes.SingleOrDefault(r => r.Store == (ProjectApplyPolicy.IsKnownOffline(before) && !before.Dhcp ? "persistent" : "active") && r.Destination == "0.0.0.0/0")?.NextHop ?? "",
                             NewIp = result.Request.Desired.Mode == "dhcp" ? "DHCP" : result.Request.Desired.Address!,
                             WasDhcp = before.Dhcp, IsDhcp = result.Request.Desired.Mode == "dhcp", ProfileName = profileName,
                             RecoveryOperationId = result.Request.OperationId
@@ -244,7 +244,8 @@ namespace NetworkProfileManager.ViewModels
                     }
                     if (historyFailed || result.Outcome.JournalUpdateFailed)
                         NotificationService.Warning(Loc.Get("LocalApply.HistoryFailed"));
-                    else NotificationService.Success(Loc.Get(result.Outcome.Stage == "DhcpPolicyVerified" ? "Apply.DhcpPolicyVerified"
+                    else NotificationService.Success(Loc.Get(result.Outcome.Stage == "OfflinePolicyVerified" ? "Apply.OfflinePolicyVerified"
+                        : result.Outcome.Stage == "DhcpPolicyVerified" ? "Apply.DhcpPolicyVerified"
                         : recovery == null ? "LocalApply.Verified" : recovery.RecoveryOperationId == null ? "LocalApply.AddressOnlyRestored" : "Apply.Recovered"));
                 }
                 else NotificationService.Error((result.Outcome.Stage == "AddressConflict" ? Loc.Get("Apply.AddressConflict") : ProjectApplyViewModel.StateText(result.Outcome.State))

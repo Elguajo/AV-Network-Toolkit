@@ -360,6 +360,9 @@
   <sys:String x:Key="Apply.Unsupported">Cannot prepare this operation. Select the intended adapter and a valid linked profile. Complex/unknown IPv4 state, custom routes, managed DNS, static automatic DNS and /31–/32 are blocked before changes. Review the original settings and use Windows settings for unsupported recovery.</sys:String>
   <sys:String x:Key="Apply.ObservationFailed">Windows adapter settings could not be read. Nothing was applied. Refresh the adapter and retry; if this repeats, report the adapter-reading error.</sys:String>
   <sys:String x:Key="Apply.NoDns">No IPv4 DNS servers (explicitly configured)</sys:String>
+  <sys:String x:Key="Apply.OfflineReview">The adapter is disconnected. You can save its IPv4 configuration now. A saved configuration does not confirm an active address or connectivity; connect the cable before opening a device.</sys:String>
+  <sys:String x:Key="Apply.OfflinePolicyVerified">Adapter settings are saved. The adapter is disconnected; connect the cable to use them. The active address and connectivity are not verified. No device was opened.</sys:String>
+  <sys:String x:Key="Apply.Stage.OfflinePolicyVerified">Disconnected adapter configuration saved</sys:String>
   <sys:String x:Key="Apply.NoLeaseReview">DHCP is enabled but no lease is available. This profile can replace automatic addressing. Restoring DHCP restores the policy; it may select a different automatic address while waiting for a server.</sys:String>
   <sys:String x:Key="Apply.DhcpPolicyVerified">DHCP policy is configured. No lease is available yet; waiting for a DHCP server. Connectivity has not been verified.</sys:String>
   <sys:String x:Key="Apply.Stage.DhcpPolicyVerified">DHCP policy configured; waiting for a lease</sys:String>

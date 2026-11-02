@@ -45,7 +45,7 @@ internal static partial class Program
             {
                 RenderProfileSwitching(output);
                 if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
-                Console.WriteLine("PASS: 20 profile-switching Light/Dark normal/minimum reviews; APIPA/no-lease source, explicit DNS, conflict warning, reachable confirmation; no mutations or binding errors.");
+                Console.WriteLine("PASS: 28 profile-switching Light/Dark normal/minimum reviews; offline static/DHCP, APIPA/no-lease, explicit DNS, conflict warning, reachable confirmation; real policy validation, no mutations or binding errors.");
                 return 0;
             }
             if (args.Contains("--prepare-package-storage"))

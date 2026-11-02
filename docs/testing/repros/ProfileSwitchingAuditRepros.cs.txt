@@ -1,0 +1,87 @@
+// Temporary audit reproduction; moved to ignored evidence after running.
+using System.Collections.Immutable;
+using System.Collections.ObjectModel;
+using System.IO;
+using NetworkProfileManager.Helpers;
+using NetworkProfileManager.Models;
+using NetworkProfileManager.Services;
+using NetworkProfileManager.ViewModels;
+using NetworkProfileManager.Views;
+
+namespace NetworkProfileManager.Tests;
+
+[Collection("StaticState")]
+public sealed class WorkingProfileAuditRepros : IDisposable
+{
+    private readonly TestDataDirectoryFixture _dir = new();
+    public void Dispose() => _dir.Dispose();
+
+    [Fact]
+    public void ManualLinkLocalCanBeRestoredButCannotDirectlySwitchToAnOrdinaryStaticProfile()
+    {
+        var a = new ApplyAddress("169.254.42.10", 16, "manual", "preferred");
+        var s = ProjectApplyTests.Snapshot() with { Dad = new(1, true), Addresses = ImmutableArray.Create(a),
+            PersistentAddresses = ImmutableArray.Create(a), Routes = ImmutableArray<ApplyRoute>.Empty };
+        Assert.Equal("link-local", ProjectApplyPolicy.RecoveryIntent(s).Mode);
+        Assert.Throws<InvalidOperationException>(() => ProjectApplyPolicy.ValidateTransition(s, ProjectApplyTests.Intent(), false));
+    }
+
+    [Theory]
+    [InlineData("mask")][InlineData("secondary-only")][InlineData("gateway")][InlineData("duplicate-dns")][InlineData("network-address")]
+    public void LocalEditorAcceptsAndPersistsAProfileThatApplyRejects(string kind)
+    {
+        var vm = new DialogViewModel { Name = "Fixture", IpAddress = "192.0.2.20", SubnetMask = "255.255.255.0" };
+        switch (kind)
+        {
+            case "mask": vm.SubnetMask = "255.0.255.0"; break;
+            case "secondary-only": vm.SecondaryDns = "192.0.2.53"; break;
+            case "gateway": vm.Gateway = "198.51.100.1"; break;
+            case "duplicate-dns": vm.PrimaryDns = vm.SecondaryDns = "192.0.2.53"; break;
+            default: vm.IpAddress = "192.0.2.0"; break;
+        }
+        Assert.True(vm.IsValid);
+        var p = new IpProfile { Name = vm.Name, IpAddress = vm.IpAddress, SubnetMask = vm.SubnetMask,
+            Gateway = vm.Gateway, PrimaryDns = vm.PrimaryDns, SecondaryDns = vm.SecondaryDns };
+        var repo = new ProfileRepository(); repo.Save("fixture", new() { p }); Assert.Single(repo.Load("fixture"));
+        Assert.ThrowsAny<Exception>(() => LocalProfileApplyService.Intent(p));
+    }
+
+    [Fact]
+    public void ManualEditorDoesNotValidateDnsDespiteEnablingApply()
+    {
+        var vm = new AdapterViewModel(new() { Name = "Fixture" }, new ObservableCollection<ProfileViewModel>(), new ObservableCollection<HistoryEntry>());
+        vm.EditIsDhcp = false; vm.EditIp = "192.0.2.20"; vm.EditSubnet = "255.255.255.0"; vm.EditPrimaryDns = "not-an-ip";
+        Assert.True(vm.IsEditValid); Assert.Equal("", vm[nameof(vm.EditPrimaryDns)]);
+        Assert.ThrowsAny<Exception>(() => LocalProfileApplyService.Intent(new() { IpAddress = vm.EditIp,
+            SubnetMask = vm.EditSubnet, PrimaryDns = vm.EditPrimaryDns }));
+    }
+
+    private sealed class Surface : IProjectApplyBoundary, IProjectApplyJournal, IBrowserLauncher, IProjectApplyDialogs
+    {
+        internal ApplyAdapterSnapshot Current = ProjectApplyTests.Snapshot();
+        public Task<ApplyAdapterSnapshot> ReadAsync(ApplyAdapterIdentity i, CancellationToken ct) => Task.FromResult(Current);
+        public void ValidateSupported(ApplyAdapterSnapshot s, ApplyIntent d, bool recovery) => ProjectApplyPolicy.ValidateTransition(s, d, recovery);
+        public Task<ApplyExecutionResult> ExecuteAsync(ProjectApplyRequest r, CancellationToken ct)
+        { Current = ProjectApplyTests.Applied(Current, r.Desired); return Task.FromResult(new ApplyExecutionResult(ApplyExecutionStatus.Finished, true, "Fixture")); }
+        public Task BeginAsync(ProjectApplyRequest r, CancellationToken ct) => Task.CompletedTask;
+        public Task FinishAsync(Guid id, ProjectApplyOutcome o) => Task.FromException(new IOException("fixture"));
+        public void Open(string url) => throw new Exception("Browser should not be called");
+        public bool Confirm(string review, bool recovery) => true;
+    }
+
+    [Fact]
+    public async Task ConnectedRecoveryDropsFinalJournalWarningFromItsStatusText()
+    {
+        var s = new Surface();
+        var p = new ProjectProfile { Mode = "static", Name = "Fixture", Ipv4 = new() { Address = "192.0.2.20", PrefixLength = 24,
+            Dns = new() { Mode = "static", Servers = new() { "192.0.2.55" } } } };
+        var vm = new ProjectApplyViewModel(p, null, s, s, s,
+            _ => Task.FromResult<IReadOnlyList<ApplyAdapterIdentity>>(new[] { s.Current.Identity }),
+            () => Array.Empty<ProjectApplyRequest>(), s, verificationAttempts: 1, targetAdapterId: s.Current.Identity.Id);
+        await vm.RefreshAsync(); await vm.ReviewAsync(false); await vm.ApplyAsync();
+        Assert.Contains(Loc.Get("Apply.JournalWarning"), vm.Status);
+        await vm.ReviewAsync(true); await vm.ApplyAsync();
+        Assert.Equal(Loc.Get("Apply.Recovered"), vm.Status);
+        Assert.DoesNotContain(Loc.Get("Apply.JournalWarning"), vm.Status);
+    }
+}

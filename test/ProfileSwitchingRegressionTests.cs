@@ -246,7 +246,7 @@ public sealed class ProfileSwitchingRegressionTests : IDisposable
 
     [Theory]
     [InlineData("policy")][InlineData("alternate")][InlineData("manual-apipa")][InlineData("dad-disabled")]
-    [InlineData("dad-unknown")][InlineData("disconnected")][InlineData("custom-route")][InlineData("default-route")]
+    [InlineData("dad-unknown")][InlineData("custom-route")][InlineData("default-route")]
     [InlineData("multiple")][InlineData("prefix")][InlineData("duplicate")][InlineData("dns-unknown")]
     public async Task NoLeaseSupportDoesNotAcceptAlternateOrUnclassifiedSource(string kind)
     {
@@ -259,7 +259,6 @@ public sealed class ProfileSwitchingRegressionTests : IDisposable
             "manual-apipa" => s.Current with { Addresses = ImmutableArray.Create(a with { Origin = "manual" }) },
             "dad-disabled" => s.Current with { Dad = new(0, true) },
             "dad-unknown" => s.Current with { Dad = null },
-            "disconnected" => s.Current with { Dad = new(1, false) },
             "custom-route" => s.Current with { Routes = s.Current.Routes.Add(new("198.51.100.0/24", "169.254.42.1", 1, "active", "netmgmt")) },
             "default-route" => s.Current with { Routes = s.Current.Routes.Add(new("0.0.0.0/0", "169.254.42.1", 1, "active", "dhcp")) },
             "multiple" => s.Current with { Addresses = s.Current.Addresses.Add(new("192.0.2.10", 24, "dhcp", "preferred")) },

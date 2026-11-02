@@ -139,6 +139,7 @@ public sealed class ProjectApplyCoordinator(
                     {
                         observed = await boundary.ReadAsync(request.Before.Identity, observationTimeout.Token);
                         if (execution.Status != ApplyExecutionStatus.Finished || ProjectApplyVerification.Matches(request, observed)
+                            || ProjectApplyVerification.MatchesOfflinePolicy(request, observed)
                             || plan.Destination == null && ProjectApplyVerification.MatchesDhcpPolicyWithoutLease(request, observed)) break;
                         if (attempt + 1 < verificationAttempts)
                             await Task.Delay(TimeSpan.FromMilliseconds(500), _time, observationTimeout.Token);
@@ -154,9 +155,13 @@ public sealed class ProjectApplyCoordinator(
                 outcome = End(ProjectApplyState.Cancelled, execution.MayHaveChanged, observed, execution.Stage);
             else if (execution.Status != ApplyExecutionStatus.Finished)
                 outcome = End(ProjectApplyState.ApplyFailed, execution.MayHaveChanged, observed, execution.Stage);
+            else if (observed != null && ProjectApplyVerification.MatchesOfflinePolicy(request, observed))
+                outcome = End(plan.Destination == null ? ProjectApplyState.Complete : ProjectApplyState.Unverified,
+                    execution.MayHaveChanged, observed, "OfflinePolicyVerified");
             else if (observed != null && plan.Destination == null && ProjectApplyVerification.MatchesDhcpPolicyWithoutLease(request, observed))
                 outcome = End(ProjectApplyState.Complete, execution.MayHaveChanged, observed, "DhcpPolicyVerified");
-            else if (observed == null || !ProjectApplyVerification.Matches(request, observed))
+            else if (observed == null || !ProjectApplyVerification.Matches(request, observed)
+                || plan.Destination != null && ProjectApplyPolicy.IsKnownOffline(observed))
                 outcome = End(ProjectApplyState.Unverified, execution.MayHaveChanged, observed,
                     observed?.Addresses.Any(a => a.Address == request.Desired.Address && a.State == "duplicate") == true
                         ? "AddressConflict" : "Verification");
@@ -212,6 +217,29 @@ public sealed class ProjectApplyCoordinator(
 
 internal static class ProjectApplyVerification
 {
+    internal static bool MatchesOfflinePolicy(ProjectApplyRequest request, ApplyAdapterSnapshot actual)
+    {
+        var d = request.Desired;
+        if (!ProjectApplyPolicy.IsKnownOffline(actual) || !actual.ClassificationComplete || actual.Identity != request.Before.Identity
+            || actual.DnsRegistration != (d.DnsRegistration ?? request.Before.DnsRegistration) || d.Mode is not ("static" or "dhcp")) return false;
+        try { ProjectApplyPolicy.ValidateOfflinePolicy(actual); }
+        catch { return false; }
+        if (d.Mode == "dhcp")
+            return actual.Dhcp && actual.DnsSource == d.DnsMode && (d.DnsMode != "static" || actual.DnsServers.SequenceEqual(d.DnsServers));
+        if (actual.Dhcp || actual.PersistentAddresses.Length != 1) return false;
+        var a = actual.PersistentAddresses[0];
+        if (a.Address != d.Address || a.PrefixLength != d.PrefixLength || a.Origin != "manual") return false;
+        var gateways = actual.Routes.Where(r => r.Store == "persistent" && r.Destination == "0.0.0.0/0").ToArray();
+        if (d.Gateway == null ? gateways.Length != 0 : gateways.Length != 1 || gateways[0].NextHop != d.Gateway || gateways[0].Metric != d.GatewayMetric) return false;
+        return d.DnsMode switch
+        {
+            "static" => actual.DnsSource == "static" && actual.DnsServers.SequenceEqual(d.DnsServers),
+            "none" => actual.DnsSource == "none" && actual.DnsServers.Length == 0,
+            "leave-unchanged" => actual.DnsSource == request.Before.DnsSource && actual.DnsServers.SequenceEqual(request.Before.DnsServers),
+            _ => false
+        };
+    }
+
     // Only the coordinator's browser-free branch may use this narrower result.
     internal static bool MatchesDhcpPolicyWithoutLease(ProjectApplyRequest request, ApplyAdapterSnapshot actual)
     {

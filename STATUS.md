@@ -1,5 +1,12 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Adjacent audit and disconnected configuration — SWITCH-03 / ADR-057, 2026-11-02
+
+- Fork / branch / inspected base: https://github.com/Elguajo/AV-Network-Toolkit / main / `3085ec67728f4011bd48365fc251967097926d50`, initially clean. Scoped implementation/source freeze follows, resolvable via `git log -1 --format=%H -- app/Services/ProjectApplyPolicy.cs`. Concurrent device-dialog/diagnostic-startup changes appeared and are preserved/excluded.
+- Completed: four adjacent defect groups reproduced in 8 isolated cases and logged SWITCH-04–07; owner then explicitly requested unplugged configuration. Implemented known-disconnected static/DHCP stored-policy verification, source/history/recovery handling and no offline browser handoff, with reconnect-specific feedback. [Audit/contract/evidence](docs/testing/PROFILE_SWITCHING_AUDIT_2026-11-02.md). One passive snapshot read confirmed the real Deprecated/offline state; no real network mutation.
+- Tests last executed: current working-tree 946 full unit PASS/0 failed/skipped, builds 0 warnings/errors; 23 observer fixtures per shell; 28 focused + 128 existing WPF captures/0 binding errors before frozen repeats. Prior-source 15/23 and explicit offline-browser 1/2 expected failures retained. Eight separate audit reproductions are not included in the product unit count.
+- In progress / blockers / next action: freeze only scoped source, rerun exact-source checks and build a new local portable. Native UAC/apply/reconnect/recovery and owner acceptance UNVERIFIED; SWITCH-04–07 remain OPEN. Phase 07 AWAITING_REVIEW; no push/release, installed-app change or Phase 08.
+
 ## DHCP/APIPA field continuation — SWITCH-02 / ADR-056, 2026-11-02
 
 - Fork / branch / inspected base: https://github.com/Elguajo/AV-Network-Toolkit / main / `941e0cc9aa68a207839c2056d6033fa2d9a601a5`. Exact implementation/package source **`e299418dfc423a7f172d3cd18733cfdd08a38afe`**; clean before publishing local payload. Prior SWITCH-01 source/folder e3315a2 retained. Outcome-only commit follows, resolvable via `git log -1 --format=%H -- docs/testing/APIPA_PROFILE_SWITCHING_REVIEW.md`.

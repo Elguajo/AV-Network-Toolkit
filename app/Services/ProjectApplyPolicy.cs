@@ -57,15 +57,16 @@ internal static class ProjectApplyPolicy
     }
 
     internal static void ValidateSnapshot(ApplyAdapterSnapshot s, bool allowTransient = false, bool allowLinkLocal = false,
-        bool restoringDhcp = false, bool allowDhcpWithoutLease = false)
+        bool restoringDhcp = false, bool allowDhcpWithoutLease = false, bool allowOffline = false)
     {
-        var noLease = allowDhcpWithoutLease && IsDhcpWithoutLease(s);
+        var offline = allowOffline && IsKnownOffline(s);
+        var noLease = allowDhcpWithoutLease && IsDhcpWithoutLease(s) || offline && HasAutomaticNoLeaseAddress(s, offline: true);
         if (s == null || s.Identity == null || s.Identity.Id == Guid.Empty || s.Identity.InterfaceIndex <= 0
             || string.IsNullOrWhiteSpace(s.Identity.Alias) || s.Identity.Alias.Length > 256
             || s.Identity.Alias.Any(char.IsControl) || s.Identity.PhysicalAddress == null
             || !s.ClassificationComplete || s.Addresses.IsDefault || s.PersistentAddresses.IsDefault
             || s.DnsServers.IsDefault || s.Routes.IsDefault || s.Addresses.Length > 1 || s.PersistentAddresses.Length > 1
-            || (!allowTransient && !noLease && s.Addresses.Length != 1) || s.Routes.Length > 32)
+            || (!allowTransient && !noLease && !offline && s.Addresses.Length != 1) || s.Routes.Length > 32)
             throw new InvalidOperationException("Unsupported or unknown adapter state.");
         ValidateDns(s.DnsSource, s.DnsServers, observed: true);
         if (s.Dhcp && s.DnsSource == "none") throw new InvalidOperationException("Invalid DHCP DNS policy.");
@@ -78,7 +79,8 @@ internal static class ProjectApplyPolicy
                 || (a.Origin != "manual" && a.Origin != "dhcp" && !noLease)
                 ) throw new InvalidOperationException("Unsupported address.");
         }
-        if (!allowTransient && s.Addresses.Any(a => a.State != "preferred")) throw new InvalidOperationException("Address not ready.");
+        if (!allowTransient && !offline && s.Addresses.Any(a => a.State != "preferred")) throw new InvalidOperationException("Address not ready.");
+        if (offline && s.Addresses.Any(a => !KnownAddressState(a.State))) throw new InvalidOperationException("Unknown offline address state.");
         if (!s.Dhcp)
         {
             // Address assignment can fail DAD before explicit DNS replacement.
@@ -88,7 +90,10 @@ internal static class ProjectApplyPolicy
                 && s.Addresses.Length == 1 && LinkLocalAddressing.IsCandidate(s.Addresses[0].Address)
                 && s.Addresses[0].PrefixLength == 16 && s.Addresses[0].Origin == "manual"))
                 throw new InvalidOperationException("Static automatic DNS unsupported.");
-            if (!allowTransient && (s.PersistentAddresses.Length != 1 || !SameAddress(s.Addresses[0], s.PersistentAddresses[0])
+            if (offline && (s.PersistentAddresses.Length != 1 || s.PersistentAddresses[0].Origin != "manual"
+                || s.Addresses.Any(a => !SameAddress(a, s.PersistentAddresses[0]))))
+                throw new InvalidOperationException("Unknown offline persistent address.");
+            if (!allowTransient && !offline && (s.PersistentAddresses.Length != 1 || !SameAddress(s.Addresses[0], s.PersistentAddresses[0])
                 || s.Addresses[0].Origin != "manual")) throw new InvalidOperationException("Unknown persistent address.");
         }
         else if (s.PersistentAddresses.Any(a => a.Origin == "manual") || s.Addresses.Any(a => a.Origin != "dhcp" && !noLease))
@@ -102,7 +107,8 @@ internal static class ProjectApplyPolicy
                 if (!Usable(r.NextHop) || r.Metric < (s.Dhcp ? 0 : 1) || r.Metric > 9999
                     || (r.Origin != (s.Dhcp ? "dhcp" : "netmgmt")
                         && !(r.Store == "persistent" && !s.Dhcp && r.Origin == "persistent"))) throw new InvalidOperationException("Unsupported gateway.");
-                if (r.Origin == "persistent" && s.Routes.Count(a => a.Store == "active" && a.Destination == r.Destination
+                if (r.Origin == "persistent" && !(offline && !s.Routes.Any(a => a.Store == "active" && a.Destination == r.Destination))
+                    && s.Routes.Count(a => a.Store == "active" && a.Destination == r.Destination
                     && a.NextHop == r.NextHop && a.Metric == r.Metric && a.Origin == "netmgmt") != 1)
                     throw new InvalidOperationException("Unmatched persistent gateway.");
             }
@@ -114,21 +120,27 @@ internal static class ProjectApplyPolicy
         if (s.Addresses.Concat(s.PersistentAddresses).Any(a => LinkLocalAddressing.IsLinkLocal(a.Address))
             && (active.Length != 0 || persistent.Length != 0)) throw new InvalidOperationException("Link-local gateway unsupported.");
         if (active.Length > 1 || persistent.Length > 1
-            || (!s.Dhcp && !allowTransient && (active.Length != persistent.Length
+            || (!s.Dhcp && !allowTransient && !(offline && active.Length == 0) && (active.Length != persistent.Length
                 || active.Length == 1 && (active[0].NextHop != persistent[0].NextHop || active[0].Metric != persistent[0].Metric)))
             || (s.Dhcp && persistent.Length != 0)) throw new InvalidOperationException("Complex gateway unsupported.");
-        if (!s.Dhcp && !allowTransient && active.Length == 1
-            && (active[0].NextHop == s.Addresses[0].Address || !HostInSubnet(active[0].NextHop, s.Addresses[0].Address, s.Addresses[0].PrefixLength)))
-            throw new InvalidOperationException("Gateway cannot be restored by the supported contract.");
+        if (!s.Dhcp && (!allowTransient || offline))
+        {
+            var address = offline ? s.PersistentAddresses[0] : s.Addresses[0];
+            var gateway = offline ? persistent.SingleOrDefault() : active.SingleOrDefault();
+            if (gateway != null && (gateway.NextHop == address.Address || !HostInSubnet(gateway.NextHop, address.Address, address.PrefixLength)))
+                throw new InvalidOperationException("Gateway cannot be restored by the supported contract.");
+            if (offline && active.Length == 1 && (persistent.Length != 1 || active[0].NextHop != persistent[0].NextHop || active[0].Metric != persistent[0].Metric))
+                throw new InvalidOperationException("Conflicting offline gateway.");
+        }
     }
 
     internal static ApplyIntent RecoveryIntent(ApplyAdapterSnapshot snapshot)
     {
-        ValidateSnapshot(SourceConfiguration(snapshot), allowLinkLocal: true, allowDhcpWithoutLease: true);
+        ValidateSnapshot(SourceConfiguration(snapshot), allowLinkLocal: true, allowDhcpWithoutLease: true, allowOffline: true);
         if (snapshot.Dhcp) return new("dhcp", null, 0, null, snapshot.DnsSource,
             snapshot.DnsSource == "automatic" ? ImmutableArray<string>.Empty : snapshot.DnsServers, DnsRegistration: snapshot.DnsRegistration);
         var a = ConfiguredAddress(snapshot);
-        var g = snapshot.Routes.SingleOrDefault(r => r.Destination == "0.0.0.0/0" && r.Store == "active");
+        var g = snapshot.Routes.SingleOrDefault(r => r.Destination == "0.0.0.0/0" && r.Store == (IsKnownOffline(snapshot) ? "persistent" : "active"));
         return LinkLocalAddressing.IsCandidate(a.Address)
             ? new("link-local", a.Address, 16, null, snapshot.DnsSource, snapshot.DnsServers, DnsRegistration: snapshot.DnsRegistration)
             : new("static", a.Address, a.PrefixLength, g?.NextHop, snapshot.DnsSource, snapshot.DnsServers, g?.Metric ?? 1, snapshot.DnsRegistration);
@@ -139,7 +151,7 @@ internal static class ProjectApplyPolicy
         ValidateIntent(desired, recovery);
         ValidateSnapshot(SourceConfiguration(snapshot), allowTransient: recovery,
             allowLinkLocal: recovery || desired.Mode is "link-local" or "dhcp", restoringDhcp: recovery && desired.Mode == "dhcp",
-            allowDhcpWithoutLease: desired.Mode is "static" or "dhcp");
+            allowDhcpWithoutLease: desired.Mode is "static" or "dhcp", allowOffline: desired.Mode is "static" or "dhcp");
         if (!recovery && desired.DnsMode == "none" && snapshot.DnsServers.Length != 0)
             throw new InvalidOperationException("Empty profile DNS cannot clear existing servers.");
         if (desired.Mode is "static" or "link-local" && desired.DnsMode == "leave-unchanged" && snapshot.DnsSource == "automatic")
@@ -156,15 +168,22 @@ internal static class ProjectApplyPolicy
             : desired;
 
     internal static ApplyAddress ConfiguredAddress(ApplyAdapterSnapshot snapshot) =>
-        snapshot.Addresses.Single(a => a.Origin != "wellknown");
+        IsKnownOffline(snapshot) && !snapshot.Dhcp ? snapshot.PersistentAddresses.Single()
+            : snapshot.Addresses.Single(a => a.Origin != "wellknown");
+
+    internal static bool IsKnownOffline(ApplyAdapterSnapshot? s) => s?.Dad is { Connected: false, Transmits: >= 0 };
+    private static bool KnownAddressState(string state) => state is "preferred" or "deprecated" or "tentative" or "duplicate" or "invalid";
+    internal static void ValidateOfflinePolicy(ApplyAdapterSnapshot s) => ValidateSnapshot(SourceConfiguration(s), allowOffline: true);
 
     // A recoverable automatic policy, not a usable DHCP lease. Do not accept
     // alternate static configuration, multiple addresses or a default gateway.
     internal static bool IsDhcpWithoutLease(ApplyAdapterSnapshot? s) =>
-        s is { Dhcp: true, Dad: { Connected: true, Transmits: > 0 } }
-        && !s.Addresses.IsDefault && !s.PersistentAddresses.IsDefault && !s.Routes.IsDefault
+        s is { Dad: { Connected: true, Transmits: > 0 } } && HasAutomaticNoLeaseAddress(s);
+
+    private static bool HasAutomaticNoLeaseAddress(ApplyAdapterSnapshot? s, bool offline = false) =>
+        s is { Dhcp: true } && !s.Addresses.IsDefault && !s.PersistentAddresses.IsDefault && !s.Routes.IsDefault
         && s.PersistentAddresses.Length == 0 && s.Addresses.Length <= 1
-        && s.Addresses.All(a => a.Origin == "wellknown" && a.State == "preferred"
+        && s.Addresses.All(a => a.Origin == "wellknown" && (a.State == "preferred" || offline && KnownAddressState(a.State))
             && a.PrefixLength == 16 && LinkLocalAddressing.IsCandidate(a.Address))
         && !s.Routes.Any(r => r.Destination == "0.0.0.0/0");
 
@@ -173,16 +192,18 @@ internal static class ProjectApplyPolicy
         // Windows can retain one configured static address in Duplicate state
         // alongside its automatic APIPA fallback. Retain both in the journal and
         // pre-state comparison; validate recovery intent against the configured IP.
-        // This relaxation is for the SOURCE only. Result verification stays strict.
+        // Connected result verification stays strict. Offline verification uses
+        // the stored configuration and never claims an active/usable address.
         if (snapshot == null) throw new InvalidOperationException("Missing adapter state.");
         if (snapshot.Dhcp || snapshot.Addresses.IsDefault || snapshot.PersistentAddresses.IsDefault || snapshot.Routes.IsDefault
             || snapshot.PersistentAddresses.Length != 1) return snapshot;
         var configured = snapshot.Addresses.Where(a => a.Origin == "manual").ToArray();
-        if (configured.Length != 1 || configured[0].State != "duplicate"
+        if (configured.Length != 1 || !(configured[0].State == "duplicate" || IsKnownOffline(snapshot) && KnownAddressState(configured[0].State))
             || !SameAddress(configured[0], snapshot.PersistentAddresses[0])
             || snapshot.Addresses.Length > 2
             || snapshot.Addresses.Any(a => a != configured[0] && !(a.Origin == "wellknown"
-                && LinkLocalAddressing.IsCandidate(a.Address) && a.PrefixLength == 16 && a.State == "preferred"))) return snapshot;
+                && LinkLocalAddressing.IsCandidate(a.Address) && a.PrefixLength == 16
+                && (a.State == "preferred" || IsKnownOffline(snapshot) && KnownAddressState(a.State))))) return snapshot;
         var canonical = snapshot with { Addresses = ImmutableArray.Create(configured[0] with { State = "preferred" }) };
         // Reject custom routes even on the fallback address; only Windows' local
         // subnet/host/broadcast routes may accompany that transient fallback.
