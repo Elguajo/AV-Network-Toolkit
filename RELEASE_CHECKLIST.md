@@ -1,8 +1,10 @@
-# Release checklist — v1.1.6 Preview preparation; native acceptance pending
+# Release checklist — v1.1.6 Preview published; native acceptance pending
 
 ## Combined 1.1.6 Preview — REL-08 / ADR-054
 
 Owner requested a new release after other sessions finish. All three sessions completed before preparation from clean main d16f276. [Release review](docs/testing/RELEASE_1.1.6_REVIEW.md), [notes and compatibility](docs/releases/v1.1.6.md). Require full exact-source local unit/build/tooling/WPF and hosted package/runtime/main-window/install/reinstall/uninstall/storage-retention checks before publication, followed by independent public-download/tag/source/hash checks. Earlier results below remain historical. Missing production signing trust keeps automatic updates disabled; no key/secret/native update activation in this release. Preserve old releases, personal data and phase/native/owner gates. Publication PENDING.
+
+Executed: [1.1.6 Preview](https://github.com/Elguajo/AV-Network-Toolkit/releases/tag/v1.1.6), exact source **5bf8ece8608332c3a0685b228589b8ec30bf97c0**, [workflow 41393820449 SUCCESS](https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41393820449). 887 local/hosted unit/12 tooling, 286 unchanged-product WPF captures/0 binding errors, all hosted package/runtime/startup/install/reinstall/uninstall/locks and legacy/home/recovery/snapshot retention gates PASS. Four public assets/source/tag/API digests/manifest/checksums/CI bytes/downloaded EXE verified; old releases/tags unchanged. Initial failed runs and causal harness fixes retained in review. SHIP WITH KNOWN RISKS, Preview only; unchecked native/phase/production-trust gates remain unchecked. Preparation above is historical.
 
 ## Owner-requested 1.1.5 re-upload — ADR-052 / REL-07
 
@@ -47,7 +49,7 @@ Executed: [release workflow 41273489475](https://github.com/Elguajo/AV-Network-T
 - [ ] Installer install/launch/upgrade/uninstall checked with existing user data preserved; shortcuts/integration and scope documented. Portable full-folder extraction/launch checked separately.
 - [ ] Both packages retain the same functional and UAC/network permission boundaries; no settings migration or USB-local storage claim without separate review.
 - [ ] DATA-01 source: verify ordinary-user first-use consent/cancel/conflict/restart against synthetic existing LocalAppData; installed and ZIP builds choose the same home root. Keep personal-data/native acceptance separate from unit fixtures.
-- [ ] Run the updated guarded package retention checks for legacy, home, recovery and migration-backup fixtures on disposable hosted Windows; local syntax/guard checks alone do not pass this gate.
+- [x] Run the updated guarded package retention checks for legacy, home, recovery and migration-backup fixtures on disposable hosted Windows; verified for 1.1.6 source 5bf8ece in workflow 41393820449. Native personal-data/cross-version/client acceptance remains separate.
 - [x] Changelog, known limitations and checksum attached.
 - [x] Release approved by user, not by autonomous agent (ADR-045 Preview scope).
 

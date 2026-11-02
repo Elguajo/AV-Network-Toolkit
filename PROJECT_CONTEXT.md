@@ -1,6 +1,6 @@
 # Project context — persistent product brief
 
-Owner-requested combined release (REL-08 / ADR-054, 2026-11-02): all updater/password/DATA-01 sessions completed; prepare **1.1.6 Preview** from their combined main source with full isolated regression, exact-source hosted packages and independent download verification. [Scope/evidence](docs/testing/RELEASE_1.1.6_REVIEW.md), [upgrade/password/data compatibility](docs/releases/v1.1.6.md). Publication PENDING; production updater trust is absent and automatic updates remain disabled. Preserve old releases and Phase 07 AWAITING_REVIEW/native/owner/Phase 08 gates.
+Owner-requested combined release (REL-08 / ADR-054, 2026-11-02): **[1.1.6 Preview published](https://github.com/Elguajo/AV-Network-Toolkit/releases/tag/v1.1.6)** from **5bf8ece8608332c3a0685b228589b8ec30bf97c0**, [workflow 41393820449](https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41393820449) SUCCESS. 887 local/hosted unit/12 tooling and exact-source package/runtime/install/retention gates PASS; 286 unchanged-product WPF captures/0 binding errors and independent public download/source/hash checks verified. [Evidence and retained preparation failures](docs/testing/RELEASE_1.1.6_REVIEW.md), [upgrade/password/data compatibility](docs/releases/v1.1.6.md). Production updater trust is absent; updates remain manual. Old releases preserved; Phase 07 AWAITING_REVIEW/native/owner/Phase 08 gates remain.
 
 ## User-home storage — DATA-01, 2026-11-02
 
