@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Prepare one installer and portable ZIP from the completed updater/password/storage source after the concurrent sessions finish; retain earlier releases. [Upgrade instructions and known limitations](docs/releases/v1.1.6.md).
 
+### Fixed
+
+- Correct the update window's data-location explanation after the home-storage migration; it no longer incorrectly promises that current user data stays in LocalAppData.
+
 ## [1.1.5] — 2026-11-01 (AV Network Toolkit Preview)
 
 ### Added

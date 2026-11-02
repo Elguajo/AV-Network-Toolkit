@@ -597,7 +597,7 @@
   <sys:String x:Key="Updates.Extract">Prepare new folder…</sys:String>
   <sys:String x:Key="Updates.AutoCheck">Check automatically once a day</sys:String>
   <sys:String x:Key="Updates.IncludePreview">Include Preview releases</sys:String>
-  <sys:String x:Key="Updates.Hint">Checks contact GitHub without sending profiles or device data. Downloads and installation require separate actions. Existing user data stays in LocalAppData. Preview and Windows support limits still apply.</sys:String>
+  <sys:String x:Key="Updates.Hint">Checks contact GitHub without sending profiles or device data. Downloads and installation require separate actions. Your data folder is selected at startup; project files stay where you saved them. Preview and Windows support limits still apply.</sys:String>
   <sys:String x:Key="Updates.Check">Check for updates</sys:String>
   <sys:String x:Key="Updates.Download">Download</sys:String>
   <sys:String x:Key="Updates.Progress">Update download progress</sys:String>
