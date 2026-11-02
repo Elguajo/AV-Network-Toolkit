@@ -1,4 +1,8 @@
-# Release checklist — v1.1.5 Preview published; native acceptance pending
+# Release checklist — v1.1.6 Preview preparation; native acceptance pending
+
+## Combined 1.1.6 Preview — REL-08 / ADR-054
+
+Owner requested a new release after other sessions finish. All three sessions completed before preparation from clean main d16f276. [Release review](docs/testing/RELEASE_1.1.6_REVIEW.md), [notes and compatibility](docs/releases/v1.1.6.md). Require full exact-source local unit/build/tooling/WPF and hosted package/runtime/main-window/install/reinstall/uninstall/storage-retention checks before publication, followed by independent public-download/tag/source/hash checks. Earlier results below remain historical. Missing production signing trust keeps automatic updates disabled; no key/secret/native update activation in this release. Preserve old releases, personal data and phase/native/owner gates. Publication PENDING.
 
 ## Owner-requested 1.1.5 re-upload — ADR-052 / REL-07
 

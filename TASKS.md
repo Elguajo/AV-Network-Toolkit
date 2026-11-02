@@ -1,5 +1,9 @@
 # Traceable task backlog
 
+## Combined new Preview — REL-08, 2026-11-02
+
+- [ ] **REL-08** — Wait for updater/password/DATA-01 sessions, review the completed combined source and publish a new Preview. **AC:** complete regression/build/tooling/WPF checks, same-source installer/ZIP, disposable hosted runtime/install/reinstall/uninstall/data-retention gates, exact source/tag/assets/download checks and handoff; retain old releases and phase/native limits. **State:** PREPARING_1.1.6 — all three sessions completed, clean main d16f276 inspected; [scope and evidence](docs/testing/RELEASE_1.1.6_REVIEW.md), [notes](docs/releases/v1.1.6.md). No production trust configured; updates remain manual.
+
 ## Project/device opening invariant review — 2026-11-02
 
 - [x] **OPEN-01** — Verify catalogue/device opening never applies network settings and explicit Apply & Open retains identity/consent/apply/observation/browser gates. **State:** VERIFIED_SAFE_ONLY at a75a3ac — no product defect or code change needed; 237 focused / 744 full unit PASS, 128 WPF captures / 0 binding errors, solution/harness builds 0 warnings/errors. [Evidence, main-versus-detached selection distinction and limits](docs/testing/OPENING_NETWORK_INVARIANT_REVIEW.md). No native acceptance, phase completion, DATA-01/Phase 08, updater or publication change.

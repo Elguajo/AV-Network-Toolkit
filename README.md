@@ -95,22 +95,22 @@ Select an image for the full-size view. These WPF component captures use invente
 
 ## Status and limitations
 
-The current source targets **1.1.5 Preview**, with the icon rail, collapsible/resizable sidebar, saved window layout, actual tool-activity indicators and corrected Teredo connection notifications. The owner-requested corrected packages retain version 1.1.5; re-download if you used the original packages. Read the [version notes](docs/releases/v1.1.5.md) and [changelog](CHANGELOG.md) for the changes included in each build.
+The current source targets **1.1.6 Preview**, adding optional device passwords in separate v2 project files and confirmed migration of local data to the user folder. Publication and exact-source verification are recorded in the [release review](docs/testing/RELEASE_1.1.6_REVIEW.md). Read the [version notes](docs/releases/v1.1.6.md) and [changelog](CHANGELOG.md) before upgrading.
 
 - **Network safety:** complex or unknown adapter configurations are blocked. Recovery is best effort and can fail; older history does not contain a complete original snapshot. Keep an independent way to restore the adapter. [Supported states and field semantics](docs/USER_GUIDE.md#applying-settings-and-recovery).
-- **Acceptance:** automated checks and hosted package tests do not certify real NIC/UAC/DAD, physical packet egress, multicast, clean-client deployment or manual accessibility. Native DPI was checked at 100%; actual 150%/200% and mixed-monitor acceptance remain pending. DOC-R01 was resolved as a test synchronization defect. [Known issues](docs/releases/v1.1.5.md#known-limitations).
-- **Scope:** no temporary DHCP server, device-password storage, automatic login, TLS bypass or automatic updater is shipped in published 1.1.5. Those packages still use LocalAppData.
+- **Acceptance:** automated checks and hosted package tests do not certify personal-data migration, real NIC/UAC/DAD, physical packet egress, multicast, clean-client deployment or manual accessibility. Native DPI was checked at 100%; actual 150%/200% and mixed-monitor acceptance remain pending. [Known issues](docs/releases/v1.1.6.md#known-limitations).
+- **Scope:** no temporary DHCP server, automatic login, TLS bypass or USB-local data. The update interface is included, but automatic checks/download/installation remain disabled until production signing trust and native acceptance are configured.
 
-Local source also implements the separately approved home-data migration, with explicit consent, verified copies, retained originals and independent backups. [Behavior, compatibility and verification limits](docs/testing/DATA_STORAGE_MIGRATION_REVIEW.md). It is not included in published 1.1.5; ZIP distribution still does not enable USB-local data.
+Home-data migration requires explicit consent, verified copies, retained originals and independent backups. Older builds keep using their separate LocalAppData dataset. [Behavior, compatibility and verification limits](docs/testing/DATA_STORAGE_MIGRATION_REVIEW.md).
 
-Local source follow-up: optional device passwords use the separately approved v2 project format; [behavior, compatibility and verification limits](docs/testing/DEVICE_PASSWORD_REVIEW.md). This is not included in the published 1.1.5 packages.
+Optional device passwords are plaintext in project JSON and backups. The first password save creates a new v2 file and preserves v1; older builds cannot open v2. [Behavior, compatibility and verification limits](docs/testing/DEVICE_PASSWORD_REVIEW.md).
 
 ## Documentation
 
 | Start with | For |
 |---|---|
 | [User guide](docs/USER_GUIDE.md) | Installation, local versus project profiles, device links, diagnostics, data and recovery |
-| [Release notes](docs/releases/v1.1.5.md) · [Changelog](CHANGELOG.md) | Version changes, compatibility and known issues |
+| [Release notes](docs/releases/v1.1.6.md) · [Changelog](CHANGELOG.md) | Version changes, compatibility and known issues |
 | [Roadmap](ROADMAP.md) | Planned capabilities and acceptance status |
 | [Test matrix](docs/testing/TEST_MATRIX.md) · [Packaging report](docs/testing/PACKAGING_REVIEW.md) | What was checked and the limits of that evidence |
 | [Project schema](schemas/project.avnet.schema.json) · [Example](examples/project.avnet.json) | Project JSON format |

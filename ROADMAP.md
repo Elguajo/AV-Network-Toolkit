@@ -1,5 +1,7 @@
 # Roadmap — fixed phase order
 
+REL-08 / ADR-054, 2026-11-02: owner requested waiting for completed concurrent sessions, combined verification and a new GitHub release. Prepare 1.1.6 Preview including optional v2 device passwords and confirmed home-data migration; updater remains disabled without production trust. [Release scope/evidence](docs/testing/RELEASE_1.1.6_REVIEW.md). No numbered phase completion/reordering or Phase 08/native acceptance; exact-source publication checks pending.
+
 DATA-01 (ADR-042, 2026-11-02): owner approved home-only copy/snapshot/explicit cutover; [local implementation and acceptance limits](docs/testing/DATA_STORAGE_MIGRATION_REVIEW.md). Separate from the nine phases: no Phase 07 acceptance, Phase 08, personal-data migration, USB-local mode or publication implied. Current published packages retain LocalAppData.
 
 Bounded update follow-up (ADR-053, 2026-11-02): owner selected signed manifests and fresh-folder portable updates. [Local contract](docs/spec/APPLICATION_UPDATE_PROPOSAL.md) and [review](docs/testing/APPLICATION_UPDATE_REVIEW.md) record opt-in daily checks, explicit verified download and guarded installer/new-folder actions with 788 isolated unit tests. Production trust/release integration and native installer/UAC acceptance remain pending; current releases are unchanged. No new numbered phase or change to Phase 07 AWAITING_REVIEW, DATA-01/Phase 08/publication gates.

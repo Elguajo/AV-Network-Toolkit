@@ -6,11 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.6] — 2026-11-02 (AV Network Toolkit Preview)
+
 ### Added
 
-- DATA-01 local source: deliberate migration to the user's `.av-network-toolkit` folder, byte-verified independent backups, preserved originals/recovery and explicit conflict/error handling; app/scanner settings gain preserved atomic writes. USB-local data remains separate; published 1.1.5 is unchanged. [Evidence and native/package limits](docs/testing/DATA_STORAGE_MIGRATION_REVIEW.md).
+- Optional device passwords with masked input, explicit Show/Hide, Copy and Remove, plaintext/backup consent and conditional clipboard cleanup. First password save creates a separate project v2 file, preserving the v1 original. Older builds cannot open v2. [Evidence and limits](docs/testing/DEVICE_PASSWORD_REVIEW.md).
+- Deliberate migration to the user's `.av-network-toolkit` folder, byte-verified independent backups, preserved originals/recovery and explicit conflict/error handling; app/scanner settings gain preserved atomic writes. Older builds keep their separate LocalAppData dataset. USB-local data remains separate. [Evidence and native limits](docs/testing/DATA_STORAGE_MIGRATION_REVIEW.md).
+- Application-update UI and signed-manifest verification infrastructure. Production signing trust and native installer/UAC acceptance remain pending; this release disables automatic checks/download/installation and must be updated manually. [Evidence and limits](docs/testing/APPLICATION_UPDATE_REVIEW.md).
 
-- Local application-update flow in Settings: opt-in daily release checks, explicit Preview policy, signed-manifest/package verification, deliberate installer handoff and fresh-folder portable preparation. Production signing trust/release integration and native installer/UAC acceptance remain pending; current releases are unchanged. [Local evidence and limits](docs/testing/APPLICATION_UPDATE_REVIEW.md).
+### Changed
+
+- Prepare one installer and portable ZIP from the completed updater/password/storage source after the concurrent sessions finish; retain earlier releases. [Upgrade instructions and known limitations](docs/releases/v1.1.6.md).
 
 ## [1.1.5] — 2026-11-01 (AV Network Toolkit Preview)
 

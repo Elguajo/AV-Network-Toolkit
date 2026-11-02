@@ -1,5 +1,13 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Combined 1.1.6 Preview preparation — REL-08 / ADR-054, 2026-11-02
+
+- Fork / branch / inspected source: https://github.com/Elguajo/AV-Network-Toolkit / main / `d16f2764bbb9ed0ba6cc88cc3567471c39740714`; clean checkout and all three concurrent sessions idle/completed before edits. Previous release v1.1.5 targets 9e06c48; origin/main observed 05cac3b. Preserve existing commits/tags/releases.
+- Completed: independent bounded review of the combined updater/password/storage source and shared startup/save/apply/exit/root-loss paths. No new confirmed defect identified. Version/notes/CI release guard preparation targets 1.1.6 Preview; [review](docs/testing/RELEASE_1.1.6_REVIEW.md).
+- In progress: exact-source combined checks and package/publication/download verification. No new build/test/CI/publication success claimed yet. Missing updater trust disables automatic updates; native/owner/phase acceptance remains pending, Phase 07 AWAITING_REVIEW.
+- Next action: commit the scoped release preparation, validate its immutable source locally, ordinary main push, run the exact-source release workflow and independently verify public downloads. No personal-data migration, local install, real network/UAC, production key or Phase 08 action.
+- Tests last executed: historical DATA-01 0905d89 has 886 unit/140 WPF/12 tooling PASS; these are not substituted for the new version's required run. Current release checks PENDING.
+
 ## User-home storage implementation — DATA-01, 2026-11-02
 
 - Fork / branch / final tested source: https://github.com/Elguajo/AV-Network-Toolkit / main / `0905d893586e925d1e0eef3a3e5fb9cb87566f2c`; implementation `0da74c688676f69b139839055e53421bae40be79`, feedback fix `8cbf88e`, root-loss guard `0905d89`. Concurrent accepted updater `bebaa10` and password b837ec6/aef78a9 preserved. This documentation-only evidence commit follows; resolve via `git log -1 --format=%H -- docs/testing/DATA_STORAGE_MIGRATION_REVIEW.md`.

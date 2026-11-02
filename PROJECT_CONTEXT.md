@@ -1,5 +1,7 @@
 # Project context — persistent product brief
 
+Owner-requested combined release (REL-08 / ADR-054, 2026-11-02): all updater/password/DATA-01 sessions completed; prepare **1.1.6 Preview** from their combined main source with full isolated regression, exact-source hosted packages and independent download verification. [Scope/evidence](docs/testing/RELEASE_1.1.6_REVIEW.md), [upgrade/password/data compatibility](docs/releases/v1.1.6.md). Publication PENDING; production updater trust is absent and automatic updates remain disabled. Preserve old releases and Phase 07 AWAITING_REVIEW/native/owner/Phase 08 gates.
+
 ## User-home storage — DATA-01, 2026-11-02
 
 Owner approved the [complete DATA-01 contract](docs/spec/DATA_STORAGE_MIGRATION_CONTRACT.md): home-only verified copy/snapshot/cutover, retained originals, explicit conflict acknowledgement, no merge/reverse sync and USB separate. Local implementation moves normal shared storage selection to `%USERPROFILE%\.av-network-toolkit`, including recovery journals and protected object preferences; [verification and limits](docs/testing/DATA_STORAGE_MIGRATION_REVIEW.md). Runtime migration requires deliberate consent and an ordinary user. Existing project files remain explicit and no personal data was migrated by the agent. Published 1.1.5 still uses LocalAppData; local implementation is not a package/release/native acceptance claim. Phase 07 AWAITING_REVIEW and all unrelated gates remain.
