@@ -359,4 +359,12 @@ public sealed class UserStorageTests : IDisposable
         Assert.Equal(StorageSafety.HashFile(file), StorageSafety.HashFile(Path.Combine(home.Data, "large-opaque.bin")));
         Assert.Equal(bytes.Length, new FileInfo(Path.Combine(home.Data, "large-opaque.bin")).Length);
     }
+    [Fact]
+    public void RecoveryFeedbackShowsKnownRootsWithoutLeakingExceptionData()
+    {
+        const string privateValue = "invented-private-fixture-value";
+        var message = StorageStartup.FailureMessage(new IOException(privateValue), _paths);
+        Assert.Contains(_paths.Home, message); Assert.Contains(_paths.Legacy, message); Assert.Contains(_paths.Backups, message);
+        Assert.DoesNotContain(privateValue, message);
+    }
 }

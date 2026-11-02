@@ -44,7 +44,8 @@ internal static partial class Program
             var review = new StorageReview(@"C:\FixtureUser\AppData\Local\NetworkProfileManager",
                 @"C:\FixtureUser\.av-network-toolkit", @"C:\FixtureUser\.av-network-toolkit-backups\0123456789abcdef0123456789abcdef",
                 38, 1234567, state == "diverged", 2);
-            var text = state == "error" ? Loc.Get("Storage.RootConflict") + "\n\n" + Loc.Get("Storage.RetryHelp") : StorageStartup.ReviewMessage(review);
+            var text = state == "error" ? StorageStartup.FailureMessage(new IOException("Storage.RootConflict"),
+                new(review.Destination, review.Source, @"D:\FixtureExe", review.Backup)) : StorageStartup.ReviewMessage(review);
             var action = Loc.Get(state == "error" ? "Common.Retry" : state == "diverged" ? "Storage.KeepHome" : "Storage.Copy");
             var window = new StorageReviewWindow(Loc.Get("Storage.Title"), text, action);
             if (minimum) { window.Width = window.MinWidth; window.Height = window.MinHeight; }

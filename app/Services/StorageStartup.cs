@@ -13,11 +13,12 @@ internal static class StorageStartup
     {
         while (true)
         {
+            UserStorageLocations? locations = null;
             try
             {
                 using var identity = WindowsIdentity.GetCurrent();
                 bool elevated = new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
-                var locations = UserStorageLocations.ForUser(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                locations = UserStorageLocations.ForUser(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
                     Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppDomain.CurrentDomain.BaseDirectory);
                 return new UserStorage(locations, otherInstance: OtherInstance,
                     beforeMigration: () => { if (elevated) throw new IOException("Storage.Elevated"); }).Open(Confirm);
@@ -26,12 +27,20 @@ internal static class StorageStartup
             catch (Exception e) when (e is IOException or UnauthorizedAccessException or InvalidOperationException
                 or ArgumentException or Newtonsoft.Json.JsonException or System.Security.SecurityException)
             {
-                // Never present raw exception text, filenames from untrusted JSON, or data values.
-                var reason = e.Message.StartsWith("Storage.", StringComparison.Ordinal) ? Loc.Get(e.Message, Loc.Get("Storage.Failed")) : Loc.Get("Storage.Failed");
-                if (new StorageReviewWindow(Loc.Get("Storage.Unavailable"), reason + "\n\n" + Loc.Get("Storage.RetryHelp"),
+                if (new StorageReviewWindow(Loc.Get("Storage.Unavailable"), FailureMessage(e, locations),
                     Loc.Get("Common.Retry")).ShowDialog() != true) return null;
             }
         }
+    }
+    internal static string FailureMessage(Exception error, UserStorageLocations? locations)
+    {
+        // Known roots help recovery; never display raw exception text, untrusted filenames or data values.
+        var reason = error.Message.StartsWith("Storage.", StringComparison.Ordinal)
+            ? Loc.Get(error.Message, Loc.Get("Storage.Failed")) : Loc.Get("Storage.Failed");
+        return reason + (locations == null ? "" : "\n\n" + Loc.Get("Storage.Destination") + "\n" + locations.Home
+            + "\n\n" + Loc.Get("Storage.Source") + "\n" + locations.Legacy
+            + "\n\n" + Loc.Get("Storage.Backup") + "\n" + locations.Backups)
+            + "\n\n" + Loc.Get("Storage.RetryHelp");
     }
     internal static bool Confirm(StorageReview review)
     {
