@@ -203,10 +203,13 @@ public sealed class UserStorageTests : IDisposable
     public void RootLossDoesNotRecreateOrFallbackAndDefaultJournalUsesSameContext()
     {
         var context = Open(); AppPaths.Initialize(context);
+        var updatePreferences = new ApplicationUpdatePreferences();
         Assert.Equal(context.Recovery, new ProjectApplyJournal().DirectoryPath); Assert.Equal(context.Data, AppPaths.DataDirectory);
         var displaced = _paths.Home + "-displaced"; Directory.Move(_paths.Home, displaced);
         Assert.Throws<IOException>(() => AppPaths.DataDirectory);
         Assert.False(AppSettingsStore.TrySet("Theme", "Light")); Assert.False(Directory.Exists(_paths.Home));
+        Assert.False(updatePreferences.Save(updatePreferences.Current with { AutomaticChecks = true }));
+        Assert.False(Directory.Exists(_paths.Home));
         Assert.False(Directory.Exists(_paths.Legacy));
     }
     [Fact]

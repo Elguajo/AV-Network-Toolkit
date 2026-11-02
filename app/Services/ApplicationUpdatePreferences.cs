@@ -33,6 +33,7 @@ internal sealed class ApplicationUpdatePreferences
         if (_blocked || value.Version != 1) return false;
         try
         {
+            AppPaths.ValidateStoragePath(_path);
             Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(_path))!);
             _file.Save(_path, new List<ApplicationUpdatePreference> { value }); Current = value; return true;
         }
