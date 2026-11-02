@@ -83,8 +83,6 @@
         </StackPanel>
         <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
           <ui:Button Content="{DynamicResource Project.KeepProfile}" Command="{Binding KeepProfileCommand}" MinWidth="96" Visibility="{Binding IsProfilesSection, Converter={StaticResource BoolToVis}}"/>
-          <ui:Button Content="{DynamicResource Device.Keep}" Command="{Binding KeepDeviceCommand}" MinWidth="96" Visibility="{Binding IsDevicesSection, Converter={StaticResource BoolToVis}}" Margin="0,0,8,0"/>
-          <ui:Button Content="{DynamicResource Device.Open}" Command="{Binding OpenDeviceCommand}" Appearance="Primary" MinWidth="96" Visibility="{Binding IsDevicesSection, Converter={StaticResource BoolToVis}}"/>
         </StackPanel>
       </Grid>
     </Border>

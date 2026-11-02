@@ -1,5 +1,10 @@
 # Traceable task backlog
 
+## Device interface usability — 2026-11-02
+
+- [x] **UI-DEVICE-01** — Implement the owner's approved Add/Edit modal and many-device selected-card concepts. **AC:** detached Cancel/validation/owner-exit safety, essential name/URL plus optional profile/password/details, multiple-device search/group/selection/deletion, explicit Open/Apply & Open and project-file-save semantics; preserve v1/v2/password/network contracts and verify both themes/minimum sizes. **State:** VERIFIED_LOCAL / OWNER_NATIVE_REVIEW_PENDING — 977 combined unit PASS, Release builds 0 warnings/errors, 52 focused + 128 existing WPF captures/0 binding errors. [Contract/targets](docs/spec/DEVICE_INTERFACE_UX_CONTRACT.md), [actual renders and retained failures](docs/testing/DEVICE_INTERFACE_UX_REVIEW.md). No real network/clipboard/browser/install/private-data migration, push/public release or phase advancement.
+
+
 ## Responsiveness follow-up — 2026-11-02
 
 - [x] **PERF-AUDIT-01** — Search application startup, windows, reads/writes, wait calls, styles and close paths for similar readiness/UI defects. **Verified:** source inventory and ranked findings in [review](docs/testing/UI_RESPONSIVENESS_REVIEW.md); measured native/PowerShell comparison, other durations explicitly UNVERIFIED. No claim of exhaustive native acceptance.

@@ -37,6 +37,13 @@ public sealed partial class ProjectViewModel
         }
     }
     public bool NoDeviceMatches => _deviceView.IsEmpty;
+    public bool HasSelectedDevice => _selectedDevice != null;
+    public bool HasNoSelectedDevice => !HasSelectedDevice;
+    public bool HasDeviceDetails => _selectedDevice is { } device &&
+        new[] { device.Type, device.Manufacturer, device.Ip, device.Notes }.Any(s => !string.IsNullOrEmpty(s));
+    public bool HasLinkedDeviceProfile => HasSelectedDevice && !string.IsNullOrEmpty(_deviceEditor.ProfileId);
+    public string DeviceEmptyText => Loc.Get(Devices.Count == 0 ? "Device.EmptyProject" : "Device.Empty");
+    public string DevicePasswordStatus => Loc.Get(_deviceEditor.SavePassword ? "Device.PasswordSaved" : "Device.PasswordNotSaved");
     public ProjectDeviceEditor DeviceEditor => _deviceEditor;
     public IReadOnlyList<DeviceProfileChoice> DeviceProfiles => new[]
         { new DeviceProfileChoice("", Loc.Get("Device.Unlinked")) }
@@ -149,6 +156,33 @@ public sealed partial class ProjectViewModel
     {
         var device = _deviceEditor.Build();
         _ = WithDevice(device); // Reject before changing the collection or draft.
+        StoreDevice(device);
+    }
+    // Detached modal edits are committed only after whole-project validation.
+    public bool TryStoreDevice(ProjectDeviceEditor draft)
+    {
+        bool stored = false;
+        Run(() =>
+        {
+            if (_deviceEditorDirty) throw new ProjectValidationException("ApplyDraft");
+            var device = draft.Build();
+            _ = WithDevice(device);
+            StoreDevice(device);
+            DeviceSearch = ""; // Keep the just-added/renamed row visible.
+            stored = true;
+        });
+        return stored;
+    }
+    internal string CopyDevicePassword(string password)
+    {
+        ProjectJson.ValidatePassword(password);
+        bool copied;
+        try { copied = _copyPassword(password); }
+        catch { copied = false; }
+        return Loc.Get(copied ? "Password.Copied" : "Password.CopyFailed");
+    }
+    private void StoreDevice(ProjectDevice device)
+    {
         var index = Devices.ToList().FindIndex(d => d.Id == device.Id);
         _updatingDevices = true;
         try
@@ -160,7 +194,7 @@ public sealed partial class ProjectViewModel
         }
         finally { _updatingDevices = false; }
         Changed(nameof(SelectedDevice));
-        DeviceNotice = "";
+        DeviceNotice = Loc.Get("Device.Kept");
         Dirty();
     }
     private void DeleteDevice()
@@ -237,6 +271,7 @@ public sealed partial class ProjectViewModel
             view.GroupDescriptions.Add(new PropertyGroupDescription(nameof(DeviceDirectoryEntry.Group)));
             _deviceView = view;
             Changed(nameof(DeviceView)); Changed(nameof(NoDeviceMatches));
+            Changed(nameof(DeviceEmptyText));
             Changed(nameof(DeviceProfiles)); Changed(nameof(DeviceProfileStatus)); Changed(nameof(SelectedDevice));
             Changed(nameof(SelectedDeviceEntry));
         }
@@ -250,6 +285,8 @@ public sealed partial class ProjectViewModel
         _deviceEditor.PropertyChanged += DeviceEditorChanged;
         _deviceEditorDirty = false;
         Changed(nameof(DeviceEditor)); Changed(nameof(DeviceProfileStatus)); Changed(nameof(DeviceDestination)); Changed(nameof(HasUnsavedChanges));
+        Changed(nameof(HasSelectedDevice)); Changed(nameof(HasNoSelectedDevice)); Changed(nameof(HasLinkedDeviceProfile)); Changed(nameof(DevicePasswordStatus));
+        Changed(nameof(HasDeviceDetails));
     }
     private void DeviceEditorChanged(object? sender, PropertyChangedEventArgs e)
     {
@@ -260,10 +297,14 @@ public sealed partial class ProjectViewModel
         _deviceEditorDirty = true;
         DeviceNotice = "";
         Changed(nameof(DeviceProfileStatus)); Changed(nameof(DeviceDestination)); Changed(nameof(HasUnsavedChanges));
+        Changed(nameof(HasLinkedDeviceProfile)); Changed(nameof(DevicePasswordStatus));
     }
 }
 
-public sealed record DeviceDirectoryEntry(ProjectDevice Device, DeviceDirectoryGroup Group, string ProfileName);
+public sealed record DeviceDirectoryEntry(ProjectDevice Device, DeviceDirectoryGroup Group, string ProfileName)
+{
+    public string Address => Device.Ip ?? (Uri.TryCreate(Device.WebUrl, UriKind.Absolute, out var uri) ? uri.Host : "");
+}
 public sealed record DeviceDirectoryGroup(string Id, string Name);
 public sealed record DeviceProfileChoice(string Id, string Name);
 

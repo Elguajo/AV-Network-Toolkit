@@ -1,5 +1,13 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Device directory/modal follow-up — UI-DEVICE-01 / ADR-058, 2026-11-02
+
+- Fork / branch / inspected bases: https://github.com/Elguajo/AV-Network-Toolkit / main / initial `3085ec6`; final combined baseline `dadb8bba5b1e1ad78c2b33c1fc6fd5756cbab380`. Implementation commit follows, resolvable via `git log -1 --format=%H -- docs/testing/DEVICE_INTERFACE_UX_REVIEW.md`.
+- Completed: owner-approved Add/Edit modal with detached drafts, essential name/URL first, optional disclosures, fixed actions and keyboard/validation scrolling; many-device navigation/read-only card, explicit Open/Edit/linked Apply & Open, credential Show/Copy/removal, cancel/owner-exit guards and project-file-save feedback. [Contract/approved rasters](docs/spec/DEVICE_INTERFACE_UX_CONTRACT.md), [actual WPF evidence/review](docs/testing/DEVICE_INTERFACE_UX_REVIEW.md). No schema/network/storage/auth change.
+- Tests last executed: final combined Release solution/harness builds 0 warnings/errors; **977 unit PASS / 0 failed/skipped**, **52 focused + 128 existing WPF captures / 0 binding errors**. Earlier isolated 954 on de02b22 and 930 on 3085ec6 retained; incomplete concurrent build and UI fixture/expansion failures corrected without weakened gates. Final documentation/tooling checks in the handoff.
+- In progress / blockers / next action: local UI implementation is verified; prepare exact committed portable for owner review. Real clipboard/Narrator/high contrast/physical DPI, native networking/UAC/browser, owner acceptance NOT RUN / UNVERIFIED. Independently owned profile/diagnostic docs preserved. Phase 07 AWAITING_REVIEW; no installation/personal-data migration/push/public release/Phase 08 or phase completion.
+
+
 ## Responsiveness — NT-PERF-01 / PERF-AUDIT-01, 2026-11-02
 
 - Fork / branch / initial and final baseline: https://github.com/Elguajo/AV-Network-Toolkit / main / `3085ec67728f4011bd48365fc251967097926d50` → committed `de02b22a6db4ef2762fa687037213adc21f6d175`. Containing source commit follows; resolve via `git log -1 --format=%H -- app/Services/WindowsQuickAdapterDiagnostics.cs`. Concurrent device-modal source remains preserved/excluded.
@@ -1736,3 +1744,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks in active phase: prior owner/native/Phase 07 acceptance and serial focus recheck remain; SWITCH-04–07 are separate follow-ups. No task renumbering or unrelated product repair.
 - Next smallest safe action: owner exits old app through tray Exit and opens out/OfflineConfig-de02b22/Portable/NetworkProfileManager.exe with adjacent DLLs, reviews selected adapter/requested values and saved-versus-active status. Archive SHA-256 a3ebc300e4bdbdeaa90a44af774c212fada12672961618ba874b02f5fbbb2829. Keep earlier folders/journals. Safe serial UI tests can proceed once other harnesses are inactive; no process belonging to another session was terminated.
 - Can next session proceed without clarification: yes for read-only audit review and safe serial fixture checks. Implementation of SWITCH-04–07, native OS mutation, publication/install and phase advancement are not implied by this handoff.
+
+## Session handoff — UI-DEVICE-01, 2026-11-02 (Asia/Tashkent)
+
+- Date/environment: Windows/WPF, private .NET SDK 10.0.403; process-local runtime configuration only.
+- Fork/branch/HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main; initial 3085ec6, final combined baseline dadb8bba5b1e1ad78c2b33c1fc6fd5756cbab380; task commit resolves via docs/testing/DEVICE_INTERFACE_UX_REVIEW.md history.
+- Current phase/task: Phase 07 AWAITING_REVIEW; UI-DEVICE-01 / ADR-058, no phase acceptance or advancement.
+- Actually completed: accepted raster concepts copied as project references; detached Add/Edit modal, required name/URL, optional profile/password/details, fixed actions, stable many-device selection/card, safe explicit Open/linked Apply & Open, password masking/copy/removal and hidden-text lifecycle, owner-exit/cancel validation guards and save feedback. Expansion-motion focus scrolling corrected using arranged geometry.
+- Changed paths: device VM/views and new ProjectDeviceDialog/DevicePasswordFields, Main/Project composition and close guards, English device strings, DeviceModalTests, device smoke and two Program hunks; DESIGN/spec/review/decision/task/status plus six original/synthetic image artifacts. Concurrent diagnostic/profile source/docs preserved and excluded from this scope.
+- Tests: root Release solution build with -p:OutputPath=bin/DeviceUi/ and harness build with -p:OutputPath=bin/DeviceUiFinal/ PASS/0 warnings/errors; matching full unit command 977 PASS/0 failed/skipped; harness --device-passwords 52 and default 128 WPF captures PASS/0 binding errors. Exact commands/isolation/retained failures/limits in docs/testing/DEVICE_INTERFACE_UX_REVIEW.md. Private Python -B scripts/validate_plan.py PASS (9 phases/49 stable tasks/schemas/formats/973 links); -B scripts/test_validate_plan.py PASS (12); git diff --check PASS, line-ending notices only. Final staged scope/whitespace checks precede commit.
+- Live-network tests: NOT RUN, not authorized. Real browser/clipboard/Narrator/high contrast/physical DPI/install/private-file migration also NOT RUN/UNVERIFIED; all fixture boundaries fake.
+- Known risks/workarounds: save project file separately after Add/Edit; preserve accepted v1/v2/password consent/backup semantics. Actual app bars/native control sizes intentionally retained rather than tracing illustrative mock background. Out-of-scope profile audit risks remain separate.
+- Decisions requiring approval: owner review/native acceptance only; implementation already authorized. No publication or phase permission inferred.
+- Remaining phase tasks: owner/native acceptance for Phase 07 and prior records; Phase 08 remains gated.
+- Next smallest safe action: prepare the verified task commit's local portable and review its device flow with synthetic data; no ordinary launch/install/network mutation by the agent.
+- Next session may proceed without clarification: bounded local verification/handoff only; no next phase, live acceptance or public release authorization.

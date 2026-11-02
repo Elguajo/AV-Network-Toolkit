@@ -27,6 +27,7 @@ public partial class ProjectWindow : Wpf.Ui.Controls.FluentWindow
     protected override void OnClosing(CancelEventArgs e)
     {
         if (OwnedWindows.OfType<ProjectApplyWindow>().Any(w => !w.ConfirmApplicationExit())) e.Cancel = true;
+        if (OwnedWindows.OfType<ProjectDeviceDialog>().Any(w => !w.ConfirmApplicationExit())) e.Cancel = true;
         if (!_shared && !_exitApproved && DataContext is ProjectViewModel vm && !vm.CanDiscard()) e.Cancel = true;
         base.OnClosing(e);
     }
@@ -34,6 +35,7 @@ public partial class ProjectWindow : Wpf.Ui.Controls.FluentWindow
     public bool ConfirmApplicationExit(bool approveClose = true)
     {
         if (OwnedWindows.OfType<ProjectApplyWindow>().Any(w => !w.ConfirmApplicationExit())) return false;
+        if (OwnedWindows.OfType<ProjectDeviceDialog>().Any(w => !w.ConfirmApplicationExit())) return false;
         if (!_shared && DataContext is ProjectViewModel vm && !vm.CanDiscard()) return false;
         if (approveClose) _exitApproved = true;
         return true;

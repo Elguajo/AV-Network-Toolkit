@@ -11,7 +11,6 @@ public partial class DeviceDirectoryView : UserControl
     private ProjectViewModel? _vm;
     private ProjectDeviceEditor? _editor;
     private Window? _window;
-    private bool _sync;
     public DeviceDirectoryView()
     {
         InitializeComponent();
@@ -48,24 +47,28 @@ public partial class DeviceDirectoryView : UserControl
         if (_editor != null) { _editor.HidePassword(); _editor.PropertyChanged -= EditorChanged; }
         _editor = _vm?.DeviceEditor;
         if (_editor != null) _editor.PropertyChanged += EditorChanged;
+        DeviceDetailsViewport.ScrollToTop();
         Sync();
     }
     private void EditorChanged(object? sender, PropertyChangedEventArgs e) => Sync();
     private void Sync()
     {
-        _sync = true;
-        try
-        {
-            var value = _editor?.SavePassword == true ? _editor.Password : "";
-            if (DevicePasswordInput.Password != value) DevicePasswordInput.Password = value;
-            bool reveal = _editor?.IsPasswordRevealed == true;
-            DeviceRevealedPassword.Text = reveal ? value : "";
-            DeviceRevealedPassword.Visibility = reveal ? Visibility.Visible : Visibility.Collapsed;
-        }
-        finally { _sync = false; }
+        bool reveal = _editor?.IsPasswordRevealed == true;
+        DeviceRevealedPassword.Text = reveal ? _editor!.Password : "";
+        DeviceRevealedPassword.Visibility = reveal ? Visibility.Visible : Visibility.Collapsed;
     }
-    private void Password_Changed(object sender, RoutedEventArgs e)
+    private void New_Click(object sender, RoutedEventArgs e) => Edit(false);
+    private void Edit_Click(object sender, RoutedEventArgs e) => Edit(true);
+    private void More_Click(object sender, RoutedEventArgs e)
     {
-        if (!_sync && _editor?.SavePassword == true) _editor.Password = DevicePasswordInput.Password;
+        if (sender is not FrameworkElement button || button.ContextMenu == null) return;
+        button.ContextMenu.DataContext = DataContext;
+        button.ContextMenu.PlacementTarget = button;
+        button.ContextMenu.IsOpen = true;
+    }
+    private void Edit(bool existing)
+    {
+        if (DataContext is not ProjectViewModel vm || (existing && vm.SelectedDevice == null)) return;
+        new ProjectDeviceDialog(vm, existing ? vm.SelectedDevice : null) { Owner = Window.GetWindow(this) }.ShowDialog();
     }
 }

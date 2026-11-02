@@ -392,12 +392,7 @@
                 <TabItem.Header><TextBlock Text="{Binding Project.Devices.Count, ElementName=MainRoot, StringFormat={StaticResource Workspace.DeviceTab}}"/></TabItem.Header>
                 <Grid x:Name="DeviceWorkspace" DataContext="{Binding Project, ElementName=MainRoot}" Height="560"
                       MaxHeight="{Binding ViewportHeight, ElementName=RightPanel}" Margin="0,12,0,0">
-                 <Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
                  <views:DeviceDirectoryView/>
-                 <WrapPanel Grid.Row="1" Margin="0,8,0,0">
-                  <ui:Button Content="{DynamicResource Device.Keep}" Command="{Binding KeepDeviceCommand}" Margin="0,0,8,8"/>
-                  <ui:Button Content="{DynamicResource Device.Open}" Command="{Binding OpenDeviceCommand}" Margin="0,0,0,8"/>
-                 </WrapPanel>
                 </Grid>
                </TabItem>
               </TabControl>

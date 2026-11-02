@@ -1,5 +1,9 @@
 # Existing interface contract
 
+## Device directory and modal editor — UI-DEVICE-01 / ADR-058
+
+Owner approved the [add-device](docs/design/devices/add-device-target.png) and [selected-device](docs/design/devices/device-details-target.png) raster concepts. The [contract](docs/spec/DEVICE_INTERFACE_UX_CONTRACT.md) moves name/URL and optional profile/password/details into a detached Fluent modal with scrolling body and fixed Cancel/Add or Save changes. The directory keeps many-device navigation and a read-only selected-device Card with explicit Open/Edit, linked Apply & Open, password Show/Copy and confirmed deletion in its named overflow menu. This supersedes earlier always-visible device form/Keep/Open placement only. Reuse Card/FooterBar, shared typography, semantic brushes, native controls and actual app/project bars. [Actual WPF evidence and native limits](docs/testing/DEVICE_INTERFACE_UX_REVIEW.md).
+
 ## Device password addition — FR-13 / IDEA-03
 
 Use the existing device-editor Card, semantic control/text/accent brushes, ControlCornerRadius, field ramp, scrolling body and fixed Keep/Open footer. A native PasswordBox with the same semantic surface/focus styling provides masked password automation rather than a normal text binding; a separate transient revealed TextBlock exists only after Show. Opt-in, Show/Hide, Copy and Remove use existing CheckBox/WPF-UI buttons; plaintext/backup/clipboard explanations wrap within the group. No new palette, theme, motion or screen. [Local Light/Dark normal/minimum and masked-automation evidence](docs/testing/DEVICE_PASSWORD_REVIEW.md); native clipboard/Narrator/high-contrast/DPI acceptance remains separate.

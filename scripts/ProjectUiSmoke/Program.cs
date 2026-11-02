@@ -82,7 +82,7 @@ internal static partial class Program
             {
                 CheckDevicePasswords(output);
                 if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
-                Console.WriteLine("PASS: masked credential UI/automation, reveal reset, reachable actions, untruncated paste, copy/draft/remove/new states; 20 Light/Dark captures, 0 binding errors, fake clipboard/browser.");
+                Console.WriteLine("PASS: device directory/modal and credential UI; Light/Dark normal/minimum captures, 0 binding errors, fake clipboard/browser/network.");
                 return 0;
             }
             if (args.Contains("--navigation-followup"))
@@ -299,9 +299,9 @@ internal static partial class Program
                 var buttonBounds = openButton.TransformToAncestor(window).TransformBounds(new Rect(openButton.RenderSize));
                 if (!openButton.IsEnabled || buttonBounds.Bottom > window.ActualHeight || buttonBounds.Right > window.ActualWidth)
                     throw new Exception("Device footer action is clipped or disabled.");
-                var urlInput = Descendants(window).OfType<Wpf.Ui.Controls.TextBox>()
-                    .Single(t => AutomationProperties.GetName(t) == "Full web interface URL");
-                urlInput.Focus(); Pump();
+                var editButton = Descendants(window).OfType<DeviceDirectoryView>().Single(v => v.IsVisible)
+                    .FindName("EditDeviceButton") as System.Windows.Controls.Button;
+                editButton!.Focus(); Pump();
                 bool reachedOpen = openButton.IsKeyboardFocusWithin;
                 for (int i = 0; i < 80 && !reachedOpen; i++)
                 {
