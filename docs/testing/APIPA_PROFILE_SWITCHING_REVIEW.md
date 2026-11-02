@@ -47,3 +47,17 @@ Filter pipes above are escaped for Markdown, passed as literal pipes to dotnet. 
 Real application/network apply, netsh/UAC/IPC, DHCP renewal timing, DAD/hardware, connectivity, conflict checks and recovery remain **NOT RUN / UNVERIFIED** by the agent. No live scans, server, probes, real data mutation, ordinary App startup, installation, push/release or phase acceptance. This correction is verified through the real source policy/coordinator/worker with fake OS execution and rendered UI; no claim that unit success certifies native behavior.
 
 Next safe action is the owner's review of the corrected local portable's explicit adapter/current/requested values. Keep the prior folder and original snapshots. The agent still needs approval plus an isolated environment for live network acceptance; no new phase is proposed here.
+
+## Exact local package
+
+Implementation source **`e299418dfc423a7f172d3cd18733cfdd08a38afe`**, clean working tree before publish. Command:
+
+```powershell
+& $sdk publish app/NetworkProfileManager.csproj -c Release -r win-x64 --self-contained true -p:DebugType=none -p:DebugSymbols=false -p:PublishReadyToRun=false -p:SourceRevisionId=e299418dfc423a7f172d3cd18733cfdd08a38afe -p:InformationalVersion=1.1.6-local.apipa-switch -p:ReleaseChannel=Preview -o out/ApipaSwitchFix-e299418/Portable
+```
+
+PASS, no warnings/errors. Existing third-party notices and native WPF dependencies retained; copied MIT LICENSE. Hidden payload `--package-self-test` exits 0 before ordinary App startup: Success/WPF/JSON true, informational version **`1.1.6-local.apipa-switch+e299418dfc423a7f172d3cd18733cfdd08a38afe`**, assembly version 1.1.6.0, .NET 10.0.14, Preview, no production updater key. No installed or public binary was replaced; previous local folder retained.
+
+Local ready folder `out/ApipaSwitchFix-e299418/Portable/`; archive `out/ApipaSwitchFix-e299418/AVNetworkToolkit-1.1.6-local-apipa-switch-e299418-portable.zip`. Extracted into a fresh ignored ZipVerified folder and all 8 files compared by SHA-256, PASS. ZIP SHA-256 **`190fa65b7b45d9d53f982a0b250da019944f4d5b0ceb678c5f17daf43c1542f0`**. Per-file diagnostic/source/size/hash evidence in ignored `package-manifest.json` and `package-self-test.json` alongside the payload. Final full TRX SHA-256 **`c6dc3fe9ad760eda4acbbc3f845f881cc1ad8bf50f54d3427f344a43096150f5`**.
+
+Private Python `-B scripts/validate_plan.py` PASS (9 phases, 49 stable tasks, schema/formats and 928 references/links before final handoff); `-B scripts/test_validate_plan.py` PASS (12), `git diff --check` PASS. Outcome-only handoff validation follows, without rebuilding unchanged product code.
