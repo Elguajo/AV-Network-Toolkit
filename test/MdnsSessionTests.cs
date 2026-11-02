@@ -90,9 +90,29 @@ public class MdnsSessionTests
             _ => packet with { Bytes = new byte[] { 0, 1 } }
         };
         f.Factory.Last!.Enqueue(packet);
-        await f.Eventually(() => f.Factory.Last.ReadCount >= 1);
+        // A completed receiver read precedes delivery and the session's cancellation check.
+        // Entering the next receive proves the previous packet was processed and throttled.
+        await f.Eventually(() => Volatile.Read(ref f.Factory.Last.ReceiveCalls) >= 2);
         await f.Session.StopAsync();
         Assert.Equal(1, f.Session.Snapshot.Rejected); Assert.Empty(f.Session.Snapshot.Services);
+    }
+    [Fact]
+    public async Task StopBeforeReceiveCompletesDoesNotCountUndeliveredPacket()
+    {
+        using var f = new SessionFixture(); await f.Session.StartAsync(MdnsFixture.Nic);
+        var delivery = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        f.Factory.Last!.BeforeDelivery = token => delivery.Task.WaitAsync(token);
+        f.Factory.Last.Enqueue(MdnsFixture.Datagram() with { Bytes = new byte[] { 0, 1 } });
+        await f.WaitWithoutAdvancing(() => Volatile.Read(ref f.Factory.Last.ReadCount) == 1);
+
+        // Reproduce the old assertion's ordering deterministically: the read occurred,
+        // but Stop cancels before the packet is delivered to the session.
+        await f.Session.StopAsync().WaitAsync(TimeSpan.FromSeconds(5));
+        Assert.Equal(MdnsState.Stopped, f.Session.Snapshot.State);
+        Assert.Equal(0, f.Session.Snapshot.Received);
+        Assert.Equal(0, f.Session.Snapshot.Rejected);
+        Assert.Empty(f.Session.Snapshot.Services);
+        Assert.True(f.Factory.Last.Disposed);
     }
     [Fact]
     public async Task AcceptedPacketGetsScopedRowsAndStopMarksEverythingStale()
@@ -271,12 +291,16 @@ internal sealed class FakeReceiverFactory : IMdnsReceiverFactory
 internal sealed class FakeReceiver : IMdnsReceiver
 {
     private readonly Channel<MdnsDatagram?> _queue = Channel.CreateUnbounded<MdnsDatagram?>();
-    internal bool Disposed; internal int ReadCount;
+    internal bool Disposed; internal int ReadCount, ReceiveCalls;
+    internal Func<CancellationToken, Task>? BeforeDelivery;
     internal void Enqueue(MdnsDatagram? packet) => _queue.Writer.TryWrite(packet);
     internal void FailRead() => _queue.Writer.TryComplete(new InvalidOperationException("NEVER_ECHO"));
     public async ValueTask<MdnsDatagram?> ReceiveAsync(Memory<byte> buffer, CancellationToken cancellation)
     {
-        var packet = await _queue.Reader.ReadAsync(cancellation); Interlocked.Increment(ref ReadCount); return packet;
+        Interlocked.Increment(ref ReceiveCalls);
+        var packet = await _queue.Reader.ReadAsync(cancellation); Interlocked.Increment(ref ReadCount);
+        if (BeforeDelivery != null) await BeforeDelivery(cancellation);
+        return packet;
     }
     public void Dispose() { Disposed = true; _queue.Writer.TryComplete(); }
 }

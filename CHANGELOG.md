@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Correct the update window's data-location explanation after the home-storage migration; it no longer incorrectly promises that current user data stays in LocalAppData.
+- Synchronize the malformed/foreign mDNS packet test with completed processing and cover cancellation before packet delivery; no change to product packet handling. Stop build servers after preparing storage fixtures so hosted runtime-isolation checks can move the .NET root without a Roslyn lock.
 
 ## [1.1.5] — 2026-11-01 (AV Network Toolkit Preview)
 
