@@ -42,6 +42,8 @@ Executed: [release workflow 41273489475](https://github.com/Elguajo/AV-Network-T
 - [ ] Both artifacts verified on clean supported Windows without preinstalled .NET/SDK; no runtime-install prompt or external runtime download required.
 - [ ] Installer install/launch/upgrade/uninstall checked with existing user data preserved; shortcuts/integration and scope documented. Portable full-folder extraction/launch checked separately.
 - [ ] Both packages retain the same functional and UAC/network permission boundaries; no settings migration or USB-local storage claim without separate review.
+- [ ] DATA-01 source: verify ordinary-user first-use consent/cancel/conflict/restart against synthetic existing LocalAppData; installed and ZIP builds choose the same home root. Keep personal-data/native acceptance separate from unit fixtures.
+- [ ] Run the updated guarded package retention checks for legacy, home, recovery and migration-backup fixtures on disposable hosted Windows; local syntax/guard checks alone do not pass this gate.
 - [x] Changelog, known limitations and checksum attached.
 - [x] Release approved by user, not by autonomous agent (ADR-045 Preview scope).
 

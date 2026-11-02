@@ -1,8 +1,8 @@
-# DATA-01 — user-home storage migration proposal
+# DATA-01 — user-home storage migration contract
 
-2026-11-02, Asia/Tashkent. **DRAFT / OWNER_REVIEW_REQUIRED; migration NOT IMPLEMENTED.**
+2026-11-02, Asia/Tashkent. **OWNER_APPROVED; local implementation/verification recorded in the [review](../testing/DATA_STORAGE_MIGRATION_REVIEW.md). Published 1.1.5 is unchanged.**
 
-Inspected fork: https://github.com/Elguajo/AV-Network-Toolkit, `main`, HEAD `a75a3acb4c533570ba3ce705e012011681d6e63e`. The corrected published 1.1.5 source remains `9e06c48b4b433e0463c2376ba4555c44804ea010`; later documentation is not a new binary. Phase 07 remains AWAITING_REVIEW. ADR-042 approves the future destination, not this transition contract. This chat authorizes investigation and local preparation; actual personal data must not be moved, deleted or overwritten during it.
+Original investigation: https://github.com/Elguajo/AV-Network-Toolkit, `main`, HEAD `a75a3acb4c533570ba3ce705e012011681d6e63e`. Owner approved the full packet at `36775f2` with «Утверждаю DATA-01: домашняя папка, USB отдельно». The corrected published 1.1.5 source remains `9e06c48b4b433e0463c2376ba4555c44804ea010`. Phase 07 remains AWAITING_REVIEW. Local code and isolated synthetic checks are authorized; actual personal data must not be moved, deleted or overwritten by the agent. Runtime first-use consent still precedes copying.
 
 ## Observed storage map
 
@@ -32,7 +32,7 @@ The normal startup order in [App](../../app/App.xaml.cs) imports old EXE data be
 
 ### Concurrent work boundary
 
-Uncommitted updater work appeared during inspection: `application_updates.json` under `AppPaths.DataDirectory`, plus a disposable `L\updates` download cache. These are **working-tree observations, not committed/published capabilities** at the anchor above. DATA-01 must re-inventory the accepted updater version before implementation: carry durable preferences byte-for-byte through its existing validator; exclude disposable downloads/installer staging from user-data migration and backups. Do not freeze a second cache design here. A separately appearing device-password proposal is not an implemented store or permission to extend JSON v1.
+Updater work originally appeared uncommitted and was subsequently committed independently at `bebaa10`: durable `application_updates.json` follows `AppPaths.DataDirectory`; the disposable `L\updates` download cache stays outside migration/snapshots. DATA-01 validates the accepted private preference version/shape without changing its updater behavior. Device passwords were independently committed at `b837ec6`; their explicit v2 project files and adjacent backups remain at user-selected paths. DATA-01 changes neither supported project schema nor credential policy.
 
 ## Proposed destination and root selection
 
@@ -137,7 +137,9 @@ Current recovery journals require Windows ACL protection. **Do not claim FAT/exF
 4. Run focused tests and full build/unit checks; exercise actual WPF bootstrap/settings/error/close/tray behavior using synthetic roots. Review root loss, initialization concurrency and recovery boundaries; record evidence and limitations. Reconcile accepted updater changes before package tests.
 5. Update implementation-coupled guide/data-retention/package examples, TASKS/STATUS and handoff with exact source and results. Prepare a scoped local commit. Personal-data migration, installation, live NIC/UAC, push/publication and phase acceptance retain their separate gates.
 
-### Required acceptance evidence (all runtime cases NOT RUN in this proposal)
+### Required acceptance evidence
+
+Actual results and exact limits are in the [review](../testing/DATA_STORAGE_MIGRATION_REVIEW.md); the matrix is a contract, not an assertion that native/package checks passed. First implementation supports an NTFS target. Read-only/IO faults and interruption are exercised with synthetic fixtures; real power-loss, local installation, personal-data migration and hosted installer execution remain separate gates. The elevation restriction applies to first migration/divergence acknowledgement; opening an unchanged committed root preserves existing ordinary/elevated startup behavior.
 
 | Group | Required synthetic/disposable checks |
 |---|---|
@@ -149,7 +151,7 @@ Current recovery journals require Windows ACL protection. **Do not claim FAT/exF
 | Runtime / UI / regression | Root lost after startup; save conflict/draft retained; no settings reset; mutation cannot start without a journal; no automatic scan/probe/listener/browser/network change; normal/minimized/tray exit and layout failure; Light/Dark existing style; project v1/profile/history/UAC/scanner/diagnostics regressions. |
 | Packages | Same source installer/ZIP select same user root; install/reinstall/uninstall retain LocalAppData/home/snapshots/project fixtures; workers/self-test bypass migration; no USB marker in ordinary packages. Hosted/disposable tests only. |
 
-Nearby test patterns inspected: [storage preservation/fault tests](../../test/AuditStorageRegressionTests.cs), [legacy import](../../test/LegacyMigrationTests.cs), [project atomic IO](../../test/ProjectStoreTests.cs), [layout](../../test/WindowLayoutTests.cs), [history](../../test/HistoryRepositoryTests.cs) and [isolated fixture](../../test/TestDataDirectoryFixture.cs). Existing [AppPathsTests](../../test/AppPathsTests.cs) intentionally resolves/creates the real default directory; replace that dependency with injected folder resolution before claiming a wholly isolated migration suite. Do not run default-path tests against personal storage for this investigation.
+Nearby test patterns inspected: [storage preservation/fault tests](../../test/AuditStorageRegressionTests.cs), [legacy import](../../test/LegacyMigrationTests.cs), [project atomic IO](../../test/ProjectStoreTests.cs), [layout](../../test/WindowLayoutTests.cs), [history](../../test/HistoryRepositoryTests.cs) and [isolated fixture](../../test/TestDataDirectoryFixture.cs). [AppPathsTests](../../test/AppPathsTests.cs) originally created the real default directory; DATA-01 replaces that dependency with injected pure folder resolution and an uninitialized-root rejection. Migration tests must never resolve/create personal default stores.
 
 ## Documentation grounding and observed verification
 
@@ -159,8 +161,8 @@ Context7 `/dotnet/docs` was resolved and queried for directory publication and u
 - [Directory.Move](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.move?view=net-10.0): directory destination existence/different volume/in-use/permission failures are explicit failure cases. Thus stage on the target volume and do not use move-over-existing or cross-volume copy/delete publication.
 - [FileStream.Flush](https://learn.microsoft.com/en-us/dotnet/api/system.io.filestream.flush?view=net-10.0): durable-flush API intent informs copied-file flushing; this is not evidence of an all-files power-loss transaction.
 
-Source/runtime versions observed: C# WPF/MVVM, `net10.0-windows`, SDK pin `10.0.403` with latestPatch. No dependency change is proposed. Planning/link/tooling/whitespace results for this documentation change are recorded in [STATUS.md](../../STATUS.md); application build/unit/native/package checks are NOT RUN here. The historical release's 744 passing unit tests do not validate DATA-01. No personal root was inspected or modified.
+Source/runtime versions observed: C# WPF/MVVM, `net10.0-windows`, SDK pin `10.0.403` with latestPatch. No dependency change. Current build/unit/WPF/planning results and remaining native/package limits are recorded in the [review](../testing/DATA_STORAGE_MIGRATION_REVIEW.md) and [STATUS.md](../../STATUS.md). The historical release's 744 passing unit tests do not validate DATA-01. No personal root was inspected or modified.
 
-## Owner decision required
+## Approval and execution boundary
 
-Approve this **home-only copy/snapshot/explicit-cutover** contract before implementation: preserve originals, no automatic merge/sync/reverse migration, fail-closed ambiguous/unavailable roots, exact recovery association, bounded settings-writer hardening and the acceptance matrix above. Runtime first-use consent still precedes personal-data copying. USB stays a separate proposal. An alternative requiring automatic old/new synchronization, automatic conflict winners, arbitrary storage locations or multi-PC USB data is a materially different contract and must be settled first.
+Owner approved this **home-only copy/snapshot/explicit-cutover** contract: preserve originals, no automatic merge/sync/reverse migration, fail-closed ambiguous/unavailable roots, exact recovery association, bounded settings-writer hardening and the acceptance matrix above. Runtime first-use consent still precedes personal-data copying. USB stays a separate proposal. Automatic old/new synchronization, automatic conflict winners, arbitrary storage locations or multi-PC USB data would be a materially different contract requiring a separate decision. No install, live network, push/publication or phase acceptance is implied.

@@ -41,6 +41,18 @@ internal static partial class Program
         ApplyRenderTheme("Dark");
         try
         {
+            if (args.Contains("--prepare-package-storage"))
+            {
+                PreparePackageStorage(output);
+                return 0;
+            }
+            if (args.Contains("--user-storage"))
+            {
+                CheckUserStorage(output);
+                if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
+                Console.WriteLine("PASS: storage copy/divergence/error review, modal accept/exit, keyboard/accessibility/footer; 12 Light/Dark normal/minimum captures, 0 binding errors; no production storage/startup.");
+                return 0;
+            }
             if (args.Contains("--application-updates"))
             {
                 CheckApplicationUpdates(output);

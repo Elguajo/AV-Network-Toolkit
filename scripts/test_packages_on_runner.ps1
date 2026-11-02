@@ -79,6 +79,17 @@ $sentinel = Join-Path $sentinelDir 'package-acceptance-sentinel.json'
 if (Test-Path -LiteralPath $sentinel) { throw 'Sentinel already exists' }
 '{"fixture":"retain original user data"}' | Set-Content -LiteralPath $sentinel -Encoding utf8
 $sentinelHash = (Get-FileHash -LiteralPath $sentinel -Algorithm SHA256).Hash
+$storageFixture = Join-Path $results 'storage-fixture'
+# Use the real resolver on synthetic runner data before removing runtime discovery.
+# This avoids accepting a migration dialog or forging a completion marker during ordinary startup.
+& dotnet run --project (Join-Path $PSScriptRoot 'ProjectUiSmoke/ProjectUiSmoke.csproj') -c Release -- $storageFixture --prepare-package-storage
+if ($LASTEXITCODE -ne 0) { throw 'Cannot prepare isolated home-storage fixtures' }
+$retainedStorage = @(Get-Content -LiteralPath (Join-Path $storageFixture 'retention-files.json') -Raw | ConvertFrom-Json)
+function Assert-StorageRetained {
+    foreach ($entry in $retainedStorage) {
+        if ((Get-FileHash -LiteralPath $entry.Path -Algorithm SHA256).Hash -ne $entry.Hash) { throw 'Package operation changed a storage fixture' }
+    }
+}
 try {
     foreach ($root in $roots) {
         if (-not (Test-Path -LiteralPath $root)) { continue }
@@ -118,8 +129,10 @@ try {
     } finally { $locked.Dispose() }
     # Same-version reinstall is checked explicitly; this is not a cross-version upgrade claim.
     Invoke-Checked $setup ($setupArguments + "/LOG=$(Join-Path $results 'same-version-reinstall.log')") $true 'SameVersionReinstall'
+    Assert-StorageRetained
     if ((Get-FileHash -LiteralPath $sentinel -Algorithm SHA256).Hash -ne $sentinelHash) { throw 'Reinstall changed original user data' }
     Invoke-Checked (Join-Path $installPath 'unins000.exe') @('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART',"/LOG=$(Join-Path $results 'uninstall.log')") $true 'Uninstall'
+    Assert-StorageRetained
     if (Test-Path -LiteralPath $installed) { throw 'Uninstall left the program executable' }
     if ((Get-FileHash -LiteralPath $sentinel -Algorithm SHA256).Hash -ne $sentinelHash) { throw 'Uninstall changed original user data' }
     @{
@@ -127,6 +140,7 @@ try {
         NegativeRuntimeControl = 'failed as expected after runtime discovery roots were moved'
         Portable = 'WPF/JSON self-test passed'; Installed = 'identical payload and WPF/JSON self-test passed'
         SameVersionReinstall = 'passed'; UninstallRetainsData = 'passed'
+        UserStorage = 'legacy source, home data, recovery and separate migration backup hashes retained'
         LockedPayloadUpdateAndUninstall = 'rejected as expected'
         OrdinaryStartup = 'both main window handles/titles observed; smoke processes terminated without invoking commands'
         CrossVersionUpgrade = 'NOT RUN'; NativeNetwork = 'NOT RUN'

@@ -1,5 +1,9 @@
 # Project context — persistent product brief
 
+## User-home storage — DATA-01, 2026-11-02
+
+Owner approved the [complete DATA-01 contract](docs/spec/DATA_STORAGE_MIGRATION_CONTRACT.md): home-only verified copy/snapshot/cutover, retained originals, explicit conflict acknowledgement, no merge/reverse sync and USB separate. Local implementation moves normal shared storage selection to `%USERPROFILE%\.av-network-toolkit`, including recovery journals and protected object preferences; [verification and limits](docs/testing/DATA_STORAGE_MIGRATION_REVIEW.md). Runtime migration requires deliberate consent and an ordinary user. Existing project files remain explicit and no personal data was migrated by the agent. Published 1.1.5 still uses LocalAppData; local implementation is not a package/release/native acceptance claim. Phase 07 AWAITING_REVIEW and all unrelated gates remain.
+
 ## Device-password follow-up — FR-13 / IDEA-03, 2026-11-02
 
 Owner requested starting bounded local work on optional device passwords with explicit show/copy. ADR-024 storage permission is already granted. [Concrete v2 proposal](docs/spec/DEVICE_PASSWORD_PROPOSAL.md) records current v1 consumers, compatibility/transition, exact password states, plaintext/backup consent, clipboard ownership and acceptance checks. Owner accepted the contract; [local v2 implementation/evidence](docs/testing/DEVICE_PASSWORD_REVIEW.md) now covers opt-in/password UI, atomic/version compatibility and conditional clipboard cleanup. No login field, automatic login, token/TLS behavior or real-file migration. Published 1.1.5 is unchanged; native clipboard/owner acceptance remain separate. Phase 07 remains AWAITING_REVIEW; updater/DATA-01/native/publication gates and concurrent work remain separate.
@@ -65,7 +69,7 @@ Ship two packages of the same application version: an installer as the primary d
 
 This approves delivery requirements, not completed artifacts or release publication. Installer technology/integration details remain implementation choices for the packaging follow-up. Preserve current LocalAppData identities/settings and explicit project files; ZIP distribution does not imply a new USB-local settings mode, automatic updater or storage migration. Verify both packages on clean Windows without preinstalled .NET before claiming readiness. Existing phase/native/release/publication gates remain.
 
-ADR-042 owner refinement: after packaging, migrate shared user data to `%USERPROFILE%\.av-network-toolkit` through a separate reviewed backup/compatibility/recovery change (DATA-01). Current implementation and candidate packages still use LocalAppData. This approves the future destination, not completed migration or data deletion.
+ADR-042 owner refinement selected `%USERPROFILE%\.av-network-toolkit` as the destination. The separately approved DATA-01 contract is now implemented locally; see the current section above. Published packages retain LocalAppData until a separately verified new release. No original-data deletion or USB-local mode is approved.
 
 ADR-045 publication: owner requested version 1.1.1 with the new logo/current changes. [v1.1.1 Preview](https://github.com/Elguajo/AV-Network-Toolkit/releases/tag/v1.1.1) is published from `3fd7e77e1f5b560172b7e23d33928bace9cdaa73`, both packages self-contained and [hosted CI verified](https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41273489475). Native/phase acceptance remains pending; no DHCP/password/user-home migration implementation claimed. This supersedes earlier no-publication statements for this requested preview only.
 

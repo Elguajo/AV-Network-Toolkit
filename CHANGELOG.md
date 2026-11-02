@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- DATA-01 local source: deliberate migration to the user's `.av-network-toolkit` folder, byte-verified independent backups, preserved originals/recovery and explicit conflict/error handling; app/scanner settings gain preserved atomic writes. USB-local data remains separate; published 1.1.5 is unchanged. [Evidence and native/package limits](docs/testing/DATA_STORAGE_MIGRATION_REVIEW.md).
+
 - Local application-update flow in Settings: opt-in daily release checks, explicit Preview policy, signed-manifest/package verification, deliberate installer handoff and fresh-folder portable preparation. Production signing trust/release integration and native installer/UAC acceptance remain pending; current releases are unchanged. [Local evidence and limits](docs/testing/APPLICATION_UPDATE_REVIEW.md).
 
 ## [1.1.5] — 2026-11-01 (AV Network Toolkit Preview)

@@ -55,6 +55,8 @@ Provenance: generated in this chat using built-in imagegen from the owner's Netw
 
 ## Reuse rules
 
+DATA-01 uses one small Fluent/Mica modal for first-use migration review, divergence acknowledgement and Retry/Exit errors before normal settings reads. Reuse TitleBar, SectionHeaderText, Card/FooterBar, semantic theme resources, scrollable text and fixed primary/Exit actions with localized accessible names. Initial focus stays on Exit; closing cancels. This is a local confirmation surface, not a storage-mode redesign. [Contract/evidence](docs/testing/DATA_STORAGE_MIGRATION_REVIEW.md).
+
 Adapter-list options refinement (UI-ADAPTER-OPTIONS-01, 2026-11-01): keep the list header, Refresh and a named subtle More (…) button in one row. Put Show all adapters in that button's standard checkable context-menu item, preserving its session-only filter binding and explanatory tooltip. Do not reserve a permanent checkbox row above the adapters. Use existing menu/focus/theme resources and trim long headers with their full tooltip.
 
 Profile-source placement refinement (UI-SOURCE-01, 2026-11-01): show the existing This computer / Project profiles ComboBox in a separate, visibly labelled Profile source row above the saved-profile heading/actions in both scopes. Associate the visible label with the control for automation. This supersedes the beside-heading placement below only; retain the single main tab row, independent stores and existing action hierarchy.

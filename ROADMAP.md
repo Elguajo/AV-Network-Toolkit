@@ -1,5 +1,7 @@
 # Roadmap — fixed phase order
 
+DATA-01 (ADR-042, 2026-11-02): owner approved home-only copy/snapshot/explicit cutover; [local implementation and acceptance limits](docs/testing/DATA_STORAGE_MIGRATION_REVIEW.md). Separate from the nine phases: no Phase 07 acceptance, Phase 08, personal-data migration, USB-local mode or publication implied. Current published packages retain LocalAppData.
+
 Bounded update follow-up (ADR-053, 2026-11-02): owner selected signed manifests and fresh-folder portable updates. [Local contract](docs/spec/APPLICATION_UPDATE_PROPOSAL.md) and [review](docs/testing/APPLICATION_UPDATE_REVIEW.md) record opt-in daily checks, explicit verified download and guarded installer/new-folder actions with 788 isolated unit tests. Production trust/release integration and native installer/UAC acceptance remain pending; current releases are unchanged. No new numbered phase or change to Phase 07 AWAITING_REVIEW, DATA-01/Phase 08/publication gates.
 
 ADR-052 / REL-07, 2026-11-02: owner-requested **1.1.5 re-upload** includes the completed tunnel notification fix, exact source 9e06c48, with [verified corrected installer/ZIP and public-download evidence](docs/testing/RELEASE_1.1.5_REUPLOAD_REVIEW.md). Version remains 1.1.5; source tag/four assets replaced with verified originals backed up. Other releases and all phase/native/owner gates unchanged.

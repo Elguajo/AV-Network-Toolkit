@@ -64,11 +64,16 @@ namespace NetworkProfileManager
             demo = DemoMode.TryEnable(e.Args);
 #endif
 
-            // Migrate legacy data (exe-relative) into LocalAppData on first run.
-            // Must run BEFORE LanguageManager.Initialize so the language preference
-            // saved by an older version is picked up correctly.
+            // Select one verified root before localization/settings or any repository is constructed.
             if (!demo)
-                NetworkProfileManager.Helpers.AppPaths.MigrateLegacyDataIfPresent();
+            {
+                var shutdownMode = ShutdownMode;
+                ShutdownMode = ShutdownMode.OnExplicitShutdown;
+                var storage = StorageStartup.Run();
+                if (storage == null) { Shutdown(); return; }
+                AppPaths.Initialize(storage);
+                ShutdownMode = shutdownMode;
+            }
 
             // Localization must initialize BEFORE any window is constructed so
             // DynamicResource lookups resolve to the right culture.
@@ -104,6 +109,8 @@ namespace NetworkProfileManager
                 _networkMonitor = new NetworkMonitorService(_trayIcon);
 
             _mainWindow = new MainWindow();
+            MainWindow = _mainWindow;
+            _mainWindow.ContentRendered += (_, _) => StorageFeedback.Flush();
             _mainWindow.Closing += (s, args) =>
             {
                 if (!IsExiting)

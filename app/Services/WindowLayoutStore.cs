@@ -37,7 +37,7 @@ internal sealed class WindowLayoutStore
         if (state == _last) return true;
         try
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(_path))!);
+            Helpers.AppPaths.ValidateStoragePath(_path);
             _file.Save(_path, new List<WindowLayoutState> { state });
             _last = state;
             return true;

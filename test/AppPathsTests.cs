@@ -8,18 +8,12 @@ namespace NetworkProfileManager.Tests;
 public class AppPathsTests
 {
     [Fact]
-    public void DataDirectory_DefaultsToLocalAppData()
+    public void DataDirectory_RequiresBootstrapInsteadOfCreatingPersonalData()
     {
-        AppPaths.OverrideDataDirectory(null);
+        AppPaths.ResetForTests();
         try
         {
-            var dir = AppPaths.DataDirectory;
-            var localAppData = Environment.GetFolderPath(
-                Environment.SpecialFolder.LocalApplicationData);
-            Assert.StartsWith(localAppData, dir, StringComparison.OrdinalIgnoreCase);
-            Assert.Contains("NetworkProfileManager", dir);
-            Assert.EndsWith("data", dir);
-            Assert.True(Directory.Exists(dir));
+            Assert.Throws<InvalidOperationException>(() => AppPaths.DataDirectory);
         }
         finally { AppPaths.OverrideDataDirectory(null); }
     }
@@ -44,11 +38,11 @@ public class AppPathsTests
     }
 
     [Fact]
-    public void OverrideDataDirectory_Null_RestoresDefault()
+    public void FolderResolutionUsesInjectedUserProfileWithoutFilesystemAccess()
     {
-        AppPaths.OverrideDataDirectory(@"C:\Temp\foo");
-        AppPaths.OverrideDataDirectory(null);
-        var dir = AppPaths.DataDirectory;
-        Assert.DoesNotContain(@"C:\Temp\foo", dir);
+        var paths = NetworkProfileManager.Services.UserStorageLocations.ForUser(@"C:\FixtureUser", @"D:\FixtureLocal", @"E:\FixtureExe");
+        Assert.Equal(@"C:\FixtureUser\.av-network-toolkit", paths.Home);
+        Assert.Equal(@"D:\FixtureLocal\NetworkProfileManager", paths.Legacy);
+        Assert.Throws<IOException>(() => NetworkProfileManager.Services.UserStorageLocations.ForUser("", @"D:\FixtureLocal", @"E:\FixtureExe"));
     }
 }

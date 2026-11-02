@@ -22,6 +22,8 @@ internal sealed class LegacyJsonFile
     }
     private static (List<T>, string?) ReadCore<T>(string path)
     {
+        Helpers.AppPaths.ValidateStoragePath(path);
+        StorageSafety.CheckPath(System.IO.Path.GetDirectoryName(path)!);
         if (!File.Exists(path)) return (new(), null);
         using var input = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
         if (input.Length > 8 * 1024 * 1024) throw new InvalidDataException("Stored file is too large; preserve it and restore a backup.");
@@ -52,8 +54,12 @@ internal sealed class LegacyJsonFile
         change(items);
         Write(path, items, revision);
     }
-    private static FileStream Lease(string path) => new(path + ".lock", FileMode.OpenOrCreate,
-        FileAccess.ReadWrite, FileShare.None, 1, FileOptions.DeleteOnClose);
+    private static FileStream Lease(string path)
+    {
+        Helpers.AppPaths.ValidateStoragePath(path);
+        StorageSafety.CheckPath(System.IO.Path.GetDirectoryName(path)!);
+        return new(path + ".lock", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, 1, FileOptions.DeleteOnClose);
+    }
     private void Write<T>(string path, List<T> items, string? revision)
     {
         var bytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(items, Formatting.Indented));

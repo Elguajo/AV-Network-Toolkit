@@ -2,6 +2,34 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
+    <!-- DATA-01 startup is deliberately before saved language/theme reads. -->
+    <sys:String x:Key="Storage.Title">Your app data folder</sys:String>
+    <sys:String x:Key="Storage.Copy">Copy and use new folder</sys:String>
+    <sys:String x:Key="Storage.KeepHome">Keep using home data</sys:String>
+    <sys:String x:Key="Storage.Exit">Exit</sys:String>
+    <sys:String x:Key="Storage.Source">Existing data:</sys:String>
+    <sys:String x:Key="Storage.Destination">Active data folder:</sys:String>
+    <sys:String x:Key="Storage.Backup">Separate backup:</sys:String>
+    <sys:String x:Key="Storage.Count">{0} files, {1} bytes. Copies will be verified before switching folders.</sys:String>
+    <sys:String x:Key="Storage.CopyReview">Copy your saved profiles, settings, history and recovery records to your home folder. Originals and a separate backup will be kept. Exit all other copies of the app first. Older builds will continue using their old data; later changes are not synchronized.</sys:String>
+    <sys:String x:Key="Storage.Diverged">The old data folder changed since your last review. Home data will stay active. Continuing creates another backup of the old data and acknowledges the difference; it does not merge either copy. Exit to reconcile files first if you need those changes.</sys:String>
+    <sys:String x:Key="Storage.Exclusions">Project files and exports stay where you saved them. Update downloads are excluded. No network settings will be applied. Backups use additional disk space and are not automatically deleted.</sys:String>
+    <sys:String x:Key="Storage.RecoveryMissing">{0} history entries already have unavailable recovery records. Their existing limitation will be preserved; copying does not repair them.</sys:String>
+    <sys:String x:Key="Storage.Unavailable">The data folder could not be opened</sys:String>
+    <sys:String x:Key="Storage.Failed">A file could not be read, copied or verified. Existing files and any partial backup were preserved.</sys:String>
+    <sys:String x:Key="Storage.RetryHelp">Check folder access, free space and any other running copies, then retry. The app will not switch to a different or empty folder.</sys:String>
+    <sys:String x:Key="Storage.RootConflict">The home folder already exists without a supported completion record. Both folders were preserved. Review or repair the folder before retrying.</sys:String>
+    <sys:String x:Key="Storage.RootUnavailable">The selected data folder is unavailable or has been replaced.</sys:String>
+    <sys:String x:Key="Storage.PathConflict">A destination already exists or is the wrong kind of file.</sys:String>
+    <sys:String x:Key="Storage.ProfileUnavailable">The Windows user folder could not be resolved.</sys:String>
+    <sys:String x:Key="Storage.UnsafePath">The folder uses an unsupported filesystem, link, network location or overlapping path.</sys:String>
+    <sys:String x:Key="Storage.Busy">Another copy of the app or a file operation is active. Exit other copies, including tray icons, then retry.</sys:String>
+    <sys:String x:Key="Storage.SourceChanged">A source file changed during copying. No folder switch was accepted. Exit other copies and retry.</sys:String>
+    <sys:String x:Key="Storage.LegacyConflict">An unfinished import contains different files beside the EXE and in LocalAppData. Finish or reconcile the old import before moving to the home folder.</sys:String>
+    <sys:String x:Key="Storage.Damaged">An active data file is damaged or uses an unsupported format. Its bytes were preserved. Repair it explicitly before retrying.</sys:String>
+    <sys:String x:Key="Storage.Elevated">Start the app as your ordinary Windows user to select the data folder. Network changes will still request elevation separately.</sys:String>
+    <sys:String x:Key="Storage.NoSpace">There is not enough free space for the backup and verified copy. Free space without deleting your original data, then retry.</sys:String>
+
     <!-- ── Common ── -->
     <sys:String x:Key="Common.Apply">Apply</sys:String>
     <sys:String x:Key="Common.Cancel">Cancel</sys:String>

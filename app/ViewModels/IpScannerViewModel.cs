@@ -15,6 +15,7 @@ using NetworkProfileManager.Commands;
 using NetworkProfileManager.Models;
 using NetworkProfileManager.Services;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace NetworkProfileManager.ViewModels
 {
@@ -42,6 +43,10 @@ namespace NetworkProfileManager.ViewModels
         // ACL-protected install (%ProgramFiles%), where exe-relative writes fail.
         private static string SettingsPath =>
             Path.Combine(AppPaths.DataDirectory, "scanner_settings.json");
+
+        private PreservedObjectFile? _settingsStore;
+        private JObject _settingsObject = new();
+        private bool _settingsBlocked;
 
         private string _startIp   = "";
         private string _endIp     = "";
@@ -162,9 +167,10 @@ namespace NetworkProfileManager.ViewModels
         {
             try
             {
-                if (!File.Exists(SettingsPath)) return;
-                var json = File.ReadAllText(SettingsPath);
-                var s = JsonConvert.DeserializeObject<ScannerSettings>(json);
+                _settingsStore = new PreservedObjectFile(SettingsPath);
+                _settingsObject = _settingsStore.Load();
+                _ = PreservedObjectFile.ParseScanner(Encoding.UTF8.GetBytes(_settingsObject.ToString()));
+                var s = _settingsObject.ToObject<ScannerSettings>();
                 if (s == null) return;
                 _startIp     = s.StartIp;
                 _endIp       = s.EndIp;
@@ -174,13 +180,14 @@ namespace NetworkProfileManager.ViewModels
                 _useTcpProbe = s.UseTcpProbe;
                 _monitorMinutes = Math.Max(1, s.MonitorIntervalMinutes);
             }
-            catch { /* ignore corrupt settings */ }
+            catch { _settingsBlocked = true; StorageFeedback.Report(); }
         }
 
         private void SaveSettings()
         {
             try
             {
+                if (_settingsBlocked || _settingsStore == null) throw new IOException("Storage.Damaged");
                 var s = new ScannerSettings
                 {
                     StartIp     = _startIp,
@@ -191,9 +198,12 @@ namespace NetworkProfileManager.ViewModels
                     UseTcpProbe = _useTcpProbe,
                     MonitorIntervalMinutes = _monitorMinutes
                 };
-                File.WriteAllText(SettingsPath, JsonConvert.SerializeObject(s, Formatting.Indented));
+                var proposed = (JObject)_settingsObject.DeepClone();
+                foreach (var property in JObject.FromObject(s).Properties()) proposed[property.Name] = property.Value;
+                _settingsStore.Save(proposed);
+                _settingsObject = proposed;
             }
-            catch { /* best-effort */ }
+            catch { StorageFeedback.Report(); }
         }
 
         private async void StartScan() => await RunScanAsync(announceNew: false);

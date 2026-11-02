@@ -1,5 +1,13 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## User-home storage implementation — DATA-01, 2026-11-02
+
+- Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / `36775f22db2912cbbd1b4cdd23c739a9dece0a4d` at approval bootstrap. Concurrent accepted updater `bebaa10` and password b837ec6/aef78a9 changes preserved. Implementation commit is resolvable with `git log -1 --format=%H -- app/Services/UserStorage.cs`.
+- Completed: owner-approved root/snapshot/verified publication and divergence workflow, unified recovery paths, object preference integrity, localized modal review/error UI and isolated test/harness/runner fixture preparation. [Review and current results](docs/testing/DATA_STORAGE_MIGRATION_REVIEW.md). No personal data inspected or migrated and no installed/released binary changed.
+- In progress / blockers: final exact-source build/unit/WPF/planning verification and evidence pinning. Hosted install/reinstall/uninstall/native first-run/power-loss/UAC/network acceptance NOT RUN; USB separate/unimplemented. Phase 07 AWAITING_REVIEW, previous owner/native/DPI gates unchanged.
+- Next action: complete exact-source safe checks and local evidence handoff; no personal-data migration, installation, live network, push/publication or phase advancement.
+- Tests last executed: 47 focused PASS, prior combined working-tree full 876 PASS, Release solution/harness 0 warnings/errors; storage UI 12 captures and existing WPF regression PASS/0 binding errors. Final source/results follow; no historical release count is substituted for DATA-01.
+
 ## Device-password implementation — IDEA-03 / FR-13, 2026-11-02
 
 - Fork / branch / source: https://github.com/Elguajo/AV-Network-Toolkit / main / isolated base `36775f22db2912cbbd1b4cdd23c739a9dece0a4d` plus password changes; containing commit resolves via `git log -1 --format=%H -- docs/testing/DEVICE_PASSWORD_REVIEW.md`. Initial resumed HEAD e729f3d; concurrent DATA-01 docs advanced main to 36775f2. Updater/DATA-01 source edits preserved/excluded from this commit.

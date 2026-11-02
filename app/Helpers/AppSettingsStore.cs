@@ -1,62 +1,47 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using NetworkProfileManager.Services;
 
-namespace NetworkProfileManager.Helpers
+namespace NetworkProfileManager.Helpers;
+
+/// <summary>Existing flat string dictionary; failed/corrupt reads never become an empty saved replacement.</summary>
+public static class AppSettingsStore
 {
-    /// <summary>
-    /// Single owner of app_settings.json (a flat string dictionary holding Theme,
-    /// Language, …). Read-modify-write is centralized here so callers can't clobber
-    /// each other's keys — previously App.xaml.cs and LanguageManager each carried
-    /// their own copy of this dance with comments warning about the coupling.
-    /// </summary>
-    public static class AppSettingsStore
+    private static readonly object Gate = new();
+    private static readonly Dictionary<string, PreservedObjectFile> Files = new(StringComparer.OrdinalIgnoreCase);
+    private static PreservedObjectFile Store()
     {
-        private const string FileName = "app_settings.json";
-
-        private static string Path_ =>
-            System.IO.Path.Combine(AppPaths.DataDirectory, FileName);
-
-        private static readonly object Gate = new();
-
-        /// <summary>Returns the stored value for <paramref name="key"/>, or null when absent/unreadable.</summary>
-        public static string? Get(string key)
+        var path = Path.Combine(AppPaths.DataDirectory, "app_settings.json");
+        if (!Files.TryGetValue(path, out var store)) Files.Add(path, store = new(path));
+        return store;
+    }
+    private static JObject Load(PreservedObjectFile store)
+    {
+        var values = store.Load();
+        foreach (var property in values.Properties())
+            if (property.Value.Type is not (JTokenType.String or JTokenType.Null)) throw new InvalidDataException("Storage.Damaged");
+        return values;
+    }
+    public static string? Get(string key)
+    {
+        lock (Gate)
         {
-            lock (Gate)
-            {
-                var obj = Load();
-                return obj.TryGetValue(key, out var v) && !string.IsNullOrEmpty(v) ? v : null;
-            }
+            try { return (string?)Load(Store())[key]; }
+            catch { StorageFeedback.Report(); return null; }
         }
-
-        /// <summary>Merges <paramref name="key"/>=<paramref name="value"/> into the file, preserving other keys.</summary>
-        public static void Set(string key, string value)
-        {
-            lock (Gate)
-            {
-                var obj = Load();
-                obj[key] = value;
-                try
-                {
-                    File.WriteAllText(Path_, JsonConvert.SerializeObject(obj, Formatting.Indented));
-                }
-                catch { /* best-effort; settings are non-critical */ }
-            }
-        }
-
-        private static Dictionary<string, string> Load()
+    }
+    public static void Set(string key, string value) => TrySet(key, value);
+    internal static bool TrySet(string key, string value)
+    {
+        lock (Gate)
         {
             try
             {
-                if (File.Exists(Path_))
-                {
-                    var json = File.ReadAllText(Path_);
-                    return JsonConvert.DeserializeObject<Dictionary<string, string>>(json)
-                           ?? new Dictionary<string, string>();
-                }
+                var store = Store(); var values = Load(store); values[key] = value; store.Save(values); return true;
             }
-            catch { /* corrupt file → start fresh; caller's Set will overwrite */ }
-            return new Dictionary<string, string>();
+            catch { StorageFeedback.Report(); return false; }
         }
     }
 }

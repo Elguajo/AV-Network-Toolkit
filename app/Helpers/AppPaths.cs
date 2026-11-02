@@ -1,42 +1,68 @@
 using System;
 using System.IO;
+using NetworkProfileManager.Services;
 
 namespace NetworkProfileManager.Helpers
 {
     /// <summary>
-    /// Centralized data directory. Defaults to
-    /// %LOCALAPPDATA%\NetworkProfileManager\data so the app works correctly
-    /// when installed under Program Files (where exe-relative writes are denied).
+    /// One root selected by ordinary bootstrap before any settings or repositories load.
+    /// Production never creates or falls back to a root on a getter call.
     /// Tests may override via <see cref="OverrideDataDirectory"/>.
     /// </summary>
     public static class AppPaths
     {
-        private const string AppFolderName = "NetworkProfileManager";
         private const string MigrationMarker = ".migrated_v1";
 
         private static string? _override;
+        private static StorageRootContext? _active;
+        internal static void ResetForTests() { _active = null; _override = null; }
+
+        internal static void Initialize(StorageRootContext context)
+        {
+            context.EnsureAvailable();
+            if (_active != null && _active.Root != context.Root) throw new InvalidOperationException("Storage root already selected.");
+            _active = context;
+        }
+        internal static void EnsureAvailable()
+        {
+            if (_override != null)
+            {
+                if (!StorageSafety.DirectoryExists(_override)) throw new IOException("Storage.RootUnavailable");
+                return;
+            }
+            (_active ?? throw new InvalidOperationException("Storage is not initialized.")).EnsureAvailable();
+        }
+        internal static string RecoveryDirectory
+        {
+            get
+            {
+                EnsureAvailable();
+                return _override != null ? Path.Combine(_override, "apply-recovery") : _active!.Recovery;
+            }
+        }
+        internal static void ValidateStoragePath(string path)
+        {
+            if (_active != null && _override == null && Path.GetFullPath(path).StartsWith(
+                _active.Root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase)) EnsureAvailable();
+            else if (_override != null && Path.GetFullPath(path).StartsWith(_override + Path.DirectorySeparatorChar,
+                StringComparison.OrdinalIgnoreCase)) EnsureAvailable();
+        }
 
         public static string DataDirectory
         {
             get
             {
-                if (_override is not null)
-                {
-                    Directory.CreateDirectory(_override);
-                    return _override;
-                }
-
-                var root = Environment.GetFolderPath(
-                    Environment.SpecialFolder.LocalApplicationData,
-                    Environment.SpecialFolderOption.Create);
-                var path = Path.Combine(root, AppFolderName, "data");
-                Directory.CreateDirectory(path);
-                return path;
+                EnsureAvailable();
+                return _override ?? _active!.Data;
             }
         }
 
         /// <summary>Test hook — pass null to restore default.</summary>
-        public static void OverrideDataDirectory(string? path) => _override = path;
+        public static void OverrideDataDirectory(string? path)
+        {
+            if (path != null) Directory.CreateDirectory(path);
+            _override = path;
+        }
 
         /// <summary>
         /// One-shot migration: copy any profiles/history/app_settings from the legacy

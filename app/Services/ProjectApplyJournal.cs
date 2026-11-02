@@ -14,8 +14,7 @@ namespace NetworkProfileManager.Services;
 internal sealed class ProjectApplyJournal : IProjectApplyJournal
 {
     private readonly string _directory;
-    internal ProjectApplyJournal(string? directory = null) => _directory = directory ?? Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NetworkProfileManager", "apply-recovery");
+    internal ProjectApplyJournal(string? directory = null) => _directory = directory ?? Helpers.AppPaths.RecoveryDirectory;
     internal string DirectoryPath => _directory;
     internal const int PageSize = 1000;
     internal int UnreadableCount { get; private set; }
@@ -23,6 +22,7 @@ internal sealed class ProjectApplyJournal : IProjectApplyJournal
     private string PathFor(Guid id, string suffix)
     {
         if (id == Guid.Empty) throw new InvalidDataException("Invalid operation.");
+        Helpers.AppPaths.ValidateStoragePath(_directory);
         var path = ProjectStore.ValidatePath(Path.Combine(_directory, id.ToString("N") + suffix));
         Directory.CreateDirectory(_directory);
         using var identity = WindowsIdentity.GetCurrent();

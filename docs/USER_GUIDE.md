@@ -38,7 +38,7 @@ Both profile scopes describe the **computer's adapter configuration**, not the d
 
 | Scope | Stored where | Use it for |
 |---|---|---|
-| **This computer** | Per-user LocalAppData, per adapter; up to five local slots | Frequent laptop configurations and tray shortcuts |
+| **This computer** | Per-user app data, per adapter; up to five local slots | Frequent laptop configurations and tray shortcuts |
 | **Project profiles** | The project JSON file you explicitly open/save | Profiles and equipment links that travel with an AV project |
 
 Select the connected adapter before applying either kind of profile. A project adapter hint does not silently choose a NIC on another computer. The highlighted **Selected** profile matches the adapter's reported static fields; it is not an edit selection or a reachability test.
@@ -104,6 +104,8 @@ DOC-R01 was traced to timing in the automated smoke check: it sampled the send c
 
 ## Data and backups
 
+Published 1.1.5 uses these locations:
+
 | Data | Location |
 |---|---|
 | Local profiles, history, scanner and theme/language settings | `%LOCALAPPDATA%\NetworkProfileManager\data` |
@@ -115,7 +117,9 @@ Back up all relevant locations before updating. Journals contain private network
 
 Current local profile/history saves use atomic replacement and unique backups. Corrupt files/backups are preserved; repair or restore them before retrying. Refresh after a save conflict; Add/Edit keeps a draft open if saving fails. Recovery lists preserve damaged files while showing healthy entries and provide additional pages beyond 1000 journal files.
 
-Backups and journals can grow; manage retention manually and securely. The planned move to `%USERPROFILE%\.av-network-toolkit` is not implemented. Portable packages share the existing per-user locations rather than storing settings beside the ZIP executable.
+Local source DATA-01 adds an explicit first-use copy to `%USERPROFILE%\.av-network-toolkit\data` and `apply-recovery`, with a separate verified snapshot in `%USERPROFILE%\.av-network-toolkit-backups\<transaction-id>`. Originals remain intact. Exit all other copies before migration and run the first migration as an ordinary Windows user. An unsupported/conflicting/unreadable home root stops startup with Retry/Exit; it is never replaced with an empty folder. A changed old folder requires explicit acknowledgement, without merging either copy. [Exact contract and verified limits](testing/DATA_STORAGE_MIGRATION_REVIEW.md).
+
+Older builds continue using LocalAppData and cannot see later home edits. Explicit project files/exports and update-download cache are not moved. First implementation requires an NTFS target; USB-local data is not implemented. These changes are local source only, not part of published 1.1.5. Backups, partial copies and journals can grow; manage retention manually and securely. Installer and ZIP share the per-user root rather than storing settings beside the executable.
 
 ## Verification and support
 

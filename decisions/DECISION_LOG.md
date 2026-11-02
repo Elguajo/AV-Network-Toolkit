@@ -352,6 +352,13 @@ Owner requested starting local work on optional device web-interface passwords a
 
 [Concrete format/compatibility proposal](../docs/spec/DEVICE_PASSWORD_PROPOSAL.md), inspected at a75a3ac: strict v1 reader/writer remains, proposed v2 optional password only; first password-bearing save creates a new file preserving original v1; no automatic downgrade, explicit opt-in/show/copy/remove, value-free diagnostics, conditional 30-second clipboard cleanup, atomic-save/backup/overwrite protections and synthetic acceptance matrix. **OWNER_REVIEW_PENDING, not an approved schema/architecture.** Login remains outside the minimal scope because FR-13 only proposes it. Repository's reviewed versioned-extension checkpoint precedes working schema/code changes; no implementation/support or phase acceptance claimed.
 
+
 ### Device-password contract accepted — FR-13 / IDEA-03, 2026-11-02
 
 Owner answered «Принять предложенный контракт» to the complete [v2 packet](../docs/spec/DEVICE_PASSWORD_PROPOSAL.md). Approves optional password only, strict v2, a separate create-only initial password-bearing file preserving v1, no automatic downgrade, invalid empty value with explicit Remove, masked/default show/copy/remove UI, plaintext/backups consent and conditional 30-second clipboard cleanup. Supersedes the pending-review statements above for this contract only. Local implementation and synthetic tests on main authorized; no login, automatic login/auth behavior, real-file migration, install, push/publication, native networking/UAC, phase acceptance or DATA-01/Phase 08.
+
+### ADR-042 execution refinement — DATA-01 contract approved, 2026-11-02
+
+Owner answered «Утверждаю DATA-01: домашняя папка, USB отдельно» to the complete contract at commit 36775f2. Approves local implementation on main of home-only byte-preserving copy, independent snapshot, explicit verified cutover, retained originals, fail-closed conflict/unavailability handling, preserved history/journal associations, no automatic merge/dual-write/reverse migration, bounded app/scanner preference-writer hardening and the recorded acceptance matrix. USB-local storage remains a separate proposal. This supersedes DATA-01 CONTRACT_REVIEW_PENDING only; the destination and initial contract now have owner approval.
+
+Runtime first-use consent still precedes personal-data copying. This work implements and tests against synthetic isolated roots; no actual personal-data migration, install, live NIC/UAC, push/publication, Phase 08 or phase acceptance is authorized. Concurrent updater and device-password work remains independently owned and preserved. Implementation/review evidence follows separately; approval is not a completion claim.
