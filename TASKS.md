@@ -2,7 +2,7 @@
 
 ## Field profile-switching correction — 2026-11-02
 
-- [ ] **SWITCH-01** — Fix ordinary Windows adapter observation and empty-DNS/profile transitions after the owner's failure report. **AC:** reproduce empty persistent-store/null route protocol/empty policy-container defects; source-only duplicate/APIPA handling; reviewed DNS preservation/known-empty recovery; strict target verification, journal/consent/identity, fake-worker negative coverage, full unit/WPF/tooling checks and local portable artifact. **State:** IN_PROGRESS — code and isolated checks implemented; [evidence/compatibility and retained failures](docs/testing/PROFILE_SWITCHING_REVIEW.md). Local packaging/final verification pending; no native mutation, push/release or phase acceptance.
+- [x] **SWITCH-01** — Fix ordinary Windows adapter observation and empty-DNS/profile transitions after the owner's failure report. **AC:** reproduce empty persistent-store/null route protocol/empty policy-container defects; source-only duplicate/APIPA handling; reviewed DNS preservation/known-empty recovery; strict target verification, journal/consent/identity, fake-worker negative coverage, full unit/WPF/tooling checks and local portable artifact. **State:** VERIFIED_LOCAL — source e3315a2, 902 unit/18 observer fixtures per shell/12 tooling PASS, builds 0 warnings/errors, 128 existing + 12 focused WPF captures/0 binding errors; self-contained portable diagnostic/source/8 ZIP-file hashes verified. [Evidence/compatibility and retained failures](docs/testing/PROFILE_SWITCHING_REVIEW.md). Native apply/UAC/recovery and owner acceptance remain UNVERIFIED; no push/release or phase acceptance.
 
 ## Release-note overhaul — 2026-11-02
 

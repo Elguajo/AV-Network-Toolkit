@@ -53,3 +53,17 @@ No real apply, elevated worker/UAC, DNS or gateway mutation, probes, scanner, DH
 Out-of-scope documentation issue observed: an older Device web interfaces paragraph in USER_GUIDE still says passwords are unimplemented despite the current v2 section. Logged here, not silently repaired as part of networking work.
 
 Next safe action: owner exits the old app through tray Exit, extracts the complete corrected portable folder and checks the named-adapter confirmation. Any native network test by the agent still needs the separately approved isolated environment. No new phase proposed until current review gate is resolved.
+
+## Local artifact — exact source e3315a2
+
+Implementation commit **`e3315a22b38d048266109bc24350ac29c13a2c33`**, clean tree before publish. Self-contained publish command:
+
+```powershell
+& $sdk publish app/NetworkProfileManager.csproj -c Release -r win-x64 --self-contained true -p:DebugType=none -p:DebugSymbols=false -p:PublishReadyToRun=false -p:SourceRevisionId=e3315a22b38d048266109bc24350ac29c13a2c33 -p:InformationalVersion=1.1.6-local.profile-switch -p:ReleaseChannel=Preview -o out/ProfileSwitchFix-e3315a2/Portable
+```
+
+PASS, no build warnings/errors. MIT LICENSE copied into the payload alongside existing third-party notices and five native WPF dependencies. Hidden `NetworkProfileManager.exe --package-self-test <absolute ignored report>` exits 0 before ordinary startup: Success/JSON/WPF true, version 1.1.6.0, informational version `1.1.6-local.profile-switch+e3315a22b38d048266109bc24350ac29c13a2c33`, .NET 10.0.14, Preview, no production update key. Public version/tag/assets remain unchanged; this is clearly a local correction, not a new published version.
+
+Portable folder: `out/ProfileSwitchFix-e3315a2/Portable/`; archive: `out/ProfileSwitchFix-e3315a2/AVNetworkToolkit-1.1.6-local-profile-switch-e3315a2-portable.zip`. Expanded to a separate fresh ignored directory and all **8 files** compared with source payload by SHA-256, PASS. ZIP SHA-256 **`cbe0ef8697640da0d465158bbeff722c11e400ecab6c102c5b51259f43d23c0b`**. Exact ignored per-file identities/diagnostic: `out/ProfileSwitchFix-e3315a2/package-manifest.json` and `package-self-test.json`. Full final unit TRX SHA-256 `0e56ef1341bf77fd32733379504339d773d6c241590a188342a16fa3eabddf3c`.
+
+Final documentation validation before handoff: private Python `-B scripts/validate_plan.py` PASS (9 phases/49 stable tasks/schema/formats/920 links), `-B scripts/test_validate_plan.py` PASS (12), `git diff --check` PASS. Final metadata/handoff validation is recorded in STATUS. Git identity was absent; the scoped commit used per-command metadata matching the existing repository author, without changing global or local Git configuration. No push or installer was performed.
