@@ -1,0 +1,927 @@
+{
+  "audit_date": "2026-11-02 Asia/Tashkent",
+  "baseline_commit": "314bf64e152f1eebefd48ecec88e2d551c255bf0",
+  "live_edits_performed": false,
+  "releases": [
+    {
+      "tag": "v1.1.6",
+      "release_id": 431100860,
+      "name": "AV Network Toolkit 1.1.6 — Preview",
+      "published_at": "2026-11-02T05:28:04Z",
+      "prerelease": true,
+      "source_commit": "5bf8ece8608332c3a0685b228589b8ec30bf97c0",
+      "original_body_sha256": "d6ff4efc99a7ec3a6c07a68821bc8d41884c3e8be8fa75940e36b661310d6ee6",
+      "draft_file": "docs/releases/v1.1.6.md",
+      "draft_sha256": "92cc02201e360aadb79f6c7dc0a741b87fa253a468f9b0d1394ba86ac1e5863c",
+      "assets": [
+        {
+          "id": 700631774,
+          "name": "AVNetworkToolkit-1.1.6-win-x64-portable.zip",
+          "size": 68424791,
+          "digest": "sha256:7347ca5076962f8872b3972503cb2f0ad7b4c8792d3d547ff43711d65e0ec0a7",
+          "created_at": "2026-11-02T05:28:01Z",
+          "updated_at": "2026-11-02T05:28:03Z",
+          "browser_download_url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.6/AVNetworkToolkit-1.1.6-win-x64-portable.zip"
+        },
+        {
+          "id": 700631769,
+          "name": "AVNetworkToolkit-1.1.6-win-x64-setup.exe",
+          "size": 67891744,
+          "digest": "sha256:139f4642f1b0e747775f945381b111e13856deec188b7ba43d7690af10b4209d",
+          "created_at": "2026-11-02T05:28:01Z",
+          "updated_at": "2026-11-02T05:28:03Z",
+          "browser_download_url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.6/AVNetworkToolkit-1.1.6-win-x64-setup.exe"
+        },
+        {
+          "id": 700631773,
+          "name": "package-manifest.json",
+          "size": 830,
+          "digest": "sha256:401449798c2225658e150156bc5b42b4298bb2de7e21e923a38a4a35ecfde1e5",
+          "created_at": "2026-11-02T05:28:01Z",
+          "updated_at": "2026-11-02T05:28:01Z",
+          "browser_download_url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.6/package-manifest.json"
+        },
+        {
+          "id": 700631771,
+          "name": "SHA256SUMS.txt",
+          "size": 217,
+          "digest": "sha256:9dd06a9249dac143cb55539ebf15b4aaaa1e13f21f3d50414c1ec6c72866a603",
+          "created_at": "2026-11-02T05:28:01Z",
+          "updated_at": "2026-11-02T05:28:01Z",
+          "browser_download_url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.6/SHA256SUMS.txt"
+        }
+      ],
+      "manifest_sha256": "401449798c2225658e150156bc5b42b4298bb2de7e21e923a38a4a35ecfde1e5",
+      "checksum_file_sha256": "9dd06a9249dac143cb55539ebf15b4aaaa1e13f21f3d50414c1ec6c72866a603",
+      "link_count": 15,
+      "images": [],
+      "state": "validated draft; not published"
+    },
+    {
+      "tag": "v1.1.5",
+      "release_id": 430755509,
+      "name": "AV Network Toolkit 1.1.5 — Preview",
+      "published_at": "2026-11-01T17:56:59Z",
+      "prerelease": true,
+      "source_commit": "9e06c48b4b433e0463c2376ba4555c44804ea010",
+      "original_body_sha256": "a8d047f7e80619d2948fbbfd2d9e919f7058da02a7dfe5f989f65ba68fecdc90",
+      "draft_file": "docs/releases/v1.1.5.md",
+      "draft_sha256": "9ebfa263325dccd91159897e24f511af5b82e7524ccabaaa340ef003d5cb923b",
+      "assets": [
+        {
+          "id": 699233432,
+          "name": "AVNetworkToolkit-1.1.5-win-x64-portable.zip",
+          "size": 68371066,
+          "digest": "sha256:1e3b4e2552ef08bd472a783178f92a056b01d2d0754f3268e66a7109ebe153fe",
+          "created_at": "2026-11-01T19:01:38Z",
+          "updated_at": "2026-11-01T19:01:52Z",
+          "browser_download_url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.5/AVNetworkToolkit-1.1.5-win-x64-portable.zip"
+        },
+        {
+          "id": 699233429,
+          "name": "AVNetworkToolkit-1.1.5-win-x64-setup.exe",
+          "size": 67838199,
+          "digest": "sha256:1b120a432c9a0794ae8694831aad5de4dcfb651f11e3828d81ec08219f21589c",
+          "created_at": "2026-11-01T19:01:38Z",
+          "updated_at": "2026-11-01T19:01:51Z",
+          "browser_download_url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.5/AVNetworkToolkit-1.1.5-win-x64-setup.exe"
+        },
+        {
+          "id": 699233443,
+          "name": "package-manifest.json",
+          "size": 830,
+          "digest": "sha256:ce6f6405e80e87d1dd097f73df60bf6e0eb84b5295ce157db9d75363ffe4595b",
+          "created_at": "2026-11-01T19:01:38Z",
+          "updated_at": "2026-11-01T19:01:39Z",
+          "browser_download_url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.5/package-manifest.json"
+        },
+        {
+          "id": 699233426,
+          "name": "SHA256SUMS.txt",
+          "size": 219,
+          "digest": "sha256:3841ae64634ba575a64904ebf7979df7edd3aeee521a9822e7ef808d875eedd7",
+          "created_at": "2026-11-01T19:01:38Z",
+          "updated_at": "2026-11-01T19:01:38Z",
+          "browser_download_url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.5/SHA256SUMS.txt"
+        }
+      ],
+      "manifest_sha256": "ce6f6405e80e87d1dd097f73df60bf6e0eb84b5295ce157db9d75363ffe4595b",
+      "checksum_file_sha256": "3841ae64634ba575a64904ebf7979df7edd3aeee521a9822e7ef808d875eedd7",
+      "link_count": 15,
+      "images": [
+        {
+          "url": "https://raw.githubusercontent.com/Elguajo/AV-Network-Toolkit/9e06c48b4b433e0463c2376ba4555c44804ea010/docs/design/navigation/idle-dark.png",
+          "sha256": "910f33e2b69dd92b4b993f0d74ee4b4d3ae26c8cda0e57482937878970bf47eb",
+          "kind": "isolated WPF fixture capture"
+        }
+      ],
+      "state": "validated draft; not published"
+    },
+    {
+      "tag": "v1.1.3",
+      "release_id": 430526535,
+      "name": "AV Network Toolkit 1.1.3 — Preview",
+      "published_at": "2026-11-01T11:07:01Z",
+      "prerelease": true,
+      "source_commit": "2847ff6baaee59c813dbecb0688ffad62324b968",
+      "original_body_sha256": "fd326d38a231625b0e7fbcbefa483cf99542d976752b27e103cf7aa71555f096",
+      "draft_file": "docs/releases/v1.1.3.md",
+      "draft_sha256": "7269d5b18689a3be9c2e8db9f25d349efc9ddaa06b2a5d92c25991bf47984464",
+      "assets": [
+        {
+          "id": 698092819,
+          "name": "AVNetworkToolkit-1.1.3-win-x64-portable.zip",
+          "size": 68361800,
+          "digest": "sha256:b571daadc7af66a2814514db9f3cc45f7d57082f4223b3d0473551b8c2069ee9",
+          "created_at": "2026-11-01T11:06:57Z",
+          "updated_at": "2026-11-01T11:07:01Z",
+          "browser_download_url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.3/AVNetworkToolkit-1.1.3-win-x64-portable.zip"
+        },
+        {
+          "id": 698092816,
+          "name": "AVNetworkToolkit-1.1.3-win-x64-setup.exe",
+          "size": 67795553,
+          "digest": "sha256:202bbd02128d0516d2250c17a16c711d2de061ad1cc35682b7d6f4220b8fc7c2",
+          "created_at": "2026-11-01T11:06:57Z",
+          "updated_at": "2026-11-01T11:07:01Z",
+          "browser_download_url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.3/AVNetworkToolkit-1.1.3-win-x64-setup.exe"
+        },
+        {
+          "id": 698092833,
+          "name": "package-manifest.json",
+          "size": 830,
+          "digest": "sha256:0d58beb5bee4d36d7b1d4070c2f7d9c5a098a745d38a95b4b466e4ce8f0ea748",
+          "created_at": "2026-11-01T11:06:57Z",
+          "updated_at": "2026-11-01T11:06:58Z",
+          "browser_download_url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.3/package-manifest.json"
+        },
+        {
+          "id": 698092818,
+          "name": "SHA256SUMS.txt",
+          "size": 217,
+          "digest": "sha256:0ff416f1c8d48ce486fbf480f847a7151ad7774d516c00fc58598712421781d0",
+          "created_at": "2026-11-01T11:06:57Z",
+          "updated_at": "2026-11-01T11:06:57Z",
+          "browser_download_url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.3/SHA256SUMS.txt"
+        }
+      ],
+      "manifest_sha256": "0d58beb5bee4d36d7b1d4070c2f7d9c5a098a745d38a95b4b466e4ce8f0ea748",
+      "checksum_file_sha256": "0ff416f1c8d48ce486fbf480f847a7151ad7774d516c00fc58598712421781d0",
+      "link_count": 13,
+      "images": [],
+      "state": "validated draft; not published"
+    },
+    {
+      "tag": "v1.1.2",
+      "release_id": 430519636,
+      "name": "AV Network Toolkit 1.1.2 — Preview",
+      "published_at": "2026-11-01T10:53:40Z",
+      "prerelease": true,
+      "source_commit": "d634a80918b429d11411d7c3afc8348d9a1d70a8",
+      "original_body_sha256": "f60c68b688cae14d8d0865add024665523390e8b272c51822253eafb9020ca8f",
+      "draft_file": "docs/releases/v1.1.2.md",
+      "draft_sha256": "569dcd179f7a01ef2a51665945446b2e0837a4fd775d95793e31277ed2524924",
+      "assets": [
+        {
+          "id": 698063188,
+          "name": "AVNetworkToolkit-1.1.2-win-x64-portable.zip",
+          "size": 68359265,
+          "digest": "sha256:e88020af1fa784904dc72e1ebed3351ee41d235673df73c90d5eccc81812ad99",
+          "created_at": "2026-11-01T10:53:37Z",
+          "updated_at": "2026-11-01T10:53:39Z",
+          "browser_download_url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.2/AVNetworkToolkit-1.1.2-win-x64-portable.zip"
+        },
+        {
+          "id": 698063186,
+          "name": "AVNetworkToolkit-1.1.2-win-x64-setup.exe",
+          "size": 67793137,
+          "digest": "sha256:3c90ff98d8465f2da4c40ff9bbc12bf5bebf35f5dc17b5817fb5cc71c8602267",
+          "created_at": "2026-11-01T10:53:37Z",
+          "updated_at": "2026-11-01T10:53:39Z",
+          "browser_download_url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.2/AVNetworkToolkit-1.1.2-win-x64-setup.exe"
+        },
+        {
+          "id": 698063189,
+          "name": "package-manifest.json",
+          "size": 830,
+          "digest": "sha256:33d5982cdd748fb4c8eee44c6596476e5cd7cccd5580cf686b70f6f80fdf380c",
+          "created_at": "2026-11-01T10:53:37Z",
+          "updated_at": "2026-11-01T10:53:37Z",
+          "browser_download_url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.2/package-manifest.json"
+        },
+        {
+          "id": 698063182,
+          "name": "SHA256SUMS.txt",
+          "size": 217,
+          "digest": "sha256:0163300054e0d6747def78217d6d0e19a55da4ba9f6f8b2b29b9f6fecccf98b9",
+          "created_at": "2026-11-01T10:53:37Z",
+          "updated_at": "2026-11-01T10:53:37Z",
+          "browser_download_url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.2/SHA256SUMS.txt"
+        }
+      ],
+      "manifest_sha256": "33d5982cdd748fb4c8eee44c6596476e5cd7cccd5580cf686b70f6f80fdf380c",
+      "checksum_file_sha256": "0163300054e0d6747def78217d6d0e19a55da4ba9f6f8b2b29b9f6fecccf98b9",
+      "link_count": 13,
+      "images": [],
+      "state": "validated draft; not published"
+    },
+    {
+      "tag": "v1.1.1",
+      "release_id": 430364237,
+      "name": "AV Network Toolkit 1.1.1 — Preview",
+      "published_at": "2026-11-01T04:36:32Z",
+      "prerelease": true,
+      "source_commit": "3fd7e77e1f5b560172b7e23d33928bace9cdaa73",
+      "original_body_sha256": "5d21a1b36d650e5c80be352ab6ca58deab151b9eee39445ba1568be6aefec9e0",
+      "draft_file": "docs/releases/v1.1.1.md",
+      "draft_sha256": "d01d5f28af49748b4949c1f625522f57c92e76ca8603eb029fdf49a1c7603764",
+      "assets": [
+        {
+          "id": 697331211,
+          "name": "AVNetworkToolkit-1.1.1-win-x64-portable.zip",
+          "size": 65071824,
+          "digest": "sha256:780b0c41e90eaece141ab545505636974e117f15b542036bd959bb528ee89a6e",
+          "created_at": "2026-11-01T04:36:27Z",
+          "updated_at": "2026-11-01T04:36:31Z",
+          "browser_download_url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.1/AVNetworkToolkit-1.1.1-win-x64-portable.zip"
+        },
+        {
+          "id": 697331221,
+          "name": "AVNetworkToolkit-1.1.1-win-x64-setup.exe",
+          "size": 64609647,
+          "digest": "sha256:905758c3988a22f3a62cedd2a98ea47cb533f1814988dca272e63f4287db98cb",
+          "created_at": "2026-11-01T04:36:27Z",
+          "updated_at": "2026-11-01T04:36:30Z",
+          "browser_download_url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.1/AVNetworkToolkit-1.1.1-win-x64-setup.exe"
+        },
+        {
+          "id": 697331218,
+          "name": "package-manifest.json",
+          "size": 830,
+          "digest": "sha256:63542805bb574e423dad97234b7b129306df2ee3594816306e36f8e2a4e72e5b",
+          "created_at": "2026-11-01T04:36:27Z",
+          "updated_at": "2026-11-01T04:36:28Z",
+          "browser_download_url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.1/package-manifest.json"
+        },
+        {
+          "id": 697331219,
+          "name": "SHA256SUMS.txt",
+          "size": 217,
+          "digest": "sha256:07f5a399984f5bb16b31855beaa3ecffeee72fd77647710309a75240e6d02432",
+          "created_at": "2026-11-01T04:36:27Z",
+          "updated_at": "2026-11-01T04:36:27Z",
+          "browser_download_url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.1/SHA256SUMS.txt"
+        }
+      ],
+      "manifest_sha256": "63542805bb574e423dad97234b7b129306df2ee3594816306e36f8e2a4e72e5b",
+      "checksum_file_sha256": "07f5a399984f5bb16b31855beaa3ecffeee72fd77647710309a75240e6d02432",
+      "link_count": 12,
+      "images": [],
+      "state": "validated draft; not published"
+    }
+  ],
+  "urls": [
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41339102871",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41339102871",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41393820449",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41393820449",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/314bf64/docs/testing/PACKAGING_REVIEW.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/314bf64/docs/testing/PACKAGING_REVIEW.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/314bf64/docs/testing/RELEASE_1.1.5_REUPLOAD_REVIEW.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/314bf64/docs/testing/RELEASE_1.1.5_REUPLOAD_REVIEW.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/314bf64/docs/testing/RELEASE_1.1.6_REVIEW.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/314bf64/docs/testing/RELEASE_1.1.6_REVIEW.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/314bf64/docs/testing/RELEASE_2026-11-01_REVIEW.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/314bf64/docs/testing/RELEASE_2026-11-01_REVIEW.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/314bf64/docs/testing/evidence/published-v1.1.1.json",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/314bf64/docs/testing/evidence/published-v1.1.1.json",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.1/CHANGELOG.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.1/CHANGELOG.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.1/LICENSE",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.1/LICENSE",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.1/docs/legal/THIRD_PARTY_NOTICES.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.1/docs/legal/THIRD_PARTY_NOTICES.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.1/docs/spec/PHASE04_IMPLEMENTATION_CONTRACT.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.1/docs/spec/PHASE04_IMPLEMENTATION_CONTRACT.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.2/CHANGELOG.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.2/CHANGELOG.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.2/LICENSE",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.2/LICENSE",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.2/docs/legal/THIRD_PARTY_NOTICES.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.2/docs/legal/THIRD_PARTY_NOTICES.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.2/docs/spec/AUDIT_FIXES_CONTRACT.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.2/docs/spec/AUDIT_FIXES_CONTRACT.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.2/docs/testing/WINDOW_THEME_REVIEW.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.2/docs/testing/WINDOW_THEME_REVIEW.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.3/CHANGELOG.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.3/CHANGELOG.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.3/LICENSE",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.3/LICENSE",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.3/docs/legal/THIRD_PARTY_NOTICES.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.3/docs/legal/THIRD_PARTY_NOTICES.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.3/docs/spec/AUDIT_FIXES_CONTRACT.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.3/docs/spec/AUDIT_FIXES_CONTRACT.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.3/docs/testing/ADAPTER_VISIBILITY_REVIEW.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.3/docs/testing/ADAPTER_VISIBILITY_REVIEW.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.5/CHANGELOG.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.5/CHANGELOG.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.5/LICENSE",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.5/LICENSE",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.5/docs/legal/THIRD_PARTY_NOTICES.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.5/docs/legal/THIRD_PARTY_NOTICES.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.5/docs/spec/AUDIT_FIXES_CONTRACT.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.5/docs/spec/AUDIT_FIXES_CONTRACT.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.5/docs/testing/NAVIGATION_FOLLOWUP_REVIEW.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.5/docs/testing/NAVIGATION_FOLLOWUP_REVIEW.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.6/CHANGELOG.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.6/CHANGELOG.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.6/LICENSE",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.6/LICENSE",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.6/docs/legal/THIRD_PARTY_NOTICES.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.6/docs/legal/THIRD_PARTY_NOTICES.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.6/docs/spec/AUDIT_FIXES_CONTRACT.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.6/docs/spec/AUDIT_FIXES_CONTRACT.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.6/docs/spec/DATA_STORAGE_MIGRATION_CONTRACT.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.6/docs/spec/DATA_STORAGE_MIGRATION_CONTRACT.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.6/docs/spec/DEVICE_PASSWORD_PROPOSAL.md",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/blob/v1.1.6/docs/spec/DEVICE_PASSWORD_PROPOSAL.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/compare/v1.1.1...v1.1.2",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/compare/v1.1.1...v1.1.2",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/compare/v1.1.2...v1.1.3",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/compare/v1.1.2...v1.1.3",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/compare/v1.1.3...v1.1.5",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/compare/v1.1.3...v1.1.5",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/compare/v1.1.5...v1.1.6",
+      "status": 200,
+      "final_url": "https://github.com/Elguajo/AV-Network-Toolkit/compare/v1.1.5...v1.1.6",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.1/AVNetworkToolkit-1.1.1-win-x64-portable.zip",
+      "status": 200,
+      "final_url": "https://release-assets.githubusercontent.com/github-production-release-asset/1440530077/8c500396-ee57-4059-98ac-c37ae0698a8b",
+      "ok": true,
+      "redirect_query_omitted": true
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.1/AVNetworkToolkit-1.1.1-win-x64-setup.exe",
+      "status": 200,
+      "final_url": "https://release-assets.githubusercontent.com/github-production-release-asset/1440530077/43d28241-9c6f-4cbe-8770-4317533e6a94",
+      "ok": true,
+      "redirect_query_omitted": true
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.1/SHA256SUMS.txt",
+      "status": 200,
+      "final_url": "https://release-assets.githubusercontent.com/github-production-release-asset/1440530077/d66689d4-13c3-49e3-bf30-cf7593370a4d",
+      "ok": true,
+      "redirect_query_omitted": true
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.1/package-manifest.json",
+      "status": 200,
+      "final_url": "https://release-assets.githubusercontent.com/github-production-release-asset/1440530077/9909f05a-53bb-4a2b-a94a-aceea1936bf9",
+      "ok": true,
+      "redirect_query_omitted": true
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.2/AVNetworkToolkit-1.1.2-win-x64-portable.zip",
+      "status": 200,
+      "final_url": "https://release-assets.githubusercontent.com/github-production-release-asset/1440530077/ca14ead4-a131-4af7-b691-3e3217831289",
+      "ok": true,
+      "redirect_query_omitted": true
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.2/AVNetworkToolkit-1.1.2-win-x64-setup.exe",
+      "status": 200,
+      "final_url": "https://release-assets.githubusercontent.com/github-production-release-asset/1440530077/58101c39-c41e-49d8-b3ef-ada839dde83e",
+      "ok": true,
+      "redirect_query_omitted": true
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.2/SHA256SUMS.txt",
+      "status": 200,
+      "final_url": "https://release-assets.githubusercontent.com/github-production-release-asset/1440530077/b4fe5b2a-b463-4b34-b90b-3a6c739020d4",
+      "ok": true,
+      "redirect_query_omitted": true
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.2/package-manifest.json",
+      "status": 200,
+      "final_url": "https://release-assets.githubusercontent.com/github-production-release-asset/1440530077/11f5f294-bcc8-431c-8708-e35a3aa4e21b",
+      "ok": true,
+      "redirect_query_omitted": true
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.3/AVNetworkToolkit-1.1.3-win-x64-portable.zip",
+      "status": 200,
+      "final_url": "https://release-assets.githubusercontent.com/github-production-release-asset/1440530077/022a1834-d113-49ec-9d42-7bd033f9b2e4",
+      "ok": true,
+      "redirect_query_omitted": true
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.3/AVNetworkToolkit-1.1.3-win-x64-setup.exe",
+      "status": 200,
+      "final_url": "https://release-assets.githubusercontent.com/github-production-release-asset/1440530077/ddbe4901-b536-4a8d-9314-83b33476720b",
+      "ok": true,
+      "redirect_query_omitted": true
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.3/SHA256SUMS.txt",
+      "status": 200,
+      "final_url": "https://release-assets.githubusercontent.com/github-production-release-asset/1440530077/49c4fba5-6c88-4a1b-a898-844692e17a53",
+      "ok": true,
+      "redirect_query_omitted": true
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.3/package-manifest.json",
+      "status": 200,
+      "final_url": "https://release-assets.githubusercontent.com/github-production-release-asset/1440530077/280af021-39a2-4ea8-8831-846bb8ac9349",
+      "ok": true,
+      "redirect_query_omitted": true
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.5/AVNetworkToolkit-1.1.5-win-x64-portable.zip",
+      "status": 200,
+      "final_url": "https://release-assets.githubusercontent.com/github-production-release-asset/1440530077/db97c50a-92b2-40c0-9017-187fd2651a56",
+      "ok": true,
+      "redirect_query_omitted": true
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.5/AVNetworkToolkit-1.1.5-win-x64-setup.exe",
+      "status": 200,
+      "final_url": "https://release-assets.githubusercontent.com/github-production-release-asset/1440530077/cff26e38-8b7f-434f-914f-f9f634c751ba",
+      "ok": true,
+      "redirect_query_omitted": true
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.5/SHA256SUMS.txt",
+      "status": 200,
+      "final_url": "https://release-assets.githubusercontent.com/github-production-release-asset/1440530077/97d71bee-3ab9-42f4-93a0-a5043d07975c",
+      "ok": true,
+      "redirect_query_omitted": true
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.5/package-manifest.json",
+      "status": 200,
+      "final_url": "https://release-assets.githubusercontent.com/github-production-release-asset/1440530077/05bbdcc9-b020-4f1d-9279-d30cd672b2d4",
+      "ok": true,
+      "redirect_query_omitted": true
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.6/AVNetworkToolkit-1.1.6-win-x64-portable.zip",
+      "status": 200,
+      "final_url": "https://release-assets.githubusercontent.com/github-production-release-asset/1440530077/144bf11e-1b8a-4e97-99c4-bd00c616ebb4",
+      "ok": true,
+      "redirect_query_omitted": true
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.6/AVNetworkToolkit-1.1.6-win-x64-setup.exe",
+      "status": 200,
+      "final_url": "https://release-assets.githubusercontent.com/github-production-release-asset/1440530077/369fecfe-2b04-4bad-bc5e-47d6a6033471",
+      "ok": true,
+      "redirect_query_omitted": true
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.6/SHA256SUMS.txt",
+      "status": 200,
+      "final_url": "https://release-assets.githubusercontent.com/github-production-release-asset/1440530077/dd20a17c-4e80-4d49-9726-a7d97690e396",
+      "ok": true,
+      "redirect_query_omitted": true
+    },
+    {
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.6/package-manifest.json",
+      "status": 200,
+      "final_url": "https://release-assets.githubusercontent.com/github-production-release-asset/1440530077/634b3547-1b40-4b52-8bfe-dcb4bac54723",
+      "ok": true,
+      "redirect_query_omitted": true
+    },
+    {
+      "url": "https://github.com/dotnet/core/blob/main/release-notes/10.0/supported-os.md#windows",
+      "status": 200,
+      "final_url": "https://github.com/dotnet/core/blob/main/release-notes/10.0/supported-os.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/dotnet/core/blob/main/release-notes/8.0/supported-os.md#windows",
+      "status": 200,
+      "final_url": "https://github.com/dotnet/core/blob/main/release-notes/8.0/supported-os.md",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://github.com/rmzncakir/network-profile-changer",
+      "status": 200,
+      "final_url": "https://github.com/rmzncakir/network-profile-changer",
+      "ok": true,
+      "redirect_query_omitted": false
+    },
+    {
+      "url": "https://raw.githubusercontent.com/Elguajo/AV-Network-Toolkit/9e06c48b4b433e0463c2376ba4555c44804ea010/docs/design/navigation/idle-dark.png",
+      "status": 200,
+      "final_url": "https://raw.githubusercontent.com/Elguajo/AV-Network-Toolkit/9e06c48b4b433e0463c2376ba4555c44804ea010/docs/design/navigation/idle-dark.png",
+      "ok": true,
+      "redirect_query_omitted": false
+    }
+  ],
+  "url_failures": [],
+  "checks": {
+    "all_published_releases_included": true,
+    "all_20_asset_links_match_api": true,
+    "all_manifests_checksums_sources_match_api": true,
+    "duplicate_h1_absent": true,
+    "known_limitations_retained": true,
+    "issue_links_removed_because_disabled": true,
+    "all_urls_resolved": true
+  },
+  "browser_checks": [
+    {
+      "version": "1.1.1",
+      "width": 1280,
+      "h1": 1,
+      "sections": [
+        "✨ Highlights",
+        "Fixes & improvements",
+        "📦 Download",
+        "🔄 Updating",
+        "Known limitations",
+        "Verification & technical details",
+        "License & credits"
+      ],
+      "tables": 1,
+      "images": [],
+      "overflow": false,
+      "noticeBeforeHighlights": true
+    },
+    {
+      "version": "1.1.1",
+      "width": 390,
+      "h1": 1,
+      "sections": [
+        "✨ Highlights",
+        "Fixes & improvements",
+        "📦 Download",
+        "🔄 Updating",
+        "Known limitations",
+        "Verification & technical details",
+        "License & credits"
+      ],
+      "tables": 1,
+      "images": [],
+      "overflow": false,
+      "noticeBeforeHighlights": true
+    },
+    {
+      "version": "1.1.2",
+      "width": 1280,
+      "h1": 1,
+      "sections": [
+        "✨ Highlights",
+        "Fixes & improvements",
+        "📦 Download",
+        "🔄 Updating",
+        "Known limitations",
+        "Verification & technical details",
+        "License & credits"
+      ],
+      "tables": 1,
+      "images": [],
+      "overflow": false,
+      "noticeBeforeHighlights": true
+    },
+    {
+      "version": "1.1.2",
+      "width": 390,
+      "h1": 1,
+      "sections": [
+        "✨ Highlights",
+        "Fixes & improvements",
+        "📦 Download",
+        "🔄 Updating",
+        "Known limitations",
+        "Verification & technical details",
+        "License & credits"
+      ],
+      "tables": 1,
+      "images": [],
+      "overflow": false,
+      "noticeBeforeHighlights": true
+    },
+    {
+      "version": "1.1.3",
+      "width": 1280,
+      "h1": 1,
+      "sections": [
+        "✨ Highlights",
+        "Fixes & improvements",
+        "📦 Download",
+        "🔄 Updating",
+        "Known limitations",
+        "Verification & technical details",
+        "License & credits"
+      ],
+      "tables": 1,
+      "images": [],
+      "overflow": false,
+      "noticeBeforeHighlights": true
+    },
+    {
+      "version": "1.1.3",
+      "width": 390,
+      "h1": 1,
+      "sections": [
+        "✨ Highlights",
+        "Fixes & improvements",
+        "📦 Download",
+        "🔄 Updating",
+        "Known limitations",
+        "Verification & technical details",
+        "License & credits"
+      ],
+      "tables": 1,
+      "images": [],
+      "overflow": false,
+      "noticeBeforeHighlights": true
+    },
+    {
+      "version": "1.1.5",
+      "width": 1280,
+      "h1": 1,
+      "sections": [
+        "✨ Highlights",
+        "Fixes & improvements",
+        "📦 Download",
+        "🔄 Updating",
+        "Known limitations",
+        "Verification & technical details",
+        "License & credits"
+      ],
+      "tables": 1,
+      "images": [
+        {
+          "src": "https://raw.githubusercontent.com/Elguajo/AV-Network-Toolkit/9e06c48b4b433e0463c2376ba4555c44804ea010/docs/design/navigation/idle-dark.png",
+          "loaded": true
+        }
+      ],
+      "overflow": false,
+      "noticeBeforeHighlights": true
+    },
+    {
+      "version": "1.1.5",
+      "width": 390,
+      "h1": 1,
+      "sections": [
+        "✨ Highlights",
+        "Fixes & improvements",
+        "📦 Download",
+        "🔄 Updating",
+        "Known limitations",
+        "Verification & technical details",
+        "License & credits"
+      ],
+      "tables": 1,
+      "images": [
+        {
+          "src": "https://raw.githubusercontent.com/Elguajo/AV-Network-Toolkit/9e06c48b4b433e0463c2376ba4555c44804ea010/docs/design/navigation/idle-dark.png",
+          "loaded": true
+        }
+      ],
+      "overflow": false,
+      "noticeBeforeHighlights": true
+    },
+    {
+      "version": "1.1.6",
+      "width": 1280,
+      "h1": 1,
+      "sections": [
+        "✨ Highlights",
+        "Fixes & improvements",
+        "📦 Download",
+        "🔄 Updating",
+        "Known limitations",
+        "Verification & technical details",
+        "License & credits"
+      ],
+      "tables": 1,
+      "images": [],
+      "overflow": false,
+      "noticeBeforeHighlights": true
+    },
+    {
+      "version": "1.1.6",
+      "width": 390,
+      "h1": 1,
+      "sections": [
+        "✨ Highlights",
+        "Fixes & improvements",
+        "📦 Download",
+        "🔄 Updating",
+        "Known limitations",
+        "Verification & technical details",
+        "License & credits"
+      ],
+      "tables": 1,
+      "images": [],
+      "overflow": false,
+      "noticeBeforeHighlights": true
+    }
+  ],
+  "live_preservation": {
+    "checked": true,
+    "release_bodies_unchanged": true,
+    "metadata_dates_channel_unchanged": true,
+    "all_20_asset_identities_hashes_sizes_timestamps_unchanged": true,
+    "all_5_tag_sources_unchanged": true
+  },
+  "editorial_second_pass": {
+    "performed": true,
+    "reviewer": "same agent, separate original-body comparison; not independent human/subagent certification",
+    "ledger": "docs/testing/RELEASE_NOTES_OVERHAUL_REVIEW.md"
+  },
+  "documentation_gates": {
+    "planning_links": 915,
+    "planning_schema_formats": "PASS",
+    "tooling_tests_passed": 12,
+    "whitespace": "PASS",
+    "protected_source_diff": "PASS",
+    "application_tests": "NOT RUN: editorial only"
+  }
+}
