@@ -36,6 +36,17 @@ public sealed class ProjectApplyViewModelTests
             () => new[] { new ProjectApplyRequest(1, Guid.NewGuid(), DateTimeOffset.UtcNow.AddMinutes(2), s.Snapshot, ProjectApplyTests.Intent()) }, s, 1);
     }
     [Fact]
+    public async Task ChangedPreStateNamesTheRefusalAndDoesNotSuggestPartialMutation()
+    {
+        var s = new Surface { Consent = true }; var vm = Vm(s);
+        await vm.RefreshAsync(); vm.SelectedAdapter = vm.Adapters[0]; await vm.ReviewAsync(false);
+        s.Snapshot = s.Snapshot with { DnsServers = ImmutableArray.Create("192.0.2.99") };
+        await vm.ApplyAsync();
+        Assert.Contains(NetworkProfileManager.Helpers.Loc.Get("Apply.Refused.Changed"), vm.Status);
+        Assert.DoesNotContain(NetworkProfileManager.Helpers.Loc.Get("Apply.ManualRecovery"), vm.Status);
+        Assert.Equal(0, s.Executes); Assert.Equal(0, s.Opened); Assert.False(vm.ApplyCommand.CanExecute(null));
+    }
+    [Fact]
     public async Task PasswordBearingDeviceCannotEnterReviewOrApplyPayloads()
     {
         var s = new Surface { Consent = true };

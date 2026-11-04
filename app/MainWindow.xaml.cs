@@ -216,6 +216,7 @@ namespace NetworkProfileManager
 
             // Route destructive-action confirmations through the Fluent dialog host.
             vm.ConfirmHandler = ConfirmAsync;
+            vm.ApplyConfirmHandler = ConfirmApplyAsync;
 
             vm.PropertyChanged += (s, args) =>
             {
@@ -248,6 +249,12 @@ namespace NetworkProfileManager
                     Key.D1 + index,
                     ModifierKeys.Control));
             }
+        }
+
+        private async Task<bool> ConfirmApplyAsync(ApplyConfirmation review)
+        {
+            var result = await _dialogService.ShowAsync(ApplyConfirmationContent.CreateDialog(review), System.Threading.CancellationToken.None);
+            return result == ContentDialogResult.Primary;
         }
 
         private async Task<bool> ConfirmAsync(string title, string message)

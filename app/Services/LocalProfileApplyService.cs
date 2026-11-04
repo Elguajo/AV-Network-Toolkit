@@ -17,7 +17,7 @@ internal sealed class LocalApplyBlockedException(string code) : Exception
 // One mutation contract for local/manual/hotkey/tray and project actions. No alias command runner.
 internal sealed class LocalProfileApplyService(IProjectApplyBoundary boundary, IProjectApplyJournal journal,
     Func<CancellationToken, Task<IReadOnlyList<ApplyAdapterIdentity>>> enumerate,
-    Func<Guid, ProjectApplyRequest> readJournal, int verificationAttempts = 10)
+    Func<Guid, ProjectApplyRequest> readJournal, int verificationAttempts = 10, TimeProvider? timeProvider = null)
 {
     internal static LocalProfileApplyService Create()
     {
@@ -40,10 +40,11 @@ internal sealed class LocalProfileApplyService(IProjectApplyBoundary boundary, I
         return intent;
     }
     internal async Task<LocalApplyResult> RunAsync(string adapterId, IpProfile profile, HistoryEntry? recovery,
-        Func<string, Task<bool>> confirm, CancellationToken cancellation)
+        Func<string, Task<bool>> confirm, CancellationToken cancellation,
+        Func<ApplyConfirmation, Task<bool>>? confirmSummary = null)
     {
         if (!Guid.TryParse(adapterId, out var id) || id == Guid.Empty) throw new LocalApplyBlockedException("LocalApply.AdapterChanged");
-        var coordinator = new ProjectApplyCoordinator(new ExplainedBoundary(boundary), journal, new NoBrowser(), verificationAttempts: verificationAttempts);
+        var coordinator = new ProjectApplyCoordinator(new ExplainedBoundary(boundary), journal, new NoBrowser(), timeProvider, verificationAttempts);
         ProjectApplyPlan? plan = null;
         try
         {
@@ -65,11 +66,11 @@ internal sealed class LocalProfileApplyService(IProjectApplyBoundary boundary, I
                 { IsDhcp = recovery.WasDhcp, IpAddress = recovery.OldIp, SubnetMask = recovery.OldSubnet, Gateway = recovery.OldGateway });
                 plan = await coordinator.PrepareProfileAsync(identity, intent, cancellation);
             }
-            string review = (oldHistory ? Loc.Get("LocalApply.OldHistory") + "\n\n" : "")
-                + ProjectApplyViewModel.FormatSnapshot(plan.Request.Before) + "\n\n" + Loc.Get("Apply.Requested") + "\n"
-                + ProjectApplyViewModel.FormatIntent(plan.Request.Desired) + "\n\n" + Loc.Get("Apply.Disclaimer");
+            var review = new ApplyConfirmation(plan.Request, oldHistory);
             cancellation.ThrowIfCancellationRequested();
-            if (!await confirm(review)) return new(plan.Request, null);
+            bool accepted = confirmSummary != null ? await confirmSummary(review)
+                : await confirm((oldHistory ? Loc.Get("LocalApply.OldHistory") + "\n\n" : "") + review.Details);
+            if (!accepted) return new(plan.Request, null);
             return new(plan.Request, await coordinator.ExecuteAsync(plan, cancellation));
         }
         finally { if (plan != null && coordinator.State == ProjectApplyState.AwaitingConfirmation) coordinator.Discard(plan); }

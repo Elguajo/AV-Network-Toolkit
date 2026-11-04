@@ -56,6 +56,7 @@ namespace NetworkProfileManager.ViewModels
         /// The existing non-network delete helper retains its prior default.
         /// </summary>
         public Func<string, string, Task<bool>>? ConfirmHandler { get; set; }
+        internal Func<ApplyConfirmation, Task<bool>>? ApplyConfirmHandler { get; set; }
 
         public const int MaxProfilesPerAdapter = 5;
 
@@ -218,7 +219,7 @@ namespace NetworkProfileManager.ViewModels
             {
                 var result = await _apply.RunAsync(adapterId, profile, recovery,
                     review => ConfirmHandler?.Invoke(Loc.Get(recovery == null ? "Apply.RequestReview" : "Apply.Recovery"), review)
-                        ?? Task.FromResult(false), cancellation.Token);
+                        ?? Task.FromResult(false), cancellation.Token, ApplyConfirmHandler);
                 if (result.Outcome == null) return;
                 LastApplyOutcome = result.Outcome;
                 if (result.Outcome.State == ProjectApplyState.Complete)
@@ -248,8 +249,7 @@ namespace NetworkProfileManager.ViewModels
                         : result.Outcome.Stage == "DhcpPolicyVerified" ? "Apply.DhcpPolicyVerified"
                         : recovery == null ? "LocalApply.Verified" : recovery.RecoveryOperationId == null ? "LocalApply.AddressOnlyRestored" : "Apply.Recovered"));
                 }
-                else NotificationService.Error((result.Outcome.Stage == "AddressConflict" ? Loc.Get("Apply.AddressConflict") : ProjectApplyViewModel.StateText(result.Outcome.State))
-                    + "\n" + Loc.Get("Apply.ManualRecovery"));
+                else NotificationService.Error(ApplyOutcomeText.Failure(result.Outcome));
                 Refresh();
             }
             catch (LocalApplyBlockedException error) { NotificationService.Error(Loc.Get(error.Code)); }

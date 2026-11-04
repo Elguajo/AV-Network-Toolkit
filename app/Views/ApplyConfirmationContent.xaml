@@ -1,0 +1,28 @@
+<UserControl x:Class="NetworkProfileManager.Views.ApplyConfirmationContent"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ MaxWidth="520">
+ <!-- ContentDialog already scrolls its body and keeps its actions fixed. -->
+  <StackPanel>
+   <TextBlock Text="{Binding Adapter}" Style="{StaticResource SectionHeaderText}" TextWrapping="Wrap"/>
+   <ItemsControl ItemsSource="{Binding Rows}" Margin="0,12,0,0">
+    <ItemsControl.ItemTemplate><DataTemplate>
+     <Grid Margin="0,0,0,8">
+      <Grid.ColumnDefinitions><ColumnDefinition Width="116"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+      <TextBlock Text="{Binding Label}" Style="{StaticResource CaptionText}" TextWrapping="Wrap" Margin="0,0,12,0"/>
+      <TextBlock Grid.Column="1" Text="{Binding Value}" TextWrapping="Wrap"/>
+     </Grid>
+    </DataTemplate></ItemsControl.ItemTemplate>
+   </ItemsControl>
+   <TextBlock Text="{Binding Warning}" TextWrapping="Wrap" Margin="0,4,0,12">
+    <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers>
+     <DataTrigger Binding="{Binding Warning}" Value=""><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
+    </Style.Triggers></Style></TextBlock.Style>
+   </TextBlock>
+   <TextBlock Text="{DynamicResource Apply.CompactWarning}" Style="{StaticResource CaptionText}" TextWrapping="Wrap" Margin="0,4,0,12"/>
+   <Expander x:Name="TechnicalDetails" Header="{DynamicResource Apply.TechnicalDetails}" IsExpanded="False"
+    AutomationProperties.Name="{DynamicResource Apply.TechnicalDetails}">
+    <TextBlock Text="{Binding Details}" TextWrapping="Wrap" Margin="0,8,0,0"/>
+   </Expander>
+  </StackPanel>
+</UserControl>

@@ -41,6 +41,13 @@ internal static partial class Program
         ApplyRenderTheme("Dark");
         try
         {
+            if (args.Contains("--apply-confirmation"))
+            {
+                CheckApplyConfirmation(output);
+                if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
+                Console.WriteLine("PASS: compact apply confirmation, Light/Dark normal/minimum; 32 captures, details disclosure, warnings, Cancel/Enter/Escape and explicit Apply; 0 binding errors; fake mutation boundaries.");
+                return 0;
+            }
             if (args.Contains("--project-discard"))
             {
                 CheckProjectDiscard(output);

@@ -186,6 +186,8 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
             var outcome = await _coordinator.ExecuteAsync(plan, token);
             Status = StateText(outcome.State) + "\n" + Loc.Get("Apply.Stage") + " "
                 + Loc.Get($"Apply.Stage.{outcome.Stage}", Loc.Get("Apply.Stage.Unknown"));
+            if (!outcome.MayHaveChanged && outcome.State != ProjectApplyState.Complete)
+                Status = ApplyOutcomeText.Failure(outcome);
             if (outcome.State == ProjectApplyState.Complete && plan.Destination == null && !plan.Request.Recovery)
                 Status = Loc.Get(IsLinkLocalTool ? "LinkLocal.Verified" : "Workspace.Verified");
             if (outcome.JournalUpdateFailed) Status += "\n" + Loc.Get("Apply.JournalWarning");
