@@ -95,7 +95,7 @@ Select an image for the full-size view. These WPF component captures use invente
 
 ## Status and limitations
 
-The current source targets **1.1.7 local Preview**, including the completed profile/diagnostic/device follow-ups and themed unsaved-change confirmation. [Local version notes](docs/releases/v1.1.7.md) describe verification and compatibility. The latest public release remains **1.1.6 Preview**; its publication and exact-source verification are recorded in the [release review](docs/testing/RELEASE_1.1.6_REVIEW.md). Read the [1.1.6 upgrade notes](docs/releases/v1.1.6.md) and [changelog](CHANGELOG.md) before upgrading.
+The current source targets **1.1.7 Preview**, including the completed profile/diagnostic/device follow-ups and themed unsaved-change confirmation. [Version notes](docs/releases/v1.1.7.md) describe compatibility; the [1.1.7 release review](docs/testing/RELEASE_1.1.7_REVIEW.md) records publication and exact-source verification. Read the version notes and [changelog](CHANGELOG.md) before upgrading.
 
 - **Network safety:** complex or unknown adapter configurations are blocked. Recovery is best effort and can fail; older history does not contain a complete original snapshot. Keep an independent way to restore the adapter. [Supported states and field semantics](docs/USER_GUIDE.md#applying-settings-and-recovery).
 - **Acceptance:** automated checks and hosted package tests do not certify personal-data migration, real NIC/UAC/DAD, physical packet egress, multicast, clean-client deployment or manual accessibility. Native DPI was checked at 100%; actual 150%/200% and mixed-monitor acceptance remain pending. [Known issues](docs/releases/v1.1.6.md#known-limitations).

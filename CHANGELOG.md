@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.1.7] — 2026-11-04 (local Preview; not published)
+## [1.1.7] — 2026-11-04 (AV Network Toolkit Preview)
 
 ### Fixed
 
@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Included from completed local work
 
-- Ordinary DHCP/APIPA and disconnected adapter configuration follow-ups, responsive diagnostic source selection, and detached device editing/selected-device details. These were already implemented before this correction; native acceptance remains separate. [Local version notes and compatibility](docs/releases/v1.1.7.md).
+- Ordinary DHCP/APIPA and disconnected adapter configuration follow-ups, responsive diagnostic source selection, and detached device editing/selected-device details. These were already implemented before this correction; native acceptance remains separate. [Version notes and compatibility](docs/releases/v1.1.7.md).
 
 ## [1.1.6] — 2026-11-02 (AV Network Toolkit Preview)
 

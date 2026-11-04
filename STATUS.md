@@ -1,5 +1,12 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## GitHub 1.1.7 Preview — REL-09 / ADR-059, 2026-11-04
+
+- Fork / branch / inspected base: https://github.com/Elguajo/AV-Network-Toolkit / main / `a5c8aa1e69de643e7b449a7560f8ff5edba3a5ef`, clean/synchronized. Release source commit follows.
+- Completed preparation: inspected existing workflow/notes/local evidence and prior release/tag metadata; selected new v1.1.7 Preview without replacing old releases. [Required gates and execution evidence](docs/testing/RELEASE_1.1.7_REVIEW.md).
+- In progress / blockers / next action: commit/push release metadata, explicitly dispatch release, verify exact-source hosted results and public downloads. No blocker established. Publication PENDING. Prior ca7d475 977 unit/184 captures remain source-attributed; new-source CI NOT RUN yet.
+- Tests last executed: prior 977 unit/12 tooling/184 captures in UI-DISCARD-01; release metadata/local/frozen/hosted checks follow. Phase 07 AWAITING_REVIEW; no local install/private-data migration/live NIC/UAC/production trust/native acceptance or Phase 08. Current request authorizes GitHub publication of 1.1.7 only.
+
 ## Discard confirmation/local 1.1.7 — UI-DISCARD-01, 2026-11-04
 
 - Fork / branch / inspected base: https://github.com/Elguajo/AV-Network-Toolkit / main / `1f96e3526ad95eb8b3ffb69455cf0f257f57be0f`. Exact implementation/package source **`ca7d4754959c8fd75a1c56b5c8236140c68ed34f`**, committed and pushed ordinarily to origin/main. Outcome-only evidence commit follows.
@@ -1797,3 +1804,16 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Final metadata checks: private Python planning/schema/formats/references, 12 validator tests and staged whitespace are run before the evidence commit. No further app/test changes.
 - Task state: UI-DISCARD-01 VERIFIED_LOCAL_AND_PUSHED; no implementation/package work remains. Phase 07 stays AWAITING_REVIEW; previous native/owner gates and separately logged bugs retained.
 - Next safe action: exit the old app through tray Exit, then open out/Local117-ca7d475/Packages/payload/NetworkProfileManager.exe with adjacent DLLs, or extract the full ZIP. Local installer built but NOT installed/tested on this PC. No ordinary startup, network/UAC/browser/clipboard, migration, tag/public Release or Phase 08 action occurred.
+
+## Session handoff — REL-09 preparation, 2026-11-04
+
+- Date/environment: Windows/PowerShell, existing private .NET 10.0.403 SDK/10.0.14 runtime and Python validator; no local installation/network tests.
+- Fork/branch/base: https://github.com/Elguajo/AV-Network-Toolkit / main / a5c8aa1e69de643e7b449a7560f8ff5edba3a5ef, clean/synchronized at bootstrap. Release source commit follows.
+- Phase/task: Phase 07 AWAITING_REVIEW; REL-09 / ADR-059. Owner explicitly authorized GitHub 1.1.7 Preview; no phase advancement.
+- Completed: prior release/tag metadata preserved; new product-first 1.1.7 notes, workflow version/title/notes selection and changelog/README/planning review. No app/test/schema/harness changes; old packages retained.
+- Changed paths: .github/workflows/release.yml; CHANGELOG/README; docs/releases/v1.1.7.md; new docs/testing/RELEASE_1.1.7_REVIEW.md; TASKS/STATUS/decision log.
+- Checks: private Python -B scripts/validate_plan.py PASS (9 phases/49 stable tasks/schemas/formats/999 links before final handoff); scripts/test_validate_plan.py 12 PASS; whitespace PASS. Prior ca7d475 evidence: 977 unit PASS/184 captures/0 bindings; verify unchanged source and run frozen/hosted exact-source gates next. Current release CI/publication PENDING, not claimed complete. Microsoft .NET 10 Windows support matrix checked; ordinary Windows 10 22H2 is not listed, noted with authoritative link.
+- Risks/limits: disabled updater/production trust, plaintext v2/backups, older journal/home-data compatibility, OPEN SWITCH-04–07 and native/owner/DPI acceptance preserved. Live network/UAC/install/migration on this PC NOT RUN. No stable/support/phase claim.
+- Decisions requiring approval: none for this requested Preview. Existing release source/hash/runtime/install/retention gates stay mandatory. No changes to old releases/tags/assets or repo settings.
+- Next smallest safe action: commit/push metadata, dispatch release workflow at exact main SHA, verify hosted candidates/public downloads and old-release preservation, record outcome and push evidence only.
+- Next session may proceed: finish REL-09 under this authorization; no operational signing keys, local install, real networking or Phase 08.

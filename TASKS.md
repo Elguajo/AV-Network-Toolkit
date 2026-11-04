@@ -1,5 +1,9 @@
 # Traceable task backlog
 
+## GitHub 1.1.7 Preview — 2026-11-04
+
+- [ ] **REL-09** — Publish owner-requested 1.1.7 Preview through the existing release workflow. **AC:** final-source unit/tooling/build, unchanged-product WPF evidence, exact-source hosted installer/ZIP/runtime/install/retention checks, independent public download/tag/body/source/hash/CI-byte validation and old-release preservation. **State:** IN_PROGRESS — [release review](docs/testing/RELEASE_1.1.7_REVIEW.md); no published/hosted success inferred. No local install/migration/live networking, production updater trust, phase acceptance or Phase 08.
+
 ## Discard confirmation and local 1.1.7 — 2026-11-04
 
 - [x] **UI-DISCARD-01** — Replace the pictured classic discard dialog with the existing Fluent style; preserve safe cancellation/drafts, nested owner/focus and explicit discard; commit/push main and build local 1.1.7 at the owner's request. **State:** VERIFIED_LOCAL_AND_PUSHED — source ca7d475, 977 unit PASS, builds 0 warnings/errors; 4 new + 52 device + 128 existing WPF captures/0 binding errors. Exact-source self-contained installer/ZIP, source/runtime/WPF/JSON diagnostic and 8 extracted ZIP-file hashes verified. [Evidence, paths and limits](docs/testing/PROJECT_DISCARD_REVIEW.md). No installation/live network/public Release or phase advancement; owner/native review remains pending.
