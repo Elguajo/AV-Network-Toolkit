@@ -2,10 +2,11 @@
 
 ## Adjacent confirmation/result corrections — SWITCH-09–12 / ADR-062, 2026-11-04
 
-- Fork / branch / inspected baseline: https://github.com/Elguajo/AV-Network-Toolkit / main / **`58b47301a024361220b1b498bdb1a4d989b984bd`**, initially clean. Exact implementation/package source follows after scoped commit. Phase 07 AWAITING_REVIEW; no push/release/Phase 08.
+- Fork / branch / inspected baseline: https://github.com/Elguajo/AV-Network-Toolkit / main / **`58b47301a024361220b1b498bdb1a4d989b984bd`**, initially clean. Exact implementation/package source **`59cce7436f933acf1524de8915535c76acf859de`**, committed locally; outcome-only evidence commit follows. Phase 07 AWAITING_REVIEW; no push/release/Phase 08.
 - Completed locally: [four bounded corrections](docs/testing/CONFIRMATION_EDGE_FIX_REVIEW.md): late-preparation/pre-elevation/UAC expiry preserved as validated no-command result with NEW consent; partial/unknown operations never replay; final journal failure stops renewal and stays visible. Permanent inhibition and transient active/update locks have distinct guidance; no protective reset. Browser-only failure retains verified-network/Open-only guidance and journal warning. Request version/TTL, peer identity, snapshot, DNS, verification/recovery and existing support limits retained.
 - Tests last executed: **6 expected pre-fix FAIL / 1 control PASS**; final **1017 unit PASS / 0 failed/skipped**, 35 s; builds 0 warnings/errors. **20 new-result + 44 compact + 128 existing WPF captures / 0 binding errors**, serial in both themes/normal/minimum. New 16 regression cases include journal-entry expiry, strict worker response, no-command actual elevation early return, malformed payloads and partial/unknown negatives. **1043 planning links / 12 tooling PASS**, whitespace PASS; frozen local portable follows.
-- In progress/blockers/next action: prepare separate exact-source portable and owner review; native UAC/IPC/netsh/network mutation/reconnect/recovery/browser and owner/Narrator/DPI acceptance NOT RUN / UNVERIFIED. SWITCH-04–07 remain OPEN; previous audit OPEN statements below are historical. No installation, private-data migration, publication or phase advancement.
+- Completed local artifact: `out/ConfirmationFix-59cce74/Portable/NetworkProfileManager.exe` with adjacent dependencies plus complete portable ZIP. Frozen git-archive win-x64 self-contained publish and hidden source/.NET 10.0.14/Preview/no-key/WPF/JSON diagnostic PASS; all eight extracted ZIP files SHA-256-identical. Earlier candidates/running/public app preserved.
+- In progress/blockers/next action: owner review of the separate corrected portable; native UAC/IPC/netsh/network mutation/reconnect/recovery/browser and owner/Narrator/DPI acceptance NOT RUN / UNVERIFIED. SWITCH-04–07 remain OPEN; previous audit OPEN statements below are historical. No installation, private-data migration, publication or phase advancement.
 
 ## Adjacent confirmation audit — SWITCH-AUDIT-02, 2026-11-04
 
@@ -1947,3 +1948,9 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks: frozen portable packaging/evidence, owner review; prior native/phase acceptance. Do not repair unrelated SWITCH-04–07 under this task.
 - Next smallest safe action: owner exits old instance via tray Exit and reviews the separate corrected portable. No real-network success inferred from fake-worker tests.
 - Can next session proceed without clarification: yes for safe local evidence/candidate review; no implicit native mutation/publication/phase progression.
+
+### SWITCH-09–12 exact-source artifact outcome — 2026-11-04
+
+- Source/package: 59cce7436f933acf1524de8915535c76acf859de, main, no push. Frozen git-archive publish PASS; retained MIT/LICENSE, notices and native dependencies. Hidden --package-self-test exits 0 before ordinary startup, version 1.1.7.0, informational 1.1.7-local.confirmation-fixes+59cce7436f933acf1524de8915535c76acf859de, .NET 10.0.14, Preview/no key, JSON/WPF true. All eight separately extracted ZIP file names/counts/SHA-256 match; exact hashes/commands in docs/testing/CONFIRMATION_EDGE_FIX_REVIEW.md.
+- Ready local EXE: out/ConfirmationFix-59cce74/Portable/NetworkProfileManager.exe with adjacent DLLs; complete ZIP alongside it. Current running original/downloaded/public version and earlier candidates unchanged; no ordinary launch, real settings/browser/UAC, installation, user-data migration or publication.
+- Tasks SWITCH-09–12 VERIFIED_LOCAL / OWNER_REVIEW_PENDING. Final 1017 unit/192 WPF/12 tooling source evidence unchanged; outcome-only final planning/whitespace checks follow. Native/owner/Phase 07 acceptance and unrelated gates retained.

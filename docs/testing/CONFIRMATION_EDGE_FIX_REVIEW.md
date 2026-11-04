@@ -31,3 +31,15 @@ Preparation refinements: the first full post-fix run passed 1016 tests; inspecti
 Native IPC/UAC prompt/netsh/network mutation, cable/reconnect/recovery, actual browser/clipboard, Narrator/high contrast/physical DPI, installer and owner acceptance remain **NOT RUN / UNVERIFIED**. SWITCH-04–07, production updater trust/manual update, private data compatibility and phase gates remain. No running-app writes, ordinary App startup, private-data migration, install, push or release. Tooling and frozen local portable outcomes follow before final commit.
 
 Private Python planning validator and `-m unittest discover -s scripts -p test_validate_plan.py`: **1043 links / 12 tooling PASS**; `git diff --check` PASS. Final app/test/harness behavior did not change after these checks; only a service comment was clarified to acknowledge that a no-command expired attempt may already have a durable journal. Frozen candidate source/outcome follows.
+
+## Exact-source local portable
+
+Implementation/package source **59cce7436f933acf1524de8915535c76acf859de**, committed locally on main; no push. Frozen using `git archive --format=zip -o out/ConfirmationFix-59cce74/source.zip <sha>`, expanded to Source. Publish:
+
+```powershell
+& $sdk publish out/ConfirmationFix-59cce74/Source/app/NetworkProfileManager.csproj -c Release -r win-x64 --self-contained true -p:DebugType=none -p:DebugSymbols=false -p:PublishReadyToRun=false -p:SourceRevisionId=59cce7436f933acf1524de8915535c76acf859de -p:InformationalVersion=1.1.7-local.confirmation-fixes -p:ReleaseChannel=Preview -o D:/DEV/NETWORKING/AV-Network-Toolkit/out/ConfirmationFix-59cce74/Portable
+```
+
+PASS. MIT LICENSE from the same archive plus unchanged notices/native files retained. Ready EXE `out/ConfirmationFix-59cce74/Portable/NetworkProfileManager.exe`, with adjacent dependencies. Complete ZIP `out/ConfirmationFix-59cce74/AVNetworkToolkit-local-confirmation-fixes-59cce74-portable.zip`. Extracted to a fresh ZipVerified folder: **all 8 names/counts/SHA-256 identical**.
+
+Hidden Start-Process with WindowStyle Hidden/Wait/PassThru `--package-self-test <fresh-absolute-json-path>` exits 0 before ordinary startup: Success/JsonValidated/WpfRendered true, assembly 1.1.7.0, informational `1.1.7-local.confirmation-fixes+59cce7436f933acf1524de8915535c76acf859de`, .NET 10.0.14, Preview/no production key. EXE SHA-256 `ae106c181f170857a6410e0871f93ff7c75885961325505eaa54c7688153bd2f`; ZIP `dcb2f9e93622d749a160525a6750b75241c00bc05e8ade6ad243200060597f07`. Ignored package-self-test.json/package-manifest.json retain diagnostics/file identities. No ordinary launch, install, data migration, real network operation or public/running-binary replacement. Owner exits older app via tray Exit and reviews the separate candidate. Outcome-only evidence commit does not move or rebuild this source.
