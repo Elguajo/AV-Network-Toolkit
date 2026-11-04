@@ -261,6 +261,8 @@
   <sys:String x:Key="Project.KeepProfile">Keep profile in project</sys:String>
   <sys:String x:Key="Project.Backup">Previous file backup</sys:String>
   <sys:String x:Key="Project.Discard">Discard unsaved changes?</sys:String>
+  <sys:String x:Key="Project.DiscardHint">Your unsaved changes will be lost. Cancel to continue editing.</sys:String>
+  <sys:String x:Key="Project.DiscardAction">Discard changes</sys:String>
   <sys:String x:Key="Project.Overwrite">Replace this file and retain a backup?</sys:String>
   <sys:String x:Key="Project.ErrorTooLarge">Project exceeds the 8 MiB size limit.</sys:String>
   <sys:String x:Key="Project.ErrorVersion">Unsupported project version. The file has not been changed.</sys:String>

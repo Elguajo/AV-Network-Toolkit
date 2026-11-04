@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.7] — 2026-11-04 (local Preview; not published)
+
+### Fixed
+
+- Replace the classic unsaved-change message box with a themed Fluent confirmation, explicit Discard changes/Cancel actions and safe initial focus/default. Cancel, Escape and close retain changes; nested editor ownership/focus is preserved. [Verification](docs/testing/PROJECT_DISCARD_REVIEW.md).
+
+### Included from completed local work
+
+- Ordinary DHCP/APIPA and disconnected adapter configuration follow-ups, responsive diagnostic source selection, and detached device editing/selected-device details. These were already implemented before this correction; native acceptance remains separate. [Local version notes and compatibility](docs/releases/v1.1.7.md).
+
 ## [1.1.6] — 2026-11-02 (AV Network Toolkit Preview)
 
 ### Added

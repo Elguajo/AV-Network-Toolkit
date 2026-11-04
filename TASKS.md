@@ -1,5 +1,9 @@
 # Traceable task backlog
 
+## Discard confirmation and local 1.1.7 — 2026-11-04
+
+- [ ] **UI-DISCARD-01** — Replace the pictured classic discard dialog with the existing Fluent style; preserve safe cancellation/drafts, nested owner/focus and explicit discard; commit/push main and build local 1.1.7 at the owner's request. **State:** SOURCE_VERIFIED / PACKAGE_PENDING — 977 unit PASS, builds 0 warnings/errors; 4 new + 52 device + 128 existing WPF captures/0 binding errors. [Evidence and limits](docs/testing/PROJECT_DISCARD_REVIEW.md). Commit/local package/ordinary push outcomes follow; no installation/live network/public Release or phase advancement.
+
 ## Device interface usability — 2026-11-02
 
 - [x] **UI-DEVICE-01** — Implement the owner's approved Add/Edit modal and many-device selected-card concepts. **AC:** detached Cancel/validation/owner-exit safety, essential name/URL plus optional profile/password/details, multiple-device search/group/selection/deletion, explicit Open/Apply & Open and project-file-save semantics; preserve v1/v2/password/network contracts and verify both themes/minimum sizes. **State:** VERIFIED_LOCAL / OWNER_NATIVE_REVIEW_PENDING — 977 combined unit PASS, Release builds 0 warnings/errors, 52 focused + 128 existing WPF captures/0 binding errors; exact f39f341 self-contained portable/source/runtime/8 ZIP-file hashes verified. [Contract/targets](docs/spec/DEVICE_INTERFACE_UX_CONTRACT.md), [actual renders and retained failures](docs/testing/DEVICE_INTERFACE_UX_REVIEW.md). No real network/clipboard/browser/install/private-data migration, push/public release or phase advancement.

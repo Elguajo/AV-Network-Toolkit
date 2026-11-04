@@ -1,5 +1,9 @@
 # Existing interface contract
 
+## Unsaved-change confirmation — UI-DISCARD-01, 2026-11-04
+
+Project and detached profile/device editors use an owner-centered Fluent/Mica confirmation instead of a system MessageBox. Reuse SectionHeaderText/CaptionText, FooterBar, semantic theme resources and WPF-UI buttons with existing 20-unit inset, 96-unit minimum action width and 8-unit action gap. Use explicit Discard changes and primary Cancel; Cancel receives initial focus and is the default/cancel action. Enter on opening, Escape and title-bar close refuse discard. Explicitly focusing/invoking Discard changes remains available. The active owned editor owns the confirmation; cancellation returns focus to it. Normal 460x260/minimum 380x240, wrapping/scrollable text and fixed actions, no new palette or icon assets. Other confirmations retain their existing behavior. [Verification](docs/testing/PROJECT_DISCARD_REVIEW.md).
+
 ## Device directory and modal editor — UI-DEVICE-01 / ADR-058
 
 Owner approved the [add-device](docs/design/devices/add-device-target.png) and [selected-device](docs/design/devices/device-details-target.png) raster concepts. The [contract](docs/spec/DEVICE_INTERFACE_UX_CONTRACT.md) moves name/URL and optional profile/password/details into a detached Fluent modal with scrolling body and fixed Cancel/Add or Save changes. The directory keeps many-device navigation and a read-only selected-device Card with explicit Open/Edit, linked Apply & Open, password Show/Copy and confirmed deletion in its named overflow menu. This supersedes earlier always-visible device form/Keep/Open placement only. Reuse Card/FooterBar, shared typography, semantic brushes, native controls and actual app/project bars. [Actual WPF evidence and native limits](docs/testing/DEVICE_INTERFACE_UX_REVIEW.md).

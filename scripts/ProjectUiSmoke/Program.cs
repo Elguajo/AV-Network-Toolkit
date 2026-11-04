@@ -41,6 +41,13 @@ internal static partial class Program
         ApplyRenderTheme("Dark");
         try
         {
+            if (args.Contains("--project-discard"))
+            {
+                CheckProjectDiscard(output);
+                if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
+                Console.WriteLine("PASS: Fluent discard confirmation, Light/Dark normal/minimum; Cancel/Enter/Escape/close preserve drafts, explicit discard, nested editor ownership/focus and theme transitions; 0 binding errors.");
+                return 0;
+            }
             if (args.Contains("--measure-diagnostic-inventory"))
             {
                 MeasureDiagnosticInventory();

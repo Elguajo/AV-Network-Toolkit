@@ -1,5 +1,12 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Discard confirmation/local 1.1.7 — UI-DISCARD-01, 2026-11-04
+
+- Fork / branch / inspected base: https://github.com/Elguajo/AV-Network-Toolkit / main / `1f96e3526ad95eb8b3ffb69455cf0f257f57be0f`. Implementation commit follows, resolvable via `git log -1 --format=%H -- app/Views/ProjectDiscardDialog.xaml`.
+- Completed source: localized Fluent discard confirmation, safe default/cancel, owned-editor focus and 1.1.7 metadata/local notes. [Review and retained failures](docs/testing/PROJECT_DISCARD_REVIEW.md). Existing project/data/network contracts preserved.
+- Tests last executed: Release app/test/harness builds 0 warnings/errors; **977 unit PASS / 0 failed/skipped**; **4 focused + 52 device + 128 existing WPF captures/0 binding errors**. New modal/keyboard/owner/actual-close/theme checks PASS. Planning/tooling checks follow before commit.
+- In progress / blockers / next action: scoped commit, owner-authorized ordinary main push (including ten previous completed local commits), self-contained local 1.1.7 packages and exact-source verification. No source blocker; native/owner/Narrator/high-contrast/DPI acceptance UNVERIFIED. Public 1.1.6 unchanged; Phase 07 AWAITING_REVIEW, no GitHub Release/installation/Phase 08. Build locally after committing; then owner closes old app through tray Exit and reviews the candidate.
+
 ## Device directory/modal follow-up — UI-DEVICE-01 / ADR-058, 2026-11-02
 
 - Fork / branch / inspected bases: https://github.com/Elguajo/AV-Network-Toolkit / main / initial `3085ec6`; final combined baseline `dadb8bba5b1e1ad78c2b33c1fc6fd5756cbab380`. Exact implementation/package source **`f39f34184585d101eb2f104a3f54cc43ea23445d`**. Outcome-only evidence commit follows; released source/public version unchanged.
@@ -1765,3 +1772,18 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Actually verified: self-contained Release win-x64 publish 0 warnings/errors; hidden --package-self-test exits 0, exact informational source/.NET 10.0.14/WPF/JSON/Preview/no updater key. Eight ZIP files extracted/hash-identical; ZIP SHA-256 ca319c502e9ba20441760d8c878caeedef587e8c499e7b2057dffbfd23f22e2a. Detailed commands and ignored evidence paths in docs/testing/DEVICE_INTERFACE_UX_REVIEW.md.
 - Tests remain 977 unit PASS/180 WPF captures/0 binding errors; product source unchanged after those checks. Final outcome metadata validates planning/schema/references, tooling and whitespace only. No ordinary startup, real clipboard/browser/NIC/UAC, installation, personal-data migration, push/public release or phase advancement.
 - Next smallest safe action: owner closes old app through tray Exit, opens out/DeviceInterfaces-f39f341/Portable/NetworkProfileManager.exe with adjacent dependencies and reviews synthetic Add/Edit/multiple-device selection. Phase 07 remains AWAITING_REVIEW; native/owner acceptance and separate profile audit risks remain. Further code work requires a scoped task; no Phase 08 inferred.
+
+## Session handoff — UI-DISCARD-01 / local 1.1.7, 2026-11-04
+
+- Date and environment: Windows/PowerShell, existing private SDK 10.0.403/.NET 10.0.14 and validation Python; serial isolated WPF tests.
+- Fork URL / branch / HEAD SHA: https://github.com/Elguajo/AV-Network-Toolkit / main / inspected base 1f96e3526ad95eb8b3ffb69455cf0f257f57be0f. Scoped implementation commit follows; resolve with git log -1 --format=%H -- app/Views/ProjectDiscardDialog.xaml.
+- Current phase and task IDs: Phase 07 AWAITING_REVIEW; UI-DISCARD-01, no phase advancement.
+- Actually completed: replaced only classic discard confirmation with Fluent/Mica and localized explicit actions, safe Cancel default/focus, owner-chain selection and draft/focus preservation; owner-requested 1.1.7 metadata/local notes. Scoped self-review and visual inspection found no meaningful defects. Package/push still pending at this checkpoint.
+- Files changed: ProjectDiscardDialog.xaml(.cs), ProjectWindow.xaml.cs, En.xaml, version csproj; focused ProjectDiscardSmoke.cs/Program mode; DESIGN/README/CHANGELOG, local notes/review, TASKS/STATUS/decision log. No VM/schema/network/storage dependency changes.
+- Test commands/results: exact commands in docs/testing/PROJECT_DISCARD_REVIEW.md. Release application/test/harness builds PASS/0 warnings/errors; final 1.1.7 full suite 977 PASS/0 failed/skipped; TRX SHA-256 bce3fd00da27466ea253202e66f97153bdcf20bf7364ab940a6d50e9b36e8af3. Focused real modal/keyboard/close/default/owner/theme checks 4 captures PASS; 52 device and 128 existing WPF captures PASS/0 binding errors on byte-identical product sources apart from version metadata. Private Python -B scripts/validate_plan.py PASS (9 phases/49 tasks/schema/formats/989 links); -B scripts/test_validate_plan.py 12 PASS; whitespace PASS (line-ending notices only). Final metadata validation follows before commit.
+- Live-network tests: NOT RUN / not authorized. No real NIC/probe/scan/listener/UAC/browser/clipboard, ordinary startup, install or personal-data migration.
+- Known bugs/risks/workarounds: native/owner/Narrator/high-contrast/physical-DPI acceptance remains UNVERIFIED; other confirmations remain outside this correction. Prior separately logged profile/diagnostic risks preserved. New harness fixture mistakes corrected without changing existing product behavior or suppressing checks.
+- Decisions requiring user approval: none for the requested scoped commit/ordinary push/local build. Public GitHub release/tag/assets and next phase remain separate. Existing release workflow's 1.1.6-only manual publication guard remains unchanged.
+- Remaining tasks: local exact-source package/self-test/ZIP validation, ordinary main push and outcome handoff; prior phase/native acceptance still pending.
+- Next smallest safe action: commit verified source, build self-contained local 1.1.7 with pinned existing tools, verify identity and hashes, record outcomes and push main ordinarily. Owner then exits older app through tray Exit and reviews the complete candidate.
+- Next session may proceed without clarification: finish this explicitly requested commit/push/local-build scope only; no public release/install/live-network or Phase 08 authorization.

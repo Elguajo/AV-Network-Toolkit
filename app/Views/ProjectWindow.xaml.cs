@@ -72,9 +72,16 @@ internal sealed class ProjectDialogs(Window owner) : IProjectDialogs
         };
         return dialog.ShowDialog(owner) == true ? dialog.FileName : null;
     }
-    public bool ConfirmDiscard() => System.Windows.MessageBox.Show(owner,
-        Loc.Get("Project.Discard", "Discard unsaved changes?"), Loc.Get("Project.Title", "Project"),
-        MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes;
+    public bool ConfirmDiscard()
+    {
+        // The shared project VM can be used by an owned editor. Keep its
+        // confirmation above that editor and restore focus there on Cancel.
+        var active = Application.Current.Windows.OfType<Window>().FirstOrDefault(w => w.IsActive);
+        var dialogOwner = owner;
+        for (var candidate = active; candidate != null; candidate = candidate.Owner)
+            if (candidate == owner) { dialogOwner = active!; break; }
+        return new ProjectDiscardDialog { Owner = dialogOwner }.ShowDialog() == true;
+    }
     public bool ConfirmDelete() => System.Windows.MessageBox.Show(owner,
         Loc.Get("Project.DeleteConfirm", "Delete the selected profile?"), Loc.Get("Project.Title", "Project"),
         MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes;
