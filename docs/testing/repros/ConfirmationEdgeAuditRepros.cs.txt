@@ -1,0 +1,143 @@
+// Observed-defect reproductions, not acceptance tests enforcing desired behavior.
+// Compile only in the isolated ignored audit project; all OS/elevation/browser/journal boundaries are fake.
+using System.Collections.Immutable;
+using System.Reflection;
+using NetworkProfileManager.Helpers;
+using NetworkProfileManager.Models;
+using NetworkProfileManager.Services;
+using NetworkProfileManager.ViewModels;
+using Xunit;
+
+namespace NetworkProfileManager.Audit;
+
+[CollectionDefinition("AuditStatic", DisableParallelization = true)]
+public sealed class AuditStaticCollection { }
+
+[Collection("AuditStatic")]
+public sealed class ConfirmationEdgeAuditRepros
+{
+    private sealed class Clock : TimeProvider
+    {
+        internal DateTimeOffset Now = DateTimeOffset.UtcNow;
+        public override DateTimeOffset GetUtcNow() => Now;
+    }
+    private static ApplyAdapterSnapshot Snapshot() => new(
+        new(Guid.NewGuid(), 12, "Ethernet fixture", "02-00-00-00-00-01"), false,
+        ImmutableArray.Create(new ApplyAddress("192.0.2.10", 24, "manual", "preferred")), "static",
+        ImmutableArray.Create("192.0.2.53"), ImmutableArray<ApplyRoute>.Empty, true,
+        ImmutableArray.Create(new ApplyAddress("192.0.2.10", 24, "manual", "preferred")), Dad: new(3, true));
+    private static IpProfile Profile() => new()
+    { Name = "Fixture", IpAddress = "192.0.2.20", SubnetMask = "255.255.255.0", PrimaryDns = "192.0.2.55" };
+
+    private sealed class Surface : IProjectApplyBoundary, IProjectApplyJournal, IBrowserLauncher, IProjectApplyDialogs
+    {
+        internal readonly Clock Time = new();
+        internal ApplyAdapterSnapshot Current = Snapshot();
+        internal string ExpireAt = "";
+        internal bool BrowserFails;
+        internal int Reads, Begins, Finishes, BoundaryCalls, FakeUacPrompts, Commands, Opens, Confirms;
+        public Task<ApplyAdapterSnapshot> ReadAsync(ApplyAdapterIdentity id, CancellationToken ct)
+        {
+            Reads++;
+            if (Reads == 2 && ExpireAt == "preflight") Time.Now = Time.Now.AddSeconds(2);
+            return Task.FromResult(Current);
+        }
+        public void ValidateSupported(ApplyAdapterSnapshot s, ApplyIntent desired, bool recovery)
+            => ProjectApplyPolicy.ValidateTransition(s, desired, recovery);
+        public async Task<ApplyExecutionResult> ExecuteAsync(ProjectApplyRequest request, CancellationToken ct)
+        {
+            BoundaryCalls++;
+            // Same first statement as the production ProjectApplyElevation.ExecuteAsync.
+            // It precedes process/pipe/UAC creation, and can throw without any OS mutation.
+            ProjectApplyWire.ValidateRequest(request, Time.Now);
+            FakeUacPrompts++;
+            if (ExpireAt == "uac") Time.Now = Time.Now.AddMinutes(3);
+            return await ProjectApplyWorker.ExecuteAsync(request, ReadAsync, (_, _) =>
+            {
+                Commands++;
+                var d = request.Desired;
+                var a = new ApplyAddress(d.Address!, d.PrefixLength, "manual", "preferred");
+                Current = Current with { Addresses = ImmutableArray.Create(a), PersistentAddresses = ImmutableArray.Create(a),
+                    DnsSource = d.DnsMode, DnsServers = d.DnsServers };
+                return Task.CompletedTask;
+            }, _ => Task.FromResult(true), () => Time.Now);
+        }
+        public Task BeginAsync(ProjectApplyRequest request, CancellationToken ct)
+        { Begins++; if (ExpireAt == "journal") Time.Now = Time.Now.AddSeconds(2); return Task.CompletedTask; }
+        public Task FinishAsync(Guid id, ProjectApplyOutcome outcome) { Finishes++; return Task.CompletedTask; }
+        public void Open(string destination) { Opens++; if (BrowserFails) throw new InvalidOperationException("Synthetic browser failure"); }
+        public bool Confirm(string review, bool recovery) { Confirms++; return true; }
+        internal LocalProfileApplyService Local() => new(this, this,
+            _ => Task.FromResult<IReadOnlyList<ApplyAdapterIdentity>>(new[] { Current.Identity }),
+            _ => throw new InvalidOperationException(), 1, Time);
+        internal Task<LocalApplyResult> RunLocal() => Local().RunAsync(Current.Identity.Id.ToString(), Profile(), null,
+            _ => { Confirms++; if (ExpireAt is "preflight" or "journal") Time.Now = Time.Now.AddSeconds(119); return Task.FromResult(true); }, default);
+    }
+
+    [Theory]
+    [InlineData("preflight")][InlineData("journal")]
+    public async Task SWITCH09_ExpiryBeforeUacIsMisclassifiedAsUnknownPartialChange(string expireAt)
+    {
+        var s = new Surface { ExpireAt = expireAt }; var result = await s.RunLocal();
+        Assert.Equal(ProjectApplyState.ApplyFailed, result.Outcome!.State);
+        Assert.Equal("WorkerUnknown", result.Outcome.Stage); Assert.True(result.Outcome.MayHaveChanged);
+        Assert.Equal(0, s.FakeUacPrompts); Assert.Equal(0, s.Commands); Assert.Equal(1, s.Confirms);
+        Assert.Equal(1, s.Begins); Assert.Equal(1, s.Finishes);
+        Assert.Contains(Loc.Get("Apply.ManualRecovery"), ApplyOutcomeText.Failure(result.Outcome));
+    }
+
+    [Fact]
+    public async Task Control_FreshConsentTraversesTheSameFakeBoundarySuccessfully()
+    {
+        var s = new Surface(); var result = await s.RunLocal();
+        Assert.Equal(ProjectApplyState.Complete, result.Outcome!.State);
+        Assert.Equal(1, s.FakeUacPrompts); Assert.Equal(2, s.Commands); Assert.Equal(1, s.Confirms);
+    }
+
+    [Fact]
+    public async Task SWITCH10_ExpiryDuringFakeUacBecomesGenericValidationWithoutExpiryExplanation()
+    {
+        var s = new Surface { ExpireAt = "uac" }; var result = await s.RunLocal();
+        Assert.Equal(ProjectApplyState.ApplyFailed, result.Outcome!.State); Assert.False(result.Outcome.MayHaveChanged);
+        Assert.Equal("Validation", result.Outcome.Stage); Assert.Equal(0, s.Commands); Assert.Equal(1, s.FakeUacPrompts);
+        Assert.Equal(1, s.Confirms); Assert.Equal(Loc.Get("Apply.Refused.Other"), ApplyOutcomeText.Failure(result.Outcome));
+    }
+
+    [Fact]
+    public async Task SWITCH11_PermanentInhibitionHasTheSameWaitAndRetryAdviceAsTransientBusy()
+    {
+        // Test-process static only. Restore it in finally, never change a running product process.
+        var flag = typeof(NetworkMutationLease).GetField("_inhibited", BindingFlags.Static | BindingFlags.NonPublic)!;
+        int original = (int)flag.GetValue(null)!;
+        try
+        {
+            var firstWarning = ApplyOutcomeText.Failure(new(ProjectApplyState.ApplyFailed, true, null, "WorkerStillRunning"));
+            Assert.DoesNotContain(Loc.Get("Apply.WorkerActive"), firstWarning);
+            NetworkMutationLease.Inhibit();
+            var s = new Surface(); var first = await s.RunLocal();
+            s.Time.Now = s.Time.Now.AddHours(1); var later = await s.RunLocal();
+            Assert.Equal(1, flag.GetValue(null)); Assert.Null(NetworkMutationLease.TryAcquire());
+            Assert.Equal("OperationActive", first.Outcome!.Stage); Assert.Equal("OperationActive", later.Outcome!.Stage);
+            Assert.Equal(Loc.Get("Apply.Refused.Busy"), ApplyOutcomeText.Failure(later.Outcome));
+            Assert.Equal(0, s.Commands); Assert.Equal(0, s.BoundaryCalls);
+        }
+        finally { flag.SetValue(null, original); }
+    }
+
+    [Fact]
+    public async Task SWITCH12_BrowserOnlyFailureAddsPartialNetworkRecoveryAdviceAfterVerifiedSettings()
+    {
+        var s = new Surface { BrowserFails = true };
+        var p = new ProjectProfile { Name = "Fixture", Mode = "static", Ipv4 = new()
+        { Address = "192.0.2.20", PrefixLength = 24, Dns = new() { Mode = "static", Servers = new() { "192.0.2.55" } } } };
+        var vm = new ProjectApplyViewModel(p, new ProjectDevice { Name = "Fixture device", WebUrl = "https://192.0.2.44/", ProfileId = p.Id },
+            s, s, s, _ => Task.FromResult<IReadOnlyList<ApplyAdapterIdentity>>(new[] { s.Current.Identity }),
+            () => Array.Empty<ProjectApplyRequest>(), s, verificationAttempts: 1);
+        await vm.RefreshAsync(); vm.SelectedAdapter = vm.Adapters.Single(); await vm.ReviewAsync(false);
+        // This VM owns a real coordinator clock; align the fake worker clock after preparation.
+        s.Time.Now = DateTimeOffset.UtcNow; await vm.ApplyAsync();
+        Assert.Equal("192.0.2.20", s.Current.Addresses.Single().Address); Assert.Equal(2, s.Commands); Assert.Equal(1, s.Opens);
+        Assert.Contains(Loc.Get("Apply.State.BrowserFailed"), vm.Status);
+        Assert.Contains(Loc.Get("Apply.ManualRecovery"), vm.Status); Assert.Equal(1, s.Finishes);
+    }
+}
