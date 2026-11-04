@@ -49,29 +49,40 @@ internal sealed class LocalProfileApplyService(IProjectApplyBoundary boundary, I
         try
         {
             bool oldHistory = recovery != null && recovery.RecoveryOperationId == null;
-            if (recovery?.RecoveryOperationId is Guid operation)
+            bool refreshed = false;
+            while (true)
             {
-                var saved = readJournal(operation);
-                if (saved.Before.Identity.Id != id) throw new LocalApplyBlockedException("LocalApply.AdapterChanged");
-                plan = await coordinator.PrepareRecoveryAsync(saved.Before, cancellation);
+                cancellation.ThrowIfCancellationRequested();
+                if (recovery?.RecoveryOperationId is Guid operation)
+                {
+                    var saved = readJournal(operation);
+                    if (saved.Before.Identity.Id != id) throw new LocalApplyBlockedException("LocalApply.AdapterChanged");
+                    plan = await coordinator.PrepareRecoveryAsync(saved.Before, cancellation);
+                }
+                else
+                {
+                    if (recovery != null && !string.IsNullOrWhiteSpace(recovery.AdapterId)
+                        && (!Guid.TryParse(recovery.AdapterId, out var historyId) || historyId != id))
+                        throw new LocalApplyBlockedException("LocalApply.AdapterChanged");
+                    // Resolve the deliberately selected GUID, never fall back to another NIC/name.
+                    var identity = (await enumerate(cancellation)).Single(a => a.Id == id);
+                    var intent = recovery == null ? Intent(profile) : Intent(new IpProfile
+                    { IsDhcp = recovery.WasDhcp, IpAddress = recovery.OldIp, SubnetMask = recovery.OldSubnet, Gateway = recovery.OldGateway });
+                    plan = await coordinator.PrepareProfileAsync(identity, intent, cancellation);
+                }
+                var review = new ApplyConfirmation(plan.Request, oldHistory, refreshed);
+                cancellation.ThrowIfCancellationRequested();
+                bool accepted = confirmSummary != null ? await confirmSummary(review)
+                    : await confirm((refreshed ? Loc.Get("Apply.RefreshedReview") + "\n\n" : "")
+                        + (oldHistory ? Loc.Get("LocalApply.OldHistory") + "\n\n" : "") + review.Details);
+                if (!accepted) return new(plan.Request, null);
+                var outcome = await coordinator.ExecuteAsync(plan, cancellation);
+                if (outcome.State != ProjectApplyState.Rejected || outcome.MayHaveChanged || outcome.Stage != "Expired")
+                    return new(plan.Request, outcome);
+                // The expired plan is consumed without journaling or execution. Read
+                // fresh state and require a NEW explicit consent; never reuse the old one.
+                refreshed = true;
             }
-            else
-            {
-                if (recovery != null && !string.IsNullOrWhiteSpace(recovery.AdapterId)
-                    && (!Guid.TryParse(recovery.AdapterId, out var historyId) || historyId != id))
-                    throw new LocalApplyBlockedException("LocalApply.AdapterChanged");
-                // Resolve the deliberately selected GUID, never fall back to another NIC/name.
-                var identity = (await enumerate(cancellation)).Single(a => a.Id == id);
-                var intent = recovery == null ? Intent(profile) : Intent(new IpProfile
-                { IsDhcp = recovery.WasDhcp, IpAddress = recovery.OldIp, SubnetMask = recovery.OldSubnet, Gateway = recovery.OldGateway });
-                plan = await coordinator.PrepareProfileAsync(identity, intent, cancellation);
-            }
-            var review = new ApplyConfirmation(plan.Request, oldHistory);
-            cancellation.ThrowIfCancellationRequested();
-            bool accepted = confirmSummary != null ? await confirmSummary(review)
-                : await confirm((oldHistory ? Loc.Get("LocalApply.OldHistory") + "\n\n" : "") + review.Details);
-            if (!accepted) return new(plan.Request, null);
-            return new(plan.Request, await coordinator.ExecuteAsync(plan, cancellation));
         }
         finally { if (plan != null && coordinator.State == ProjectApplyState.AwaitingConfirmation) coordinator.Discard(plan); }
     }

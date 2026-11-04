@@ -7,12 +7,13 @@ using NetworkProfileManager.Services;
 namespace NetworkProfileManager.ViewModels;
 
 // Display only: the immutable request remains the authority at every apply boundary.
-internal sealed record ApplyConfirmation(ProjectApplyRequest Request, bool AddressOnlyRecovery = false)
+internal sealed record ApplyConfirmation(ProjectApplyRequest Request, bool AddressOnlyRecovery = false, bool RefreshedAfterExpiry = false)
 {
     public string Title => Loc.Get(Request.Recovery || AddressOnlyRecovery ? "Apply.Recovery" : "Apply.CompactTitle");
     public string Adapter => Request.Before.Identity.Alias;
     public string Warning => string.Join("\n\n", new[]
     {
+        RefreshedAfterExpiry ? Loc.Get("Apply.RefreshedReview") : "",
         AddressOnlyRecovery ? Loc.Get("LocalApply.OldHistory") : "",
         ProjectApplyPolicy.IsKnownOffline(Request.Before) ? Loc.Get("Apply.CompactOffline") : "",
         Request.Before.Addresses.Any(a => a.State == "duplicate") ? Loc.Get("Apply.SourceConflict") : ""

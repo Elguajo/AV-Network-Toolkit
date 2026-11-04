@@ -45,7 +45,7 @@ internal static partial class Program
             {
                 CheckApplyConfirmation(output);
                 if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
-                Console.WriteLine("PASS: compact apply confirmation, Light/Dark normal/minimum; 32 captures, details disclosure, warnings, Cancel/Enter/Escape and explicit Apply; 0 binding errors; fake mutation boundaries.");
+                Console.WriteLine("PASS: compact apply confirmation, Light/Dark normal/minimum; 44 captures, expired consent refresh without mutation and new independent consent, details/warnings, Cancel/Enter/Escape and explicit Apply; 0 binding errors; fake mutation boundaries.");
                 return 0;
             }
             if (args.Contains("--project-discard"))

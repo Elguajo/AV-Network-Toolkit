@@ -13,6 +13,11 @@ using Wpf.Ui.Controls;
 
 internal static partial class Program
 {
+    private sealed class ApplyConsentClock : TimeProvider
+    {
+        internal DateTimeOffset Now = DateTimeOffset.UtcNow;
+        public override DateTimeOffset GetUtcNow() => Now;
+    }
     private static void CheckApplyConfirmation(string output)
     {
         AppPaths.OverrideDataDirectory(Path.Combine(output, "isolated-data"));
@@ -20,7 +25,7 @@ internal static partial class Program
         {
             foreach (var theme in new[] { "Dark", "Light" })
             foreach (var minimum in new[] { false, true })
-            foreach (var kind in new[] { "static", "offline", "dhcp", "warning" })
+            foreach (var kind in new[] { "static", "offline", "dhcp", "warning", "expired" })
             {
                 ApplyRenderTheme(theme);
                 var f = new ApplyFixture { Fail = false };
@@ -37,8 +42,9 @@ internal static partial class Program
                 };
                 if (kind == "warning") f.Snapshot = f.Snapshot with
                 { Addresses = f.Snapshot.Addresses.Select(a => a with { State = "duplicate" }).ToImmutableArray() };
+                var clock = new ApplyConsentClock();
                 var service = new LocalProfileApplyService(f, f,
-                    _ => Task.FromResult<IReadOnlyList<ApplyAdapterIdentity>>(new[] { f.Snapshot.Identity }), _ => throw new Exception(), 1);
+                    _ => Task.FromResult<IReadOnlyList<ApplyAdapterIdentity>>(new[] { f.Snapshot.Identity }), _ => throw new Exception(), 1, clock);
                 var vm = new MainViewModel(() => new() { new() { Id = f.Snapshot.Identity.Id.ToString(), Name = f.Snapshot.Identity.Alias,
                     CurrentIp = "192.0.2.10", CurrentSubnet = "255.255.255.0", IsConnected = kind != "offline" } }, apply: service);
                 var window = new MainWindow(vm, new ProjectViewModel(new FakeDialogs(), new FakeBrowser()), (_, _, _) => { })
@@ -75,6 +81,21 @@ internal static partial class Program
                             AssertDialogActionVisible(window, apply); AssertDialogActionVisible(window, cancel);
                             Capture(window, Path.Combine(output, $"details-{kind}-{theme}-{(minimum ? "minimum" : "normal")}.png"));
                             details.IsExpanded = false; Pump();
+                        }
+                        if (kind == "expired" && action == "apply")
+                        {
+                            var expired = dialog; var oldOperation = review.Request.OperationId;
+                            clock.Now = clock.Now.AddMinutes(3); DeviceClick(apply);
+                            AwaitUi(() => Descendants(window).OfType<ContentDialog>().Any(d => d.IsVisible && d != expired), "Expired consent did not show a fresh review.");
+                            dialog = Descendants(window).OfType<ContentDialog>().Single(d => d.IsVisible && d != expired);
+                            review = (ApplyConfirmation)((ApplyConfirmationContent)dialog.Content).DataContext;
+                            if (review.Request.OperationId == oldOperation || !review.Warning.Contains(Loc.Get("Apply.RefreshedReview")) || f.Executed != 0)
+                                throw new Exception("Expired consent was reused or refreshed without an explanation.");
+                            apply = Descendants(dialog).OfType<Wpf.Ui.Controls.Button>().Single(b => b.IsVisible && b.Content?.ToString() == Loc.Get("Common.Apply"));
+                            cancel = Descendants(dialog).OfType<Wpf.Ui.Controls.Button>().Single(b => b.IsVisible && b.Content?.ToString() == Loc.Get("Common.Cancel"));
+                            if (Keyboard.FocusedElement != cancel) throw new Exception("Refreshed review did not start safely on Cancel.");
+                            AssertDialogActionVisible(window, apply); AssertDialogActionVisible(window, cancel);
+                            Capture(window, Path.Combine(output, $"refreshed-{theme}-{(minimum ? "minimum" : "normal")}.png"));
                         }
                         switch (action)
                         {

@@ -20,13 +20,14 @@ public sealed class ApplyConfirmationTests : IDisposable
     {
         internal ApplyAdapterSnapshot Current = ProjectApplyTests.Snapshot();
         internal int Begins, Executes;
+        internal bool FailExecute;
         public Task<ApplyAdapterSnapshot> ReadAsync(ApplyAdapterIdentity id, CancellationToken ct) => Task.FromResult(Current);
         public void ValidateSupported(ApplyAdapterSnapshot s, ApplyIntent desired, bool recovery)
             => ProjectApplyPolicy.ValidateTransition(s, desired, recovery);
         public Task<ApplyExecutionResult> ExecuteAsync(ProjectApplyRequest request, CancellationToken ct)
         {
             Executes++; Current = ProjectApplyTests.Applied(Current, request.Desired);
-            return Task.FromResult(new ApplyExecutionResult(ApplyExecutionStatus.Finished, true, "CommandsFinished"));
+            return Task.FromResult(new ApplyExecutionResult(FailExecute ? ApplyExecutionStatus.Failed : ApplyExecutionStatus.Finished, true, "CommandsFinished"));
         }
         public Task BeginAsync(ProjectApplyRequest request, CancellationToken ct) { Begins++; return Task.CompletedTask; }
         public Task FinishAsync(Guid id, ProjectApplyOutcome outcome) => Task.CompletedTask;
@@ -95,17 +96,80 @@ public sealed class ApplyConfirmationTests : IDisposable
         Assert.Equal(accept, result.Outcome != null);
     }
     [Theory]
-    [InlineData(120)][InlineData(121)]
-    public async Task ExpiredConfirmationDoesNotRunAndFreshExplicitReviewCanSucceed(int seconds)
+    [InlineData(120, false)][InlineData(121, true)]
+    public async Task ExpiredConfirmationRefreshesSnapshotAndRequiresIndependentConsent(int seconds, bool acceptFresh)
     {
         var s = new Surface(); var clock = new Clock(); var service = s.Service(clock); int confirmations = 0;
+        ApplyConfirmation? first = null, fresh = null;
         var result = await service.RunAsync(s.Current.Identity.Id.ToString(), Profile(), null, _ => Task.FromResult(false), default,
-            _ => { confirmations++; clock.Now = clock.Now.AddSeconds(seconds); return Task.FromResult(true); });
-        Assert.Equal(ProjectApplyState.Rejected, result.Outcome!.State); Assert.Equal("Expired", result.Outcome.Stage);
-        Assert.False(result.Outcome.MayHaveChanged); Assert.Equal(Loc.Get("Apply.Refused.Expired"), ApplyOutcomeText.Failure(result.Outcome));
-        Assert.Equal(0, s.Begins); Assert.Equal(0, s.Executes); Assert.Equal(1, confirmations);
-        result = await service.RunAsync(s.Current.Identity.Id.ToString(), Profile(), null, _ => Task.FromResult(true), default);
-        Assert.Equal(ProjectApplyState.Complete, result.Outcome!.State); Assert.Equal(1, s.Executes);
+            review =>
+            {
+                confirmations++;
+                if (confirmations == 1)
+                {
+                    first = review; clock.Now = clock.Now.AddSeconds(seconds);
+                    s.Current = s.Current with { DnsServers = ImmutableArray.Create("192.0.2.99") };
+                    return Task.FromResult(true);
+                }
+                fresh = review;
+                Assert.Equal(0, s.Executes); Assert.Equal(0, s.Begins);
+                Assert.Equal(s.Current, review.Request.Before);
+                Assert.Contains(Loc.Get("Apply.RefreshedReview"), review.Warning);
+                return Task.FromResult(acceptFresh);
+            });
+        Assert.Equal(2, confirmations); Assert.NotNull(first); Assert.NotNull(fresh);
+        Assert.NotEqual(first.Request.OperationId, fresh.Request.OperationId);
+        Assert.True(fresh.Request.ExpiresAt > clock.Now); Assert.Equal(fresh.Request, result.Request);
+        Assert.Equal(acceptFresh ? 1 : 0, s.Executes); Assert.Equal(acceptFresh ? 1 : 0, s.Begins);
+        Assert.Equal(acceptFresh, result.Outcome != null);
+        if (acceptFresh) Assert.Equal(ProjectApplyState.Complete, result.Outcome!.State);
+    }
+    [Theory]
+    [InlineData("changed")][InlineData("busy")][InlineData("worker")]
+    public async Task NonExpiryFailuresNeverRequestAnotherConsentOrAutomaticallyRetry(string kind)
+    {
+        var s = new Surface { FailExecute = kind == "worker" }; int confirmations = 0;
+        using var active = kind == "busy" ? NetworkMutationLease.TryAcquire() : null;
+        var result = await s.Service().RunAsync(s.Current.Identity.Id.ToString(), Profile(), null, _ => Task.FromResult(false), default,
+            _ => { confirmations++; if (kind == "changed") s.Current = s.Current with { DnsServers = ImmutableArray.Create("192.0.2.99") }; return Task.FromResult(true); });
+        Assert.Equal(1, confirmations);
+        Assert.Equal(kind == "worker" ? ProjectApplyState.ApplyFailed : ProjectApplyState.Rejected, result.Outcome!.State);
+        Assert.Equal(kind == "worker" ? 1 : 0, s.Executes);
+        Assert.Equal(kind == "worker", result.Outcome.MayHaveChanged);
+    }
+    [Fact]
+    public async Task RepeatedExpirationsNeverReuseConsentAndCancellationStopsBeforeJournaling()
+    {
+        var s = new Surface(); var clock = new Clock(); int confirmations = 0;
+        var operations = new HashSet<Guid>();
+        var result = await s.Service(clock).RunAsync(s.Current.Identity.Id.ToString(), Profile(), null, _ => Task.FromResult(false), default,
+            review => { operations.Add(review.Request.OperationId); confirmations++; clock.Now = clock.Now.AddMinutes(3); return Task.FromResult(confirmations < 3); });
+        Assert.Equal(3, confirmations); Assert.Equal(3, operations.Count); Assert.Null(result.Outcome);
+        Assert.Equal(0, s.Executes); Assert.Equal(0, s.Begins);
+        using var cancellation = new CancellationTokenSource(); confirmations = 0;
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => s.Service(clock).RunAsync(s.Current.Identity.Id.ToString(), Profile(), null,
+            _ => { confirmations++; clock.Now = clock.Now.AddMinutes(3); cancellation.Cancel(); return Task.FromResult(true); }, cancellation.Token));
+        Assert.Equal(1, confirmations); Assert.Equal(0, s.Executes); Assert.Equal(0, s.Begins);
+    }
+    [Theory]
+    [InlineData(false)][InlineData(true)]
+    public async Task ExpiredJournalRecoveryPreservesItsOriginalTargetAndNeedsFreshConsent(bool acceptFresh)
+    {
+        var s = new Surface(); var clock = new Clock(); int confirmations = 0;
+        var original = s.Current with { Addresses = ImmutableArray.Create(new ApplyAddress("192.0.2.30", 24, "manual", "preferred")),
+            PersistentAddresses = ImmutableArray.Create(new ApplyAddress("192.0.2.30", 24, "manual", "preferred")) };
+        var saved = new ProjectApplyRequest(1, Guid.NewGuid(), clock.Now, original, ProjectApplyTests.Intent());
+        var service = new LocalProfileApplyService(s, s, _ => Task.FromResult<IReadOnlyList<ApplyAdapterIdentity>>(new[] { s.Current.Identity }), _ => saved, 1, clock);
+        var result = await service.RunAsync(s.Current.Identity.Id.ToString(), new(), new HistoryEntry { RecoveryOperationId = saved.OperationId },
+            _ => Task.FromResult(false), default, review =>
+            {
+                confirmations++; Assert.True(review.Request.Recovery); Assert.Equal("192.0.2.30", review.Request.Desired.Address);
+                if (confirmations == 1) { clock.Now = clock.Now.AddMinutes(3); return Task.FromResult(true); }
+                Assert.Contains(Loc.Get("Apply.RefreshedReview"), review.Warning); return Task.FromResult(acceptFresh);
+            });
+        Assert.Equal(2, confirmations); Assert.Equal(acceptFresh ? 1 : 0, s.Executes);
+        Assert.Equal(acceptFresh, result.Outcome != null);
+        Assert.Equal(original, saved.Before);
     }
     [Theory]
     [InlineData("Expired", "Expired")][InlineData("PreStateChanged", "Changed")][InlineData("OperationActive", "Busy")]

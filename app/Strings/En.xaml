@@ -369,6 +369,7 @@
   <sys:String x:Key="Apply.Review">Review settings</sys:String>
   <sys:String x:Key="Apply.RequestReview">Current → requested settings</sys:String>
   <sys:String x:Key="Apply.CompactTitle">Apply network settings?</sys:String>
+  <sys:String x:Key="Apply.RefreshedReview">The previous confirmation expired. Nothing was applied. Current settings have been read again; check this fresh comparison before choosing Apply.</sys:String>
   <sys:String x:Key="Apply.CompactNoDns">No DNS servers</sys:String>
   <sys:String x:Key="Apply.TechnicalDetails">Technical details</sys:String>
   <sys:String x:Key="Apply.AutomaticDhcp">Automatic (DHCP)</sys:String>
