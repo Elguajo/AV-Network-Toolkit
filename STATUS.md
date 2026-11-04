@@ -2,10 +2,11 @@
 
 ## Compact apply confirmation / immediate refusal — UI-APPLY-01 / SWITCH-08, 2026-11-04
 
-- Fork / branch / inspected baseline: https://github.com/Elguajo/AV-Network-Toolkit / main / `af4059e27e98b473cfb23b63230e212c7f397170`. Scoped implementation commit follows; resolve using `git log -1 --format=%H -- app/Views/ApplyConfirmationContent.xaml`. No push/publication or phase advancement.
+- Fork / branch / inspected baseline: https://github.com/Elguajo/AV-Network-Toolkit / main / `af4059e27e98b473cfb23b63230e212c7f397170`. Exact implementation/package source **`bd6c2f39a386e81170f644a230e9638936f16ad0`**; outcome-only evidence commit follows. No push/publication or phase advancement.
 - Completed: compact current/requested local-network confirmation, collapsed technical details and visible offline/conflict/incomplete-history warnings; explicit Apply/Cancel with safe initial focus. Refusal feedback distinguishes expired/changed/busy/preflight/journal/UAC and omits recovery advice only when MayHaveChanged=false. [Review/evidence](docs/testing/APPLY_CONFIRMATION_REVIEW.md).
 - Tests last executed: Release solution/harness builds 0 warnings/errors; **995 full unit PASS/0 failed/skipped**, **32 focused + 128 existing WPF captures/0 binding errors**. Prior-source changed-state feedback control fails as expected. No real settings/probes/UAC/browser actions; three passive source-extracted Ethernet observations were identical and classified offline.
 - In progress / blockers: UI-APPLY-01 locally verified; SWITCH-08 original field cause **UNVERIFIED**, not repaired. Owner confirmed Yes was immediate; the initial two-minute-expiry hypothesis is not established. Need the specific refusal from the corrected build, then a bounded root-cause follow-up. Native/owner/Phase 07 acceptance and OPEN SWITCH-04–07 remain. Next safe action: review the local candidate and its new failure text; no Phase 08.
+- Completed local artifact: `out/ApplyConfirmation-bd6c2f3/Portable/NetworkProfileManager.exe` with adjacent dependencies, plus complete portable ZIP. Frozen git-archive publish, source/version/Preview/no-key/.NET 10.0.14/WPF/JSON hidden diagnostic PASS; all 8 ZIP files SHA-256-identical after extraction. Running/public 1.1.7 unchanged; ordinary startup/install/network application NOT RUN.
 
 ## GitHub 1.1.7 Preview — REL-09 / ADR-059, 2026-11-04
 
@@ -1854,3 +1855,9 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining active-phase tasks: prior owner/native review; root-cause continuation for SWITCH-08 after actual failure text. UI completion is not field-fix or phase acceptance.
 - Next smallest safe action: use separate local portable after exiting the old instance through tray Exit; review compact dialog and report the specific refusal if it repeats. Do not infer success from the build or fake-worker tests.
 - Can next session proceed without clarification: yes for safe evidence inspection and local root-cause work on main; live networking/publication/phase advancement are not implied.
+
+### UI-APPLY-01 local artifact outcome — 2026-11-04
+
+- Exact committed source/package: bd6c2f39a386e81170f644a230e9638936f16ad0. Frozen archive publish and hidden package self-test PASS: 1.1.7-local.apply-confirmation, .NET 10.0.14, Preview/no update key, WPF/JSON true. All eight extracted portable ZIP files SHA-256-identical; hashes/commands in the review. No ordinary startup/native action, installation, current-instance replacement or push.
+- Local launch target: out/ApplyConfirmation-bd6c2f3/Portable/NetworkProfileManager.exe, with its adjacent dependencies; complete ZIP alongside it. First commit attempt encountered unset Git identity; resolved using the recent repository identity via command-local `git -c`, without changing user configuration.
+- UI-APPLY-01 verified locally; SWITCH-08 cause still UNVERIFIED and OPEN. Next action remains the owner's review and specific new refusal text; Phase 07 AWAITING_REVIEW/native/Phase 08 gates unchanged. Final outcome-only planning/tooling/whitespace checks follow before this evidence commit.

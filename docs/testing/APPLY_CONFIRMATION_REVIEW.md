@@ -29,3 +29,19 @@ Unit additions cover exact reviewed request, cancellation/no journal or mutation
 Retained preparation failures: initial smoke used RaiseEvent(Click), which does not execute the toolkit's template ICommand; corrected the **harness** to invoke the existing automation peer. A stricter initial-focus check then revealed DefaultButton alone does not set focus; **product** now requests last traversal target (Cancel) after template load and tests opening Enter without manually focusing it. Removed a nested scroll viewer after minimum-size visual inspection. One patch placed usings after the class (compile failed, corrected); the first tooling invocation used the venv root instead of Scripts/python.exe (app tests had passed, tooling had not run). No assertions suppressed or mutation checks weakened. Final tooling/package results follow below.
 
 Native apply/UAC/IPC/OS execution/recovery, owner acceptance, Narrator/high contrast/physical DPI, original SWITCH-08 cause and later reachability remain **NOT RUN / UNVERIFIED**. Existing SWITCH-04–07 and phase gates remain. No running download/installation/user profile/project changes, push or GitHub Release.
+
+## Committed source and local candidate
+
+Exact implementation/package source **bd6c2f39a386e81170f644a230e9638936f16ad0**, committed locally on main; no push. Outcome-only evidence commit does not change that source. First commit attempt failed because no Git identity was configured; repeated with command-local name/email matching all five inspected recent commits. No global/local Git identity configuration changed.
+
+Frozen export: `git archive --format=zip -o out/ApplyConfirmation-bd6c2f3/source.zip bd6c2f39a386e81170f644a230e9638936f16ad0`, expanded into its Source folder. Publish:
+
+```powershell
+& $sdk publish out/ApplyConfirmation-bd6c2f3/Source/app/NetworkProfileManager.csproj -c Release -r win-x64 --self-contained true -p:DebugType=none -p:DebugSymbols=false -p:PublishReadyToRun=false -p:SourceRevisionId=bd6c2f39a386e81170f644a230e9638936f16ad0 -p:InformationalVersion=1.1.7-local.apply-confirmation -p:ReleaseChannel=Preview -o D:/DEV/NETWORKING/AV-Network-Toolkit/out/ApplyConfirmation-bd6c2f3/Portable
+```
+
+PASS, MIT LICENSE from archive and existing third-party/native dependencies retained. Ready EXE: `out/ApplyConfirmation-bd6c2f3/Portable/NetworkProfileManager.exe`; keep all adjacent files. ZIP: `out/ApplyConfirmation-bd6c2f3/AVNetworkToolkit-local-apply-confirmation-bd6c2f3-portable.zip`. Extracted separately into ZipVerified and **all 8 file names/counts/SHA-256 match**.
+
+Hidden `Start-Process -FilePath <candidate-exe> -ArgumentList @('--package-self-test', <fresh-absolute-json-path>) -WindowStyle Hidden -Wait -PassThru` exited 0 before ordinary startup. JSON Success/JsonValidated/WpfRendered true, assembly 1.1.7.0, informational `1.1.7-local.apply-confirmation+bd6c2f39a386e81170f644a230e9638936f16ad0`, .NET 10.0.14, Preview, no production key. Ignored package-self-test.json/package-manifest.json retain diagnostics/hashes without private network/user data.
+
+EXE SHA-256 `d1cb83568f5f6107cf8947c8767ee4e1de18797127abd6f3bdf72ec533495e4a`; ZIP `071a80c0396d3a6aacc2f6aba27187c731bb89e30a3ca28696969079ffcbea1e`. No ordinary launch, installed/downloaded-binary replacement, private-data migration or native apply. Owner exits the old instance using tray Exit, then may review this candidate and report its specific refusal. **SWITCH-08 remains unresolved; this is a compact UI and corrected feedback candidate.**
