@@ -102,7 +102,7 @@ public sealed class ProjectApplyCoordinator(
             _pending = null; // Consume before the first await; failures cannot replay a confirmation.
             var request = plan.Request;
             using var mutationLease = NetworkMutationLease.TryAcquire();
-            if (mutationLease == null) return End(ProjectApplyState.Rejected, false, null, "OperationActive");
+            if (mutationLease == null) return End(ProjectApplyState.Rejected, false, null, NetworkMutationLease.BlockedStage);
             if (request.ExpiresAt <= _time.GetUtcNow()) return End(ProjectApplyState.Rejected, false, null, "Expired");
             if (cancellation.IsCancellationRequested) return End(ProjectApplyState.Cancelled, false, null, "BeforeApply");
 
@@ -116,12 +116,16 @@ public sealed class ProjectApplyCoordinator(
             catch (OperationCanceledException) { return End(ProjectApplyState.Cancelled, false, null, "BeforeApply"); }
             catch { return End(ProjectApplyState.Rejected, false, null, "Preflight"); }
 
+            if (request.ExpiresAt <= _time.GetUtcNow()) return End(ProjectApplyState.Rejected, false, before, "Expired");
             try { await journal.BeginAsync(request, cancellation); }
+            catch (ApplyRequestExpiredException) { return End(ProjectApplyState.Rejected, false, before, "Expired"); }
             catch (OperationCanceledException) { return End(ProjectApplyState.Cancelled, false, before, "BeforeApply"); }
             catch { return End(ProjectApplyState.JournalFailed, false, before, "SnapshotWrite"); }
 
             if (cancellation.IsCancellationRequested)
                 return await Finish(request, End(ProjectApplyState.Cancelled, false, before, "BeforeApply"));
+            if (request.ExpiresAt <= _time.GetUtcNow())
+                return await Finish(request, End(ProjectApplyState.Rejected, false, before, "Expired"));
             State = ProjectApplyState.Applying;
             ApplyExecutionResult execution;
             try { execution = await boundary.ExecuteAsync(request, cancellation); }
@@ -153,6 +157,8 @@ public sealed class ProjectApplyCoordinator(
                 outcome = End(ProjectApplyState.ElevationDenied, false, observed, execution.Stage);
             else if (execution.Status == ApplyExecutionStatus.Cancelled || cancellation.IsCancellationRequested)
                 outcome = End(ProjectApplyState.Cancelled, execution.MayHaveChanged, observed, execution.Stage);
+            else if (execution.Status == ApplyExecutionStatus.Failed && !execution.MayHaveChanged && execution.Stage == "Expired")
+                outcome = End(ProjectApplyState.Rejected, false, observed, "Expired");
             else if (execution.Status != ApplyExecutionStatus.Finished)
                 outcome = End(ProjectApplyState.ApplyFailed, execution.MayHaveChanged, observed, execution.Stage);
             else if (observed != null && ProjectApplyVerification.MatchesOfflinePolicy(request, observed))

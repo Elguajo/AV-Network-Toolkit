@@ -23,7 +23,8 @@ internal static class ProjectApplyElevation
 
     internal static async Task<ApplyExecutionResult> ExecuteAsync(ProjectApplyRequest request, CancellationToken cancellation)
     {
-        ProjectApplyWire.ValidateRequest(request, DateTimeOffset.UtcNow);
+        try { ProjectApplyWire.ValidateRequest(request, DateTimeOffset.UtcNow); }
+        catch (ApplyRequestExpiredException) { return new(ApplyExecutionStatus.Failed, false, "Expired"); }
         cancellation.ThrowIfCancellationRequested();
         using var identity = WindowsIdentity.GetCurrent();
         var sid = identity.User ?? throw new IOException("Identity unavailable.");
@@ -97,10 +98,14 @@ internal static class ProjectApplyElevation
         psi.ArgumentList.Add(parentId.ToString(CultureInfo.InvariantCulture));
         return psi;
     }
-    internal static bool ValidResult(ApplyExecutionResult result) =>
-        result.Status is ApplyExecutionStatus.Finished or ApplyExecutionStatus.Failed or ApplyExecutionStatus.Cancelled
+    internal static bool ValidResult(ApplyExecutionResult result)
+    {
+        // Expired is a known pre-command refusal, never a partial or successful result.
+        if (result.Stage == "Expired") return result.Status == ApplyExecutionStatus.Failed && !result.MayHaveChanged;
+        return result.Status is ApplyExecutionStatus.Finished or ApplyExecutionStatus.Failed or ApplyExecutionStatus.Cancelled
         && result.Stage is "Validation" or "OperationActive" or "PreStateChanged" or "AdapterChanged" or "Address" or "DnsPrimary" or "DnsSecondary" or "CommandsFinished" or "DadVerification" or "AddressConflict"
         && (result.Status != ApplyExecutionStatus.Finished || result.MayHaveChanged && result.Stage == "CommandsFinished");
+    }
 
     internal static async Task<int> RunWorkerAsync(string name, string parentPid)
     {

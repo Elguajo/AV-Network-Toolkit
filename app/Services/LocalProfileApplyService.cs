@@ -77,10 +77,10 @@ internal sealed class LocalProfileApplyService(IProjectApplyBoundary boundary, I
                         + (oldHistory ? Loc.Get("LocalApply.OldHistory") + "\n\n" : "") + review.Details);
                 if (!accepted) return new(plan.Request, null);
                 var outcome = await coordinator.ExecuteAsync(plan, cancellation);
-                if (outcome.State != ProjectApplyState.Rejected || outcome.MayHaveChanged || outcome.Stage != "Expired")
+                if (outcome.State != ProjectApplyState.Rejected || outcome.MayHaveChanged || outcome.Stage != "Expired" || outcome.JournalUpdateFailed)
                     return new(plan.Request, outcome);
-                // The expired plan is consumed without journaling or execution. Read
-                // fresh state and require a NEW explicit consent; never reuse the old one.
+                // No network command ran under this expired plan. Read fresh state
+                // and require a NEW explicit consent; never reuse the old one.
                 refreshed = true;
             }
         }

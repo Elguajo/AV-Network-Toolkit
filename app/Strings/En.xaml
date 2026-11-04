@@ -379,6 +379,8 @@
   <sys:String x:Key="Apply.Refused.Expired">Confirmation expired after two minutes. No network settings were changed. Apply again to review fresh settings.</sys:String>
   <sys:String x:Key="Apply.Refused.Changed">The adapter or its settings changed after review. No network settings were changed by this operation. Apply again to review fresh settings.</sys:String>
   <sys:String x:Key="Apply.Refused.Busy">Another operation is active. No network settings were changed by this request. Wait for it to finish, then apply again.</sys:String>
+  <sys:String x:Key="Apply.Refused.Inhibited">Network changes are locked in this app instance after an unconfirmed administrator operation. Confirm the old worker has exited before restarting the app; keep the recovery snapshot.</sys:String>
+  <sys:String x:Key="Apply.Refused.Update">An application update is being prepared. No network settings were changed. Finish or cancel the update before applying settings.</sys:String>
   <sys:String x:Key="Apply.Refused.Validation">The adapter could not be revalidated. No network settings were changed. Refresh adapters and review the settings again.</sys:String>
   <sys:String x:Key="Apply.Refused.Journal">The recovery snapshot could not be saved. No network settings were changed. Check access to the data folder before retrying.</sys:String>
   <sys:String x:Key="Apply.Refused.Elevation">Administrator permission was declined. No network settings were changed.</sys:String>
@@ -423,6 +425,8 @@
   <sys:String x:Key="Apply.Stage.Preflight">Adapter validation</sys:String>
   <sys:String x:Key="Apply.Stage.Validation">Request validation</sys:String>
   <sys:String x:Key="Apply.Stage.OperationActive">Another operation is active</sys:String>
+  <sys:String x:Key="Apply.Stage.WorkerInhibited">This app instance is locked after an unconfirmed worker exit</sys:String>
+  <sys:String x:Key="Apply.Stage.UpdatePending">An application update is being prepared</sys:String>
   <sys:String x:Key="Apply.Stage.SnapshotWrite">Saving recovery snapshot</sys:String>
   <sys:String x:Key="Apply.Stage.WorkerUnknown">Administrator operation</sys:String>
   <sys:String x:Key="Apply.Stage.WorkerTransport">Administrator connection</sys:String>

@@ -10,6 +10,8 @@ using NetworkProfileManager.Models;
 
 namespace NetworkProfileManager.Services;
 
+internal sealed class ApplyRequestExpiredException() : Exception("Confirmation expired.");
+
 internal static class ProjectApplyWire
 {
     internal const int MaxBytes = 256 * 1024;
@@ -39,8 +41,9 @@ internal static class ProjectApplyWire
     internal static void ValidateRequest(ProjectApplyRequest request, DateTimeOffset now)
     {
         if (request == null || request.Version != 1 || request.OperationId == Guid.Empty
-            || request.ExpiresAt <= now || request.ExpiresAt > now.AddMinutes(2)) throw new InvalidDataException("Invalid request.");
+            || request.ExpiresAt > now.AddMinutes(2)) throw new InvalidDataException("Invalid request.");
         ProjectApplyPolicy.ValidateTransition(request.Before, request.Desired, request.Recovery);
+        if (request.ExpiresAt <= now) throw new ApplyRequestExpiredException();
     }
     internal static async Task WriteAsync<T>(Stream stream, T value, CancellationToken cancellation)
     {

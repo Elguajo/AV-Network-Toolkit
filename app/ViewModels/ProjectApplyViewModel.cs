@@ -192,7 +192,7 @@ public sealed class ProjectApplyViewModel : INotifyPropertyChanged
                 Status = Loc.Get(IsLinkLocalTool ? "LinkLocal.Verified" : "Workspace.Verified");
             if (outcome.JournalUpdateFailed) Status += "\n" + Loc.Get("Apply.JournalWarning");
             if (outcome.Stage == "WorkerStillRunning") Status += "\n" + Loc.Get("Apply.WorkerActive");
-            if (outcome.MayHaveChanged && outcome.State != ProjectApplyState.Complete) Status += "\n" + Loc.Get("Apply.ManualRecovery");
+            if (ApplyOutcomeText.NeedsRecoveryWarning(outcome)) Status += "\n" + Loc.Get("Apply.ManualRecovery");
             if (plan.Request.Recovery && outcome.State == ProjectApplyState.Complete) Status = Loc.Get("Apply.Recovered");
             if (outcome.State == ProjectApplyState.Complete && outcome.Stage == "DhcpPolicyVerified")
                 Status = Loc.Get("Apply.DhcpPolicyVerified") + (outcome.JournalUpdateFailed ? "\n" + Loc.Get("Apply.JournalWarning") : "");

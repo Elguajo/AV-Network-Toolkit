@@ -11,6 +11,8 @@ internal sealed class NetworkMutationLease : IDisposable
     private static int _updateBarrier;
     private bool _disposed;
     private NetworkMutationLease() { }
+    internal static string BlockedStage => Volatile.Read(ref _inhibited) != 0 ? "WorkerInhibited"
+        : Volatile.Read(ref _updateBarrier) != 0 ? "UpdatePending" : "OperationActive";
     internal static NetworkMutationLease? TryAcquire()
     {
         if (Volatile.Read(ref _inhibited) != 0 || Volatile.Read(ref _updateBarrier) != 0

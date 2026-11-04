@@ -71,6 +71,8 @@ internal static class ProjectApplyWorker
             }
             finally { session.Release(); }
         }
+        catch (ApplyRequestExpiredException)
+        { return new(ApplyExecutionStatus.Failed, changed, changed ? stage : "Expired"); }
         catch { return new(ApplyExecutionStatus.Failed, changed, stage); }
     }
 }

@@ -41,6 +41,13 @@ internal static partial class Program
         ApplyRenderTheme("Dark");
         try
         {
+            if (args.Contains("--apply-result-feedback"))
+            {
+                CheckApplyResultFeedback(output);
+                if (errors.ToString().Length != 0) throw new Exception("WPF binding errors: " + errors);
+                Console.WriteLine("PASS: 20 Light/Dark normal/minimum apply-result captures; expiry, permanent lock, worker exit uncertainty and browser-only/journal feedback; 0 binding errors; fake boundaries.");
+                return 0;
+            }
             if (args.Contains("--apply-confirmation"))
             {
                 CheckApplyConfirmation(output);
@@ -479,7 +486,8 @@ internal static partial class Program
         internal ApplyAdapterSnapshot Snapshot = new(new(Guid.NewGuid(), 12, "Ethernet fixture", "02-00-00-00-00-01"), false,
             ImmutableArray.Create(new ApplyAddress("192.0.2.10", 24, "manual", "preferred")), "static", ImmutableArray.Create("192.0.2.53", "192.0.2.54"),
             ImmutableArray<ApplyRoute>.Empty, true, ImmutableArray.Create(new ApplyAddress("192.0.2.10", 24, "manual", "preferred")));
-        internal bool Consent, Fail = true, Conflict, ElevationDenied;
+        internal bool Consent, Fail = true, Conflict, ElevationDenied, BrowserFails, FinishFails;
+        internal ApplyExecutionResult? EarlyResult;
         internal int Executed, Opened;
         internal TaskCompletionSource? Hold;
         public Task<ApplyAdapterSnapshot> ReadAsync(ApplyAdapterIdentity identity, CancellationToken cancellation) => Task.FromResult(Snapshot);
@@ -488,6 +496,7 @@ internal static partial class Program
         {
             Executed++;
             if (Hold != null) await Hold.Task;
+            if (EarlyResult != null) return EarlyResult;
             if (ElevationDenied) return new ApplyExecutionResult(ApplyExecutionStatus.ElevationDenied, false, "UacDenied");
             if (Fail) return new ApplyExecutionResult(ApplyExecutionStatus.Failed, true, "DnsSecondary");
             var oldSource = Snapshot.DnsSource; var oldServers = Snapshot.DnsServers;
@@ -505,8 +514,8 @@ internal static partial class Program
             return new ApplyExecutionResult(ApplyExecutionStatus.Finished, true, "CommandsFinished");
         }
         public Task BeginAsync(ProjectApplyRequest request, CancellationToken cancellation) => Task.CompletedTask;
-        public Task FinishAsync(Guid id, ProjectApplyOutcome outcome) => Task.CompletedTask;
-        public void Open(string destination) => Opened++;
+        public Task FinishAsync(Guid id, ProjectApplyOutcome outcome) => FinishFails ? Task.FromException(new IOException("Synthetic journal failure")) : Task.CompletedTask;
+        public void Open(string destination) { Opened++; if (BrowserFails) throw new IOException("Synthetic browser failure"); }
         public bool Confirm(string review, bool recovery) => Consent;
     }
     private static void Capture(Window window, string path)

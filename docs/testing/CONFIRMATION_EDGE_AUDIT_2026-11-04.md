@@ -1,5 +1,7 @@
 # Adjacent confirmation/apply failure audit — 2026-11-04
 
+Resolution follow-up: owner requested repairing all four groups; [local correction/acceptance evidence](CONFIRMATION_EDGE_FIX_REVIEW.md). The findings and observed-defect repros below are historical at 97e95cf. Their defect assertions intentionally stop passing after a correct repair; use the audited baseline for historical reproduction and the new normal regression suite for acceptance.
+
 Fork https://github.com/Elguajo/AV-Network-Toolkit, clean main **97e95cfd1fbc7b38e30da32c7be8b6f12667b72e**. Owner requested finding more shortcomings like the expired-confirmation refusal. Scope: local/project apply, confirmation/expiry, privileged boundary, result messages and operation inhibition. Debugging + code-review; single-agent source review and executable fake-boundary reproductions. Phase 07 remains AWAITING_REVIEW. **Audit only: findings OPEN; no product repair, phase completion or publication.**
 
 ## New confirmed findings

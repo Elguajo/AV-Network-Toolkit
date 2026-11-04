@@ -249,7 +249,8 @@ namespace NetworkProfileManager.ViewModels
                         : result.Outcome.Stage == "DhcpPolicyVerified" ? "Apply.DhcpPolicyVerified"
                         : recovery == null ? "LocalApply.Verified" : recovery.RecoveryOperationId == null ? "LocalApply.AddressOnlyRestored" : "Apply.Recovered"));
                 }
-                else NotificationService.Error(ApplyOutcomeText.Failure(result.Outcome));
+                else NotificationService.Error(ApplyOutcomeText.Failure(result.Outcome)
+                    + (result.Outcome.JournalUpdateFailed ? "\n" + Loc.Get("Apply.JournalWarning") : ""));
                 Refresh();
             }
             catch (LocalApplyBlockedException error) { NotificationService.Error(Loc.Get(error.Code)); }
