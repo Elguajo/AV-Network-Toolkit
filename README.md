@@ -98,7 +98,7 @@ Select an image for the full-size view. These WPF component captures use invente
 The current source targets **1.1.7 Preview**, including the completed profile/diagnostic/device follow-ups and themed unsaved-change confirmation. [Version notes](docs/releases/v1.1.7.md) describe compatibility; the [1.1.7 release review](docs/testing/RELEASE_1.1.7_REVIEW.md) records publication and exact-source verification. Read the version notes and [changelog](CHANGELOG.md) before upgrading.
 
 - **Network safety:** complex or unknown adapter configurations are blocked. Recovery is best effort and can fail; older history does not contain a complete original snapshot. Keep an independent way to restore the adapter. [Supported states and field semantics](docs/USER_GUIDE.md#applying-settings-and-recovery).
-- **Acceptance:** automated checks and hosted package tests do not certify personal-data migration, real NIC/UAC/DAD, physical packet egress, multicast, clean-client deployment or manual accessibility. Native DPI was checked at 100%; actual 150%/200% and mixed-monitor acceptance remain pending. [Known issues](docs/releases/v1.1.6.md#known-limitations).
+- **Acceptance:** automated checks and hosted package tests do not certify personal-data migration, real NIC/UAC/DAD, physical packet egress, multicast, clean-client deployment or manual accessibility. Native DPI was checked at 100%; actual 150%/200% and mixed-monitor acceptance remain pending. [Known issues](docs/releases/v1.1.7.md#known-limitations).
 - **Scope:** no temporary DHCP server, automatic login, TLS bypass or USB-local data. The update interface is included, but automatic checks/download/installation remain disabled until production signing trust and native acceptance are configured.
 
 Home-data migration requires explicit consent, verified copies, retained originals and independent backups. Older builds keep using their separate LocalAppData dataset. [Behavior, compatibility and verification limits](docs/testing/DATA_STORAGE_MIGRATION_REVIEW.md).
@@ -110,7 +110,7 @@ Optional device passwords are plaintext in project JSON and backups. The first p
 | Start with | For |
 |---|---|
 | [User guide](docs/USER_GUIDE.md) | Installation, local versus project profiles, device links, diagnostics, data and recovery |
-| [Release notes](docs/releases/v1.1.6.md) · [Changelog](CHANGELOG.md) | Version changes, compatibility and known issues |
+| [Release notes](docs/releases/v1.1.7.md) · [Changelog](CHANGELOG.md) | Version changes, compatibility and known issues |
 | [Roadmap](ROADMAP.md) | Planned capabilities and acceptance status |
 | [Test matrix](docs/testing/TEST_MATRIX.md) · [Packaging report](docs/testing/PACKAGING_REVIEW.md) | What was checked and the limits of that evidence |
 | [Project schema](schemas/project.avnet.schema.json) · [Example](examples/project.avnet.json) | Project JSON format |

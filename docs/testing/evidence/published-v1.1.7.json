@@ -1,0 +1,77 @@
+{
+  "Version": "1.1.7",
+  "SourceCommit": "23f2d3a371dc13666b9b13fb57084aeb3af9eee8",
+  "ReleaseUrl": "https://github.com/Elguajo/AV-Network-Toolkit/releases/tag/v1.1.7",
+  "WorkflowUrl": "https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41769507274",
+  "WorkflowConclusion": "success",
+  "Prerelease": true,
+  "PublicUnauthenticatedDownload": true,
+  "PublicApiRateLimitAuthenticatedFallback": true,
+  "CanonicalNotesMatch": true,
+  "CiUnit": {
+    "Passed": 977,
+    "Failed": 0,
+    "Skipped": 0,
+    "TrxSha256": "692e31e74c75fba90d32b4e1ff847af12daa475f653278d8d80237863965977b"
+  },
+  "Assets": [
+    {
+      "name": "AVNetworkToolkit-1.1.7-win-x64-portable.zip",
+      "size": 68437243,
+      "sha256": "2228c2ee0c901630dcb0dd7d452284c906b554750bb15dd202856895f1efb307",
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.7/AVNetworkToolkit-1.1.7-win-x64-portable.zip"
+    },
+    {
+      "name": "AVNetworkToolkit-1.1.7-win-x64-setup.exe",
+      "size": 67888470,
+      "sha256": "b76aa04428ec438c15f910a79ba51648a40ecccb161c129c2f5df7a965e85b45",
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.7/AVNetworkToolkit-1.1.7-win-x64-setup.exe"
+    },
+    {
+      "name": "package-manifest.json",
+      "size": 830,
+      "sha256": "653279209d9b4dfadeba0ab1191f3255214c7156ff4c38d4f6f50f1077e76dc2",
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.7/package-manifest.json"
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "size": 217,
+      "sha256": "9ea1b285d06f686ef8cf4cb0f346ad8f97db238bf153348aadc3b1abc87e0cd1",
+      "url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.7/SHA256SUMS.txt"
+    }
+  ],
+  "PublicAssetsMatchCi": true,
+  "OldReleasesPreserved": 5,
+  "OldTagRefsPreserved": 5,
+  "PortableFiles": 8,
+  "NativeAcceptance": "UNVERIFIED",
+  "PublicPortableDiagnostic": {
+    "Success": true,
+    "Version": "1.1.7.0",
+    "InformationalVersion": "1.1.7+23f2d3a371dc13666b9b13fb57084aeb3af9eee8",
+    "ReleaseChannel": "Preview",
+    "UpdatePublicKeySha256": null,
+    "Runtime": ".NET 10.0.14",
+    "JsonValidated": true,
+    "WpfRendered": true,
+    "ErrorType": null
+  },
+  "PublicNegativeDiagnosticAndRetiredWorkerChecks": "PASS",
+  "HostedPackageReport": {
+    "Success": true,
+    "Portable": "WPF/JSON self-test passed",
+    "OrdinaryStartup": "both main window handles/titles observed; smoke processes terminated without invoking commands",
+    "NativeNetwork": "NOT RUN",
+    "Installed": "identical payload and WPF/JSON self-test passed",
+    "SameVersionReinstall": "passed",
+    "LockedPayloadUpdateAndUninstall": "rejected as expected",
+    "Version": "1.1.7",
+    "NegativeRuntimeControl": "failed as expected after runtime discovery roots were moved",
+    "UserStorage": "legacy source, home data, recovery and separate migration backup hashes retained",
+    "Environment": "disposable hosted Windows, global .NET discovery roots temporarily unavailable; not a pristine client-OS claim",
+    "CrossVersionUpgrade": "NOT RUN",
+    "SourceCommit": "23f2d3a371dc13666b9b13fb57084aeb3af9eee8",
+    "UninstallRetainsData": "passed"
+  },
+  "Decision": "SHIP WITH KNOWN RISKS \u2014 Preview only"
+}

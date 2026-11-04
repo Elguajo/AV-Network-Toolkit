@@ -2,7 +2,7 @@
 
 ## GitHub 1.1.7 Preview — 2026-11-04
 
-- [ ] **REL-09** — Publish owner-requested 1.1.7 Preview through the existing release workflow. **AC:** final-source unit/tooling/build, unchanged-product WPF evidence, exact-source hosted installer/ZIP/runtime/install/retention checks, independent public download/tag/body/source/hash/CI-byte validation and old-release preservation. **State:** IN_PROGRESS — [release review](docs/testing/RELEASE_1.1.7_REVIEW.md); no published/hosted success inferred. No local install/migration/live networking, production updater trust, phase acceptance or Phase 08.
+- [x] **REL-09** — Publish owner-requested 1.1.7 Preview through the existing release workflow. **AC:** final-source unit/tooling/build, unchanged-product WPF evidence, exact-source hosted installer/ZIP/runtime/install/retention checks, independent public download/tag/body/source/hash/CI-byte validation and old-release preservation. **State:** VERIFIED_PUBLISHED — source 23f2d3a, workflow 41769507274 SUCCESS; 977 local/hosted unit/12 tooling and package/runtime/install/retention gates PASS; four public assets/digests/source/tag/notes/CI bytes/EXE independently verified, five old releases/tags preserved. [Release review and limits](docs/testing/RELEASE_1.1.7_REVIEW.md). No local install/migration/live networking, production updater trust, phase acceptance or Phase 08.
 
 ## Discard confirmation and local 1.1.7 — 2026-11-04
 

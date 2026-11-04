@@ -1,5 +1,7 @@
 # Roadmap — fixed phase order
 
+REL-09 / ADR-059, 2026-11-04: owner-requested **[1.1.7 Preview published](https://github.com/Elguajo/AV-Network-Toolkit/releases/tag/v1.1.7)** at 23f2d3a, [workflow 41769507274 SUCCESS](https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41769507274). 977 local/hosted unit/12 tooling, hosted package/runtime/install/retention and independent four-public-download/source/hash/CI-byte checks PASS; old releases/tags preserved. [Evidence and known risks](docs/testing/RELEASE_1.1.7_REVIEW.md). No numbered-phase completion/reordering, live acceptance or Phase 08; updater trust remains absent/manual and SWITCH-04–07 remain OPEN.
+
 REL-08 / ADR-054, 2026-11-02: after all concurrent sessions completed, **1.1.6 Preview published** at 5bf8ece, workflow 41393820449 SUCCESS; 887 unit/12 tooling and package/runtime/install/retention/download gates verified. Includes optional v2 device passwords and confirmed home-data migration; updater remains disabled without production trust. [Evidence and limitations](docs/testing/RELEASE_1.1.6_REVIEW.md). No numbered phase completion/reordering or Phase 08/native acceptance; old releases preserved.
 
 DATA-01 (ADR-042, 2026-11-02): owner approved home-only copy/snapshot/explicit cutover; [local implementation and acceptance limits](docs/testing/DATA_STORAGE_MIGRATION_REVIEW.md). Separate from the nine phases: no Phase 07 acceptance, Phase 08, personal-data migration, USB-local mode or publication implied. Current published packages retain LocalAppData.
