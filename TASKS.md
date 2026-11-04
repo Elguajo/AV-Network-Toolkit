@@ -1,5 +1,9 @@
 # Traceable task backlog
 
+## Latest Preview corrected-package publication — 2026-11-04
+
+- [ ] **REL-10** — Push completed main and replace the latest 1.1.7 Preview packages/body/source at the owner's request. **AC:** verified original release/asset/tag backup; exact-source local unit/tooling/UI attribution and hosted compiler/package/runtime/install/retention gates; guarded v1.1.7-only tag replacement; same CI/public bytes/source/checksums/EXE; older releases/tags unchanged; prominent redownload notice. **State:** IN_PROGRESS / ADR-063 — original release ID 433493318/source 23f2d3a and four asset sizes/digests backed up, no external replacement yet. [Review](docs/testing/RELEASE_1.1.7_REUPLOAD_REVIEW.md). No phase/native/production-trust advancement.
+
 ## Adjacent confirmation audit — 2026-11-04
 
 - [x] **SWITCH-AUDIT-02** — Find additional practical confirmation/apply/result failures after SWITCH-08 without changing product behavior. **State:** FINDINGS_RECORDED — audited clean main 97e95cf; **6 isolated observed-behavior checks PASS**, comprising five defect cases across four new groups plus one successful control. [Report and reproducible source/project](docs/testing/CONFIRMATION_EDGE_AUDIT_2026-11-04.md). Audit only; normal unit/WPF suites not rerun, no native networking or phase advancement.

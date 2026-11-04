@@ -1,5 +1,9 @@
 # Release checklist — v1.1.6 Preview published; native acceptance pending
 
+## Owner-requested latest 1.1.7 re-upload — REL-10 / ADR-063
+
+Replace only v1.1.7's source tag/four files/body after verified backups and exact-source normal-build unit/tooling/compiler/runtime/package/install/retention gates. Keep release ID/channel/version, all older releases/tags and the release-workflow no-rewrite guard. Include the completed compact confirmation/expiry/result corrections; prominently require earlier 1.1.7 users to download again. Independent public byte/source/hash/EXE verification and older-release preservation remain required. [Current evidence](docs/testing/RELEASE_1.1.7_REUPLOAD_REVIEW.md). PENDING; no local install, private-data migration, real network/UAC, production update trust or phase advancement.
+
 ## Combined 1.1.6 Preview — REL-08 / ADR-054
 
 Owner requested a new release after other sessions finish. All three sessions completed before preparation from clean main d16f276. [Release review](docs/testing/RELEASE_1.1.6_REVIEW.md), [notes and compatibility](docs/releases/v1.1.6.md). Require full exact-source local unit/build/tooling/WPF and hosted package/runtime/main-window/install/reinstall/uninstall/storage-retention checks before publication, followed by independent public-download/tag/source/hash checks. Earlier results below remain historical. Missing production signing trust keeps automatic updates disabled; no key/secret/native update activation in this release. Preserve old releases, personal data and phase/native/owner gates. Publication PENDING.

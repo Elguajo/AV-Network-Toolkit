@@ -8,8 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.7] — 2026-11-04 (AV Network Toolkit Preview)
 
+### Corrected-package re-upload
+
+- The owner-requested replacement keeps version 1.1.7. Earlier 1.1.7 downloads must be downloaded again; installer/portable/manifest/checksums are replaced together after exact-source verification. [Replacement evidence](docs/testing/RELEASE_1.1.7_REUPLOAD_REVIEW.md).
+
 ### Fixed
 
+- Compact local network-settings confirmation with current/requested IP, mask, gateway and DNS, optional technical details and safe initial Cancel focus.
+- Read fresh settings and require new explicit consent when approval expires before the first network command, including preflight, journal and administrator-consent boundaries. Preserve partial/unknown failure recovery and never automatically replay network mutations.
+- Distinguish permanent worker-exit inhibition from transient busy/update locks. Preserve verified-network/browser-only failure guidance and independent journal warnings. [Correction evidence](docs/testing/CONFIRMATION_EDGE_FIX_REVIEW.md).
 - Replace the classic unsaved-change message box with a themed Fluent confirmation, explicit Discard changes/Cancel actions and safe initial focus/default. Cancel, Escape and close retain changes; nested editor ownership/focus is preserved. [Verification](docs/testing/PROJECT_DISCARD_REVIEW.md).
 
 ### Included from completed local work

@@ -1,5 +1,12 @@
 # Current implementation status — PHASE_07_AWAITING_REVIEW
 
+## Owner-requested 1.1.7 re-upload — REL-10 / ADR-063, 2026-11-04
+
+- Fork / branch / inspected HEAD: https://github.com/Elguajo/AV-Network-Toolkit / main / **`4716aee9be93637d6ccf284ab01c96c99f43b42a`**, initially clean, nine completed local commits ahead of origin/main af4059e. Latest release ID 433493318 / v1.1.7 Preview / original source **23f2d3a371dc13666b9b13fb57084aeb3af9eee8**; four original files/body/tag metadata backed up and SHA-256/size verified.
+- In progress: commit/push completed fixes and bounded replacement notes; freeze exact source, run local and hosted gates, then replace only v1.1.7 tag/four assets/body and verify downloads/old releases. Existing release-workflow guard unchanged. [Review](docs/testing/RELEASE_1.1.7_REUPLOAD_REVIEW.md).
+- Tests last executed: existing application source 59cce74 has 1017 full unit/192 WPF captures/12 tooling PASS; release-source rerun and hosted checks PENDING. No new publication pass claim. Next action: final notes/tooling checks, commit/push exact source and verify build workflow.
+- Blockers/limits: no current authorization blocker; no local installation/migration or real NIC/UAC/probe/browser testing. Preview/manual updater trust/data compatibility/OPEN SWITCH-04–07/native/owner/Phase 07 AWAITING_REVIEW/Phase 08 gates persist. Source/tag/assets are not replaced until acceptance evidence is complete.
+
 ## Adjacent confirmation/result corrections — SWITCH-09–12 / ADR-062, 2026-11-04
 
 - Fork / branch / inspected baseline: https://github.com/Elguajo/AV-Network-Toolkit / main / **`58b47301a024361220b1b498bdb1a4d989b984bd`**, initially clean. Exact implementation/package source **`59cce7436f933acf1524de8915535c76acf859de`**, committed locally; outcome-only evidence commit follows. Phase 07 AWAITING_REVIEW; no push/release/Phase 08.
@@ -1954,3 +1961,15 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Source/package: 59cce7436f933acf1524de8915535c76acf859de, main, no push. Frozen git-archive publish PASS; retained MIT/LICENSE, notices and native dependencies. Hidden --package-self-test exits 0 before ordinary startup, version 1.1.7.0, informational 1.1.7-local.confirmation-fixes+59cce7436f933acf1524de8915535c76acf859de, .NET 10.0.14, Preview/no key, JSON/WPF true. All eight separately extracted ZIP file names/counts/SHA-256 match; exact hashes/commands in docs/testing/CONFIRMATION_EDGE_FIX_REVIEW.md.
 - Ready local EXE: out/ConfirmationFix-59cce74/Portable/NetworkProfileManager.exe with adjacent DLLs; complete ZIP alongside it. Current running original/downloaded/public version and earlier candidates unchanged; no ordinary launch, real settings/browser/UAC, installation, user-data migration or publication.
 - Tasks SWITCH-09–12 VERIFIED_LOCAL / OWNER_REVIEW_PENDING. Final 1017 unit/192 WPF/12 tooling source evidence unchanged; outcome-only final planning/whitespace checks follow. Native/owner/Phase 07 acceptance and unrelated gates retained.
+
+## Session handoff — REL-10 1.1.7 replacement preparation, 2026-11-04
+
+- Environment/fork/branch/base: 2026-11-04, Asia/Tashkent; Windows/private SDK/Python; https://github.com/Elguajo/AV-Network-Toolkit / main / 4716aee9be93637d6ccf284ab01c96c99f43b42a, clean, nine completed commits beyond origin/main af4059e.
+- Phase/tasks: Phase 07 AWAITING_REVIEW; REL-10 IN_PROGRESS / ADR-063, explicit latest-release same-version replacement and ordinary main push authorized. No phase advancement/native acceptance.
+- Actually completed: live latest release is v1.1.7 Preview/ID 433493318/source 23f2d3a. Original four asset bytes/body/API/tag/all remote tag refs backed up to out/Republish117/Before; all four asset sizes/digests verified. Release mutable; no original release/tag/asset changes yet. Canonical replacement/redownload notes and bounded changelog/README/planning metadata prepared; release workflow guard unchanged.
+- Changed paths: docs/releases/v1.1.7.md, CHANGELOG.md, README.md, RELEASE_CHECKLIST.md, PROJECT_CONTEXT/ROADMAP outcome updates follow later; current TASKS.md/STATUS.md/decision log and new docs/testing/RELEASE_1.1.7_REUPLOAD_REVIEW.md. No app/schema/network/settings/dependency/version change.
+- Checks: backup API/file hashes PASS; prior app 59cce74 has 1017 unit/192 WPF/12 tooling evidence. Exact release-source local/unit/tooling/UI and hosted compiler/package/runtime/install/retention checks PENDING, not fabricated. Final metadata/tooling/Markdown checks precede source commit/push.
+- Live/native tests: NOT RUN; no local ordinary startup/install/migration, real NIC/UAC/probe/browser or personal-data operations. Hosted disposable package tests will be separate from native/client acceptance.
+- Risks: same-version correction requires redownload; keep old bytes/metadata, latest-only exact-old tag lease, matched four assets and independent public verification. Existing Preview/manual updater trust/plaintext/data/OPEN SWITCH-04–07/native/owner/phase gates remain.
+- Next smallest safe action: commit/push prepared exact source ordinarily, freeze it for verification and run the unchanged build workflow. Publish only successful candidate bytes; do not dispatch the release workflow against another existing tag source or weaken its guard.
+- Can next session proceed without clarification: yes for the explicitly authorized REL-10 push/verification/replacement/notes/download checks; no real networking/install/production keys/Phase 08 implied.
