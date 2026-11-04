@@ -33,6 +33,26 @@ Retained preparation failures: global dotnet had no SDK; used the existing priva
 
 ## Publication, package and remaining acceptance
 
-Implementation/package source and outcomes follow after the scoped commit/build. Planning/tooling/whitespace results and exact hashes are recorded in the handoff. Before this task, main had ten completed unpublished commits; owner-authorized ordinary push includes them without rewriting history.
+Exact implementation/package source **ca7d4754959c8fd75a1c56b5c8236140c68ed34f** committed and pushed to origin/main. Before this task main had ten completed unpublished commits; the owner-authorized ordinary push included them without rewriting history. Existing Git author configuration was absent; used command-local author/committer values matching the last five commits and the authenticated GitHub owner, without changing global/repository settings.
+
+Exported that exact commit with git archive into `out/Local117-ca7d475/Source`. Compared all 215 app/test/harness files against the tested working tree: 155 byte-identical, 60 differ only in CRLF/LF due Git checkout normalization, zero content differences. Initial raw-byte-only comparison was correctly rejected, then explicitly resolved as line-endings-only; not claimed byte-identical. Evidence: `out/Local117-ca7d475/source-comparison.json`.
+
+```powershell
+$candidateRoot = Join-Path (Get-Location) 'out/Local117-ca7d475'
+git archive --format=zip --output=out/Local117-ca7d475/source.zip ca7d4754959c8fd75a1c56b5c8236140c68ed34f
+Expand-Archive -LiteralPath (Join-Path $candidateRoot 'source.zip') -DestinationPath (Join-Path $candidateRoot 'Source')
+& (Join-Path $candidateRoot 'Source/scripts/build_packages.ps1') -Dotnet $sdk -Compiler "$env:LOCALAPPDATA/AVNetworkToolkit.BuildTools/InnoSetup-6.7.4/ISCC.exe" -SourceCommit ca7d4754959c8fd75a1c56b5c8236140c68ed34f -OutputDirectory ../Packages
+```
+
+PASS, 0 publish warnings/errors, pinned compiler integrity PASS. Both packages include .NET 10.0.14 and unchanged MIT/third-party notices. Hidden payload and fresh extracted EXE `--package-self-test <new-absolute-json-path>` exit 0: Success/JSON/WPF true, Version 1.1.7.0, informational `1.1.7+ca7d4754959c8fd75a1c56b5c8236140c68ed34f`, Preview, no production updater key. All eight ZIP entries extracted to a fresh ZipVerified directory and SHA-256 matched against the payload. No ordinary application startup or installer execution.
+
+Ready local artifacts:
+
+- EXE with adjacent dependencies: `out/Local117-ca7d475/Packages/payload/NetworkProfileManager.exe`.
+- Portable: `out/Local117-ca7d475/Packages/AVNetworkToolkit-1.1.7-win-x64-portable.zip`; SHA-256 `e9709457d76ef0ff2c9e1f08b74a8fce03ef88a76d3b81beb5847cb5de5e1330`.
+- Installer: `out/Local117-ca7d475/Packages/AVNetworkToolkit-1.1.7-win-x64-setup.exe`; SHA-256 `adf0819db126367c60a7910a9848ea7d809d396de3f44ac0b6f21e86ebc33edc`.
+- Ignored evidence: package-manifest.json, payload-self-test.json, extracted-self-test.json and zip-verification.json beside the packages. Prior local packages/installed app/public 1.1.6 unchanged.
+
+Planning/schema/formats/989 references PASS, 12 tooling regressions PASS, whitespace PASS. Final outcome metadata checks recorded in STATUS.md. Hosted CI is NOT VERIFIED: build workflow reports active, but GitHub returned no run for ca7d475 at final inspection. No hosted result is inferred from local checks; manual release workflow and its 1.1.6 publication guard remain unchanged.
 
 Real NIC/UAC/apply/reconnect/recovery, Narrator/high contrast/physical DPI, ordinary installed-app startup and owner acceptance are NOT RUN / UNVERIFIED. Other confirmations keep existing implementations. No phase completion/Phase 08 or GitHub Release authorized. Next safe step: close the old app using tray Exit and review local 1.1.7 using synthetic data.
