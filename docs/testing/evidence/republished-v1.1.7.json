@@ -1,0 +1,142 @@
+{
+  "Version": "1.1.7",
+  "SourceCommit": "bd311e3e38b3c8063f41427bf237dcd06ff7f0ed",
+  "OriginalSourceCommit": "23f2d3a371dc13666b9b13fb57084aeb3af9eee8",
+  "ReleaseId": 433493318,
+  "ReleaseUrl": "https://github.com/Elguajo/AV-Network-Toolkit/releases/tag/v1.1.7",
+  "WorkflowUrl": "https://github.com/Elguajo/AV-Network-Toolkit/actions/runs/41846691919",
+  "WorkflowConclusion": "success",
+  "Prerelease": true,
+  "CanonicalNotesMatch": true,
+  "PublicUnauthenticatedDownload": true,
+  "CiUnit": {
+    "Passed": 1017,
+    "Failed": 0,
+    "Skipped": 0,
+    "TrxSha256": "1389ed731645b48128d594a25a341fba9c3e547ff4b4cd97392359f3e4761b01"
+  },
+  "LocalUnit": {
+    "Passed": 1017,
+    "Failed": 0,
+    "Skipped": 0,
+    "TrxSha256": "c72dfb01cbf3f2670f8814f430b11b534a1c218e8dc16241c4130a0277c2c059"
+  },
+  "ToolingTests": 12,
+  "FrozenPlanningLinks": 1052,
+  "Wpf": {
+    "Feedback": 20,
+    "Compact": 44,
+    "Existing": 128,
+    "BindingErrors": 0,
+    "SourceCommit": "bd311e3e38b3c8063f41427bf237dcd06ff7f0ed"
+  },
+  "Assets": [
+    {
+      "Name": "AVNetworkToolkit-1.1.7-win-x64-portable.zip",
+      "Size": 68441901,
+      "Sha256": "77dfe844c4f2dda3d13377fad1c3d3a8c8088cfc22651d9aacabf2522db67690",
+      "Url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.7/AVNetworkToolkit-1.1.7-win-x64-portable.zip"
+    },
+    {
+      "Name": "AVNetworkToolkit-1.1.7-win-x64-setup.exe",
+      "Size": 67877666,
+      "Sha256": "367adc77cb15abc701ca9b9ddc480aec4d3dd9022531a60f9cbc2b0c73d59363",
+      "Url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.7/AVNetworkToolkit-1.1.7-win-x64-setup.exe"
+    },
+    {
+      "Name": "package-manifest.json",
+      "Size": 830,
+      "Sha256": "30f93aebea24a1fbef103ba6cb5ad3ef1b3d97f06244a77674414c6dbd4281ba",
+      "Url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.7/package-manifest.json"
+    },
+    {
+      "Name": "SHA256SUMS.txt",
+      "Size": 219,
+      "Sha256": "a738fb8e359ea32f499254f13703c2a41f753770939ed0d8afab9aca9fcdf337",
+      "Url": "https://github.com/Elguajo/AV-Network-Toolkit/releases/download/v1.1.7/SHA256SUMS.txt"
+    }
+  ],
+  "PublicPackagesAndManifestMatchCi": true,
+  "ChecksumsOrigin": "Derived from verified CI manifest and package hashes; published bytes match derived file",
+  "OriginalAssetsVerified": true,
+  "OriginalBackup": "Ignored out/Republish117/Before; original committed evidence remains published-v1.1.7.json",
+  "TagUpdate": "Only v1.1.7, exact-old-SHA --force-with-lease; missing local tag synchronized create-only",
+  "OldReleasesPreserved": 5,
+  "OldTagRefsPreserved": 5,
+  "PortableFiles": 8,
+  "PublicPortableDiagnostic": {
+    "Success": true,
+    "Version": "1.1.7.0",
+    "InformationalVersion": "1.1.7+bd311e3e38b3c8063f41427bf237dcd06ff7f0ed",
+    "ReleaseChannel": "Preview",
+    "UpdatePublicKeySha256": null,
+    "Runtime": ".NET 10.0.14",
+    "JsonValidated": true,
+    "WpfRendered": true,
+    "ErrorType": null
+  },
+  "PublicNegativeDiagnosticAndRetiredWorkerChecks": "PASS",
+  "HostedPackageReport": {
+    "Installed": "identical payload and WPF/JSON self-test passed",
+    "Environment": "disposable hosted Windows, global .NET discovery roots temporarily unavailable; not a pristine client-OS claim",
+    "LockedPayloadUpdateAndUninstall": "rejected as expected",
+    "OrdinaryStartup": "both main window handles/titles observed; smoke processes terminated without invoking commands",
+    "NegativeRuntimeControl": "failed as expected after runtime discovery roots were moved",
+    "Version": "1.1.7",
+    "SourceCommit": "bd311e3e38b3c8063f41427bf237dcd06ff7f0ed",
+    "UserStorage": "legacy source, home data, recovery and separate migration backup hashes retained",
+    "NativeNetwork": "NOT RUN",
+    "Portable": "WPF/JSON self-test passed",
+    "Success": true,
+    "SameVersionReinstall": "passed",
+    "CrossVersionUpgrade": "NOT RUN",
+    "UninstallRetainsData": "passed"
+  },
+  "HostedProcessChecks": [
+    {
+      "Check": "RuntimeAvailable",
+      "ExitCode": 0,
+      "MustSucceed": true
+    },
+    {
+      "Check": "RuntimeUnavailable",
+      "ExitCode": -2147450749,
+      "MustSucceed": false
+    },
+    {
+      "Check": "InitialInstall",
+      "ExitCode": 0,
+      "MustSucceed": true
+    },
+    {
+      "Check": "LockedUpdate",
+      "ExitCode": 7,
+      "MustSucceed": false
+    },
+    {
+      "Check": "LockedUninstall",
+      "ExitCode": 1,
+      "MustSucceed": false
+    },
+    {
+      "Check": "SameVersionReinstall",
+      "ExitCode": 0,
+      "MustSucceed": true
+    },
+    {
+      "Check": "Uninstall",
+      "ExitCode": 0,
+      "MustSucceed": true
+    }
+  ],
+  "NativeAcceptance": "UNVERIFIED",
+  "LocalInstallAndMigration": "NOT RUN",
+  "CrossVersionUpgrade": "NOT RUN",
+  "Phase": "PHASE_07_AWAITING_REVIEW",
+  "FinalDocumentationChecks": {
+    "PlanningLinks": 1070,
+    "ToolingPassed": 12,
+    "Whitespace": "PASS",
+    "ProductChangesAfterSource": "NONE"
+  }
+}

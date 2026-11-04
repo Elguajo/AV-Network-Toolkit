@@ -2,7 +2,7 @@
 
 ## Latest Preview corrected-package publication — 2026-11-04
 
-- [ ] **REL-10** — Push completed main and replace the latest 1.1.7 Preview packages/body/source at the owner's request. **AC:** verified original release/asset/tag backup; exact-source local unit/tooling/UI attribution and hosted compiler/package/runtime/install/retention gates; guarded v1.1.7-only tag replacement; same CI/public bytes/source/checksums/EXE; older releases/tags unchanged; prominent redownload notice. **State:** IN_PROGRESS / ADR-063 — original release ID 433493318/source 23f2d3a and four asset sizes/digests backed up, no external replacement yet. [Review](docs/testing/RELEASE_1.1.7_REUPLOAD_REVIEW.md). No phase/native/production-trust advancement.
+- [x] **REL-10** — Push completed main and replace the latest 1.1.7 Preview packages/body/source at the owner's request. **AC:** verified original backup; exact-source local/hosted checks; guarded v1.1.7-only tag/four-asset/body replacement; public hashes/CI bytes/EXE; older releases/tags preserved; redownload notice. **State:** VERIFIED_PUBLISHED / ADR-063 — source bd311e3, workflow 41846691919 SUCCESS, 1017 local/hosted unit/12 tooling/192 WPF captures and all required hosted package gates PASS. Four public files independently verified; five older releases/tags unchanged. [Review](docs/testing/RELEASE_1.1.7_REUPLOAD_REVIEW.md), [structured evidence](docs/testing/evidence/republished-v1.1.7.json). No phase/native/production-trust advancement.
 
 ## Adjacent confirmation audit — 2026-11-04
 
