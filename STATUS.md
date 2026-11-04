@@ -2,10 +2,11 @@
 
 ## Expired-consent root cause and correction — SWITCH-08 / ADR-061, 2026-11-04
 
-- Fork / branch / inspected baseline: https://github.com/Elguajo/AV-Network-Toolkit / main / `f0fdbb01a7df57c7101b3b24ff927f82ea350682`. Exact implementation/package source follows in the outcome. Phase 07 AWAITING_REVIEW unchanged; no push/release/Phase 08.
+- Fork / branch / inspected baseline: https://github.com/Elguajo/AV-Network-Toolkit / main / `f0fdbb01a7df57c7101b3b24ff927f82ea350682`. Exact implementation/package source **`b3f6f306da6ea15d19c56a537e2ad3d0f9632681`**, committed locally; outcome-only evidence commit follows. Phase 07 AWAITING_REVIEW unchanged; no push/release/Phase 08.
 - Completed locally: targeted read-only memory inspection of the still-running original app establishes **Rejected / Expired / MayHaveChanged=false**, active/inhibited/update flags all zero. Expired local confirmation now consumes its old request, reads fresh selected-adapter state and presents the compact comparison again with a visible explanation; a NEW explicit consent is mandatory. Non-expiry failures are never retried. Two-minute request/elevated-worker, identity/pre-state, DNS, journal, UAC, verification and recovery policies preserved. [Evidence](docs/testing/APPLY_CONFIRMATION_REVIEW.md).
 - Tests last executed: pre-fix expiry regressions **2 expected FAIL**; **1001 full unit PASS / 0 failed/skipped**, 35 s, Release app/test/harness builds 0 warnings/errors. **44 focused + 128 existing WPF captures / 0 bindings**, including expired dialog handoff/new consent, Light/Dark normal/minimum; **1024 planning links / 12 tooling PASS**, whitespace PASS.
-- In progress/blockers/next action: prepare exact-source local portable and owner review. No native network mutation/UAC/OS command/reconnect/recovery test performed. Time passage versus system-clock movement behind the original expiration is not established; the recorded Expired stage itself is verified. Original cause-unknown statements below are historical and superseded by this evidence. SWITCH-04–07/native/owner/phase gates remain.
+- Completed local artifact: `out/ExpiredConsent-b3f6f30/Portable/NetworkProfileManager.exe` with adjacent dependencies and complete portable ZIP. Frozen git-archive publish and hidden source/version/.NET 10.0.14/Preview/no-key/WPF/JSON diagnostic PASS; all eight extracted ZIP files SHA-256-identical. Earlier compact candidate and running/public app preserved.
+- In progress/blockers/next action: owner review of the separate corrected candidate. No native network mutation/UAC/OS command/reconnect/recovery test performed. Time passage versus system-clock movement behind the original expiration is not established; the recorded Expired stage itself is verified. Original cause-unknown statements below are historical and superseded by this evidence. SWITCH-04–07/native/owner/phase gates remain.
 
 ## Compact apply confirmation / immediate refusal — UI-APPLY-01 / SWITCH-08, 2026-11-04
 
@@ -1896,3 +1897,9 @@ Publication outcome: `git push origin main:main` succeeded, advancing 103b50d �
 - Remaining tasks: owner/native review; prepare separate frozen-source portable and record its source/runtime/hash checks. No new numbered phase proposed or started.
 - Next smallest safe action: owner exits old app through tray Exit, opens the corrected separate portable and reviews the expiry refresh/new-consent behavior. Never infer real network success from fake workers.
 - Can next session proceed without clarification: yes for bounded safe local verification; no implied live mutation/publication/phase progression.
+
+### SWITCH-08 exact-source artifact outcome — 2026-11-04
+
+- Implementation/package source b3f6f306da6ea15d19c56a537e2ad3d0f9632681. Git-archive win-x64 self-contained publish PASS, existing MIT/third-party/native files retained. Hidden --package-self-test exits 0 before ordinary startup: version 1.1.7.0, informational 1.1.7-local.expired-consent+b3f6f306da6ea15d19c56a537e2ad3d0f9632681, .NET 10.0.14, Preview/no production update key, WPF/JSON true. All 8 separately extracted ZIP files SHA-256-identical. Exact commands/hashes in docs/testing/APPLY_CONFIRMATION_REVIEW.md.
+- Ready EXE: out/ExpiredConsent-b3f6f30/Portable/NetworkProfileManager.exe, with adjacent DLLs; complete ZIP alongside it. Current running original/download/public release and previous local candidate unchanged. No ordinary launch, network action, installation, data migration or push.
+- Task: SWITCH-08 VERIFIED_LOCAL / OWNER_REVIEW_PENDING. 1001 unit/44 focused+128 existing WPF/12 tooling checks remain final-product evidence; outcome-only planning/whitespace checks follow before this documentation commit. Native/owner/Phase 07 review and Phase 08 boundaries unchanged.

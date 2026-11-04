@@ -76,3 +76,15 @@ Fix: LocalProfileApplyService consumes the expired plan and prepares a new plan 
 New regressions cover both fresh-consent acceptance/refusal, actual changed DNS in refreshed source, unique operation IDs/expiry, repeated expirations without replay, cancellation before journaling, exact journal recovery target, and no re-review/retry for pre-state/busy/worker failures. Existing strict coordinator/worker expiry tests remain. Visual inspection of refreshed Dark minimum confirms wording/actions remain visible. Existing WPF/tooling/local-candidate outcomes follow before final commit. No real network application or field/native acceptance claimed.
 
 Serial existing harness `TestResults/ExpiredConsent/Existing` default mode: **128 captures / 0 binding errors**, same final product/harness build, all fake network/process/browser boundaries. Private Python `scripts/validate_plan.py` and `-m unittest discover -s scripts -p test_validate_plan.py`: **1024 links / 12 tooling PASS**; `git diff --check` PASS. Full TRX SHA-256 `23256e71cf7e04ee2e3c6388a08356f0e0e7e8525b1f1dc6866deb3b4bfdc274`. No product changes after these final checks; local packaging outcome follows separately.
+
+### Corrected expiry candidate — exact source b3f6f30
+
+Committed implementation/package source **b3f6f306da6ea15d19c56a537e2ad3d0f9632681**, main, no push. Frozen with `git archive --format=zip -o out/ExpiredConsent-b3f6f30/source.zip <sha>` and expanded to Source. Publish command:
+
+```powershell
+& $sdk publish out/ExpiredConsent-b3f6f30/Source/app/NetworkProfileManager.csproj -c Release -r win-x64 --self-contained true -p:DebugType=none -p:DebugSymbols=false -p:PublishReadyToRun=false -p:SourceRevisionId=b3f6f306da6ea15d19c56a537e2ad3d0f9632681 -p:InformationalVersion=1.1.7-local.expired-consent -p:ReleaseChannel=Preview -o D:/DEV/NETWORKING/AV-Network-Toolkit/out/ExpiredConsent-b3f6f30/Portable
+```
+
+PASS. MIT LICENSE copied from the same archive; existing third-party/native files retained. Ready folder `out/ExpiredConsent-b3f6f30/Portable/`, EXE NetworkProfileManager.exe. Complete ZIP `out/ExpiredConsent-b3f6f30/AVNetworkToolkit-local-expired-consent-b3f6f30-portable.zip`; all **8 separately extracted file names/counts/hashes match**.
+
+Hidden Start-Process/WindowStyle Hidden/Wait/PassThru `--package-self-test <fresh-absolute-json-path>` exits 0: Success/JsonValidated/WpfRendered true, assembly version 1.1.7.0, informational `1.1.7-local.expired-consent+b3f6f306da6ea15d19c56a537e2ad3d0f9632681`, .NET 10.0.14, Preview, no update key. EXE SHA-256 `ccc4519ed1cd6de729b77bb666568d11f4c0f67c8b2a4fdde05510ecb93c6879`; ZIP `50ab3e872319d78dc97a06eec6682584667e62078da489a7f9e411e219c13ed8`. Ignored package-self-test.json and package-manifest.json retain diagnostics/file identities. No ordinary startup/data migration/installation/real mutation/current-instance replacement/publication. Owner can exit the old instance via tray Exit and review this separate corrected candidate. Outcome-only evidence commit does not change the package source.
